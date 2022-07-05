@@ -9,6 +9,11 @@ module.exports = (sequelize) => {
       title: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate : {
+          notEmpty : {msg : 'The Name is required!'},
+          lenght : {args : [1,50], msg : 'The Name must be between 3 and 50 characters'},
+          is : /^(?!\s)/, msg : 'The Name must not start with a space',
+        }
       },
       price: {
         type: DataTypes.INTEGER,
