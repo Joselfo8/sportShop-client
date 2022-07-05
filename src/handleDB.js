@@ -27,5 +27,3 @@ function newProduct(name, price, description) {
 module.exports = {
   newProduct,
 };
-
-newProduct("Pizza", 10, "Pizza de queso");
