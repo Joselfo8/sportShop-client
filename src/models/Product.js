@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
   sequelize.define(
     "product",
     {
-      name: {
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
       },
