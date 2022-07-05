@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const { newProduct } = require("../handleDB");
 
-router.get("/", (req, res) => {
-  res.send("aqui iran productos");
+router.get("", (req, res) => {
+  newProduct("producto1", 1, "descripcion1").then(() => {
+    res.send("ya se creo el producto");
+  });
 });
 
 module.exports = { products: router };

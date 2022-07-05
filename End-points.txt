@@ -1,5 +1,22 @@
 /products
 
-1). recuperar detalles de un producto en especifico
-2). buscar en la base de datos si existe un producto con el nombre parecido
-3). crear productos pasandole datos como nombre,precio etc
+
+1)imagen,nombre,precio,
+
+
+
+/users
+
+1).
+
+
+/detalles
+
+1)nombre
+2)imagen
+3)tallas disponibles --> []
+ -tallas de zapatos -->[35,36,37,38,39,40,41,42,43]
+ -tallas de pantalones -->[6,8,10,12,40,42,44,46,48]
+ -tallas de ropa -->[xs,s,m,l,xl]
+4)description
+5)categorias --> [hombre,mujer,infantil,deporte]
