@@ -4,8 +4,8 @@ const { products } = require("./products");
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.send("Hello World!");
+router.get("/health", (req, res) => {
+  res.json({ msg: "OK" });
 });
 // Configurar los routers
 router.use("/products", products);
