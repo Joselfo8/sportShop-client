@@ -1,0 +1,10 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  load_proyect:
+    runs-on: ubuntu-18.04
