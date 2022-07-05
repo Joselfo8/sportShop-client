@@ -23,3 +23,9 @@ function newProduct(name, price, description) {
 
   return promise;
 }
+
+module.exports = {
+  newProduct,
+};
+
+newProduct("Pizza", 10, "Pizza de queso");
