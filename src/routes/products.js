@@ -1,7 +1,7 @@
-const products = require("./index");
+const router = require("express").Router();
 
 router.get("/", (req, res) => {
-  res.send("Hello World");
+  res.send("aqui iran productos");
 });
 
-module.exports = products;
+module.exports = { products: router };
