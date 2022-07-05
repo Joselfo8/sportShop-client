@@ -9,9 +9,7 @@ export default function Home(){
     const allProducts = useSelector( (state: any) => state.products)
     useEffect(() => {
         dispatch(getProducts())
-    })
-
-    console.log(allProducts)
+    });
     return (
         <div>
             {
