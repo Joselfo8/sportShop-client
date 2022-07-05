@@ -1,0 +1,5 @@
+/products
+
+1). recuperar detalles de un producto en especifico
+2). buscar en la base de datos si existe un producto con el nombre parecido
+3). crear productos pasandole datos como nombre,precio etc
