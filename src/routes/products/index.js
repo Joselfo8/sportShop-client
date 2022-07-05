@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const { newProduct } = require("../handleDB");
+const { newProduct } = require("./function");
 const { getProductByName, getDBproducts } = require("./function");
-import Category from "../../models/Category";
-import Product from "../../models/Product";
+const Category = require("../../models/Category");
+const Product = require("../../models/Product");
 
 router.get("", (req, res) => {
   newProduct("producto1", 1, "descripcion1").then(() => {
