@@ -6,8 +6,7 @@ import Card from '../Card/Card';
 
 export default function Home(){
     const dispatch = useDispatch();
-    const allProducts = useSelector( (state) => state.products)
-    console.log(allProducts)
+    const allProducts = useSelector( (state: any) => state.products)
     useEffect(() => {
         dispatch(getProducts())
     })
@@ -15,6 +14,11 @@ export default function Home(){
     console.log(allProducts)
     return (
         <div>
+            {
+                allProducts.map((e: any) => {
+                    return <Card title={e.title}/>
+                })
+            }
         </div>
     );
 };
