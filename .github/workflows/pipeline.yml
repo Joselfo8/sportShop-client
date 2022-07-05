@@ -4,7 +4,26 @@ on:
   push:
     branches:
       - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+    types: [opened, synchronize]
 
 jobs:
   load_proyect:
     runs-on: ubuntu-18.04
+    steps:
+      - name: load-proyect
+        uses: actions/checkout@v3
+        with:
+          fetch-deps: 0
+      - name: install-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: install-dependencies
+        run: npm install
+      - name: run test
+        run: npm test

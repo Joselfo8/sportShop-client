@@ -1,0 +1,27 @@
+/products
+
+
+1)imagen,nombre,precio,
+
+
+
+/users
+
+1).
+
+
+/detalles
+
+1)nombre
+2)imagen
+3)tallas disponibles --> []
+ -tallas de zapatos -->[35,36,37,38,39,40,41,42,43]
+ -tallas de pantalones -->[6,8,10,12,40,42,44,46,48]
+ -tallas de ropa -->[xs,s,m,l,xl]
+4)description
+5)categorias --> [hombre,mujer,infantil,deporte]
+
+
+
+
+http://localhost:4040/products?search=camisas&category=
