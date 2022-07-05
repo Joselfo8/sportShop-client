@@ -24,6 +24,32 @@ function newProduct(title, price, description) {
   return promise;
 }
 
+//get all products from db
+const getDBproducts = async () => {
+  const dbProduct = await Product.findAll({ 
+      include: Category,
+  })
+  return dbProduct.map(e => {
+      return {
+          id: e.id,
+          title: e.title,
+          price: e.price,
+          description: e.description,
+          category: e.category.name,
+      }
+  })
+}
+
+////get product By name
+const getProductByName = async (name) => {
+  const Products = await getAllProducts();
+  const product = Products.map((e) => e);
+  const filter = product.filter((e) => e.name == name);
+  return filter;
+}
+
 module.exports = {
   newProduct,
+  getDBproducts,
+  getProductByName,
 };
