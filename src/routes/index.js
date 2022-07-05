@@ -5,7 +5,7 @@ const { products } = require("./products");
 const router = Router();
 
 router.get("/health", (req, res) => {
-  res.json({ msg: "OK" });
+  res.json({ msg: "OKY" });
 });
 // Configurar los routers
 router.use("/products", products);
