@@ -1,6 +1,6 @@
 ///es este archivo van a estar todas las funciones que se van a utilizar para la base de datos
 
-const { Product, conn } = require("./db");
+const { Product, conn } = require("../../db");
 
 //esta funcion se encarga de:
 //1. recibir los datos del formulario
