@@ -1,13 +1,71 @@
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 0.9rem;
+}
+
+::-webkit-corner {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: var(--bg);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  border: 0.3rem solid transparent;
+  background-clip: padding-box;
+  border-radius: 0.5rem;
+}
+
+:root {
+  --bg: rgba(255, 71, 87, 1);
+  --text: rgba(47, 53, 66, 1);
+}
+
+.primary {
+  --bg: rgba(255, 71, 87, 1);
+  --text: rgba(47, 53, 66, 1);
+}
+
+.secondary {
+  --bg: rgba(87, 96, 111, 1);
+  --text: rgba(241, 242, 246, 1);
+}
+
+.dark {
+  --bg: rgba(47, 53, 66, 1);
+  --text: rgba(241, 242, 246, 1);
+}
+
+.success {
+  --bg: rgba(46, 213, 115, 1);
+  --text: rgba(46, 213, 115, 1);
+}
+
+.danger {
+  --bg: rgba(234, 32, 39, 1);
+  --text: rgba(234, 32, 39, 1);
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
