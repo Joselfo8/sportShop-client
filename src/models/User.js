@@ -2,11 +2,11 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "carry",
+    "user",
     {
-      quantity: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {
