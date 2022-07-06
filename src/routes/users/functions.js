@@ -6,7 +6,7 @@ function getUser(id_user) {
       if (!id_user) {
         return reject("id_user is required");
       }
-      let user = await User.findOne({ where: { id_user } });
+      let user = await User.findOne({ where: { id: id_user } });
       if (!user) {
         return reject("User not found");
       }
@@ -19,3 +19,7 @@ function getUser(id_user) {
 
   return p;
 }
+
+module.exports = {
+  getUser,
+};
