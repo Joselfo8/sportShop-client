@@ -1,15 +1,28 @@
 import { useState } from "react";
-import styles from "./Login.module.scss";
+// Components
+import Input from "../components/Input";
+// Styles
+import styles from "./Login.module.css";
 
 function SignUp() {}
 
 function SignIn() {
-  return <div></div>;
+  return (
+    <>
+      <Input
+        text="Email"
+        id="email"
+        // required={undefined}
+        // placeholder={undefined}
+        getData={() => {}}
+      />
+    </>
+  );
 }
 
 function Login() {
   return (
-    <div>
+    <div className={styles["container"]}>
       <SignIn />
     </div>
   );
