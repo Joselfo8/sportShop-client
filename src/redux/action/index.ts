@@ -9,3 +9,16 @@ export function getProducts(){
         })
     }
 };
+
+export const getDetails = (id: any) => async (dispatch: any) => {
+    try {
+        const json: any = await axios.get(`https://fakestoreapi.com/products/${id}`)
+        return dispatch({
+            type: "GET_DETAILS",
+            payload: json.data
+        })
+    } catch(error) {
+        console.log(error)
+        return alert('No se ha encontrado el producto')
+    }
+}
