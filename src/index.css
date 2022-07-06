@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -41,11 +45,6 @@ html {
   --text: rgba(241, 242, 246, 1);
 }
 
-.dark {
-  --bg: rgba(47, 53, 66, 1);
-  --text: rgba(241, 242, 246, 1);
-}
-
 .success {
   --bg: rgba(46, 213, 115, 1);
   --text: rgba(46, 213, 115, 1);
@@ -54,6 +53,11 @@ html {
 .danger {
   --bg: rgba(234, 32, 39, 1);
   --text: rgba(234, 32, 39, 1);
+}
+
+.dark {
+  --bg: rgba(47, 53, 66, 1);
+  --text: rgba(241, 242, 246, 1);
 }
 
 body {

@@ -1,0 +1,41 @@
+.body {
+  height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  background-color: var(--bg);
+  color: var(--text);
+  width: 24rem;
+  height: fit-content;
+  padding: 1.5rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  display: block;
+}
+
+.button-cont {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.submit-button {
+  background-color: var(--bg);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1.2rem;
+}
