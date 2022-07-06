@@ -12,7 +12,7 @@ export default function NavBar(){
         event.preventDefault();
         console.log(value)
     }
-
+    
     return (
         <div>
             
