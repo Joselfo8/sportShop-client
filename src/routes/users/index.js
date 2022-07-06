@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { getUser } = require("./functions");
+const { getUser, postUser, deleteUser } = require("./functions");
 
 router.get("", (req, res) => {
   getUser(req.query.id_user)
@@ -8,13 +8,15 @@ router.get("", (req, res) => {
 });
 
 router.post("", (req, res) => {
-  postCarry(req.body.id_user, req.body.id_product, req.body.quantity)
+  postUser(req.body.name)
     .then((x) => res.status(200).json(x))
     .catch((x) => res.status(500).json({ err: x }));
 });
 
 router.delete("", (req, res) => {
-  res.send("Carry Delete");
+  deleteUser(req.query.id_user)
+    .then((x) => res.status(200).json(x))
+    .catch((x) => res.status(500).json({ err: x }));
 });
 
 router.put("", (req, res) => {
