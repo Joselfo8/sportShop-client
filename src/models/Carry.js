@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      cantidad: {
+      quantity: {
         type: DataTypes.INTEGER,
         defaultValue: 1,
       },
