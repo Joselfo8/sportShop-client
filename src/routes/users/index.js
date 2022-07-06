@@ -1,5 +1,11 @@
 const router = require("express").Router();
-const { getUser, postUser, deleteUser } = require("./functions");
+const {
+  getUser,
+  postUser,
+  deleteUser,
+  putUser,
+  loginUser,
+} = require("./functions");
 
 router.get("", (req, res) => {
   getUser(req.query.id_user)
@@ -8,7 +14,7 @@ router.get("", (req, res) => {
 });
 
 router.post("", (req, res) => {
-  postUser(req.body.name)
+  postUser(req.body.name, req.body.username, req.body.password)
     .then((x) => res.status(200).json(x))
     .catch((x) => res.status(500).json({ err: x }));
 });
@@ -20,7 +26,20 @@ router.delete("", (req, res) => {
 });
 
 router.put("", (req, res) => {
-  res.send("Carry Put");
+  putUser(
+    req.query.id_user,
+    req.query.name,
+    req.query.username,
+    req.query.password
+  )
+    .then((x) => res.status(200).json(x))
+    .catch((x) => res.status(500).json({ err: x }));
+});
+
+router.get("/login", (req, res) => {
+  loginUser(req.query.username, req.query.password)
+    .then((x) => res.status(200).json(x))
+    .catch((x) => res.status(500).json({ err: x }));
 });
 
 module.exports = { users: router };
