@@ -22,7 +22,6 @@ html {
 ::-webkit-scrollbar-track {
   border-radius: 0.5rem;
 }
-
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-track {
   border: 0.3rem solid transparent;
@@ -33,6 +32,8 @@ html {
 :root {
   --bg: rgba(255, 71, 87, 1);
   --text: rgba(47, 53, 66, 1);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .primary {

@@ -10,6 +10,8 @@
   color: var(--text);
   width: 24rem;
   height: fit-content;
+  box-shadow: var(--shadow-md);
+  border-radius: 0.2rem;
   padding: 1.5rem;
 }
 
@@ -18,12 +20,6 @@
   text-align: center;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  display: block;
-}
-
-.subtitle {
-  font-size: 0.9rem;
-  margin-top: 0.2rem;
   display: block;
 }
 
@@ -36,6 +32,41 @@
 .submit-button {
   background-color: var(--bg);
   color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
   border: none;
-  padding: 0.5rem 1.2rem;
+  border-radius: 0.2rem;
+  padding: 0.8rem 2rem;
+}
+
+/* SignIn */
+
+.input-wrapper {
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  display: block;
+}
+
+/* AuthLogin */
+
+.social-media {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.or-subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.social-media-icon {
+  width: 2rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
 }
