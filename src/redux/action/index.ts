@@ -22,3 +22,10 @@ export const getDetails = (id: any) => async (dispatch: any) => {
         return alert('No se ha encontrado el producto')
     }
 }
+
+export function filterByCategory(payload: any){
+    return{
+        type: "FILTER_BY_CATEGORY",
+        payload
+    }
+};
