@@ -45,14 +45,6 @@ const { Product, Inventary, Carry, User } = sequelize.models;
 Inventary.belongsTo(Product);
 Product.hasMany(Inventary);
 
-//un usuario tienen varios items de carrito pero un item de carrito solo puede pertenecer a un usuario
-Carry.belongsTo(User);
-User.hasMany(Carry);
-
-//un item de carrito tiene un producto pero un producto tiene muchos items de carrito
-Carry.belongsTo(Product);
-Product.hasMany(Carry);
-
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');
