@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
       title: {
         type: DataTypes.STRING,
         allowNull: false,
-        /* validate : {
+         /* validate : {
           notEmpty : {msg : 'The Name is required!'},
           lenght : {args : [1,50], msg : 'The Name must be between 3 and 50 characters'},
           is : /^(?!\s)/, msg : 'The Name must not start with a space',
@@ -36,6 +36,13 @@ module.exports = (sequelize) => {
       },
       product_subCategory:{
         type:DataTypes.STRING,
+      },
+      product_care:{
+        type:DataTypes.STRING,
+      },
+      image:{
+        type:DataTypes.STRING,
+        defaultValue: "https://ae01.alicdn.com/kf/HTB19SdxKpXXXXctXXXXq6xXFXXXc/404-folla-Not-Found-T-Shirt-blanco-y-negro-la-ropa-de-moda-t-mujeres-y.jpg_Q90.jpg_.webp",
       }
     },
     {
