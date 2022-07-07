@@ -11,6 +11,7 @@
 
 .button {
   background-color: var(--bg);
+  color: var(--text);
   margin: 0 0.3rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   cursor: pointer;
@@ -27,6 +28,7 @@
 
 .arrow-button {
   background-color: var(--bg);
+  color: var(--text);
   margin: 0 0.3rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   cursor: pointer;

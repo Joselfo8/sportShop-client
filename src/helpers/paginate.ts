@@ -1,4 +1,9 @@
-function paginate(maxPage, currentPage = 1, pageSize = 10, pagesToShow = 10) {
+function paginate(
+  maxPage: number,
+  currentPage = 1,
+  pageSize = 10,
+  pagesToShow = 10
+) {
   // ensure current page isn't out of range
   if (currentPage < 1) {
     currentPage = 1;
@@ -6,7 +11,8 @@ function paginate(maxPage, currentPage = 1, pageSize = 10, pagesToShow = 10) {
     currentPage = maxPage;
   }
 
-  let startPage, endPage;
+  let startPage: number;
+  let endPage: number;
   if (maxPage <= pagesToShow) {
     // max pages less than max so show all pages
     startPage = 1;
