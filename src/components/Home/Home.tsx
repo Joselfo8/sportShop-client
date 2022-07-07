@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getProducts } from '../../redux/action';
 import Card from '../Card/Card';
+import NavBar from '../Navbar/Navbar';
 
 export default function Home(){
     const dispatch = useDispatch();
@@ -12,6 +13,7 @@ export default function Home(){
     });
     return (
         <div>
+            <NavBar />
             {
                 allProducts.map((e: any) => {
                     return <Card title={e.title}/>
