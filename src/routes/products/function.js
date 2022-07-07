@@ -1,211 +1,192 @@
 //const { where } = require("sequelize/types")
-const { Product } = require("../../db")
+const { Product } = require("../../db");
 
 //post/ product to db
 const postProduct = async (req, res) => {
+  let {
+    title,
+    price,
+    description,
+    product_category,
+    product_subCategory,
+    product_care,
+    image,
+  } = req.body;
+  try {
+    if (
+      !title ||
+      !price ||
+      !description ||
+      !product_care ||
+      !product_category ||
+      !product_subCategory
+    )
+      return res.send({ msg: "all fields ( image not ) are required" });
 
-    let { title, price, description, product_category, product_subCategory, product_care, image } = req.body
-    try {
-        if (!title || !price || price < 0 || price.length > 100 ||
-            !description || !product_care || !product_category ||
-            !product_subCategory)
-            return res.send('missing or error parameters')
-        title = title.trim()
-        description = description.trim()
-        product_category = product_category.trim()
-        product_subCategory = product_subCategory.trim()
-        product_care = product_care.trim()
+    title = title.trim();
+    description = description.trim();
+    product_category = product_category.trim();
+    product_subCategory = product_subCategory.trim();
+    product_care = product_care.trim();
 
-        if (image.length === 0)
-            image = undefined
+    const productExists = await Product.findOne({ where: { title: title } });
+    if (productExists)
+      return res.send({ msg: "product with this title already exist" });
 
-        let product = undefined;
-        const producto = await Product.findOne({ where: { title: title } })
-        console.log(producto)
-        if (producto) return res.send("product already exist")
-        product = await Product.create({
-            title,
-            price,
-            description,
-            product_category,
-            product_subCategory,
-            product_care,
-            image,
-        })
-        return res.status(201).send(`product ${product.title} added to the DB`)
+    const product = await Product.create({
+      title,
+      price,
+      description,
+      product_category,
+      product_subCategory,
+      product_care,
+      image,
+    });
 
-    }
-    catch (e) {
-        console.log(e);
-        res.send('failed to created')
-    }
-}
+    return res.status(201).send({
+      msg: `product ${product.title} added to the DB`,
+      product: product,
+    });
+  } catch (e) {
+    res.send({ msg: "failed to created" });
+  }
+};
 
 //get product By name
 const getProductByName = async (req, res, next) => {
-    try {
-        const { title, product_category, product_subCategory } = req.query;
-        const Productx = await Product.findAll();
-        const product = Productx.map((e) => e);
-        //console.log(title)
-        let filter ="undefined"
-        if (title) filter = product.filter((e) => e.title.includes(title))
-        if (product_category) filter = product.filter((e) => e.product_category.includes(product_category));
-        if (product_subCategory) filter = product.filter((e) => e.product_subCategory.includes(product_subCategory));
+  try {
+    const { title, product_category, product_subCategory } = req.query;
+    const Productx = await Product.findAll();
+    const product = Productx.map((e) => e);
 
-        return res.status(200).json(filter);
-    }
-    catch (e) {
-        console.log(e);
-        res.status(500).send(e);
+    let filter = "undefined";
 
-    }
-}
+    if (title) filter = product.filter((e) => e.title.includes(title));
+
+    if (product_category)
+      filter = product.filter((e) =>
+        e.product_category.includes(product_category)
+      );
+    if (product_subCategory)
+      filter = product.filter((e) =>
+        e.product_subCategory.includes(product_subCategory)
+      );
+
+    return res.status(200).json(filter);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ err: e });
+  }
+};
 
 //get product By id
 const getProductById = async (req, res, next) => {
+  try {
     const { id } = req.params;
-    console.log(id)
-    const product = await Product.findOne({ where: { id: id } })
-    //console.log(product)
-    if (!product) return res.status(404).send("Product not found");
+
+    if (!id) return res.send({ msg: "id is required" });
+
+    const product = await Product.findOne({ where: { id: id } });
+
+    if (!product) return res.status(500).send({ msg: "Product not found" });
+
     return res.status(200).json(product);
-}
+  } catch (error) {
+    res.status(500).send({ err: error });
+  }
+};
 
 //get all from Product db
 const getDBproducts = async (req, res, next) => {
-    const dbProduct = await Product.findAll();
-    /* console.log (dbProduct.map(e=>{
-        return e.title }) ) */
-    const from_db = dbProduct.map(e => {
-        return {
-            id: e.id,
-            title: e.title,
-            price: e.price,
-            description: e.description,
-            product_category: e.product_category,
-            product_subCategory: e.product_subCategory,
-            product_care: e.product_care,
-            image: e.image,
-        }
-    })
-    // console.log(from_db)
-    return res.status(200).json(from_db)
+  const dbProduct = await Product.findAll();
 
-}
+  // console.log(from_db)
+  return res.status(200).json(dbProduct);
+};
 
-//getDBproducts()
 ///put to fix Porducts_dataBase
 const putProduct = async (req, res) => {
+  let {
+    id,
+    title,
+    price,
+    description,
+    product_category,
+    product_subCategory,
+    product_care,
+    image,
+  } = req.body;
+  try {
+    if (!id) return res.send("id is required");
 
-    let { id,title, price, description, product_category, product_subCategory, product_care, image } = req.body
-    try {
-        if (!title || !price || price < 0 || price.length > 100 ||
-            !description || !product_care || !product_category ||
-            !product_subCategory)
-            return res.send('missing or error parameters')
-        title = title.trim()
-        description = description.trim()
-        product_category = product_category.trim()
-        product_subCategory = product_subCategory.trim()
-        product_care = product_care.trim()
+    const producto = await Product.findOne({ where: { id: id } });
+    if (!producto) return res.send("product not found");
 
-        if (image.length === 0)
-            image = undefined
-
-        let product = undefined;
-        const producto = await Product.findOne({ where: { id: id } })
-        //console.log(producto)
-
-        if (!producto) return res.send("product No exist")
-        product = await producto.update({
-            title,
-            price,
-            description,
-            product_category,
-            product_subCategory,
-            product_care,
-            image,
-        })
-        return res.status(201).send(`product ${product.id} modified to the DB`)
-
+    if (title) {
+      title = title.trim();
+      const productExists = await Product.findOne({ where: { title: title } });
+      if (productExists)
+        return res.send("product with this title already exist");
+      producto.title = title;
     }
-    catch (e) {
-        console.log(e);
-        res.send('failed to created')
+    if (price && parseInt(price) > 0) {
+      price = parseInt(price);
+      producto.price = price;
     }
-}
-
-
-// post product to Shopping_cartdb related to user
-/* const Product_add_cart = async (req, res, next) => {
-    try {
-        const {
-            user_id, title, price, description, product_category, product_subCategory
-        } = req.body;
-
-        if (!title || !price || !description || !product_category || !product_subCategory) {
-            return res.status(400).send("missing Correct parameters");
-        }
-        const Product_Created = await Carry.create({
-            title, price, description, product_category, product_subCategory
-        });
-        const buyer = await User.findOne({
-            where: {
-                id: user_id,
-            },
-        }); */
-
-       /*  Product_Created.addUser(buyer);
-        // console.log(Product_Created)
-        res.status(201).send(`product ${Product_Created.title} added to the Shopping Cart`);
-    } catch (err) {
-        next(err);
+    if (description) {
+      description = description.trim();
+      producto.description = description;
     }
-}; */
-//put product to carrydb (fix on carrydb)
-const Product_fix_carry = async (req, res, next) => {
-    try {
-        const {
-            user_id, title, price, description, product_category, product_subCategory
-        } = req.body;
-
-        if (!title || !price || !description || !product_category || !product_subCategory) {
-            return res.status(400).send("missing Correct parameters");
-        }
-        const Product_Created = await Carry.put({
-            title, price, description, product_category, product_subCategory
-        });
-        const buyer = await User.findOne({
-            where: {
-                id: user_id,
-            },
-        });
-
-        Product_Created.addUser(buyer);
-        // console.log(Product_Created)
-        res.status(201).send(`product ${Product_Created.title} added to the Shopping Cart`);
-    } catch (err) {
-        next(err);
+    if (product_category) {
+      product_category = product_category.trim();
+      producto.product_category = product_category;
     }
+    if (product_subCategory) {
+      product_subCategory = product_subCategory.trim();
+      producto.product_subCategory = product_subCategory;
+    }
+    if (product_care) {
+      product_care = product_care.trim();
+      producto.product_care = product_care;
+    }
+    if (image) {
+      producto.image = image;
+    }
+    producto.save();
+
+    return res.status(201).send({
+      msg: `product ${producto.id} modified to the DB`,
+      product: producto,
+    });
+  } catch (e) {
+    console.log(e);
+    res.send("failed to created");
+  }
 };
 
 //delete product from db by product_id (by params)
 const deleteProduct = async (req, res, next) => {
-    try {
-        //res.send("<h1>Dog Deleted</h1>");
-        const { id } = req.params;
-        if (id.length > 0) {
-            await Product.destroy({
-                where: { id: id }
-            });
-            return res.status(200).send(`Product of id: ${id} has been deleted`)
-        };
-        return res.status(400).send("there is no Product with that id");
-    } catch (err) {
-        next(err);
+  try {
+    //res.send("<h1>Dog Deleted</h1>");
+    const { id } = req.params;
+    if (id.length > 0) {
+      await Product.destroy({
+        where: { id: id },
+      });
+      return res.status(200).send(`Product of id: ${id} has been deleted`);
     }
+    return res.status(400).send("there is no Product with that id");
+  } catch (err) {
+    next(err);
+  }
 };
 
-
-module.exports = { postProduct, getProductByName, getProductById, getDBproducts,/*  Product_add_cart, */ Product_fix_carry, deleteProduct,putProduct }
+module.exports = {
+  postProduct,
+  getProductByName,
+  getProductById,
+  getDBproducts,
+  /*  Product_add_cart, */ Product_fix_carry,
+  deleteProduct,
+  putProduct,
+};
