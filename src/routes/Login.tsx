@@ -29,11 +29,21 @@ function SignUp() {
         <Input text="Email" id="email" getData={() => {}} />
       </div>
       <div className={styles["input-wrapper"]}>
-        <Input text="Password" type="password" id="password" getData={() => {}} />
+        <Input
+          text="Password"
+          type="password"
+          id="password"
+          getData={() => {}}
+        />
       </div>
 
       <div className={styles["input-wrapper"]}>
-        <Input text="Repeat password" type="password" id="repeat-password" getData={() => {}} />
+        <Input
+          text="Repeat password"
+          type="password"
+          id="repeat-password"
+          getData={() => {}}
+        />
       </div>
     </>
   );
@@ -46,7 +56,12 @@ function SignIn() {
         <Input text="Email" id="email" getData={() => {}} />
       </div>
       <div className={styles["input-wrapper"]}>
-        <Input text="Password" type="password" id="password" getData={() => {}} />
+        <Input
+          text="Password"
+          type="password"
+          id="password"
+          getData={() => {}}
+        />
         <span className={styles["subtitle"]}>Forgot your password?</span>
       </div>
     </>
@@ -57,7 +72,7 @@ interface LoginProps {
   register?: boolean;
 }
 
-function Login({ register }: LoginProps) {
+function Login({ register = false }: LoginProps) {
   return (
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
@@ -70,6 +85,11 @@ function Login({ register }: LoginProps) {
             <button className={`${styles["submit-button"]} primary`}>
               {register ? "Sign up" : "Sign in"}
             </button>
+            <span className={styles["subtitle"]}>
+              {register
+                ? "You already have an account?"
+                : "You don't have an account?"}
+            </span>
           </div>
         </form>
         <AuthLogin />

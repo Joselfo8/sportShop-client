@@ -26,8 +26,17 @@
 
 .button-cont {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin-top: 2rem;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  cursor: pointer;
+  display: block;
 }
 
 .submit-button {
@@ -54,13 +63,6 @@
 
 .input-wrapper {
   margin-bottom: 1rem;
-}
-
-.subtitle {
-  font-size: 0.9rem;
-  margin-top: 0.2rem;
-  cursor: pointer;
-  display: block;
 }
 
 .subtitle:hover {
