@@ -9,7 +9,7 @@ const {
 
 router.get("", (req, res) => {
   getUser(req.query.id_user)
-    .then((x) => res.status(200).json(x))
+    .then((user) => res.status(200).json(user))
     .catch((x) => res.status(500).json({ err: x }));
 });
 
