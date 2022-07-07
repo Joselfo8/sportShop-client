@@ -1,0 +1,36 @@
+.label {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-align: start;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.07rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.input {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  border-bottom: 0.1rem solid var(--bg);
+  font-size: 1.1rem;
+  padding-left: 0.2rem;
+  outline: none;
+}
+
+.input::placeholder {
+  color: rgba(18, 18, 18, 0.25);
+}
+
+/* description */
+
+.description {
+  color: var(--text);
+  text-align: start;
+  display: inline-block;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
