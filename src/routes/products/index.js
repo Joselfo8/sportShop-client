@@ -1,70 +1,22 @@
 const router = require("express").Router();
-const { newProduct } = require("./function");
-const { getProductByName, getDBproducts } = require("./function");
-const Category = require("../../models/Category");
-const Product = require("../../models/Product");
-
+const {postProduct}=require ("./function")
+//get/products?id
 router.get("", (req, res) => {
-  newProduct("producto1", 1, "descripcion1").then(() => {
-    res.send("ya se creo el producto");
-  });
+    res.json({msg: req.query.id });
 });
-//post /Product
-const postProduct = async (req, res, next) => {
-  const { title, price, description, categoryName } = req.body;
-  if (
-    !title.length > 0 ||
-    !title.length < 25 ||
-    !title.char[0] !== " " ||
-    !categoryName
-  ) {
-    res.status(400).send("there is not product with that name");
-  } else {
-    try {
-      const productCreated = await Product.create({
-        title,
-        price,
-        description,
-      });
-      const category = await Category.findOne({
-        where: {
-          name,
-        },
-      });
-    } catch (error) {
-      next(error);
-      res.send(error);
-    }
-  }
-};
 
-//GET ALL PRODUCTS
-const getAllProducts = async (req, res, next) => {
-  //res.send('<h1>get all products</h1>')
-  try {
-    const products = await getDBproducts();
-    res.status(200).send(products);
-  } catch (err) {
-    next(err);
-  }
-};
+router.put("",(req,res)=>{
+    res.json({msg:req.body});
+})
 
-//__GET /Product/ByName/:name
-const getByName = async (req, res, next) => {
-  try {
-    //res.send('<h1>producto by Name</h1>')
-    const name = req.params.name;
-    if (name.length > 0 || name.length < 25 || name.char[0] !== " ") {
-      const product = await getProductByName(id);
-      res.status(200).send(product);
-    } else {
-      res.status(400).send("there is not product with that name");
-    }
-  } catch (err) {
-    next(err);
-  }
-};
-router.get("/:name", getByName);
-router.get("", getAllProducts);
-router.post("", postProduct);
+router.post("",(req,res)=>{
+    const{title,price,description,product_category,product_subCategory}= req.body
+  postProduct(title,price,description,product_category,product_subCategory)
+  .then((e)=>{res.send("OK")})
+})
+
+router.delete("",(req,res)=>{
+    res.json({msg:req.query.id});
+})
+
 module.exports = { products: router };
