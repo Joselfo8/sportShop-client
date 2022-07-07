@@ -5,7 +5,7 @@ export default function Cart(){
     return (
         <div>
             <NavBar />
-            <h1>Carro</h1>
+            <h1>Cart</h1>
         </div>
     )
 }

@@ -15,22 +15,34 @@ function rootReducer(state = initialState, action: any){
             return{
                 ...state,
                 products: action.payload,
-                productsFiltered: action.payload
             }
-
         case "GET_DETAILS":
             return {
                 ...state,
                 details: action.payload
             }
-
         case GET_PRODUCTSBYNAME:
                 const filter: any = state.products.filter((product: any) => product.title.toLowerCase().includes(action.payload.toLowerCase()))
                 return {
                     ...state,
                     searchProducts: filter
                 }
-                
+        case "GET_MEN":
+            return{
+                ...state,
+                productsFiltered:action.payload,
+            }
+        case "GET_WOMEN":
+            return{
+                ...state,
+                productsFiltered:action.payload,
+            }
+        case "CLEAN_STORE":
+            return{
+                ...state,
+                productsFiltered: [],
+            }
+
         default:
             return state;
     };

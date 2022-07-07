@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getProductsWomen } from "../../redux/action";
+import Card from "../Card/Card";
 import NavBar from "../Navbar/Navbar";
 
 export default function(){
+    const dispatch = useDispatch();
+    const productsWomen = useSelector((state : any) => state.productsFiltered);
+
+    useEffect(() => {
+        dispatch(getProductsWomen());
+    }, [])
+
     return(
         <div>
             <NavBar />
             <h1>Woman</h1>
-            <Link to='/shoes'>
+
+            {
+                productsWomen.map((e : any) => {
+                    return <Card title={e.title}/>
+                })
+            }
+{/*             <Link to='/shoes'>
                 <button>Shoes</button>
             </Link>
             <Link to='/clothing'>
@@ -15,7 +31,7 @@ export default function(){
             </Link>
             <Link to='/accesories'>
                 <button>Accesories</button>
-            </Link>
+            </Link> */}
         </div>
     );
 };
