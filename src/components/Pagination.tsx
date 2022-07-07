@@ -87,7 +87,7 @@ function Pagination({
       </Button>,
     ]);
 
-  }, [pagesToShow, maxPage, next, previous, selected]);
+  }, [pagesToShow, maxPage, next, previous, selected, onSelected]);
 
   // resize pagination when resolution get bigger
   useEffect(() => {
