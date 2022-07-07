@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import logo from '../../assets/logo.png'
-import { getProducts, getProductsByName } from '../../redux/action'
+import logo from '../../assets/logo.png';
+import { cleanStore, getProducts, getProductsByName } from '../../redux/action';
+import styles from './NavBar.module.css';
 
 export default function NavBar(){
     const [value, setValue] = useState({})
@@ -18,6 +18,10 @@ export default function NavBar(){
     function handleSubmit(event: any) {
         event.preventDefault();
         dispatch(getProductsByName(value))
+    }
+
+    function resetStore(event : any){
+        dispatch(cleanStore(event))
     }
 
     return (
@@ -36,19 +40,19 @@ export default function NavBar(){
             </form>
 
             <Link to='/man'>
-                <button>Man</button>
+                <button onClick={resetStore}>Man</button>
             </Link>
 
             <Link to='/woman'>
-                <button>Woman</button>
+                <button onClick={resetStore}>Woman</button>
             </Link>
 
-            <button>Infantil</button>
+            <button>Kids</button>
 
-            <button>Deporte</button>
+            <button>Sport</button>
 
             <Link to='/cart'>
-                <button>Carro</button>
+                <button>Cart</button>
             </Link>
 
         </div>

@@ -7,11 +7,11 @@ import NavBar from '../Navbar/Navbar';
 export default function Home(){
     const dispatch = useDispatch();
     const allProducts = useSelector( (state: any) => state.products);
-    
+
     useEffect(() => {
         dispatch(getProducts())
     },[dispatch]);
-    
+
     return (
         <div>
             <NavBar />

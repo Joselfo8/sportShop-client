@@ -7,5 +7,5 @@ export default function(){
         <div>
             <NavBar/>
         </div>
-    )
-}
+    );
+};
