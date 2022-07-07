@@ -3,13 +3,14 @@ import styles from "./Input.module.css";
 
 interface InputProp {
   text: string;
+  type?: string;
   id: string;
   placeholder?: string;
   required?: boolean;
   getData: Function;
 }
 
-function Input({ text, id, placeholder, required, getData }: InputProp) {
+function Input({ text, type = "text", id, placeholder, required, getData }: InputProp) {
   const [value, setValue] = useState("");
   const [status, setStatus] = useState({ code: 0, message: "" });
 
@@ -28,6 +29,7 @@ function Input({ text, id, placeholder, required, getData }: InputProp) {
 
       <input
         placeholder={placeholder}
+        type={type}
         value={value}
         onChange={handleChange}
         id={id}

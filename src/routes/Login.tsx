@@ -19,7 +19,25 @@ function AuthLogin() {
   );
 }
 
-function SignUp() {}
+function SignUp() {
+  return (
+    <>
+      <div className={styles["input-wrapper"]}>
+        <Input text="Username" id="username" getData={() => {}} />
+      </div>
+      <div className={styles["input-wrapper"]}>
+        <Input text="Email" id="email" getData={() => {}} />
+      </div>
+      <div className={styles["input-wrapper"]}>
+        <Input text="Password" type="password" id="password" getData={() => {}} />
+      </div>
+
+      <div className={styles["input-wrapper"]}>
+        <Input text="Repeat password" type="password" id="repeat-password" getData={() => {}} />
+      </div>
+    </>
+  );
+}
 
 function SignIn() {
   return (
@@ -28,23 +46,29 @@ function SignIn() {
         <Input text="Email" id="email" getData={() => {}} />
       </div>
       <div className={styles["input-wrapper"]}>
-        <Input text="Password" id="password" getData={() => {}} />
+        <Input text="Password" type="password" id="password" getData={() => {}} />
         <span className={styles["subtitle"]}>Forgot your password?</span>
       </div>
     </>
   );
 }
 
-function Login() {
+interface LoginProps {
+  register?: boolean;
+}
+
+function Login({ register }: LoginProps) {
   return (
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
         <form>
-          <span className={styles["title"]}>Login</span>
-          <SignIn />
+          <span className={styles["title"]}>
+            {register ? "Create account" : "Login"}
+          </span>
+          {register ? <SignUp /> : <SignIn />}
           <div className={styles["button-cont"]}>
             <button className={`${styles["submit-button"]} primary`}>
-              Sign In
+              {register ? "Sign up" : "Sign in"}
             </button>
           </div>
         </form>

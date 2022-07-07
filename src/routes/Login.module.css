@@ -3,6 +3,7 @@
   padding: 2rem;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .container {
@@ -38,6 +39,15 @@
   border: none;
   border-radius: 0.2rem;
   padding: 0.8rem 2rem;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  opacity: 0.9;
+}
+
+.submit-button:active {
+  opacity: 0.8;
 }
 
 /* SignIn */
@@ -49,7 +59,12 @@
 .subtitle {
   font-size: 0.9rem;
   margin-top: 0.2rem;
+  cursor: pointer;
   display: block;
+}
+
+.subtitle:hover {
+  text-decoration: underline;
 }
 
 /* AuthLogin */
