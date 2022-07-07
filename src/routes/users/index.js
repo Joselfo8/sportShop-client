@@ -26,12 +26,7 @@ router.delete("", (req, res) => {
 });
 
 router.put("", (req, res) => {
-  putUser(
-    req.query.id_user,
-    req.query.name,
-    req.query.username,
-    req.query.password
-  )
+  putUser(req.body.id_user, req.body.name, req.body.username, req.body.password)
     .then((x) => res.status(200).json(x))
     .catch((x) => res.status(500).json({ err: x }));
 });
