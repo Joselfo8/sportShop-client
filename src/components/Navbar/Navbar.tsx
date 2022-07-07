@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 
 export default function NavBar(){
@@ -29,13 +30,21 @@ export default function NavBar(){
                 <button type="submit">Search</button>
             </form>
 
-            <button>Hombre</button>
+            <Link to='/man'>
+                <button>Man</button>
+            </Link>
 
-            <button>Mujer</button>
+            <Link to='/woman'>
+                <button>Woman</button>
+            </Link>
 
             <button>Infantil</button>
 
             <button>Deporte</button>
+
+            <Link to='/cart'>
+                <button>Carro</button>
+            </Link>
 
         </div>
     );
