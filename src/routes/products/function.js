@@ -12,16 +12,21 @@ const postProduct = async (req, res) => {
     product_care,
     image,
   } = req.body;
+
   try {
     if (
       !title ||
       !price ||
+
+
       !description ||
       !product_care ||
       !product_category ||
       !product_subCategory
     )
+
       return res.send({ msg: "all fields ( image not ) are required" });
+
 
     title = title.trim();
     description = description.trim();
@@ -29,11 +34,13 @@ const postProduct = async (req, res) => {
     product_subCategory = product_subCategory.trim();
     product_care = product_care.trim();
 
+
     const productExists = await Product.findOne({ where: { title: title } });
     if (productExists)
       return res.send({ msg: "product with this title already exist" });
 
     const product = await Product.create({
+
       title,
       price,
       description,
@@ -43,12 +50,16 @@ const postProduct = async (req, res) => {
       image,
     });
 
+
     return res.status(201).send({
+
       msg: `product ${product.title} added to the DB`,
       product: product,
     });
   } catch (e) {
+
     res.send({ msg: "failed to created" });
+
   }
 };
 
@@ -59,9 +70,11 @@ const getProductByName = async (req, res, next) => {
     const Productx = await Product.findAll();
     const product = Productx.map((e) => e);
 
+
     let filter = "undefined";
 
     if (title) filter = product.filter((e) => e.title.includes(title));
+
 
     if (product_category)
       filter = product.filter((e) =>
@@ -75,12 +88,15 @@ const getProductByName = async (req, res, next) => {
     return res.status(200).json(filter);
   } catch (e) {
     console.log(e);
+
     res.status(500).send({ err: e });
+
   }
 };
 
 //get product By id
 const getProductById = async (req, res, next) => {
+
   try {
     const { id } = req.params;
 
@@ -94,15 +110,18 @@ const getProductById = async (req, res, next) => {
   } catch (error) {
     res.status(500).send({ err: error });
   }
+
 };
 
 //get all from Product db
 const getDBproducts = async (req, res, next) => {
   const dbProduct = await Product.findAll();
 
+
   // console.log(from_db)
   return res.status(200).json(dbProduct);
 };
+
 
 ///put to fix Porducts_dataBase
 const putProduct = async (req, res) => {
@@ -116,15 +135,18 @@ const putProduct = async (req, res) => {
     product_care,
     image,
   } = req.body;
+
   try {
     if (!id) return res.send("id is required");
 
     const producto = await Product.findOne({ where: { id: id } });
     if (!producto) return res.send("product not found");
 
+
     if (title) {
       title = title.trim();
       const productExists = await Product.findOne({ where: { title: title } });
+
       if (productExists)
         return res.send("product with this title already exist");
       producto.title = title;
@@ -145,14 +167,17 @@ const putProduct = async (req, res) => {
       product_subCategory = product_subCategory.trim();
       producto.product_subCategory = product_subCategory;
     }
+
     if (product_care) {
       product_care = product_care.trim();
       producto.product_care = product_care;
     }
     if (image) {
+
       producto.image = image;
     }
     producto.save();
+
 
     return res.status(201).send({
       msg: `product ${producto.id} modified to the DB`,
@@ -160,7 +185,9 @@ const putProduct = async (req, res) => {
     });
   } catch (e) {
     console.log(e);
+
     res.send("failed to created");
+
   }
 };
 
@@ -186,7 +213,6 @@ module.exports = {
   getProductByName,
   getProductById,
   getDBproducts,
-  /*  Product_add_cart, */ Product_fix_carry,
   deleteProduct,
   putProduct,
 };
