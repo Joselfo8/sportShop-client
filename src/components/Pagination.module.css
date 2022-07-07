@@ -1,0 +1,60 @@
+.pagination {
+  width: fit-content;
+  background-color: var(--bg);
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 1),
+    0 1px 2px -1px rgba(164, 176, 190, 0.5);
+  list-style: none;
+  display: flex;
+}
+
+.button {
+  background-color: var(--bg);
+  margin: 0 0.3rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  cursor: pointer;
+  border-radius: 0.2rem;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.8rem;
+  display: block;
+}
+
+.button:hover {
+  background-color: var(--bg);
+  opacity: 0.8;
+}
+
+.arrow-button {
+  background-color: var(--bg);
+  margin: 0 0.3rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  cursor: pointer;
+  border-radius: 0.2rem;
+  padding: 0 0.8rem;
+  display: flex;
+  place-content: center;
+}
+
+.arrow-button:hover {
+  background-color: var(--bg);
+  opacity: 0.8;
+}
+
+.arrow {
+  width: 1.2rem;
+}
+
+@media only screen and (min-width: 1024px) {
+  .button {
+    font-size: 1.1rem;
+  }
+
+  .arrow-button {
+    padding: 0.3rem 1.2rem;
+  }
+
+  .arrow {
+    width: 1.1rem;
+  }
+}
