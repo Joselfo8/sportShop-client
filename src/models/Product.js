@@ -36,6 +36,13 @@ module.exports = (sequelize) => {
       },
       product_subCategory:{
         type:DataTypes.STRING,
+      },
+      product_care:{
+        type:DataTypes.STRING,
+      },
+      image:{
+        type:DataTypes.STRING,
+        defaultValue: "https://ae01.alicdn.com/kf/HTB19SdxKpXXXXctXXXXq6xXFXXXc/404-folla-Not-Found-T-Shirt-blanco-y-negro-la-ropa-de-moda-t-mujeres-y.jpg_Q90.jpg_.webp",
       }
     },
     {

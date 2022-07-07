@@ -1,22 +1,19 @@
 const router = require("express").Router();
-const {postProduct}=require ("./function")
-//get/products?id
-router.get("", (req, res) => {
-    res.json({msg: req.query.id });
-});
+const {postProduct, getProductByName, getProductById, getDBproducts, Product_fix_carry, deleteProduct,putProduct}=require ("./function")
+//get/products?name
+router.get("",getProductByName)
+//get/products db
+router.get("/all",getDBproducts)
 
-router.put("",(req,res)=>{
+//get/products/:id
+router.get("/:id",getProductById) 
+/* router.put("",(req,res)=>{
     res.json({msg:req.body});
-})
-
-router.post("",(req,res)=>{
-    const{title,price,description,product_category,product_subCategory}= req.body
-  postProduct(title,price,description,product_category,product_subCategory)
-  .then((e)=>{res.send("OK")})
-})
-
-router.delete("",(req,res)=>{
-    res.json({msg:req.query.id});
-})
-
+}) */
+//put fix product_database 
+router.put("/",putProduct)
+//post/products a productDB
+router.post("",postProduct)
+//delete/products/id delete product by id from productDB
+router.delete("/:id",deleteProduct);  
 module.exports = { products: router };
