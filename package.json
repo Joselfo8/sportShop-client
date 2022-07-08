@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node-sass": "^4.11.3",
     "sass": "^1.53.0"
   }
 }

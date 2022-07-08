@@ -4,6 +4,7 @@ import { getAllJSDocTagsOfKind } from 'typescript';
 import { getProducts } from '../../redux/action';
 import Card from '../Card/Card';
 import NavBar from '../Navbar/Navbar';
+import style from './Products.module.scss'
 
 export default function Products() {
 
@@ -13,12 +14,6 @@ export default function Products() {
     useEffect(() => {
         dispatch(getProducts())
     },[dispatch]);
-
-    // useEffect(() => {
-    //     state
-    // },[state]);
-
-    console.log(state)
 
     const render = {
         allProducts: 
@@ -54,17 +49,10 @@ export default function Products() {
     
 
     return (
-        <div>
-            <div>
-                <NavBar/>
-            </div>
-
-            <div>
-                {
-                    state.productsFiltered.length === 0 ? render.allProducts : render.searchProducts
-                }
-            </div>
+        <div className={style.cardContainer}>
+            {
+                state.productsFiltered.length === 0 ? render.allProducts : render.searchProducts
+            }
         </div>
-
     );
 };
