@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -L",
-    "test": "jest"
+    "start": "node index.js",
+    "dev": "nodemon -L",
+    "test": "jest --silent"
   },
   "author": "Henry FT25B-G4",
   "license": "ISC",
