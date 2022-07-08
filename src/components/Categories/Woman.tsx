@@ -18,11 +18,11 @@ export default function(){
             <NavBar />
             <h1>Woman</h1>
 
-            {
+            {/* {
                 productsWomen.map((e : any) => {
                     return <Card title={e.title}/>
                 })
-            }
+            } */}
 {/*             <Link to='/shoes'>
                 <button>Shoes</button>
             </Link>

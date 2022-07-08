@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
-import { cleanStore, getProducts, getProductsByName } from '../../redux/action';
+import { cleanStore, getProducts, getProductsByName, getProductsWomen, getProductsMen } from '../../redux/action';
 import styles from './NavBar.module.css';
 
 export default function NavBar(){
@@ -24,6 +24,16 @@ export default function NavBar(){
         dispatch(cleanStore(event))
     }
 
+    function womenProducts(event: any) {
+        dispatch(getProductsWomen());
+    }
+
+    function menProducts(event: any) {
+        dispatch(getProductsMen());
+    }
+
+    console.log(allState)
+
     return (
         <div>
             <img src={logo}/>
@@ -39,18 +49,12 @@ export default function NavBar(){
                 <button type="submit">Search</button>
             </form>
 
-            <Link to='/man'>
-                <button onClick={resetStore}>Man</button>
-            </Link>
+            <button onClick={(e) => {return menProducts(e)}}>Man</button>
 
-            <Link to='/woman'>
-                <button onClick={resetStore}>Woman</button>
-            </Link>
+            <button onClick={(e) => {return womenProducts(e)}}>Woman</button>
 
-            <button>Kids</button>
-
-            <button>Sport</button>
-
+            <button onClick={(e) => {return resetStore(e)}}>All products</button>
+            
             <Link to='/cart'>
                 <button>Cart</button>
             </Link>
