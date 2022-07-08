@@ -44,11 +44,3 @@
 .sidebar-body {
   width: 100%;
 }
-
-/* ListContainer */
-
-.list-container {
-  background-color: var(--bg);
-  padding: 1.5rem 2rem;
-  border-radius: 0 0.2rem 0.2rem 0;
-}
