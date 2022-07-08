@@ -1,5 +1,6 @@
 const { Router } = require("express");
 // Importar todos los routers;
+const {shopping_list} = require("./shopping_list");
 
 const { products } = require("./products");
 
@@ -16,5 +17,6 @@ router.get("/health", (req, res) => {
 
 router.use("/users", users);
 router.use("/products", products);
+router.use("/shopping_list", shopping_list);
 
 module.exports = router;
