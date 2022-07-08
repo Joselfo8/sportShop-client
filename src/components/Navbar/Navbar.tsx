@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import cart from '../../assets/cart.png';
+import user from '../../assets/user.png';
+import heart from '../../assets/corazonVacio.png'
 import { cleanStore, getProducts, getProductsByName } from '../../redux/action';
-import styles from './NavBar.module.css';
+import styles from './NavBar.module.scss';
 
 export default function NavBar(){
     const [value, setValue] = useState({})
@@ -25,8 +28,22 @@ export default function NavBar(){
     }
 
     return (
-        <div>
-            <img src={logo}/>
+        <div className={styles.navBar}>
+
+            <Link to='/home'>
+                <img src={logo} className={styles.logo}/>
+            </Link>
+
+
+            <div>
+                <Link to='/man'>
+                    <button onClick={resetStore}>Man</button>
+                </Link>
+                <Link to='/woman'>
+                    <button onClick={resetStore}>Woman</button>
+                </Link>
+                <button>Kids</button>
+            </div>
 
             <form onSubmit={(e) => handleSubmit(e)}>
                 <input
@@ -39,21 +56,17 @@ export default function NavBar(){
                 <button type="submit">Search</button>
             </form>
 
-            <Link to='/man'>
-                <button onClick={resetStore}>Man</button>
-            </Link>
-
-            <Link to='/woman'>
-                <button onClick={resetStore}>Woman</button>
-            </Link>
-
-            <button>Kids</button>
-
-            <button>Sport</button>
-
-            <Link to='/cart'>
-                <button>Cart</button>
-            </Link>
+            <div>
+                <Link to='/user'>
+                    <img src={user} className={styles.cart}/>
+                </Link>
+                <Link to='favorites'>
+                    <img src={heart} className={styles.heart}/>
+                </Link>
+                <Link to='/cart'>
+                    <img src={cart} className={styles.cart}/>
+                </Link>
+            </div>
 
         </div>
     );
