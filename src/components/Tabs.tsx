@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // Helpers
 import formatKey from "../helpers/formatKey";
 // Styles
@@ -15,7 +15,9 @@ function Tab({ text, id, selected, onSelected }: TabProps) {
   return (
     <span
       onClick={onSelected}
-      className={`${styles["tab"]} ${selected === id ? styles["tab-active"] : ""}`}
+      className={`${styles["tab"]} ${
+        selected === id ? styles["tab-active"] : ""
+      }`}
     >
       {text}
     </span>
@@ -31,20 +33,25 @@ function Tabs({ tabs, getSelected }: TabsProps) {
   const [selected, setSelected] = useState("");
 
   // if one tab is clicked, update selected
-  const handleSelected = (key: string) => {
-    setSelected(key);
-    // pass selected tab to parent
-    getSelected(key);
-  };
+  const handleSelected = useCallback(
+    (key: string) => {
+      setSelected(key);
+      // pass selected tab to parent
+      getSelected(key);
+    },
+    [setSelected, getSelected]
+  );
+
+  // set selected tab by default
+  useEffect(() => {
+    if (selected.length === 0) handleSelected(formatKey(tabs[0]));
+  }, [tabs, selected, handleSelected]);
 
   return (
     <div className={`${styles["container"]} primary`}>
       {tabs &&
         tabs.map((t, i) => {
           const key = formatKey(t);
-
-          // select the first tab by default
-          if (i === 0 && selected.length === 0) setSelected(key);
 
           return (
             <Tab

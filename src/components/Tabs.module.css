@@ -18,3 +18,7 @@
 .tab-active {
   border-left: 0.25rem solid var(--bg);
 }
+
+.tab-active:hover {
+  border-left: 0.25rem solid var(--bg);
+}
