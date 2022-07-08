@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
-      rating_coutn: {
+      rating_count: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
