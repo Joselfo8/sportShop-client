@@ -17,11 +17,11 @@ export default function(){
         <div>
             <NavBar />
             <h1>Man</h1>
-            {
+            {/* {
                 productsMen.map((e : any) =>{
                     return <Card title={e.title}/>
                 })
-            }
+            } */}
 
 
 {/*         <Link to='/shoes'>
