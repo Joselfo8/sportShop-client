@@ -17,6 +17,12 @@
 
 .tab-active {
   border-left: 0.25rem solid var(--bg);
+  position: relative;
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--bg-rgb), 0.12),
+    rgba(var(--bg-rgb), 0.08)
+  );
 }
 
 .tab-active:hover {
