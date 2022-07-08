@@ -7,8 +7,8 @@ const {
   loginUser,
 } = require("./functions");
 
-router.get("", (req, res) => {
-  getUser(req.query.id_user)
+router.get("/:id", (req, res) => {
+  getUser(req.params.id)
     .then((user) => res.status(200).json(user))
     .catch((x) => res.status(500).json({ err: x }));
 });

@@ -1,6 +1,5 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
-const bodyParser = require("body-parser");
 
 function getUser(id_user) {
   let p = new Promise(async (resolve, reject) => {
@@ -69,20 +68,33 @@ function putUser(id, name, username, password) {
       if (!id) {
         return reject("id_user is required");
       }
+      if (Number.isNaN(id)) {
+        return reject("id_user must be a number");
+      }
+      if (parseInt(id) < 0) {
+        return reject("id_user must be a positive number");
+      }
 
-      let userName = await User.findOne({
-        where: { username: username, id: { [Op.not]: id } },
-      });
-      if (userName) {
-        return reject("username already exist");
-      }
       let user = await User.findOne({ where: { id: id } });
-      if (!user) {
-        return reject("User not found");
+
+      if (name) {
+        name = name.trim();
+        user.name = name;
       }
-      if (name) user.name = name;
-      if (username) user.username = username;
-      if (password) user.password = password;
+
+      if (username && username != user.username) {
+        username = username.trim();
+        userExists = await User.findOne({ where: { username: username } });
+        if (userExists) {
+          return reject("username already exist");
+        }
+        user.username = username;
+      }
+
+      if (password) {
+        password = password.trim();
+        user.password = password;
+      }
       await user.save();
       return resolve({ msg: `user ${id} modicated`, user: user });
     } catch (error) {
