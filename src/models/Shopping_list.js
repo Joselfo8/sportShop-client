@@ -2,9 +2,9 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "shoppingList",
+    "shopping_list",
     {
-      listProduct: {
+      product_list: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
         allowNull: false,
       },
