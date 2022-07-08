@@ -36,7 +36,7 @@ describe("database", () => {
 
   it("should return user", async () => {
     const user = await User.findOne({ where: { name: "test" } });
-    const response = await api.get("/users?id=" + user.id);
+    const response = await api.get("/users/" + user.id);
     expect(response.status).not.toBe(404);
   });
 
