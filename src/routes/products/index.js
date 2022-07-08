@@ -3,17 +3,12 @@ const {
   postProduct,
   getProductByName,
   getProductById,
-  getDBproducts,
-  Product_fix_carry,
   deleteProduct,
   putProduct,
 } = require("./function");
 
 //get/products?name&category&subCategory
 router.get("", getProductByName);
-
-//get/products (All products)
-router.get("/all", getDBproducts);
 
 //get/products/:id
 router.get("/:id", getProductById);

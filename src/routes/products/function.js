@@ -1,47 +1,65 @@
 //const { where } = require("sequelize/types")
 const { Product } = require("../../db");
 
+const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
+const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
+
 //post/ product to db
 const postProduct = async (req, res) => {
   let {
     title,
     price,
     description,
-    product_category,
-    product_subCategory,
+    category,
+    subCategory,
     product_care,
     image,
   } = req.body;
 
   try {
-    if (
-      !title ||
-      !price ||
-      !description ||
-      !product_care ||
-      !product_category ||
-      !product_subCategory
-    )
-      return res.send({ msg: "all fields ( image not ) are required" });
-    price = parseInt(price);
-    if (Number.isNaN(price)) return res.send({ msg: "price must be a number" });
-    if (price > 0) return res.send({ msg: "price must be a positive number" });
+    //validaciones a todos los campos
+    if (price) {
+      price = parseInt(price);
+
+      if (Number.isNaN(price))
+        return res.send({ msg: "price must be a number" });
+      if (price < 0)
+        return res.send({ msg: "price must be a positive number" });
+    } else return res.send({ msg: "price is required" });
+
+    if (!title) return res.send({ msg: "title is required" });
     title = title.trim();
+
+    if (!description) return res.send({ msg: "description is required" });
     description = description.trim();
-    product_category = product_category.trim();
-    product_subCategory = product_subCategory.trim();
+
+    if (category) {
+      category = category.trim().toUpperCase();
+      if (!CATEGORY.includes(category))
+        return res.send({ msg: "category is invalid" });
+    } else return res.send({ msg: "category is required" });
+
+    if (subCategory) {
+      subCategory = subCategory.trim().toUpperCase();
+      if (!SUBCATEGORY.includes(subCategory))
+        return res.send({ msg: "subCategory is invalid" });
+    } else return res.send({ msg: "subCategory is required" });
+
+    if (!product_care) return res.send({ msg: "product_care is required" });
     product_care = product_care.trim();
 
+    ///valida que el producto no exista en la base de datos
     const productExists = await Product.findOne({ where: { title: title } });
     if (productExists)
       return res.send({ msg: "product with this title already exist" });
 
+    //crea el producto en la base de datos
     const product = await Product.create({
       title,
       price,
       description,
-      product_category,
-      product_subCategory,
+      category,
+      subCategory,
       product_care,
       image,
     });
@@ -51,6 +69,7 @@ const postProduct = async (req, res) => {
       product: product,
     });
   } catch (e) {
+    console.log(e);
     res.send({ msg: "failed to created" });
   }
 };
@@ -58,27 +77,31 @@ const postProduct = async (req, res) => {
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    const { title, product_category, product_subCategory } = req.query;
-    const Productx = await Product.findAll();
-    const product = Productx.map((e) => e);
+    const { title, category, subCategory } = req.query;
 
-    let filter = "undefined";
+    let filter = await Product.findAll();
 
-    if (title) filter = product.filter((e) => e.title.includes(title));
-
-    if (product_category)
-      filter = product.filter((e) =>
-        e.product_category.includes(product_category)
+    //filtramos por contenido del titulo y omitmos mayusculas y minusculas
+    if (title)
+      filter = filter.filter((e) =>
+        e.title.toLowerCase().includes(title.toLowerCase())
       );
-    if (product_subCategory)
-      filter = product.filter((e) =>
-        e.product_subCategory.includes(product_subCategory)
+
+    //filtramos por categoria y omitmos mayusculas y minusculas
+    if (category)
+      filter = filter.filter(
+        (e) => e.category.toLowerCase() === category.toLowerCase()
+      );
+
+    //filtramos por subcategoria y omitmos mayusculas y minusculas
+    if (subCategory)
+      filter = filter.filter(
+        (e) => e.subCategory.toLowerCase() === subCategory.toLowerCase()
       );
 
     return res.status(200).json(filter);
   } catch (e) {
     console.log(e);
-
     res.status(500).send({ err: e });
   }
 };
@@ -87,11 +110,13 @@ const getProductByName = async (req, res, next) => {
 const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
-
+    //vlidacion de id
     if (!id) return res.send({ msg: "id is required" });
+    if (Number.isNaN(parseInt(id)))
+      return res.send({ msg: "id must be a number" });
 
+    //validamos que el producto exista
     const product = await Product.findOne({ where: { id: id } });
-
     if (!product) return res.status(500).send({ msg: "Product not found" });
 
     return res.status(200).json(product);
@@ -100,29 +125,25 @@ const getProductById = async (req, res, next) => {
   }
 };
 
-//get all from Product db
-const getDBproducts = async (req, res, next) => {
-  const dbProduct = await Product.findAll();
-
-  // console.log(from_db)
-  return res.status(200).json(dbProduct);
-};
-
-///put to fix Porducts_dataBase
+///put to Products_dataBase
 const putProduct = async (req, res) => {
   let {
     id,
     title,
     price,
     description,
-    product_category,
-    product_subCategory,
+    category,
+    subCategory,
     product_care,
     image,
   } = req.body;
 
   try {
+    //validaciones a todos los campos
+
     if (!id) return res.send({ msg: "id is required" });
+    if (Number.isNaN(parseInt(id)))
+      return res.send({ msg: "id must be a number" });
 
     const producto = await Product.findOne({ where: { id: id } });
     if (!producto) return res.send({ msg: "product not found" });
@@ -144,13 +165,13 @@ const putProduct = async (req, res) => {
       description = description.trim();
       producto.description = description;
     }
-    if (product_category) {
-      product_category = product_category.trim();
-      producto.product_category = product_category;
+    if (category) {
+      category = category.trim();
+      producto.category = category;
     }
-    if (product_subCategory) {
-      product_subCategory = product_subCategory.trim();
-      producto.product_subCategory = product_subCategory;
+    if (subCategory) {
+      subCategory = subCategory.trim();
+      producto.subCategory = subCategory;
     }
 
     if (product_care) {
@@ -169,22 +190,26 @@ const putProduct = async (req, res) => {
   } catch (e) {
     console.log(e);
 
-    res.send({ msg: "failed to created" });
+    res.send({ msg: "failed to modified" });
   }
 };
 
 //delete product from db by product_id (by params)
 const deleteProduct = async (req, res, next) => {
   try {
-    //res.send("<h1>Dog Deleted</h1>");
     const { id } = req.params;
-    if (id.length > 0) {
-      await Product.destroy({
-        where: { id: id },
-      });
-      return res.status(200).send(`Product of id: ${id} has been deleted`);
-    }
-    return res.status(400).send("there is no Product with that id");
+    //validacion de id
+    if (!id) return res.send({ msg: "id is required" });
+    if (Number.isNaN(parseInt(id)))
+      return res.send({ msg: "id must be a number" });
+
+    //validamos que el producto exista
+    const product = await Product.findOne({ where: { id: id } });
+    if (!product) return res.status(500).send({ msg: "Product not found" });
+
+    //eliminamos el producto de la base de datos
+    await product.destroy();
+    return res.status(200).send({ msg: `product ${product.id} deleted` });
   } catch (err) {
     next(err);
   }
@@ -194,7 +219,6 @@ module.exports = {
   postProduct,
   getProductByName,
   getProductById,
-  getDBproducts,
   deleteProduct,
   putProduct,
 };

@@ -25,6 +25,6 @@ const { PORT } = process.env;
 conn.sync({ alter: true }).then(() => {
   console.log("Database synced successfully");
   server.listen(PORT, () => {
-    console.log("server up on : https://vlixes-server.herokuapp.com/"); // eslint-disable-line no-console
+    console.log("server up on : http://localhost:" + PORT); // eslint-disable-line no-console
   });
 });
