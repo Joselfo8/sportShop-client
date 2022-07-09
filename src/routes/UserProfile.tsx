@@ -1,11 +1,7 @@
 import { useState } from "react";
 // Components
 import Tabs from "../components/Tabs";
-import ProfileCard, {
-  UserInfo,
-  Orders,
-  Favorites,
-} from "../components/ProfileCard";
+import ProfileCard from "../components/ProfileCard/ProfileCard";
 // Icons
 import { ReactComponent as DefaultUser } from "../icons/default-user.svg";
 // Styles
@@ -39,11 +35,7 @@ function UserProfile() {
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
         <Sidebar getSelected={setSelectedTab} />
-        <ProfileCard>
-          {selectedTab === "user-information" && (<UserInfo />)}
-          {selectedTab === "my-orders" && (<Orders />)}
-          {selectedTab === "my-favorites" && (<Favorites />)}
-        </ProfileCard>
+        <ProfileCard />
       </div>
     </div>
   );

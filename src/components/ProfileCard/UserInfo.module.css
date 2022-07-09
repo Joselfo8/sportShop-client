@@ -1,0 +1,97 @@
+.container {
+  overflow-y: auto;
+}
+
+.title-cont {
+  border-bottom: 0.08rem solid rgba(18, 18, 18, 0.3);
+  padding-bottom: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.title {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.edit-button {
+  cursor: pointer;
+  display: block;
+}
+
+.form {
+  margin: 1.5rem 0;
+}
+
+/* ShippingAddress */
+
+.ship-li {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-left: 0.3rem solid var(--bg);
+  padding: 0.8rem 3rem 0.8rem 1rem;
+  width: fit-content;
+  box-shadow: var(--shadow-md);
+  list-style: none;
+  margin-top: 1.5rem;
+  margin-right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.ship-li span {
+  display: block;
+}
+
+.shipping-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* UpdateForm */
+
+.button-cont {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.submit-button {
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.8rem 2rem;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  opacity: 0.9;
+}
+
+.submit-button:active {
+  opacity: 0.8;
+}
+
+.cancel-button {
+  color: var(--bg);
+  border-radius: 0.2rem;
+  border-bottom: 0.08rem solid rgba(0, 0, 0, 0);
+  margin-left: 1.5rem;
+  cursor: pointer;
+  display: block;
+}
+
+.cancel-button:hover {
+  opacity: 0.9;
+  border-bottom: 0.08rem solid var(--bg);
+}
+
+.cancel-button:active {
+  opacity: 0.8;
+}
