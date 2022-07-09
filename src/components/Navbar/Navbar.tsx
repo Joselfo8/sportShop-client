@@ -43,11 +43,11 @@ export default function NavBar(){
 
             <div>
 
-                <button onClick={(e) => {return productCategory(e)}} value='MALE'>Man</button>
+                <button onClick={(e) => {return productCategory(e)}} value='MALE' className={styles.buttonNav}>Man</button>
 
-                <button onClick={(e) => {return productCategory(e)}} value='FEMALE'>Woman</button>
-                
-                  <button onClick={(e) => {return resetStore(e)}} className={styles.buttonNav}>
+                <button onClick={(e) => {return productCategory(e)}} value='FEMALE' className={styles.buttonNav}>Woman</button>
+
+                <button onClick={(e) => {return resetStore(e)}} className={styles.buttonNav}>
                     <span>All products</span>
                 </button>
 
