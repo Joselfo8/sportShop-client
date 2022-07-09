@@ -6,6 +6,7 @@ import { cleanStore, getProducts, getProductsByName, getProductsWomen, getProduc
 import styles from './NavBar.module.scss';
 import cart from '../../assets/cart.png';
 import user from '../../assets/user.png';
+import lens from '../../assets/lupa.png'
 import heart from '../../assets/corazonVacio.png'
 
 export default function NavBar(){
@@ -45,36 +46,55 @@ export default function NavBar(){
 
 
             <div>
-                <button onClick={(e) => {return menProducts(e)}}>Man</button>
 
-                <button onClick={(e) => {return womenProducts(e)}}>Woman</button>
+                <button onClick={(e) => {return menProducts(e)}} className={styles.buttonNav}>
+                    <span>Man</span>
+                </button>
+                <button onClick={(e) => {return womenProducts(e)}} className={styles.buttonNav}>
+                    <span>Woman</span>
+                </button>
+                <button onClick={(e) => {return resetStore(e)}} className={styles.buttonNav}>
+                    <span>All products</span>
+                </button>
 
-                <button onClick={(e) => {return resetStore(e)}}>All products</button>
             </div>
 
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <input
-                    type="text"
-                    name="searchProducts"
-                    id="searchProducts"
-                    placeholder='Search by products...'
-                    onChange={(e) => handleChange(e.target.value)}
-                />
-                <button type="submit">Search</button>
-            </form>
 
-           
-            <div>
+
+
+
+            <div className={styles.orderIcons}>
+
+                <div className={styles.bodySearch}>
+                    <form  onSubmit={(e) => handleSubmit(e)}>
+                        <input
+                            className={styles.search}
+                            name="search"
+                            type="text"
+                            placeholder="Search"
+                            id="searchProducts"
+                            onChange={(e) => handleChange(e.target.value)}
+                        />
+                    </form>
+                    <img src={lens} className={styles.search_submit}/>
+                </div>
+
                 <Link to='/login'>
                     <img src={user} className={styles.cart}/>
                 </Link>
+
                 <Link to='favorites'>
                     <img src={heart} className={styles.heart}/>
                 </Link>
+
                 <Link to='/cart'>
                     <img src={cart} className={styles.cart}/>
                 </Link>
+
             </div>
+
+
+
 
         </div>
     );

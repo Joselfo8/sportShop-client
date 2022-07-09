@@ -4,7 +4,10 @@
     align-items: center;
     justify-content: space-around;
     height: 60px;
+    border-bottom: 1px solid rgb(0, 0, 0);
 }
+
+
 
 .logo{
     width: 50px;
@@ -17,4 +20,100 @@
 .cart{
     width: 25px;
     height: 25px;
+}
+
+.bodySearch{
+    position: absolute;
+}
+
+.search{
+    height: 25px;
+    font-size: 15px;
+    display: inline-block;
+    font-weight: 100;
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    padding: 3px;
+    padding-right: 60px;
+    width: 0px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    z-index: 3;
+    transition: width .4s cubic-bezier(0.000, 0.795, 1.000, 1.000);
+    cursor: pointer;
+}
+
+.search:focus {
+    width: 200px;
+    z-index: 1;
+    border-bottom: 1px solid rgb(0, 0, 0);
+    cursor: text;
+}
+
+.search_submit{
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    text-indent: -10000px;
+    border: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    cursor: pointer;
+    cursor: pointer;
+}
+
+// Button NavBar
+
+.buttonNav {
+    width: 130px;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+.buttonNav {
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+.buttonNav:hover {
+    background: transparent;
+    color: #000;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+.buttonNav:before,
+.buttonNav:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #000;
+    transition:400ms ease all;
+}
+.buttonNav:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+.buttonNav:hover:before,
+.buttonNav:hover:after{
+    width:100%;
+    transition:800ms ease all;
 }
