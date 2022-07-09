@@ -20,11 +20,15 @@
 require("dotenv").config();
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
-const { PORT } = process.env;
+const { PORT, NODE_ENV } = process.env;
 // Syncing all the models at once.
 conn.sync({ alter: true }).then(() => {
-  console.log("Database synced successfully");
+  if (NODE_ENV === "development") {
+    console.log("LOCAL database synced");
+  } else if (NODE_ENV === "production") {
+    console.log("REMOTE database synced");
+  }
   server.listen(PORT, () => {
-    console.log("server up on : http://localhost:" + PORT); // eslint-disable-line no-console
+    console.log("server up on : http://localhost:" + PORT);
   });
 });
