@@ -28,7 +28,6 @@
 /* ShippingAddress */
 
 .ship-li {
-  background-color: rgba(0, 0, 0, 0.5);
   border-left: 0.3rem solid var(--bg);
   padding: 0.8rem 3rem 0.8rem 1rem;
   width: fit-content;
@@ -45,6 +44,7 @@
 }
 
 .shipping-form {
+  padding-bottom: 1rem;
   display: flex;
   flex-wrap: wrap;
 }
