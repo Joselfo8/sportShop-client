@@ -30,17 +30,12 @@ function rootReducer(state = initialState, action: any){
                 productsFiltered: filter
             }
 
-        case "GET_MEN":
+        case "GET_BY_CATEGORY":
             return{
                 ...state,
                 productsFiltered:action.payload,
             }
 
-        case "GET_WOMEN":
-            return{
-                ...state,
-                productsFiltered:action.payload,
-            }
 
         case "CLEAN_STORE":
             console.log("desde CLEAN_STORE")
