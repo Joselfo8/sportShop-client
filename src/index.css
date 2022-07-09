@@ -45,6 +45,8 @@ html {
   --2xl: 1536px;
 }
 
+/* palettes */
+
 .primary {
   --bg: rgba(255, 71, 87, 1);
   --text: rgba(47, 53, 66, 1);
@@ -68,6 +70,18 @@ html {
 .dark {
   --bg: rgba(47, 53, 66, 1);
   --text: rgba(241, 242, 246, 1);
+}
+
+/* transitions */
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 body {
