@@ -1,6 +1,6 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
-
+//recordar user_name
 function getUser(id_user) {
   let p = new Promise(async (resolve, reject) => {
     try {
@@ -35,6 +35,7 @@ function postUser(name, username, password) {
       if (!user) {
         return reject("User not created");
       }
+      await user.createShopping_list({product_list: []});
       return resolve(user);
     } catch (error) {
       console.log(error);
