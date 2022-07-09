@@ -58,7 +58,6 @@ const postProduct = async (req, res) => {
 
     if (!image) return res.send({ msg: "image is required" });
     image = atob(image);
-    console.log(image);
     await cloudinary.uploader.upload(image, async (err, result) => {
       if (err) return res.send({ msg: "image is invalid(Cloudinary)" });
       image = result.url;
@@ -80,7 +79,7 @@ const postProduct = async (req, res) => {
       image,
     });
 
-    return res.status(201).send({
+    return res.status(201).json({
       msg: `product ${product.title} added to the DB`,
       product: product,
     });
