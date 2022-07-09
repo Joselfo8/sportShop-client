@@ -42,14 +42,17 @@ export default function NavBar(){
 
 
             <div>
+                <Link to='/home'>
+                    <button onClick={(e) => {return productCategory(e)}} value='MALE' className={styles.buttonNav}>Man</button>
+                </Link>
+                <Link to='/home'>
+                    <button onClick={(e) => {return productCategory(e)}} value='FEMALE' className={styles.buttonNav}>Woman</button>
+                </Link>
+                <Link to='/home'>
+                    <button onClick={(e) => {return resetStore(e)}} className={styles.buttonNav}>All Products</button>
+                </Link>
 
-                <button onClick={(e) => {return productCategory(e)}} value='MALE'>Man</button>
 
-                <button onClick={(e) => {return productCategory(e)}} value='FEMALE'>Woman</button>
-                
-                  <button onClick={(e) => {return resetStore(e)}} className={styles.buttonNav}>
-                    <span>All products</span>
-                </button>
 
 
             </div>
