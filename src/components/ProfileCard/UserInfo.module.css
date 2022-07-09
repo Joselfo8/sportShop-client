@@ -21,13 +21,14 @@
   display: block;
 }
 
-.form {
+.info-wrapper {
   margin: 1.5rem 0;
 }
 
-/* ShippingAddress */
+/* Address */
 
 .ship-li {
+  position: relative;
   border-left: 0.3rem solid var(--bg);
   padding: 0.8rem 3rem 0.8rem 1rem;
   width: fit-content;
@@ -43,10 +44,38 @@
   display: block;
 }
 
-.shipping-form {
+.address-wrapper {
   padding-bottom: 1rem;
   display: flex;
   flex-wrap: wrap;
+}
+
+.address-buttons {
+  margin-top: 0.3rem;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  place-content: center;
+}
+
+.address-buttons span {
+  background-color: var(--bg);
+  color: var(--text);
+  border: none;
+  padding: 0.3rem 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  place-content: center;
+}
+
+.address-buttons span svg {
+  width: 1rem;
+  height: 1rem;
 }
 
 /* UpdateForm */

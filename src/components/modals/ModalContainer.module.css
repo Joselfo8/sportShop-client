@@ -4,6 +4,7 @@
   height: 100%;
   padding: 4rem 0;
   transition-duration: 300ms;
+  inset: 0;
   position: fixed;  
   top: 0;
   right: 0;
@@ -12,7 +13,7 @@
 }
 
 .modal-content {
-  background: grey;
+  background: var(--bg);
   border-radius: 0.2rem;
   box-shadow: var(--shadow-md);
   width: fit-content;
@@ -50,5 +51,3 @@
   width: 1.2rem;
   height: 1.5rem;
 }
-
-/* "fixed top-0 right-0 z-50 w-full h-full py-12 overflow-auto bg-black/60 md:inset-0 transition-all duration-300 ease-in-out"; */
