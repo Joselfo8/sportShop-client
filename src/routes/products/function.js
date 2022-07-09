@@ -56,12 +56,13 @@ const postProduct = async (req, res) => {
     if (!product_care) return res.send({ msg: "product_care is required" });
     product_care = product_care.trim();
 
-    if (!image) return res.send({ msg: "image is required" });
-    image = atob(image);
-    await cloudinary.uploader.upload(image, async (err, result) => {
-      if (err) return res.send({ msg: "image is invalid(Cloudinary)" });
-      image = result.url;
-    });
+    if (image) {
+      image = atob(image);
+      await cloudinary.uploader.upload(image, async (err, result) => {
+        if (err) return res.send({ msg: "image is invalid(Cloudinary)" });
+        image = result.url;
+      });
+    }
 
     ///valida que el producto no exista en la base de datos
     const productExists = await Product.findOne({ where: { title: title } });
@@ -92,7 +93,7 @@ const postProduct = async (req, res) => {
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    const { title, category, subCategory } = req.query;
+    const { title, category, subCategory, pag } = req.query;
 
     let filter = await Product.findAll();
 
@@ -113,6 +114,15 @@ const getProductByName = async (req, res, next) => {
       filter = filter.filter(
         (e) => e.subCategory.toLowerCase() === subCategory.toLowerCase()
       );
+
+    //pagination
+    if (pag) {
+      let page = parseInt(pag);
+      if (Number.isNaN(page)) return res.send({ msg: "page must be a number" });
+      page = page - 1;
+      if (page < 0) pag = 0;
+      filter = filter.slice(page * 6, (page + 1) * 6);
+    }
 
     return res.status(200).json(filter);
   } catch (e) {
