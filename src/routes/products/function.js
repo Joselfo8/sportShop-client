@@ -56,12 +56,13 @@ const postProduct = async (req, res) => {
     if (!product_care) return res.send({ msg: "product_care is required" });
     product_care = product_care.trim();
 
-    if (!image) return res.send({ msg: "image is required" });
-    image = atob(image);
-    await cloudinary.uploader.upload(image, async (err, result) => {
-      if (err) return res.send({ msg: "image is invalid(Cloudinary)" });
-      image = result.url;
-    });
+    if (image) {
+      image = atob(image);
+      await cloudinary.uploader.upload(image, async (err, result) => {
+        if (err) return res.send({ msg: "image is invalid(Cloudinary)" });
+        image = result.url;
+      });
+    }
 
     ///valida que el producto no exista en la base de datos
     const productExists = await Product.findOne({ where: { title: title } });
