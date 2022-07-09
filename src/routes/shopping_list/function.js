@@ -1,44 +1,89 @@
-const { User, Shopping_list } = require("../../db")
+const { User, Shopping_list, Product } = require("../../db")
 
-const getItemByUser = async (req, res) => {
+const get_item = async (req, res) => {
     try {
-        const {id} = req.params;
-        //res.send("<h1>get getItemByUser<h1>"+id);
-       const user = await User.findOne({where: {id}});
-        //console.log(user);
-         if(!user){
-             return res.status(404).json({msg:"User not found"});}
-             //return res.status(200).json(user.dataValues);
-       const Items = await Shopping_list.findAll({          
-                    where: { userId: id },     
-        })
-        console.log(Items);
-        return res.status(200).json(Items);
-        /* const from_db = Items.map((e) => {
+        const { user_id } = req.query
+        const user = await User.findOne({ where: { id: user_id } });
+        //console.log(user.dataValues);
+        const list = await user.getShopping_list()
+        const products = await list.getProducts()
+        const productos=products.map((e) => {
             return {
-                id: e.id,
+                productId: e.id,
                 title: e.title,
                 price: e.price,
-                description: e.description,
-                product_category: e.product_category,
-                product_subCategory: e.product_subCategory,
-                product_care: e.product_care,
                 image: e.image,
-            };
-        }); */ 
-
-
+                shoppingListId: e.user_shopping.shoppingListId,
+                
+            }
+        })
+        res.send(productos)
+        
     }
+
     catch (e) {
         console.log(e);
     }
 }
 
-const putItem = async (req, res) => {
-    res.send("<h1>put putItem<h1>");
-}
-const deleteItem = async (req, res) => {
-    res.send("<h1>delete deleteItem<h1>");
+// resivo id del item a borrar
+const delete_item = async (req, res) => {
+    try {
+        const { product_id } = req.query;
+        const { user_id } = req.query;
+        let user = await User.findOne({ where: { id: user_id } })
+        const list = await user.getShopping_list();
+        const product_to_delete = await Product.findOne({where:{id:product_id}}) 
+        const new_list =  await list.removeProduct(product_to_delete)
+        res.status(201).send("product removed successfully"); 
+    }
+    catch (e) {
+        res.send(e);
+    }
 }
 
-module.exports = { getItemByUser, putItem, deleteItem };
+const destroy_trolly = async(req,res)=>{
+    try{
+    const {user_id}= req.query
+    const user = await User.findOne({where:{id:user_id}});
+    const trolly = await user.getShopping_list()
+    await trolly.setProducts([])
+    res.status(201).send('the trolly has ben descarted')
+    }
+    catch(e){
+        res.send(e);
+    }
+
+}
+
+
+const add_item = async (req, res) => {
+    //res.send("<h1>put putItem<h1>");
+    const { user_id } = req.query;
+    const { product_id } = req.query;
+    try {
+        const user = await User.findOne({ where: { id: user_id } });
+        const item_to_add = await Product.findOne({ where: { id: product_id } });
+        const list = await user.getShopping_list();
+        //console.log(list);
+        await list.addProduct(item_to_add)
+        const new_list = await list.getProducts();
+        const final_list=new_list.map((e) => {
+            return {
+                productId: e.id,
+                title: e.title,
+                price: e.price,
+                image: e.image,
+                shoppingListId: e.user_shopping.shoppingListId,
+                
+            }
+        })
+        res.send(final_list)
+    }
+    catch (e) {
+        console.log(e);
+    }
+
+}
+
+module.exports = {  get_item, delete_item,destroy_trolly, add_item };
