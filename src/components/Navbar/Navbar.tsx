@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
-import { cleanStore, getProducts, getProductsByName, getProductsWomen, getProductsMen } from '../../redux/action';
+import { cleanStore, getProducts, getProductsByName, getProductsByCategory } from '../../redux/action';
 import styles from './NavBar.module.scss';
 import cart from '../../assets/cart.png';
 import user from '../../assets/user.png';
@@ -27,12 +27,8 @@ export default function NavBar(){
         dispatch(cleanStore(event))
     }
 
-    function womenProducts(event: any) {
-        dispatch(getProductsWomen());
-    }
-
-    function menProducts(event: any) {
-        dispatch(getProductsMen());
+    function productCategory(event: any) {
+        dispatch(getProductsByCategory(event.target.value));
     }
 
 
@@ -45,9 +41,9 @@ export default function NavBar(){
 
 
             <div>
-                <button onClick={(e) => {return menProducts(e)}}>Man</button>
+                <button onClick={(e) => {return productCategory(e)}} value='MALE'>Man</button>
 
-                <button onClick={(e) => {return womenProducts(e)}}>Woman</button>
+                <button onClick={(e) => {return productCategory(e)}} value='FEMALE'>Woman</button>
 
                 <button onClick={(e) => {return resetStore(e)}}>All products</button>
             </div>
