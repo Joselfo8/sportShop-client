@@ -1,12 +1,16 @@
 const router = require("express").Router();
 
-const {getItemByUser, putItem, deleteItem }=require("./function")
+const {get_item, /*put_item,*/ delete_item,destroy_trolly, add_item }= require("./function")
 
-router.get("/:id", getItemByUser);
+router.get("", get_item);
 
-router.put("/", putItem);
+router.post("",add_item);
 
-router.delete("/", deleteItem);
+router.delete("", delete_item);
+
+router.delete("/all",destroy_trolly);
+
+
 
 
 
