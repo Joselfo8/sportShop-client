@@ -93,7 +93,7 @@ const postProduct = async (req, res) => {
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    const { title, category, subCategory } = req.query;
+    const { title, category, subCategory, pag } = req.query;
 
     let filter = await Product.findAll();
 
@@ -114,6 +114,15 @@ const getProductByName = async (req, res, next) => {
       filter = filter.filter(
         (e) => e.subCategory.toLowerCase() === subCategory.toLowerCase()
       );
+
+    //pagination
+    if (pag) {
+      let page = parseInt(pag);
+      if (Number.isNaN(page)) return res.send({ msg: "page must be a number" });
+      page = page - 1;
+      if (page < 0) pag = 0;
+      filter = filter.slice(page * 6, (page + 1) * 6);
+    }
 
     return res.status(200).json(filter);
   } catch (e) {
