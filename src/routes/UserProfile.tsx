@@ -35,7 +35,7 @@ function UserProfile() {
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
         <Sidebar getSelected={setSelectedTab} />
-        <ProfileCard />
+        <ProfileCard selected={selectedTab} />
       </div>
     </div>
   );

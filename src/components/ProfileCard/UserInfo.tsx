@@ -2,6 +2,7 @@ import { useState } from "react";
 // Components
 import EditLabel from "../EditLabel";
 import ModalContainer from "../modals/ModalContainer";
+import ProfileCard from "./ProfileCard";
 // Icons
 import { ReactComponent as ErrorIcon } from "../../icons/error-icon.svg";
 import { ReactComponent as EditIcon } from "../../icons/edit-pen-icon.svg";
