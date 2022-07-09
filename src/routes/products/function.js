@@ -1,4 +1,12 @@
-//const { where } = require("sequelize/types")
+require("dotenv").config();
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
+
 const { Product } = require("../../db");
 
 const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
@@ -47,6 +55,14 @@ const postProduct = async (req, res) => {
 
     if (!product_care) return res.send({ msg: "product_care is required" });
     product_care = product_care.trim();
+
+    if (!image) return res.send({ msg: "image is required" });
+    image = atob(image);
+    console.log(image);
+    await cloudinary.uploader.upload(image, async (err, result) => {
+      if (err) return res.send({ msg: "image is invalid(Cloudinary)" });
+      image = result.url;
+    });
 
     ///valida que el producto no exista en la base de datos
     const productExists = await Product.findOne({ where: { title: title } });
