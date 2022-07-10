@@ -19,6 +19,7 @@ const postProduct = async (req, res) => {
   try {
     //validaciones a todos los campos
     if (price) {
+
       price = parseInt(price);
 
       if (Number.isNaN(price))
@@ -68,9 +69,19 @@ const postProduct = async (req, res) => {
       msg: `product ${product.title} added to the DB`,
       product: product,
     });
-  } catch (e) {
+  } /* catch (e) {
     console.log(e);
     res.send({ msg: "failed to created" });
+  } */
+  catch (err) {
+    if (err.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        success: false,
+        msg: err.errors.map(e => e.message)
+      })
+    } else {
+      next(new ErrorResponse(`Sorry, could not save ${req.body.title}`, 404))
+    }
   }
 };
 
