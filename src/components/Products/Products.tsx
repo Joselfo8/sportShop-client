@@ -1,21 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllJSDocTagsOfKind } from 'typescript';
 import { getProducts } from '../../redux/action';
 import Card from '../Card/Card';
 import NavBar from '../Navbar/Navbar';
 import style from './Products.module.scss'
+import Filter from '../Filter/Filter';
 
 export default function Products() {
 
     const dispatch = useDispatch();
+    
+
     const state = useSelector((state: any) => state); 
 
     useEffect(() => {
         dispatch(getProducts())
     },[dispatch]);
 
+    
     const render = {
+        
         allProducts: 
             state.products.length === 0
             ?   <div>
@@ -49,7 +54,9 @@ export default function Products() {
     
 
     return (
+        
         <div className={style.cardContainer}>
+            
             {
                 state.productsFiltered.length === 0 ? render.allProducts : render.searchProducts
             }

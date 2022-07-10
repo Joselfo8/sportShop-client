@@ -67,4 +67,11 @@ export function cleanStore(payload: any){
 };
 
 
+export const orderByPrice = (payload:any) =>  (dispatch:any) => {
+    // console.log(payload)
+    return dispatch({type: "ORDER_BY_PRICE", payload})
+    
+  }
+
+
 
