@@ -53,7 +53,7 @@ let sizes:string[]=['s','m','l','xl']
 export default function Details(){
   
     const dispatch = useDispatch()
-    const productDetail: Detail = useSelector((state:any) => state.details)
+    const productDetail: any = useSelector((state:any) => state.details)
     const params = useParams()
    
 
@@ -119,8 +119,8 @@ export default function Details(){
           <img src={productDetail.image} alt='Not found'/>
           {/* <h2>Detalle del producto</h2>
           <p> Texto de detallle </p> */}
-          {/* <h2>Cuidados</h2>
-          <p> Texto de cuidados </p> */}
+          <h2 >Cuidados</h2>
+          <p> {productDetail['product_care']} </p>
         </div>
 
 
@@ -133,7 +133,7 @@ export default function Details(){
               <FaStar color={raitingValue <= rate ? '#000':'#e4e5e9'}  size={15}/>
             )})
           }
-          {/* <span>({productDetail?['rating_count']})</span> */}
+          <span>({productDetail['rating_count']})</span>
           
           <h1>{productDetail.title}</h1>
           <p className={styles.price}>${productDetail.price}</p>

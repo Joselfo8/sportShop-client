@@ -23,6 +23,17 @@ $font: 'Open Sanz Extra Bold';
         transform: scale(1.1);
         cursor: zoom-in;
     }
+
+    h2 {
+        font-family: $font;
+        margin-top: 50px;
+        margin-left: 50px;
+    }
+
+    p {
+        font-family: $font;
+        margin-left: 50px;
+    }
 }
 
 .col2{
@@ -124,6 +135,7 @@ $font: 'Open Sanz Extra Bold';
     .description {
         font-family: $font;
     }
+
 }
 
 

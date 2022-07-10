@@ -44,6 +44,24 @@ function rootReducer(state = initialState, action: any){
                 productsFiltered: [],
             }
 
+        case "ORDER_BY_PRICE":
+            console.log(action.payload)
+            let byPrice = 
+            (action.payload === 'minToMax') 
+            ? state.products.sort((a:any,b:any)=>{
+                return a.price - b.price
+              })
+              : state.products.sort((a:any,b:any)=>{
+                return b.price - a.price
+              }) 
+
+
+              console.log(byPrice)
+          return {
+            ...state,
+            products: byPrice
+          }
+
         default:
             return state;
     };
