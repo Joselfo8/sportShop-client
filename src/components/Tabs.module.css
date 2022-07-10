@@ -1,0 +1,30 @@
+.container {
+  /* color: var(--text); */
+  display: flex;
+  flex-direction: column;
+}
+
+.tab {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border-left: 0.25rem solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.tab:hover {
+  border-left: 0.25rem solid grey;
+}
+
+.tab-active {
+  border-left: 0.25rem solid var(--bg);
+  position: relative;
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--bg-rgb), 0.12),
+    rgba(var(--bg-rgb), 0.08)
+  );
+}
+
+.tab-active:hover {
+  border-left: 0.25rem solid var(--bg);
+}
