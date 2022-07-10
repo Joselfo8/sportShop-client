@@ -6,6 +6,7 @@ const initialState: any = {
     products : [],
     productsFiltered : [],
     searchProducts: [],
+    productCart: [],
     details : {}
 };
 
@@ -15,6 +16,7 @@ function rootReducer(state = initialState, action: any){
             return{
                 ...state,
                 products: action.payload,
+                productCart: action.payload.slice(0, 3)
             }
 
         case "GET_DETAILS":
