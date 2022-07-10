@@ -1,0 +1,123 @@
+.bodyCart{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 40rem;
+}
+
+.centralice{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.half1{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 40rem;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+.buttonDelete{
+    height: 15px;
+    width: 15px;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+.buttonDelete:hover{
+    opacity: 0.4;
+}
+.info2{
+    display: flex;
+    height: 100px;
+    flex-direction: row;
+    justify-content: end;
+}
+
+
+
+
+.half2{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 20rem;
+    height: 15rem;
+    border: 1px solid black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.buttonCart {
+    width: 100%;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+.buttonCart {
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+.buttonCart:hover {
+    background: transparent;
+    color: #000;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+.buttonCart:before,
+.buttonCart:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #000;
+    transition:400ms ease all;
+}
+.buttonCart:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+.buttonCart:hover:before,
+.buttonCart:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}
