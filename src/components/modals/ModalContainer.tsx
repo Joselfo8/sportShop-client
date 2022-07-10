@@ -57,9 +57,9 @@ function ModalContainer({ show, onShow, children }: Props) {
 
   return (
     // Modal container
-    <div ref={containerRef} className={styles["container"]}>
+    <div ref={containerRef} className={`${styles["container"]} primary`}>
       {/* Modal content */}
-      <div className={styles["modal-content"]}>
+      <div className={`${styles["modal-content"]} secondary`}>
         <CloseButton onShow={onShow} />
         {children}
       </div>

@@ -2,24 +2,12 @@ import { useState } from "react";
 // Components
 import EditLabel from "../EditLabel";
 import ModalContainer from "../modals/ModalContainer";
-import ProfileCard from "./ProfileCard";
+import AddressEditor from "../modals/AddressEditor";
 // Icons
 import { ReactComponent as ErrorIcon } from "../../icons/error-icon.svg";
 import { ReactComponent as EditIcon } from "../../icons/edit-pen-icon.svg";
 // Styles
 import styles from "./UserInfo.module.css";
-
-// function UpdateForm() {
-//   return (
-//     <div className={styles["button-cont"]}>
-//       <button className={`${styles["submit-button"]} primary`}>
-//         Save changes
-//       </button>
-
-//       <span className={`${styles["cancel-button"]} primary`}>Cancel</span>
-//     </div>
-//   );
-// }
 
 interface AddressProps {
   data: {
@@ -28,7 +16,7 @@ interface AddressProps {
     secondAddress?: string;
     city: string;
     state: string;
-    zipCode: number;
+    zipCode: string;
     phone: string;
   };
   edit: boolean;
@@ -69,22 +57,20 @@ function Addresses() {
   const [info, setInfo] = useState<{
     name: string;
     address: string;
+    secondAddress?: string;
     city: string;
     state: string;
-    zipCode: number;
+    zipCode: string;
     phone: string;
   }>({
     name: "John Doe",
     address: "Plaza Commerce St 172",
+    secondAddress: "",
     city: "Dallas",
     state: "Texas",
-    zipCode: 33172,
+    zipCode: "33172",
     phone: "555-01023021",
   });
-
-  const handleSave = (val: string, key: string) => {
-    setInfo((prev) => ({ ...prev, [key]: val }));
-  };
 
   const handleDelete = (id: string) => console.log(id);
 
@@ -98,14 +84,7 @@ function Addresses() {
       </div>
       <div className={styles["address-wrapper"]}>
         <Address
-          data={{
-            name: "John Doe",
-            address: "Plaza Commerce St 172",
-            city: "Dallas",
-            state: "Texas",
-            zipCode: 33172,
-            phone: "555-01023021",
-          }}
+          data={info}
           edit={edit}
           id="first-address"
           onEdit={setShowModal}
@@ -114,19 +93,10 @@ function Addresses() {
       </div>
       {showModal && (
         <ModalContainer show={showModal} onShow={setShowModal}>
-          <Address
-            data={{
-              name: "John Doe",
-              address: "Plaza Commerce St 172",
-              city: "Dallas",
-              state: "Texas",
-              zipCode: 33172,
-              phone: "555-01023021",
-            }}
-            edit={edit}
-            id="first-address"
-            onEdit={setShowModal}
-            onDelete={handleDelete}
+          <AddressEditor
+            onClose={() => setShowModal(false)}
+            saveChange={(data) => setInfo(data)}
+            data={info}
           />
         </ModalContainer>
       )}
