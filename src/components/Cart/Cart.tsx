@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "../Navbar/Navbar";
 import deleteB from "../../assets/delete.png";
 import styles from "./Cart.module.scss";
@@ -6,9 +6,18 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Cart(){
-    const productCart = useSelector((state:any) => state.productCart);
+    const state = useSelector((state:any) => state.productCart);
+    const [productCart, setProductCart] = useState(state);
     let priceCart: number = 0;
     productCart.map((e: any) => priceCart = priceCart + e.price);
+
+
+    const deleteProduct = (e:any) =>{
+        setProductCart(
+            productCart.filter((product: any) => product.id !== e )
+        );
+    };
+
     return (
         <div className={styles.bodyCart}>
             <NavBar />
@@ -33,7 +42,7 @@ export default function Cart(){
                                 </div>
                                 <div className={styles.info2}>
                                     <div>PRICE:{e.price}</div>
-                                    <img src={deleteB} className={styles.buttonDelete}/>
+                                    <img src={deleteB} className={styles.buttonDelete} onClick={() => {deleteProduct(e.id)} }/>
                                 </div>
                             </div>
                         )
