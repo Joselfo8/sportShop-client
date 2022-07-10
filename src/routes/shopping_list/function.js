@@ -83,7 +83,9 @@ const add_item = async (req, res) => {
     catch (e) {
         console.log(e);
     }
-
 }
+//Falta get_items_by_user_id que devuelva
+//usuario_id, user_email, items_id, item_description,item_category
+// cantidad__por_Items_id, precio_por_item, Precio_total 
 
 module.exports = {  get_item, delete_item,destroy_trolly, add_item };
