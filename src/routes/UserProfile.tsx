@@ -32,11 +32,9 @@ function UserProfile() {
   const [selectedTab, setSelectedTab] = useState("");
 
   return (
-    <div className={`${styles["body"]} secondary`}>
-      <div className={styles["container"]}>
-        <Sidebar getSelected={setSelectedTab} />
-        <ProfileCard selected={selectedTab} />
-      </div>
+    <div className={`${styles["container"]} secondary`}>
+      <Sidebar getSelected={setSelectedTab} />
+      <ProfileCard selected={selectedTab} />
     </div>
   );
 }
