@@ -81,7 +81,7 @@ export default function NavBar(){
                     <img src={user} className={styles.cart}/>
                 </Link>
 
-                <Link to='favorites'>
+                <Link to='/favorites'>
                     <img src={heart} className={styles.heart}/>
                 </Link>
 
