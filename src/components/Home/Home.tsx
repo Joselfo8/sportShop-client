@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../redux/action';
 import Card from '../Card/Card';
 import Filter from '../Filter/Filter';
+import Footer from '../Footer/Footer';
 import NavBar from '../Navbar/Navbar';
 import Products from '../Products/Products';
+
 import styles from '../Filter/Filter.module.scss'
 
 export default function Home(){
@@ -22,6 +24,7 @@ export default function Home(){
                 <Filter/>
             </div>
             <Products/>
+            <Footer />
         </div>
     );
 };

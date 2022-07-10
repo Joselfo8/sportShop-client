@@ -12,6 +12,7 @@ import Shoes from "./components/Categories/Shoes";
 import Clothing from "./components/Categories/Clothing";
 import Accesories from "./components/Categories/accesories";
 import Products from './components/Products/Products';
+import About from "./components/About/About";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/clothing" element={<Clothing />} />
         <Route path="/accesories" element={<Accesories />} />
         <Route path='/products' element={<Products/>} />
+        <Route path="/about" element={<About/>}/>
       </Routes>
     </BrowserRouter>
   );
