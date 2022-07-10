@@ -52,16 +52,16 @@ function Orders() {
         <span className={styles["title"]}>Orders</span>
 
         <div className={styles["buttons"]}>
-          <label htmlFor="time-select">
+          <label htmlFor="select-time">
             See orders from:
-            <select id="time-select" className={styles["time-select"]}>
+            <select id="select-time">
               <option value="30">Last 30 Days</option>
               <option value="60">Last 60 Days</option>
             </select>
           </label>
-          <label htmlFor="page-select">
+          <label htmlFor="select-page">
             Show
-            <select id="page-select" className={styles["page-select"]}>
+            <select id="select-page">
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
