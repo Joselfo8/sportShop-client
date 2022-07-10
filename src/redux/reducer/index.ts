@@ -6,6 +6,7 @@ const initialState: any = {
     products : [],
     productsFiltered : [],
     searchProducts: [],
+    productCart: [],
     details : {}
 };
 
@@ -15,6 +16,7 @@ function rootReducer(state = initialState, action: any){
             return{
                 ...state,
                 products: action.payload,
+                productCart: action.payload.slice(0, 3)
             }
 
         case "GET_DETAILS":
@@ -30,17 +32,12 @@ function rootReducer(state = initialState, action: any){
                 productsFiltered: filter
             }
 
-        case "GET_MEN":
+        case "GET_BY_CATEGORY":
             return{
                 ...state,
                 productsFiltered:action.payload,
             }
 
-        case "GET_WOMEN":
-            return{
-                ...state,
-                productsFiltered:action.payload,
-            }
 
         case "CLEAN_STORE":
             console.log("desde CLEAN_STORE")
@@ -48,6 +45,24 @@ function rootReducer(state = initialState, action: any){
                 ...state,
                 productsFiltered: [],
             }
+
+        case "ORDER_BY_PRICE":
+            console.log(action.payload)
+            let byPrice = 
+            (action.payload === 'minToMax') 
+            ? state.products.sort((a:any,b:any)=>{
+                return a.price - b.price
+              })
+              : state.products.sort((a:any,b:any)=>{
+                return b.price - a.price
+              }) 
+
+
+              console.log(byPrice)
+          return {
+            ...state,
+            products: byPrice
+          }
 
         default:
             return state;

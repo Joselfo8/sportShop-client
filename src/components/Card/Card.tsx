@@ -3,7 +3,7 @@ import style from './Card.module.scss'
 
 export default function Card({key, id, image, title, price}: any){
     return(
-            <Link to={`/home/${id}`} key={key}>
+            <Link to={`/home/${id}`} key={key} style={{textDecoration:"none"}}>
                 <div className={style.card}>
                     <div >
                         <img className={style.flag} src={image} alt={title}/>

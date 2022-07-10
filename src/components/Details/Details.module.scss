@@ -1,0 +1,204 @@
+$font: 'Open Sanz Extra Bold';
+
+.gridLayout {
+    width: 100%;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 60% auto;
+    justify-content: flex-start;
+}
+
+.col1 {
+    
+    img {
+        height: 500px;
+        display: block;
+        padding-left: 180px;
+        padding-top: 20px;
+        object-fit: cover;
+        transition: 0.5s;
+    }
+
+    img:hover {
+        transform: scale(1.1);
+        cursor: zoom-in;
+    }
+
+    h2 {
+        font-family: $font;
+        margin-top: 50px;
+        margin-left: 50px;
+    }
+
+    p {
+        font-family: $font;
+        margin-left: 50px;
+    }
+}
+
+.col2{
+    
+    h1 {
+        font-size: 30px;
+        font-family: $font
+    }
+
+    span {
+        font-family: $font;
+        padding-left: 10px;
+        font-size: 15px;
+        
+    }
+
+    .containerSize {
+        max-width: 640px;
+        font-family: $font;
+        font-size: 13px;
+        display:inline-block;
+        padding-top: 10px;
+        padding-bottom: 25px;
+        
+        // label {
+        //     background-color: #fff;
+        //     border: 1.2px solid  ;
+        //     color: #383838;
+        //     border-radius: 25px;
+        //     width: 50px;
+        //     padding: 8px 12px;
+        //     cursor: pointer;
+        // }
+
+        // input[type="radio"] {
+        //     position: relative;
+        //     opacity: 0;
+            
+        // }
+        :hover {
+            background-color: #383838;;
+            color: #fff ;
+        }
+    }
+
+  
+
+
+    .price {
+        font-weight: 700;
+        font-size: 18px;
+        font-family: $font
+    }
+
+    .selectSize {
+        font-size: 25px;
+        text-transform: uppercase;
+        margin: 60px 0 10px;
+        font-family: $font
+    }
+
+    .cart {
+        display: inline-flex;
+        width: 200px;
+        border-radius: 10px;
+        background: none;
+        border: 1px solid #383838;
+        color: #383838;
+        font-family: $font;
+        font-size: 15px;
+        margin-bottom: 20px;
+        margin-top: 30px;
+        margin-right: 10px;
+        cursor: pointer;
+        padding: 5px;
+        justify-content: center;
+        align-items:center;
+
+        img {
+            width: 30px;
+            height: 30px;
+            align-items: center;
+            padding-right: 8px;
+        }
+        
+    }
+
+    .cart:hover {
+        background-color:#383838; ;
+        color: #fff ;
+    }
+   
+    .favorite {
+        border: 0;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .description {
+        font-family: $font;
+    }
+
+}
+
+
+
+
+
+.container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    display: inline-block;
+}
+ul{
+    margin-block-start: 20px;
+    margin-block-end: 1px;
+    padding-inline-start: 1px;
+}
+ul.ksCboxtags li{
+    display: inline;
+}
+ul.ksCboxtags li label{
+    background-color: rgba(255, 255, 255, .9);
+    border: 2px solid rgba(139, 139, 139, .3);
+    color: #adadad;
+    white-space: nowrap;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
+ul.ksCboxtags li label {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+ul.ksCboxtags li label::before {
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 6px 2px 2px;
+    transition: transform .3s ease-in-out;
+}
+ul.ksCboxtags li input[type="radio"]:checked + label::before {
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+ul.ksCboxtags li input[type="radio"]:checked + label {
+    border: 2px solid #000000;
+    background-color: #000000;
+    color: #fff;
+    transition: all .2s;
+}
+ul.ksCboxtags li input[type="radio"] {
+    padding: -10;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+ul.ksCboxtags li input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+

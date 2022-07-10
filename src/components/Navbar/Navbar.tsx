@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
-import { cleanStore, getProducts, getProductsByName, getProductsWomen, getProductsMen } from '../../redux/action';
+import { cleanStore, getProducts, getProductsByName, getProductsByCategory } from '../../redux/action';
 import styles from './NavBar.module.scss';
 import cart from '../../assets/cart.png';
 import user from '../../assets/user.png';
+import lens from '../../assets/lupa.png'
 import heart from '../../assets/corazonVacio.png'
 
 export default function NavBar(){
@@ -27,12 +28,8 @@ export default function NavBar(){
         dispatch(cleanStore(event))
     }
 
-    function womenProducts(event: any) {
-        dispatch(getProductsWomen());
-    }
-
-    function menProducts(event: any) {
-        dispatch(getProductsMen());
+    function productCategory(event: any) {
+        dispatch(getProductsByCategory(event.target.value));
     }
 
 
@@ -45,36 +42,57 @@ export default function NavBar(){
 
 
             <div>
-                <button onClick={(e) => {return menProducts(e)}}>Man</button>
+                <Link to='/home'>
+                    <button onClick={(e) => {return productCategory(e)}} value='MALE' className={styles.buttonNav}>Man</button>
+                </Link>
+                <Link to='/home'>
+                    <button onClick={(e) => {return productCategory(e)}} value='FEMALE' className={styles.buttonNav}>Woman</button>
+                </Link>
+                <Link to='/home'>
+                    <button onClick={(e) => {return resetStore(e)}} className={styles.buttonNav}>All Products</button>
+                </Link>
 
-                <button onClick={(e) => {return womenProducts(e)}}>Woman</button>
 
-                <button onClick={(e) => {return resetStore(e)}}>All products</button>
+
+
             </div>
 
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <input
-                    type="text"
-                    name="searchProducts"
-                    id="searchProducts"
-                    placeholder='Search by products...'
-                    onChange={(e) => handleChange(e.target.value)}
-                />
-                <button type="submit">Search</button>
-            </form>
 
-           
-            <div>
+
+
+
+            <div className={styles.orderIcons}>
+
+                <div className={styles.bodySearch}>
+                    <form  onSubmit={(e) => handleSubmit(e)}>
+                        <input
+                            className={styles.search}
+                            name="search"
+                            type="text"
+                            placeholder="Search"
+                            id="searchProducts"
+                            onChange={(e) => handleChange(e.target.value)}
+                        />
+                    </form>
+                    <img src={lens} className={styles.search_submit}/>
+                </div>
+
                 <Link to='/login'>
                     <img src={user} className={styles.cart}/>
                 </Link>
-                <Link to='favorites'>
+
+                <Link to='/favorites'>
                     <img src={heart} className={styles.heart}/>
                 </Link>
+
                 <Link to='/cart'>
                     <img src={cart} className={styles.cart}/>
                 </Link>
+
             </div>
+
+
+
 
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProductsWomen } from "../../redux/action";
+import {  } from "../../redux/action";
 import Card from "../Card/Card";
 import NavBar from "../Navbar/Navbar";
 
@@ -10,7 +10,6 @@ export default function(){
     const productsWomen = useSelector((state : any) => state.productsFiltered);
 
     useEffect(() => {
-        dispatch(getProductsWomen());
     }, [])
 
     return(

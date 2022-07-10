@@ -1,0 +1,31 @@
+$font: 'Open Sanz Extra Bold';
+
+
+.container {
+   display: flex;
+   justify-content: flex-end;
+   margin-right: 60px;
+   margin-top: 20px;
+   margin-bottom: 10px;
+
+   select {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    font-family: $font;
+    background-color: #111111;
+    padding: 5px;
+    padding-right: 5px;
+    border: solid 1px;
+    border-radius: 10px;
+    margin-left: 25px;
+    cursor: pointer;
+    transition: 0.5s;
+    }
+
+    select:hover {
+        color: #ffffff;
+        background-color: #3d3d3d;
+
+    }
+}

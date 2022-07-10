@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
-// import { getAllJSDocTagsOfKind } from "typescript";
-// Store
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllJSDocTagsOfKind } from "typescript";
 import { getProducts } from "../../redux/action";
 // Components
 import Card from "../Card/Card";
+import NavBar from "../Navbar/Navbar";
+import Filter from "../Filter/Filter";
 import Pagination from "../Pagination";
-// import NavBar from "../Navbar/Navbar";
+// Style
 import style from "./Products.module.scss";
 
 export default function Products() {

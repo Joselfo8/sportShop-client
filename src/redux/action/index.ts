@@ -7,7 +7,7 @@ import {
 export function getProducts(){
     try{
         return async function name(dispatch: any) {
-            let json: any = await axios.get('https://fakestoreapi.com/products?limit=10');
+            let json: any = await axios.get('https://vlixes-server.herokuapp.com/products');
             return dispatch({
                 type: "GET_PRODUCTS",
                 payload: json.data
@@ -20,7 +20,7 @@ export function getProducts(){
 
 export const getDetails = (id: any) => async (dispatch: any) => {
     try {
-        const json: any = await axios.get(`https://fakestoreapi.com/products/${id}`)
+        const json: any = await axios.get(`https://vlixes-server.herokuapp.com/products/${id}`)
         return dispatch({
             type: "GET_DETAILS",
             payload: json.data
@@ -45,26 +45,12 @@ export function getProductsByName(name: any){
     };
 };
 
-export function getProductsMen(){
+export function getProductsByCategory(event: any){
     try{
         return async function name(dispatch: any) {
-            let json: any = await axios.get(`https://fakestoreapi.com/products/category/men's%20clothing`);
+            let json: any = await axios.get(`https://vlixes-server.herokuapp.com/products?category=${event}`);
             return dispatch({
-                type: "GET_MEN",
-                payload: json.data
-            });
-        };
-    }catch(error){
-        console.log(error);
-    };
-};
-
-export function getProductsWomen(){
-    try{
-        return async function name(dispatch: any) {
-            let json: any = await axios.get(`https://fakestoreapi.com/products/category/women's%20clothing`);
-            return dispatch({
-                type: "GET_WOMEN",
+                type: "GET_BY_CATEGORY",
                 payload: json.data
             });
         };
@@ -79,6 +65,13 @@ export function cleanStore(payload: any){
         payload
     };
 };
+
+
+export const orderByPrice = (payload:any) =>  (dispatch:any) => {
+    // console.log(payload)
+    return dispatch({type: "ORDER_BY_PRICE", payload})
+    
+  }
 
 
 

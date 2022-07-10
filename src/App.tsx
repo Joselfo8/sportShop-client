@@ -13,6 +13,7 @@ import Clothing from "./components/Categories/Clothing";
 import Accesories from "./components/Categories/accesories";
 import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
+import About from "./components/About/About";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/accesories" element={<Accesories />} />
         <Route path="/products" element={<Products />} />
         <Route path="/user/profile" element={<UserProfile />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
   );
