@@ -1,5 +1,6 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
+const {compare}= require('../../helpers/handleBcrypt');
 //recordar user_name
 function getUser(id_user) {
   let p = new Promise(async (resolve, reject) => {
@@ -22,8 +23,10 @@ function getUser(id_user) {
 }
 
 function postUser(name, email, password) {
-  let person = new Promise(async (resolve, reject) => {
+  console.log(name, email, password);
+  let p = new Promise(async (resolve, reject) => {
     try {
+      //console.log(person)
       if (!name || !email || !password) {
         return reject("all information is required");
       }
@@ -31,7 +34,7 @@ function postUser(name, email, password) {
       if (userexist) {
         return reject("email already exist");
       }
-      let user = await User.create({ name, email, password });
+      let user = await User.create({ name, email, password }); /** */
       if (!user) {
         return reject("User not created");
       }
@@ -54,7 +57,7 @@ function postUser(name, email, password) {
     }
   });
 
-  return person;
+  return p;
 }
 
 function deleteUser(id) {
@@ -139,11 +142,12 @@ function loginUser(email, password) {
         });
       }
       let user = await User.findOne({
-        where: { email: email, password: password },
+        where: { email: email},
       });
-      if (!user) {
+      const acertijo = compare(user.name, user.email, user.password);
+      if (acertijo===false) {
         return resolve({
-          msg: "the email or password are incorrets",
+          msg: "the email incorret or the password is incorrect or the user does not exist",
           access: false,
         });
       }
