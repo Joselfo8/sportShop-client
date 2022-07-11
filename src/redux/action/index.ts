@@ -16,6 +16,7 @@ export function getProducts(){
         };
     }catch(error){
         console.log(error);
+        return alert('Product not found!');
     };
 };
 

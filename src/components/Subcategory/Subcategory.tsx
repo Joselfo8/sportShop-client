@@ -52,7 +52,7 @@ export default function Subcategory(){
                             <h1 style={{textAlign: "center", fontSize:"50px"}}>Footwear</h1>
                         </div>
 
-                        <Link onClick={() => filter("footwear")} to='/products' style={{textDecoration:"none"}}>
+                        <Link onClick={() => filter("FOOTWEAR")} to='/products' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>
@@ -72,7 +72,7 @@ export default function Subcategory(){
                         </div>
 
                         {/* cambiar PANT por clothes */}
-                        <Link onClick={() => filter("pant")}  to='/products' style={{textDecoration:"none"}}>
+                        <Link onClick={() => filter("PANT")}  to='/products' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>
