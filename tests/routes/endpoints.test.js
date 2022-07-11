@@ -22,7 +22,7 @@ describe("database", () => {
   it("should create a user", async () => {
     const user = {
       name: "test",
-      username: "test",
+      email: "test",
       password: "test",
       email: "test@test.com",
     };

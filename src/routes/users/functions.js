@@ -1,5 +1,6 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
+const {compare}= require('../../helpers/handleBcrypt');
 //recordar user_name
 function getUser(id_user) {
   let p = new Promise(async (resolve, reject) => {
@@ -20,6 +21,7 @@ function getUser(id_user) {
 
   return p;
 }
+
 
 async function postUser(req, res) {
   try {
@@ -63,6 +65,7 @@ async function postUser(req, res) {
   } catch (error) {
     res.status(200).json({ msg: "Failed to create user" });
   }
+
 }
 
 async function deleteUser(req, res) {
@@ -81,6 +84,7 @@ async function deleteUser(req, res) {
     res.json(error);
   }
 }
+
 
 async function putUser(req, res) {
   const {
@@ -114,40 +118,25 @@ async function putUser(req, res) {
     let usuarioExiste = await User.findOne({ where: { username: username } });
     if (usuarioExiste) {
       return res.status(200).json({ msg: "Username already exists" });
-    }
-    user.username = username;
-  }
-  if (password) {
-    user.password = password;
-  }
-  if (email) {
-    user.email = email;
-  }
-  if (dateOfBirth) {
-    user.dateOfBirth = dateOfBirth;
-  }
-  if (direction) {
-    user.direction = direction;
-  }
-  user.save();
-  return res.status(200).json({ msg: "User updated", user: user });
+
 }
 
-function loginUser(username, password) {
+function loginUser(email, password) {
   let p = new Promise(async (resolve, reject) => {
     try {
-      if (!username || !password) {
+      if (!email || !password) {
         return resolve({
-          msg: "all information(username,password) is required",
+          msg: "all information(email,password) is required",
           access: false,
         });
       }
       let user = await User.findOne({
-        where: { username: username, password: password },
+        where: { email: email},
       });
-      if (!user) {
+      const acertijo = compare(user.name, user.email, user.password);
+      if (acertijo===false) {
         return resolve({
-          msg: "the username or password are incorrets",
+          msg: "the email incorret or the password is incorrect or the user does not exist",
           access: false,
         });
       }
