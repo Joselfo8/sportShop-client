@@ -24,11 +24,9 @@ function App() {
         <Route path="/favorites" element={<Favorites/>} />
         <Route path="/user/profile" element={<UserProfile />} />
 
-        {/* <Route path='/' element={<Categories/>} /> */}
         <Route path='/:category' element={<Subcategory/>} />
         <Route path="/products" element={<Products />} />
-        <Route path="/:id" element={<Details />} />
-
+        <Route path="/products/:id" element={<Details />} />
         <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
