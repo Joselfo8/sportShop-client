@@ -1,44 +1,32 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
-const {compare}= require('../../helpers/handleBcrypt');
+const { compare } = require("../../helpers/handleBcrypt");
+
 //recordar user_name
-function getUser(id_user) {
-  let p = new Promise(async (resolve, reject) => {
-    try {
-      if (!id_user) {
-        return reject("id_user is required");
-      }
-      let user = await User.findOne({ where: { id: id_user } });
-      if (!user) {
-        return reject("User not found");
-      }
-      return resolve(user);
-    } catch (error) {
-      console.log(error);
-      reject(error);
+async function getUser(req, res) {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.send({ msg: "id_user is required" });
     }
-  });
-
-  return p;
+    let user = await User.findOne({ where: { id } });
+    if (!user) {
+      return res.send({ msg: "User not found" });
+    }
+    return res.send(user);
+  } catch (error) {
+    console.log(error);
+    res.send({ msg: error });
+  }
 }
-
 
 async function postUser(req, res) {
   try {
-    const {
-      name,
-      lastname,
-      username,
-      password,
-      email,
-      genre,
-      dateOfBirth,
-      direction,
-    } = req.body;
+    const { name, lastname, password, email, genre, dateOfBirth, direction } =
+      req.body;
     if (
       !name ||
       !lastname ||
-      !username ||
       !password ||
       !email ||
       !genre ||
@@ -47,14 +35,13 @@ async function postUser(req, res) {
     ) {
       return res.status(200).json({ msg: "All fields are required" });
     }
-    let userExists = await User.findOne({ where: { username: username } });
+    let userExists = await User.findOne({ where: { email: email } });
     if (userExists) {
       return res.status(200).json({ msg: "Username already exists" });
     }
     let user = await User.create({
       name: name,
       lastname: lastname,
-      username: username,
       password: password,
       email: email,
       genre: genre,
@@ -63,9 +50,9 @@ async function postUser(req, res) {
     });
     return res.status(200).json({ msg: "User created", user: user });
   } catch (error) {
+    console.log("error", error);
     res.status(200).json({ msg: "Failed to create user" });
   }
-
 }
 
 async function deleteUser(req, res) {
@@ -85,69 +72,74 @@ async function deleteUser(req, res) {
   }
 }
 
-
 async function putUser(req, res) {
-  const {
-    id,
-    name,
-    lastname,
-    username,
-    password,
-    email,
-    dateOfBirth,
-    direction,
-  } = req.body;
-  if (!id) {
-    return res.status(200).json({ msg: "id_user is required" });
-  }
-  if (Number.isNaN(parseInt(id))) {
-    return res.status(200).json({ msg: "id isn´t number" });
-  }
-  let user = await User.findOne({ where: { id: id } });
-  if (!user) {
-    return res.status(200).json({ msg: "User not found" });
-  }
+  try {
+    const { id, name, lastname, password, email, dateOfBirth, direction } =
+      req.body;
+    if (!id) {
+      return res.status(200).json({ msg: "id_user is required" });
+    }
+    if (Number.isNaN(parseInt(id))) {
+      return res.status(200).json({ msg: "id isn´t number" });
+    }
+    let user = await User.findOne({ where: { id: id } });
+    if (!user) {
+      return res.status(200).json({ msg: "User not found" });
+    }
 
-  if (name) {
-    user.name = name;
+    if (name) {
+      user.name = name;
+    }
+    if (lastname) {
+      user.lastname = lastname;
+    }
+    if (email && email !== user.email) {
+      let usuarioExiste = await User.findOne({ where: { email: email } });
+      if (usuarioExiste) {
+        return res.status(200).json({ msg: "Email already register" });
+      }
+    }
+    if (password) {
+      user.password = password;
+    }
+    if (dateOfBirth) {
+      user.dateOfBirth = dateOfBirth;
+    }
+    if (direction) {
+      user.direction = direction;
+    }
+    await user.save();
+    res.status(200).json({ msg: "User updated", user: user });
+  } catch (error) {
+    console.log("error", error);
+    res.status(200).json({ msg: "Failed to update user" });
   }
-  if (lastname) {
-    user.lastname = lastname;
-  }
-  if (username) {
-    let usuarioExiste = await User.findOne({ where: { username: username } });
-    if (usuarioExiste) {
-      return res.status(200).json({ msg: "Username already exists" });
-
 }
 
-function loginUser(email, password) {
-  let p = new Promise(async (resolve, reject) => {
-    try {
-      if (!email || !password) {
-        return resolve({
-          msg: "all information(email,password) is required",
-          access: false,
-        });
-      }
-      let user = await User.findOne({
-        where: { email: email},
+async function loginUser(req, res) {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.send({
+        msg: "all information(email,password) is required",
+        access: false,
       });
-      const acertijo = compare(user.name, user.email, user.password);
-      if (acertijo===false) {
-        return resolve({
-          msg: "the email incorret or the password is incorrect or the user does not exist",
-          access: false,
-        });
-      }
-      return resolve({ msg: `welcome ${user.name}`, access: true, user: user });
-    } catch (error) {
-      console.log(error);
-      reject(error);
     }
-  });
-
-  return p;
+    let user = await User.findOne({
+      where: { email: email },
+    });
+    const acertijo = compare(user.name, user.email, user.password);
+    if (acertijo === false) {
+      return res.send({
+        msg: "the email incorret or the password is incorrect or the user does not exist",
+        access: false,
+      });
+    }
+    return res.send({ msg: `welcome ${user.name}`, access: true, user: user });
+  } catch (error) {
+    console.log(error);
+    res.send({ msg: "error", access: false });
+  }
 }
 
 module.exports = {
