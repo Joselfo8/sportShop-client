@@ -7,29 +7,13 @@ const {
   loginUser,
 } = require("./functions");
 
-
-
 router.post("", postUser);
 router.put("", putUser);
 
+router.delete("", deleteUser);
 
-router.delete("", (req, res) => {
-  deleteUser(req.query.id_user)
-  .then((x) => res.status(200).json(x))
-  .catch((x) => res.status(500).json({ err: x }));
-});
+router.get("/login", loginUser);
 
-
-router.get("/login", (req, res) => {
-  loginUser(req.query.email, req.query.password)
-  .then((x) => res.status(200).json(x))
-  .catch((x) => res.status(500).json({ err: x }));
-});
-
-router.get("/:id", (req, res) => {
-  getUser(req.params.id)
-    .then((user) => res.status(200).json(user))
-    .catch((x) => res.status(500).json({ err: x }));
-});
+router.get("/:id", getUser);
 
 module.exports = { users: router };
