@@ -1,0 +1,57 @@
+.categories {
+    background-color: aqua;
+    height: 74%; 
+    width: 80%;
+    overflow: hidden;
+    
+    // background-color: burlywood;
+    display: grid;
+    grid-template-columns: 1fr 500px 500px 1fr;
+    grid-template-rows: 60px 700px;
+    padding: 30px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.manContainer {
+    background-image: url('../../assets/Gender/Man_2.jpg');
+    background-size: 100%;
+    display: grid;
+    grid-area: 2 / 3 / 3 / 4;
+    justify-content:center;
+    width: 100%;
+}
+
+.components {
+    background-color: blueviolet;
+    display: grid;
+    grid-template-rows: 80% 20%;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+
+.womanContainer {
+    background-image: url('../../assets/Gender/Woman_2.jpg');
+    // ARREGLAR
+    background-size: 120%;
+    display: grid;
+    grid-area: 2 / 2 / 3 / 3;
+    justify-content:flex-end;
+    height: 100%;
+    width: 100%;
+    justify-content:center;
+}
+
+.button {
+    background-color: rgb(59, 55, 55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 50px;
+    width: 150px;
+    color: white;
+
+}
