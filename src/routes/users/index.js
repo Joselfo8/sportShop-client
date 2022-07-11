@@ -8,11 +8,10 @@ const {
 } = require("./functions");
 
 
-router.post("", (req, res) => {
-  postUser(req.body.name, req.body.email, req.body.password)
-  .then((x) => res.status(200).json(x))
-  .catch((x) => res.status(500).json({ err: x }));
-});
+
+router.post("", postUser);
+router.put("", putUser);
+
 
 router.delete("", (req, res) => {
   deleteUser(req.query.id_user)
@@ -20,11 +19,6 @@ router.delete("", (req, res) => {
   .catch((x) => res.status(500).json({ err: x }));
 });
 
-router.put("", (req, res) => {
-  putUser(req.body.id_user, req.body.name, req.body.email, req.body.password)
-  .then((x) => res.status(200).json(x))
-  .catch((x) => res.status(500).json({ err: x }));
-});
 
 router.get("/login", (req, res) => {
   loginUser(req.query.email, req.query.password)

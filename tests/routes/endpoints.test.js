@@ -24,6 +24,7 @@ describe("database", () => {
       name: "test",
       email: "test",
       password: "test",
+      email: "test@test.com",
     };
     const response = await api.post("/users").send(user);
     expect(response.status).not.toBe(404);
