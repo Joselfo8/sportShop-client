@@ -65,21 +65,21 @@ async function postUser(req, res) {
   }
 }
 
-function deleteUser(id) {
-  let p = new Promise(async (resolve, reject) => {
-    try {
-      if (!id) {
-        return reject("id_user is required");
-      }
-      await User.destroy({ where: { id: id } });
-      return resolve({ msg: "User deleted" });
-    } catch (error) {
-      console.log(error);
-      reject(error);
+async function deleteUser(req, res) {
+  const { id } = req.params;
+  try {
+    if (!id) {
+      return reject("id is required");
     }
-  });
-
-  return p;
+    if (Number.isNaN(parseInt(id))) {
+      return reject("id must be a number");
+    }
+    await User.destroy({ where: { id: id } });
+    return res.json({ msg: "User deleted" });
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
 }
 
 async function putUser(req, res) {

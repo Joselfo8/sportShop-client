@@ -21,14 +21,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -37,6 +30,10 @@ module.exports = (sequelize) => {
           is: { arg: /^\S/, msg: "the email must not start with blank spaces" },
           isEmail: { arg: true, msg: "the email must be a valid email" },
         },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       genre: {
         type: DataTypes.STRING,

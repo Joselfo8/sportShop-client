@@ -14,14 +14,13 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("", postUser);
+router.put("", putUser);
 
 router.delete("", (req, res) => {
   deleteUser(req.query.id_user)
     .then((x) => res.status(200).json(x))
     .catch((x) => res.status(500).json({ err: x }));
 });
-
-router.put("", putUser);
 
 router.get("/login", (req, res) => {
   loginUser(req.query.username, req.query.password)
