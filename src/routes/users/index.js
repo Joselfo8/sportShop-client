@@ -13,11 +13,7 @@ router.get("/:id", (req, res) => {
     .catch((x) => res.status(500).json({ err: x }));
 });
 
-router.post("", (req, res) => {
-  postUser(req.body.name, req.body.username, req.body.password)
-    .then((x) => res.status(200).json(x))
-    .catch((x) => res.status(500).json({ err: x }));
-});
+router.post("", postUser);
 
 router.delete("", (req, res) => {
   deleteUser(req.query.id_user)
@@ -25,11 +21,7 @@ router.delete("", (req, res) => {
     .catch((x) => res.status(500).json({ err: x }));
 });
 
-router.put("", (req, res) => {
-  putUser(req.body.id_user, req.body.name, req.body.username, req.body.password)
-    .then((x) => res.status(200).json(x))
-    .catch((x) => res.status(500).json({ err: x }));
-});
+router.put("", putUser);
 
 router.get("/login", (req, res) => {
   loginUser(req.query.username, req.query.password)
