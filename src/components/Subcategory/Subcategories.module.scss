@@ -1,18 +1,36 @@
-.categories {
+.Subcategories {
+    // background-color: black;
     height: 74%; 
     width: 80%;
     overflow: hidden;
     
     display: grid;
     grid-template-columns: 1fr 500px 500px 1fr;
-    grid-template-rows: 60px 700px;
+    grid-template-rows: 500px 500px;
     padding: 30px;
     margin: 0 auto;
-    gap: 20px;
+    gap: 30px;
 }
 
-.manContainer {
-    background-image: url('../../assets/Gender/Man_2.jpg');
+.accessoriesContainer {
+    background-image: url('../../assets/Accessories/Accessories_1.webp');
+    background-size: 100%;
+    display: grid;
+    grid-area: 1 / 2 / 1 / 4;
+    justify-content:center;
+}
+
+.footwearContainer {
+    background-image: url('../../assets/Footwear/Footwear_2.jpg');
+    // ARREGLAR
+    background-size: 100%;
+    display: grid;
+    grid-area: 2 / 2 / 3 / 3;
+    justify-content:center;
+}
+
+.clothesContainer {
+    background-image: url('../../assets/Clothes/Clothes_2.jpg');
     background-size: 100%;
     display: grid;
     grid-area: 2 / 3 / 3 / 4;
@@ -26,16 +44,6 @@
     margin-bottom: 50px;
     height: 100%;
     width: 300px;
-}
-
-
-.womanContainer {
-    background-image: url('../../assets/Gender/Woman_2.jpg');
-    // ARREGLAR
-    background-size: 120%;
-    display: grid;
-    grid-area: 2 / 2 / 3 / 3;
-    justify-content:center;
 }
 
 h1 {

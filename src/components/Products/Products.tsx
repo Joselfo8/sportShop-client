@@ -8,6 +8,7 @@ import Card from "../Card/Card";
 import NavBar from "../Navbar/Navbar";
 import Filter from "../Filter/Filter";
 import Pagination from "../Pagination";
+import Footer from "../Footer/Footer";
 
 // Style
 import style from "./Products.module.scss";
@@ -23,6 +24,7 @@ export default function Products() {
     useEffect(() => {
         dispatch(getProducts());
     }, [dispatch]);
+
 
     const render = {
         allProducts:
@@ -66,6 +68,8 @@ export default function Products() {
 
     return (
         <div>
+            <NavBar/>
+
             <div className={styles.container}>
                 <Filter/>
             </div>
@@ -74,6 +78,9 @@ export default function Products() {
                 {state.productsFiltered.length === 0
                     ? render.allProducts
                     : render.searchProducts}
+            </div>
+
+            <div className={style.pagination}>
                 <Pagination
                     maxPage={state.products.length}
                     next={{ limit: 10, page: 2 }}
@@ -82,6 +89,10 @@ export default function Products() {
                     onSelected={setSelected}
                 />
             </div>
+
+            <br />
+
+            <Footer/>
 
         </div>
     );
