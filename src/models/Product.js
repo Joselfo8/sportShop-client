@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
       price: {
         type: DataTypes.REAL,
         allowNull: false,
+        validate:{
+          isNumeric: true,
+        }
       },
       description: {
         type: DataTypes.STRING,
