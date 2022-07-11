@@ -1,5 +1,6 @@
 import {
-    GET_PRODUCTSBYNAME
+    GET_PRODUCTSBYNAME,
+    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY
 } from '../actionsTypes/actionsTypes'
 
 const initialState: any = {
@@ -38,7 +39,7 @@ function rootReducer(state = initialState, action: any){
                 productsFiltered:action.payload,
             }
 
-        case "GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY":
+        case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
             return{
                 ...state,
                 productsFiltered:action.payload,
