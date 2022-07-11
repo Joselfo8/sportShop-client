@@ -15,6 +15,10 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
+        validate: {
+          isNumeric: { args: true, msg: "cantidad must be numerico positivo" },
+          is: { arg: /^\S/, msg: "The cantidad must not start with blank spaces" },
+        }
       },
       
     },
