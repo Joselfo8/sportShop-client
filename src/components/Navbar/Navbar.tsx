@@ -82,7 +82,7 @@ export default function NavBar(){
                     <img src={cart} className={styles.cart}/>
                 </Link>
 
-                <a href="http://localhost:3000/user/profile">User_1</a>
+                <a href="https://sport-shop-client.vercel.app/user/profile">User_1</a>
 
             </div>
 
