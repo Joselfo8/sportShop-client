@@ -12,6 +12,7 @@ import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
 
 import About from "./components/About/About";
+import Favorites from "./components/Favorites/Favorites";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/favorites" element={<Favorites/>} />
         <Route path="/user/profile" element={<UserProfile />} />
 
         {/* <Route path='/' element={<Categories/>} /> */}
