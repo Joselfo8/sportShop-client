@@ -36,6 +36,7 @@ function postUser(name, username, password) {
         return reject("User not created");
       }
       await user.createShopping_list({product_list: []});
+      await user.createFavorite({name: ""})
       return resolve(user);
     } catch (error) {
       console.log(error);
