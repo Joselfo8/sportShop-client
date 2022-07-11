@@ -78,7 +78,7 @@ module.exports = (sequelize) => {
           is: { arg: /(^[0-9]{1}$|^[0-5]{1,3}\.[0-9]{1,3}$)/, msg: "The rating can only be between 0 and 5 SIMBOL DECIMAL '.' " }
         }
       },
-      rating_coutn: {
+      rating_count: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
         validate: {

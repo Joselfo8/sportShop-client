@@ -5,6 +5,7 @@ const {shopping_list} = require("./shopping_list");
 const { products } = require("./products");
 
 const { users } = require("./users");
+const { favorites } = require("./favorites");
 
 const { auth } = require("./auth");
 
@@ -20,6 +21,10 @@ router.get("/health", (req, res) => {
 router.use("/users", users);
 router.use("/products", products);
 router.use("/shopping_list", shopping_list);
+
 router.use("/auth", auth);
+
+router.use("/favorites", favorites)
+
 
 module.exports = router;

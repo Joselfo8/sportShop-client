@@ -2,22 +2,30 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST , DB_NAME  } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, NODE_ENV, DEPLOY_LINK } =
+  process.env;
 
-//
-const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-  {
-    logging: false, // set to console.log to see the raw SQL queries
-    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-    /* dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
+//conestructor for the sequelize object
+let sequelize = undefined;
+NODE_ENV === "development"
+  ? (sequelize = new Sequelize(
+      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+      {
+        logging: false, // set to console.log to see the raw SQL queries
+        native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+      }
+    ))
+  : (sequelize = new Sequelize(DEPLOY_LINK, {
+      logging: false, // set to console.log to see the raw SQL queries
+      native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
       },
-    }, */
-  }
-);
+    }));
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
@@ -44,19 +52,24 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Product, Inventary, Carry, User,Shopping_list } = sequelize.models;
+const { Product, Inventary, Carry, User, Shopping_list, Favorite } = sequelize.models;
 
 // Aca vendrian las relaciones
 
-//un producto podra tener varios stocks en el inventario
-Inventary.belongsTo(Product);
-Product.hasMany(Inventary);
-//
+//cada usuario tiene una lista de compras
 User.hasOne(Shopping_list);
 Shopping_list.belongsTo(User);
 //
 Shopping_list.belongsToMany(Product, {through: "user_shopping"});
 Product.belongsToMany(Shopping_list, {through: "user_shopping"});
+//aqui va la relacion de los favoritos
+User.hasOne(Favorite);
+Favorite.belongsTo(User);
+//
+Favorite.belongsToMany(Product,{through: "user_product"});
+Product.belongsToMany(Favorite,{through: "user_product"});
+
+
 
 
 module.exports = {
