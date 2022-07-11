@@ -22,7 +22,6 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/user/profile" element={<UserProfile />} />
 
-        {/* <Route path='/' element={<Categories/>} /> */}
         <Route path='/:category' element={<Subcategory/>} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Details />} />
