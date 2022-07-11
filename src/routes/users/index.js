@@ -14,7 +14,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("", (req, res) => {
-  postUser(req.body.name, req.body.username, req.body.password)
+  postUser(req.body.name, req.body.email, req.body.password)
     .then((x) => res.status(200).json(x))
     .catch((x) => res.status(500).json({ err: x }));
 });
@@ -26,13 +26,13 @@ router.delete("", (req, res) => {
 });
 
 router.put("", (req, res) => {
-  putUser(req.body.id_user, req.body.name, req.body.username, req.body.password)
+  putUser(req.body.id_user, req.body.name, req.body.email, req.body.password)
     .then((x) => res.status(200).json(x))
     .catch((x) => res.status(500).json({ err: x }));
 });
 
 router.get("/login", (req, res) => {
-  loginUser(req.query.username, req.query.password)
+  loginUser(req.query.email, req.query.password)
     .then((x) => res.status(200).json(x))
     .catch((x) => res.status(500).json({ err: x }));
 });

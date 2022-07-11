@@ -1,4 +1,4 @@
-//const { where } = require("sequelize/types")
+
 const { Product } = require("../../db");
 
 const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
