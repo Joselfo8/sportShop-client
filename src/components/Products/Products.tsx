@@ -70,9 +70,9 @@ export default function Products() {
         <div>
             <NavBar/>
 
-            <div className={styles.container}>
-                <Filter/>
-            </div>
+            
+            <Filter/>
+            
 
             <div className={style.cardContainer}>
                 {state.productsFiltered.length === 0
