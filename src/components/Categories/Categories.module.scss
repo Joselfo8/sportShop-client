@@ -19,7 +19,6 @@
     display: grid;
     grid-area: 2 / 3 / 3 / 4;
     justify-content:center;
-    width: 100%;
 }
 
 .components {
@@ -28,7 +27,7 @@
     grid-template-rows: 80% 20%;
     justify-content: center;
     height: 100%;
-    width: 100%;
+    width: 300px;
 }
 
 
@@ -38,9 +37,6 @@
     background-size: 120%;
     display: grid;
     grid-area: 2 / 2 / 3 / 3;
-    justify-content:flex-end;
-    height: 100%;
-    width: 100%;
     justify-content:center;
 }
 
