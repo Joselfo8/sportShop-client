@@ -22,7 +22,7 @@ function getUser(id_user) {
 }
 
 function postUser(name, username, password) {
-  let p = new Promise(async (resolve, reject) => {
+  let person = new Promise(async (resolve, reject) => {
     try {
       if (!name || !username || !password) {
         return reject("all information is required");
@@ -37,13 +37,24 @@ function postUser(name, username, password) {
       }
       await user.createShopping_list({product_list: []});
       return resolve(user);
-    } catch (error) {
+    } /* catch (error) {
       console.log(error);
       reject(error);
+    } */
+    catch (err) {
+      console.log(err);
+       if (err.name === 'SequelizeValidationError') {
+        return res.status(400).json({
+          success: false,
+          msg: err.errors.map(e => e.message)
+        })
+      } else {
+        res.send({ msg: "failed to created" });
+      } 
     }
   });
 
-  return p;
+  return person;
 }
 
 function deleteUser(id) {
@@ -98,9 +109,20 @@ function putUser(id, name, username, password) {
       }
       await user.save();
       return resolve({ msg: `user ${id} modicated`, user: user });
-    } catch (error) {
+    } /* catch (error) {
       console.log(error);
       reject(error);
+    } */
+    catch (err) {
+      console.log(err);
+       if (err.name === 'SequelizeValidationError') {
+        return res.status(400).json({
+          success: false,
+          msg: err.errors.map(e => e.message)
+        })
+      } else {
+        res.send({ msg: "failed to created" });
+      } 
     }
   });
 
