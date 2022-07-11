@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJSDocTagsOfKind } from "typescript";
 import { getProducts } from "../../redux/action";
+
 // Components
 import Card from "../Card/Card";
 import NavBar from "../Navbar/Navbar";
 import Filter from "../Filter/Filter";
 import Pagination from "../Pagination";
+import Footer from "../Footer/Footer";
+
 // Style
 import style from "./Products.module.scss";
+import styles from '../../components/Filter/Filter.module.scss'
 
 export default function Products() {
     // save user click pagination button
@@ -20,6 +24,7 @@ export default function Products() {
     useEffect(() => {
         dispatch(getProducts());
     }, [dispatch]);
+
 
     const render = {
         allProducts:
@@ -62,17 +67,33 @@ export default function Products() {
     };
 
     return (
-        <div className={style.cardContainer}>
-            {state.productsFiltered.length === 0
-                ? render.allProducts
-                : render.searchProducts}
-            <Pagination
-                maxPage={state.products.length}
-                next={{ limit: 10, page: 2 }}
-                previous={{ limit: 10, page: 1 }}
-                selected={selected}
-                onSelected={setSelected}
-            />
+        <div>
+            <NavBar/>
+
+            <div className={styles.container}>
+                <Filter/>
+            </div>
+
+            <div className={style.cardContainer}>
+                {state.productsFiltered.length === 0
+                    ? render.allProducts
+                    : render.searchProducts}
+            </div>
+
+            <div className={style.pagination}>
+                <Pagination
+                    maxPage={state.products.length}
+                    next={{ limit: 10, page: 2 }}
+                    previous={{ limit: 10, page: 1 }}
+                    selected={selected}
+                    onSelected={setSelected}
+                />
+            </div>
+
+            <br />
+
+            <Footer/>
+
         </div>
     );
 }

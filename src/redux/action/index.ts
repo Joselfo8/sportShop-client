@@ -1,7 +1,8 @@
 import axios from "axios";
 
 import {
-    GET_PRODUCTSBYNAME
+    GET_PRODUCTSBYNAME,
+    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY
 } from '../actionsTypes/actionsTypes';
 
 export function getProducts(){
@@ -15,6 +16,7 @@ export function getProducts(){
         };
     }catch(error){
         console.log(error);
+        return alert('Product not found!');
     };
 };
 
@@ -51,6 +53,21 @@ export function getProductsByCategory(event: any){
             let json: any = await axios.get(`https://vlixes-server.herokuapp.com/products?category=${event}`);
             return dispatch({
                 type: "GET_BY_CATEGORY",
+                payload: json.data
+            });
+        };
+    }catch(error){
+        console.log(error);
+    };
+};
+
+export function getProductsByCategoryAndSubcategory(object: any){
+    // console.log(object)
+    try{
+        return async function name(dispatch: any) {
+            let json: any = await axios.get(`https://vlixes-server.herokuapp.com/products?category=${object.category}&subCategory=${object.argument}`);
+            return dispatch({
+                type: GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
                 payload: json.data
             });
         };
