@@ -38,6 +38,12 @@ function rootReducer(state = initialState, action: any){
                 productsFiltered:action.payload,
             }
 
+        case "GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY":
+            return{
+                ...state,
+                productsFiltered:action.payload,
+            }
+
 
         case "CLEAN_STORE":
             console.log("desde CLEAN_STORE")

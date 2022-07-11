@@ -36,29 +36,22 @@ export default function NavBar(){
     return (
         <div className={styles.navBar}>
 
-            <Link to='/home'>
+            <Link to='/'>
                 <img src={logo} className={styles.logo}/>
             </Link>
 
 
             <div>
-                <Link to='/home'>
+                <Link to='/products'>
                     <button onClick={(e) => {return productCategory(e)}} value='MALE' className={styles.buttonNav}>Man</button>
                 </Link>
-                <Link to='/home'>
+                <Link to='/products'>
                     <button onClick={(e) => {return productCategory(e)}} value='FEMALE' className={styles.buttonNav}>Woman</button>
                 </Link>
-                <Link to='/home'>
+                <Link to='/products'>
                     <button onClick={(e) => {return resetStore(e)}} className={styles.buttonNav}>All Products</button>
                 </Link>
-
-
-
-
             </div>
-
-
-
 
 
             <div className={styles.orderIcons}>

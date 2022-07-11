@@ -15,7 +15,7 @@ export default function Categories(){
                             <h1 style={{textAlign: "center", fontSize:"50px"}}>Man</h1>
                         </div>
 
-                        <Link to='/man' style={{textDecoration:"none"}}>
+                        <Link to='/male' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>
@@ -33,7 +33,7 @@ export default function Categories(){
                             <h1 style={{textAlign: "center", fontSize:"50px"}} >Woman</h1>
                         </div>
                         
-                        <Link to='/woman' style={{textDecoration:"none"}}>
+                        <Link to='/female' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>
