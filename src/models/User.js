@@ -15,22 +15,18 @@ module.exports = (sequelize) => {
 
         }
       },
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
+        isUnique: { arg: true, msg: "the email is already in use" },
         allowNull: false,
         validate: {
           notEmpty: { arg: true, msg: "the email must not be empty" },
           is: { arg: /^\S/, msg: "the email must not start with blank spaces" },
           isEmail: { arg: true, msg: "the email must be a valid email" },
-        
         }
       }
     },

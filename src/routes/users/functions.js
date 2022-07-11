@@ -1,5 +1,6 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
+const {compare}= require('../../helpers/handleBcrypt');
 //recordar user_name
 function getUser(id_user) {
   let p = new Promise(async (resolve, reject) => {
@@ -21,17 +22,19 @@ function getUser(id_user) {
   return p;
 }
 
-function postUser(name, username, password) {
-  let person = new Promise(async (resolve, reject) => {
+function postUser(name, email, password) {
+  console.log(name, email, password);
+  let p = new Promise(async (resolve, reject) => {
     try {
-      if (!name || !username || !password) {
+      //console.log(person)
+      if (!name || !email || !password) {
         return reject("all information is required");
       }
-      let userexist = await User.findOne({ where: { username: username } });
+      let userexist = await User.findOne({ where: { email: email } });
       if (userexist) {
-        return reject("username already exist");
+        return reject("email already exist");
       }
-      let user = await User.create({ name, username, password });
+      let user = await User.create({ name, email, password }); /** */
       if (!user) {
         return reject("User not created");
       }
@@ -55,7 +58,7 @@ function postUser(name, username, password) {
     }
   });
 
-  return person;
+  return p;
 }
 
 function deleteUser(id) {
@@ -75,7 +78,7 @@ function deleteUser(id) {
   return p;
 }
 
-function putUser(id, name, username, password) {
+function putUser(id, name, email, password) {
   let p = new Promise(async (resolve, reject) => {
     try {
       if (!id) {
@@ -95,13 +98,13 @@ function putUser(id, name, username, password) {
         user.name = name;
       }
 
-      if (username && username != user.username) {
-        username = username.trim();
-        userExists = await User.findOne({ where: { username: username } });
+      if (email && email != user.email) {
+        email = email.trim();
+        userExists = await User.findOne({ where: { email: email } });
         if (userExists) {
-          return reject("username already exist");
+          return reject("email already exist");
         }
-        user.username = username;
+        user.email = email;
       }
 
       if (password) {
@@ -130,21 +133,22 @@ function putUser(id, name, username, password) {
   return p;
 }
 
-function loginUser(username, password) {
+function loginUser(email, password) {
   let p = new Promise(async (resolve, reject) => {
     try {
-      if (!username || !password) {
+      if (!email || !password) {
         return resolve({
-          msg: "all information(username,password) is required",
+          msg: "all information(email,password) is required",
           access: false,
         });
       }
       let user = await User.findOne({
-        where: { username: username, password: password },
+        where: { email: email},
       });
-      if (!user) {
+      const acertijo = compare(user.name, user.email, user.password);
+      if (acertijo===false) {
         return resolve({
-          msg: "the username or password are incorrets",
+          msg: "the email incorret or the password is incorrect or the user does not exist",
           access: false,
         });
       }

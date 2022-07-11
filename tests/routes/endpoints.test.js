@@ -22,7 +22,7 @@ describe("database", () => {
   it("should create a user", async () => {
     const user = {
       name: "test",
-      username: "test",
+      email: "test",
       password: "test",
     };
     const response = await api.post("/users").send(user);
