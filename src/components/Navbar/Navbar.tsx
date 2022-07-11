@@ -82,10 +82,9 @@ export default function NavBar(){
                     <img src={cart} className={styles.cart}/>
                 </Link>
 
+                <a href="http://localhost:3000/user/profile">User_1</a>
+
             </div>
-
-
-
 
         </div>
     );
