@@ -30,9 +30,9 @@ const postProduct = async (req, res) => {
 
     if (!title) return res.send({ msg: "title is required" });
     title = title.trim();
-
+ 
     if (!description) return res.send({ msg: "description is required" });
-    description = description.trim();
+    description = description.trim(); 
 
     if (category) {
       category = category.trim().toUpperCase();
@@ -74,14 +74,16 @@ const postProduct = async (req, res) => {
     res.send({ msg: "failed to created" });
   } */
   catch (err) {
-    if (err.name === 'SequelizeValidationError') {
+    console.log(err);
+     if (err.name === 'SequelizeValidationError') {
       return res.status(400).json({
         success: false,
         msg: err.errors.map(e => e.message)
       })
     } else {
-      next(new ErrorResponse(`Sorry, could not save ${req.body.title}`, 404))
-    }
+      next(new ErrorResponse(`Sorry, could not save ${req.body.name}`, 404))
+      res.send({ msg: "failed to created" });
+    } 
   }
 };
 
@@ -198,10 +200,20 @@ const putProduct = async (req, res) => {
       msg: `product ${producto.id} modified to the DB`,
       product: producto,
     });
-  } catch (e) {
+  } /* catch (e) {
     console.log(e);
 
     res.send({ msg: "failed to modified" });
+  } */
+  catch (err) {
+    if (err.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        success: false,
+        msg: err.errors.map(e => e.message)
+      })
+    } else {
+      next(new ErrorResponse(`Sorry, could not save ${req.body.name}`, 404))
+    }
   }
 };
 

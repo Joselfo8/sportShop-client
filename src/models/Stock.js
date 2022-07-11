@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
   sequelize.define(
     "Inventary",
     {
-      talla: {
+      size: {
         type: DataTypes.STRING,
       },
       cantidad: {
@@ -12,6 +12,7 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
+      
     },
     {
       timestamps: false,

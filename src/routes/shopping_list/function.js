@@ -80,12 +80,23 @@ const add_item = async (req, res) => {
         })
         res.send(final_list)
     }
-    catch (e) {
+    /* catch (e) {
         console.log(e);
-    }
+    } */
+    catch (err) {
+        console.log(err);
+         if (err.name === 'SequelizeValidationError') {
+          return res.status(400).json({
+            success: false,
+            msg: err.errors.map(e => e.message)
+          })
+        } else {
+          res.send({ msg: "failed to created" });
+        } 
+      }
 }
 //Falta get_items_by_user_id que devuelva
 //usuario_id, user_email, items_id, item_description,item_category
-// cantidad__por_Items_id, precio_por_item, Precio_total 
+// cantidad__por_Items_id, precio_por_item, Precio_total, cantidad queda en stock
 
 module.exports = {  get_item, delete_item,destroy_trolly, add_item };
