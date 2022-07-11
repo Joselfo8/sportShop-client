@@ -165,14 +165,16 @@ export default function Details(){
               errors.size && <span>{errors.size}</span>
             }
             <br></br>
-           
-              <button type='submit' className={styles.cart}>
-                <img src={cart} alt='' className={styles.icon}/>
-                ADD TO CART
-              </button>
+              <Link to='/cart' className={styles.link}>
+                <button type='submit' className={styles.cart}>
+                  <img src={cart} alt='' />
+                  ADD TO CART
+                </button>
+              </Link>
+    
             
               
-              <Link to={'/login'}>
+              <Link to={'/favorites'}>
                 <button onSubmit={addFavorite} className={styles.favorite}>
                   <FiHeart className={styles.heart} size={25}/>
                 </button>
