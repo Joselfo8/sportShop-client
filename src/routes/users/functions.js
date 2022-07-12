@@ -63,14 +63,12 @@ async function postUser(req, res) {
     if (userExists) {
       return res.status(200).json({ msg: "Username already exists" });
     }
-<<<<<<< HEAD
     if (rol && !rols.includes(rol)) {
       return res.status(200).json({ msg: "rol not valid" });
     }
 
-=======
-    hashPass = await encrypt(password)
->>>>>>> 48ea8771b3397bb8836f6449c1f95ba02fc1ace5
+    hashPass = await encrypt(password);
+
     let user = await User.create({
       name: name,
       lastname: lastname,
