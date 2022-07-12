@@ -1,19 +1,18 @@
 .title-cont {
   border-bottom: 0.08rem solid rgba(18, 18, 18, 0.3);
   padding-bottom: 0.3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
 }
 
 .title {
   display: block;
   font-size: 1.4rem;
   font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .buttons label {
-  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+  display: block;
 }
 
 .buttons label select {
@@ -32,19 +31,21 @@
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 0.08rem solid rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+}
+
+.item:last-child {
+  margin: 0;
 }
 
 .item-descrip {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .item-wrapper {
-  margin-right: 2rem;
+  margin: 0 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .item-wrapper dt {
@@ -89,8 +90,10 @@
 }
 
 .item-buttons {
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 

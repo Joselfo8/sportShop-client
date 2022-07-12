@@ -46,6 +46,10 @@
   flex-wrap: wrap;
 }
 
+.item-cont:last-child .item {
+  margin: 0;
+}
+
 .item-descrip {
   width: 100%;
   display: flex;
