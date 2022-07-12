@@ -46,7 +46,7 @@ async function postUser(req, res) {
       genre,
       dateOfBirth,
       direction,
-      rol,
+      role,
     } = req.body;
     if (
       !name ||
@@ -63,7 +63,7 @@ async function postUser(req, res) {
     if (userExists) {
       return res.status(200).json({ msg: "Username already exists" });
     }
-    if (rol && !rols.includes(rol)) {
+    if (role && !rols.includes(role)) {
       return res.status(200).json({ msg: "rol not valid" });
     }
 
@@ -77,7 +77,7 @@ async function postUser(req, res) {
       genre: genre,
       dateOfBirth: dateOfBirth,
       direction: direction,
-      rol: rol,
+      role: role,
     });
     return res.status(200).json({ msg: "User created", user: user });
   } catch (error) {
@@ -105,8 +105,16 @@ async function deleteUser(req, res) {
 //PUT
 async function putUser(req, res) {
   try {
-    const { id, name, lastname, password, email, dateOfBirth, direction, rol } =
-      req.body;
+    const {
+      id,
+      name,
+      lastname,
+      password,
+      email,
+      dateOfBirth,
+      direction,
+      role,
+    } = req.body;
     if (!id) {
       return res.status(200).json({ msg: "id_user is required" });
     }
@@ -140,8 +148,8 @@ async function putUser(req, res) {
     if (direction) {
       user.direction = direction;
     }
-    if (rol) {
-      user.rol = rol;
+    if (role) {
+      user.rol = role;
     }
     await user.save();
     res.status(200).json({ msg: "User updated", user: user });
