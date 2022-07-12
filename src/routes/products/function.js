@@ -1,18 +1,16 @@
-
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
+const { Op } = require("sequelize");
+const { Product } = require("../../db");
+
+const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
+const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
 });
-
-
-const { Product } = require("../../db");
-
-const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
-const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
 
 //post/ product to db
 const postProduct = async (req, res) => {
@@ -29,7 +27,6 @@ const postProduct = async (req, res) => {
   try {
     //validaciones a todos los campos
     if (price) {
-
       price = parseInt(price);
 
       if (Number.isNaN(price))
@@ -40,9 +37,9 @@ const postProduct = async (req, res) => {
 
     if (!title) return res.send({ msg: "title is required" });
     title = title.trim();
- 
+
     if (!description) return res.send({ msg: "description is required" });
-    description = description.trim(); 
+    description = description.trim();
 
     if (category) {
       category = category.trim().toUpperCase();
@@ -59,7 +56,7 @@ const postProduct = async (req, res) => {
     if (!product_care) return res.send({ msg: "product_care is required" });
     product_care = product_care.trim();
 
-    if (image) {
+    if (image && image.slice(0, 4) !== "http") {
       image = atob(image);
       await cloudinary.uploader.upload(image, async (err, result) => {
         if (err) return res.send({ msg: "image is invalid(Cloudinary)" });
@@ -87,59 +84,62 @@ const postProduct = async (req, res) => {
       msg: `product ${product.title} added to the DB`,
       product: product,
     });
-  } /* catch (e) {
-    console.log(e);
-    res.send({ msg: "failed to created" });
-  } */
-  catch (err) {
+  } catch (err) {
     console.log(err);
-     if (err.name === 'SequelizeValidationError') {
+    if (err.name === "SequelizeValidationError") {
       return res.status(400).json({
         success: false,
-        msg: err.errors.map(e => e.message)
-      })
+        msg: err.errors.map((e) => e.message),
+      });
     } else {
-      next(new ErrorResponse(`Sorry, could not save ${req.body.name}`, 404))
+      next(new ErrorResponse(`Sorry, could not save ${req.body.name}`, 404));
       res.send({ msg: "failed to created" });
-    } 
+    }
   }
 };
 
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    const { title, category, subCategory, pag } = req.query;
-
-    let filter = await Product.findAll();
+    let { title, category, subCategory, pag } = req.query;
+    let where = { where: {} };
 
     //filtramos por contenido del titulo y omitmos mayusculas y minusculas
-    if (title)
-      filter = filter.filter((e) =>
-        e.title.toLowerCase().includes(title.toLowerCase())
-      );
-
-    //filtramos por categoria y omitmos mayusculas y minusculas
-    if (category)
-      filter = filter.filter(
-        (e) => e.category.toLowerCase() === category.toLowerCase()
-      );
-
-    //filtramos por subcategoria y omitmos mayusculas y minusculas
-    if (subCategory)
-      filter = filter.filter(
-        (e) => e.subCategory.toLowerCase() === subCategory.toLowerCase()
-      );
-
-    //pagination
-    if (pag) {
-      let page = parseInt(pag);
-      if (Number.isNaN(page)) return res.send({ msg: "page must be a number" });
-      page = page - 1;
-      if (page < 0) pag = 0;
-      filter = filter.slice(page * 6, (page + 1) * 6);
+    if (title) {
+      title = title.toUpperCase().trim();
+      where.where.title = { [Op.iLike]: `%${title}%` };
     }
 
-    return res.status(200).json(filter);
+    //filtramos por categoria y omitmos mayusculas y minusculas
+    if (category) {
+      category = category.toUpperCase().trim();
+      where.where.category = { [Op.eq]: `${category}` };
+    }
+
+    //filtramos por subcategoria y omitmos mayusculas y minusculas
+    if (subCategory) {
+      subCategory = subCategory.toUpperCase().trim();
+      where.where.subCategory = { [Op.eq]: `${subCategory}` };
+    }
+
+    //solicitud de resuktados
+    console.log(where);
+    let filter = await Product.findAll(where);
+
+    //pagination
+    if (!pag) pag = 1;
+    let page = parseInt(pag);
+    if (Number.isNaN(page)) return res.send({ msg: "page must be a number" });
+    page = page - 1;
+    if (page < 0) pag = 0;
+    const filterPag = filter.slice(page * 6, (page + 1) * 6);
+
+    return res.status(200).json({
+      msg: "search success",
+      products: filterPag,
+      pag,
+      maxPag: Math.ceil(filter.length / 6),
+    });
   } catch (e) {
     console.log(e);
     res.status(500).send({ err: e });
@@ -159,7 +159,7 @@ const getProductById = async (req, res, next) => {
     const product = await Product.findOne({ where: { id: id } });
     if (!product) return res.status(500).send({ msg: "Product not found" });
 
-    return res.status(200).json(product);
+    return res.status(200).json({ msg: "product found", product });
   } catch (error) {
     res.status(500).send({ err: error });
   }
@@ -227,19 +227,19 @@ const putProduct = async (req, res) => {
       msg: `product ${producto.id} modified to the DB`,
       product: producto,
     });
-  } /* catch (e) {
+  } catch (err) {
+    /* catch (e) {
     console.log(e);
 
     res.send({ msg: "failed to modified" });
   } */
-  catch (err) {
-    if (err.name === 'SequelizeValidationError') {
+    if (err.name === "SequelizeValidationError") {
       return res.status(400).json({
         success: false,
-        msg: err.errors.map(e => e.message)
-      })
+        msg: err.errors.map((e) => e.message),
+      });
     } else {
-      next(new ErrorResponse(`Sorry, could not save ${req.body.name}`, 404))
+      next(new ErrorResponse(`Sorry, could not save ${req.body.name}`, 404));
     }
   }
 };

@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       },
 
       lastname: {
-      type: DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
 
@@ -59,7 +59,11 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "user",
+      },
     },
     {
       timestamps: false,
