@@ -19,14 +19,17 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        
         <Route path="/login" element={<Login />} />
+        <Route path="/user/profile" element={<UserProfile />} />
+        
         <Route path="/cart" element={<Cart />} />
         <Route path="/favorites" element={<Favorites/>} />
-        <Route path="/user/profile" element={<UserProfile />} />
 
         <Route path='/:category' element={<Subcategory/>} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Details />} />
+        
         <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>

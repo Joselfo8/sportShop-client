@@ -4,11 +4,11 @@ import {
 } from '../actionsTypes/actionsTypes'
 
 const initialState: any = {
-    products : [],
-    productsFiltered : [],
+    products: [],
+    productsFiltered: [],
     searchProducts: [],
     productCart: [],
-    details : {}
+    details: {}
 };
 
 function rootReducer(state = initialState, action: any){
@@ -45,7 +45,6 @@ function rootReducer(state = initialState, action: any){
                 ...state,
                 productsFiltered:action.payload,
             }
-
 
         case "CLEAN_STORE":
             console.log("desde CLEAN_STORE")
