@@ -1,6 +1,6 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
-const { compare } = require("../../helpers/handleBcrypt");
+const { compare, encrypt } = require("../../helpers/handleBcrypt");
 
 const rols = ["admin", "user"];
 
@@ -63,14 +63,18 @@ async function postUser(req, res) {
     if (userExists) {
       return res.status(200).json({ msg: "Username already exists" });
     }
+<<<<<<< HEAD
     if (rol && !rols.includes(rol)) {
       return res.status(200).json({ msg: "rol not valid" });
     }
 
+=======
+    hashPass = await encrypt(password)
+>>>>>>> 48ea8771b3397bb8836f6449c1f95ba02fc1ace5
     let user = await User.create({
       name: name,
       lastname: lastname,
-      password: password,
+      password: hashPass,
       email: email,
       genre: genre,
       dateOfBirth: dateOfBirth,
@@ -100,7 +104,7 @@ async function deleteUser(req, res) {
     res.json(error);
   }
 }
-
+//PUT
 async function putUser(req, res) {
   try {
     const { id, name, lastname, password, email, dateOfBirth, direction, rol } =
@@ -128,8 +132,9 @@ async function putUser(req, res) {
         return res.status(200).json({ msg: "Email already register" });
       }
     }
+    const hashPass = await encrypt(password);
     if (password) {
-      user.password = password;
+      user.password = hashPass;
     }
     if (dateOfBirth) {
       user.dateOfBirth = dateOfBirth;
