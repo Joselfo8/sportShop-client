@@ -1,102 +1,123 @@
-const { User, Shopping_list, Product } = require("../../db")
+const { User, Shopping_list, Product } = require("../../db");
 
 const get_item = async (req, res) => {
-    try {
-        const { user_id } = req.query
-        const user = await User.findOne({ where: { id: user_id } });
-        //console.log(user.dataValues);
-        const list = await user.getShopping_list()
-        const products = await list.getProducts()
-        const productos=products.map((e) => {
-            return {
-                productId: e.id,
-                title: e.title,
-                price: e.price,
-                image: e.image,
-                shoppingListId: e.user_shopping.shoppingListId,
-                
-            }
-        })
-        res.send(productos)
-        
-    }
+  try {
+    const { id } = req.params;
 
-    catch (e) {
-        console.log(e);
-    }
-}
+    //validaciones
+    if (!id) return res.send({ msg: "user is required" });
+    if (Number.isNaN(id)) return res.send({ msg: "user must be a number" });
+
+    //existencia de usuario
+    const user = await User.findOne({ where: { id } });
+    if (!user) return res.send({ msg: "user not found" });
+
+    const list = await user.getShopping_list();
+    const products = await list.getProducts();
+    const productos = products.map((e) => {
+      return {
+        productId: e.id,
+        title: e.title,
+        price: e.price,
+        image: e.image,
+        shoppingListId: e.user_shopping.shoppingListId,
+      };
+    });
+    res.send({ msg: "lista de productos", list: productos });
+  } catch (e) {
+    res.send({ msg: "failed to get items" });
+    console.log(e);
+  }
+};
 
 // resivo id del item a borrar
 const delete_item = async (req, res) => {
-    try {
-        const { product_id } = req.query;
-        const { user_id } = req.query;
-        let user = await User.findOne({ where: { id: user_id } })
-        const list = await user.getShopping_list();
-        const product_to_delete = await Product.findOne({where:{id:product_id}}) 
-        const new_list =  await list.removeProduct(product_to_delete)
-        res.status(201).send("product removed successfully"); 
-    }
-    catch (e) {
-        res.send(e);
-    }
-}
+  try {
+    const { product } = req.query;
+    const { user } = req.query;
 
-const destroy_trolly = async(req,res)=>{
-    try{
-    const {user_id}= req.query
-    const user = await User.findOne({where:{id:user_id}});
-    const trolly = await user.getShopping_list()
-    await trolly.setProducts([])
-    res.status(201).send('the trolly has ben descarted')
-    }
-    catch(e){
-        res.send(e);
-    }
+    //validaciones de user
+    if (!user) return res.send({ msg: "user is required" });
+    if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
 
-}
+    //validaciones de product
+    if (!product) return res.send({ msg: "product is required" });
+    if (Number.isNaN(product))
+      return res.send({ msg: "product must be a number" });
 
+    //existencia de usuario
+    let userObj = await User.findOne({ where: { id: user } });
+    if (!userObj) return res.send({ msg: "user not found" });
+
+    //existencia de producto
+    let productObj = await Product.findOne({ where: { id: product } });
+    if (!productObj) return res.send({ msg: "product not found" });
+
+    const list = await userObj.getShopping_list();
+
+    const new_list = await list.removeProduct(product_to_delete);
+    res.status(201).send({ msg: "item deleted", list: new_list });
+  } catch (e) {
+    res.send({ msg: "failed to delete item", error: e });
+  }
+};
+
+const destroy_trolly = async (req, res) => {
+  try {
+    const { user } = req.query;
+
+    //validaciones de user
+    if (!user) return res.send({ msg: "user is required" });
+    if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
+
+    const userObj = await User.findOne({ where: { id: user } });
+    const trolly = await userObj.getShopping_list();
+    await trolly.setProducts([]);
+    res.status(201).send({ msg: "the trolly has ben descarted", list: [] });
+  } catch (e) {
+    res.send(e);
+  }
+};
 
 const add_item = async (req, res) => {
-    //res.send("<h1>put putItem<h1>");
-    const { user_id } = req.query;
-    const { product_id } = req.query;
-    try {
-        const user = await User.findOne({ where: { id: user_id } });
-        const item_to_add = await Product.findOne({ where: { id: product_id } });
-        const list = await user.getShopping_list();
-        //console.log(list);
-        await list.addProduct(item_to_add)
-        const new_list = await list.getProducts();
-        const final_list=new_list.map((e) => {
-            return {
-                productId: e.id,
-                title: e.title,
-                price: e.price,
-                image: e.image,
-                shoppingListId: e.user_shopping.shoppingListId,
-                
-            }
-        })
-        res.send(final_list)
-    }
-    /* catch (e) {
-        console.log(e);
-    } */
-    catch (err) {
-        console.log(err);
-         if (err.name === 'SequelizeValidationError') {
-          return res.status(400).json({
-            success: false,
-            msg: err.errors.map(e => e.message)
-          })
-        } else {
-          res.send({ msg: "failed to created" });
-        } 
-      }
-}
-//Falta get_items_by_user_id que devuelva
-//usuario_id, user_email, items_id, item_description,item_category
-// cantidad__por_Items_id, precio_por_item, Precio_total, cantidad queda en stock
+  try {
+    const { user } = req.query;
+    const { product } = req.query;
 
-module.exports = {  get_item, delete_item,destroy_trolly, add_item };
+    //validaciones de user
+    if (!user) return res.send({ msg: "user is required" });
+    if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
+
+    //validaciones de product
+    if (!product) return res.send({ msg: "product is required" });
+    if (Number.isNaN(product))
+      return res.send({ msg: "product must be a number" });
+
+    //existencia de usuario
+    const userObj = await User.findOne({ where: { id: user_id } });
+    if (!userObj) return res.send({ msg: "user not found" });
+
+    //existencia de producto
+    const item_to_add = await Product.findOne({ where: { id: product_id } });
+    if (!item_to_add) return res.send({ msg: "product not found" });
+
+    const list = await userObj.getShopping_list();
+    await list.addProduct(item_to_add);
+    const new_list = await list.getProducts();
+    new_list = new_list.map((e) => {
+      return {
+        productId: e.id,
+        title: e.title,
+        price: e.price,
+        image: e.image,
+        shoppingListId: e.user_shopping.shoppingListId,
+      };
+    });
+    res.send({ msg: "item added", list: new_list });
+  } catch (err) {
+    res.send({ msg: "failed to add item", error: err });
+    console.log(err);
+  }
+};
+
+module.exports = { get_item, delete_item, destroy_trolly, add_item };
