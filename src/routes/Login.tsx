@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // Components
 import Input from "../components/Input";
 // Icons
@@ -141,7 +141,9 @@ function SignUp() {
       </div>
       <div className={styles["button-cont"]}>
         <SubmitButton text="Sign up" />
-        <span className={styles["subtitle"]}>You already have an account?</span>
+        <Link to="/login" className={styles["subtitle"]}>
+          You already have an account?
+        </Link>
       </div>
     </form>
   );
@@ -194,7 +196,9 @@ function SignIn() {
       </div>
       <div className={styles["button-cont"]}>
         <SubmitButton text="Sign in" />
-        <span className={styles["subtitle"]}>You don't have an account?</span>
+        <Link to="/login/r" className={styles["subtitle"]}>
+          You don't have an account?
+        </Link>
       </div>
     </form>
   );
