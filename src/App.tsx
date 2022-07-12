@@ -7,7 +7,7 @@ import Details from "./components/Details/Details";
 import Cart from "./components/Cart/Cart";
 
 import Categories from "./components/Categories/Categories";
-import Subcategory from './components/Subcategory/Subcategory'
+import Subcategory from "./components/Subcategory/Subcategory";
 import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
 
@@ -19,12 +19,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />}>
+          <Route path=":register" element={<Login />} />
+        </Route>
         <Route path="/cart" element={<Cart />} />
-        <Route path="/favorites" element={<Favorites/>} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="/user/profile" element={<UserProfile />} />
 
-        <Route path='/:category' element={<Subcategory/>} />
+        <Route path="/:category" element={<Subcategory />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Details />} />
         <Route path="/about" element={<About />} />

@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 // Components
 import Input from "../components/Input";
 // Icons
@@ -203,11 +204,13 @@ interface LoginProps {
   register?: boolean;
 }
 
-function Login({ register = true }: LoginProps) {
+function Login() {
+  const { register } = useParams();
+
   return (
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
-        {register ? <SignUp /> : <SignIn />}
+        {register === "r" ? <SignUp /> : <SignIn />}
         <AuthLogin />
       </div>
     </div>
