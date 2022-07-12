@@ -5,8 +5,10 @@ const {
   deleteUser,
   putUser,
   loginUser,
+  getAllUser,
 } = require("./functions");
 
+router.get("", getAllUser);
 router.post("", postUser);
 router.put("", putUser);
 

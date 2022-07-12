@@ -2,7 +2,23 @@ const { User } = require("../../db");
 const { Op } = require("sequelize");
 const { compare } = require("../../helpers/handleBcrypt");
 
+const rols = ["admin", "user"];
+
 //recordar user_name
+async function getAllUser(req, res) {
+  try {
+    const { rol } = req.query;
+    let where = { where: {} };
+    if (rol) {
+      where.where.rol = rol;
+    }
+    let users = await User.findAll(where);
+    return res.send({ msg: "Users found", users });
+  } catch (error) {
+    console.log(error);
+    res.send({ msg: "error" });
+  }
+}
 async function getUser(req, res) {
   try {
     const { id } = req.params;
@@ -22,8 +38,16 @@ async function getUser(req, res) {
 
 async function postUser(req, res) {
   try {
-    const { name, lastname, password, email, genre, dateOfBirth, direction } =
-      req.body;
+    const {
+      name,
+      lastname,
+      password,
+      email,
+      genre,
+      dateOfBirth,
+      direction,
+      rol,
+    } = req.body;
     if (
       !name ||
       !lastname ||
@@ -36,10 +60,13 @@ async function postUser(req, res) {
       return res.status(200).json({ msg: "All fields are required" });
     }
     let userExists = await User.findOne({ where: { email: email } });
-    console.log("hasta aqui");
     if (userExists) {
       return res.status(200).json({ msg: "Username already exists" });
     }
+    if (rol && !rols.includes(rol)) {
+      return res.status(200).json({ msg: "rol not valid" });
+    }
+
     let user = await User.create({
       name: name,
       lastname: lastname,
@@ -48,6 +75,7 @@ async function postUser(req, res) {
       genre: genre,
       dateOfBirth: dateOfBirth,
       direction: direction,
+      rol: rol,
     });
     return res.status(200).json({ msg: "User created", user: user });
   } catch (error) {
@@ -75,7 +103,7 @@ async function deleteUser(req, res) {
 
 async function putUser(req, res) {
   try {
-    const { id, name, lastname, password, email, dateOfBirth, direction } =
+    const { id, name, lastname, password, email, dateOfBirth, direction, rol } =
       req.body;
     if (!id) {
       return res.status(200).json({ msg: "id_user is required" });
@@ -108,6 +136,9 @@ async function putUser(req, res) {
     }
     if (direction) {
       user.direction = direction;
+    }
+    if (rol) {
+      user.rol = rol;
     }
     await user.save();
     res.status(200).json({ msg: "User updated", user: user });
@@ -149,4 +180,5 @@ module.exports = {
   deleteUser,
   putUser,
   loginUser,
+  getAllUser,
 };
