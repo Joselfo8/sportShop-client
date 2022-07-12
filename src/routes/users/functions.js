@@ -1,6 +1,7 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
+const { tokenSign, } = require('../../helpers/Token')
 
 //recordar user_name
 async function getUser(req, res) {
@@ -22,7 +23,7 @@ async function getUser(req, res) {
 
 async function postUser(req, res) {
   try {
-    const { name, lastname, password, email, genre, dateOfBirth, direction } =
+    const { name, lastname, password, email, genre, dateOfBirth, direction,role } =
       req.body;
     if (
       !name ||
@@ -31,7 +32,8 @@ async function postUser(req, res) {
       !email ||
       !genre ||
       !dateOfBirth ||
-      !direction
+      !direction||
+      !role
     ) {
       return res.status(200).json({ msg: "All fields are required" });
     }
@@ -48,6 +50,7 @@ async function postUser(req, res) {
       genre: genre,
       dateOfBirth: dateOfBirth,
       direction: direction,
+      role:role
     });
     return res.status(200).json({ msg: "User created", user: user });
   } catch (error) {
@@ -75,10 +78,13 @@ async function deleteUser(req, res) {
 //PUT
 async function putUser(req, res) {
   try {
-    const { id, name, lastname, password, email, dateOfBirth, direction } =
+    const { id,role, name, lastname, password, email, dateOfBirth, direction } =
       req.body;
     if (!id) {
       return res.status(200).json({ msg: "id_user is required" });
+    }
+    if(role!=="admin" || role!=="user"){
+      return res.status(200).json({ msg: "role is required & most be user or admin" });
     }
     if (Number.isNaN(parseInt(id))) {
       return res.status(200).json({ msg: "id isn´t number" });
@@ -94,15 +100,18 @@ async function putUser(req, res) {
     if (lastname) {
       user.lastname = lastname;
     }
+    if (role) { ///
+      user.role = role;
+    }
     if (email && email !== user.email) {
       let usuarioExiste = await User.findOne({ where: { email: email } });
       if (usuarioExiste) {
         return res.status(200).json({ msg: "Email already register" });
       }
     }
-    const hashPass = await encrypt(password);
-    if (password) {
-      user.password = hashPass;
+    const validate_pass = await compare(password, user.password); //No seguro si la pense bien
+    if (validate_pass===true) {
+      user.password = password;
     }
     if (dateOfBirth) {
       user.dateOfBirth = dateOfBirth;
@@ -118,7 +127,7 @@ async function putUser(req, res) {
   }
 }
 
-async function loginUser(req, res) {
+async function loginUser(req, res) { /// Post para iniciar sesion
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -131,13 +140,19 @@ async function loginUser(req, res) {
       where: { email: email },
     });
     const acertijo = compare(user.name, user.email, user.password);
+    const token = await tokenSign(user);
     if (acertijo === false) {
       return res.send({
         msg: "the email incorret or the password is incorrect or the user does not exist",
         access: false,
       });
     }
-    return res.send({ msg: `welcome ${user.name}`, access: true, user: user });
+    return res.send({
+      msg: `welcome ${user.name}`,
+      access: true,
+      user: user,
+      token: token,
+    });
   } catch (error) {
     console.log(error);
     res.send({ msg: "error", access: false });
