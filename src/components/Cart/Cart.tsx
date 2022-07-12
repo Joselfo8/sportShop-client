@@ -11,7 +11,6 @@ export default function Cart(){
     let priceCart: number = 0;
     productCart.map((e: any) => priceCart = priceCart + e.price);
 
-
     const deleteProduct = (e:any) =>{
         setProductCart(
             productCart.filter((product: any) => product.id !== e )

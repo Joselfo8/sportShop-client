@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
-import { cleanStore, getProductsByName, getProductsByCategory } from '../../redux/action';
+import { cleanStore, getProductsByName, getProductsByCategory, getProducts } from '../../redux/action';
 import styles from './NavBar.module.scss';
 import cart from '../../assets/cart.png';
 import user from '../../assets/user.png';
@@ -11,12 +11,20 @@ import heart from '../../assets/corazonVacio.png'
 import DropDown from './DropDown';
 
 export default function NavBar(){
+    const state = useSelector((state:any) => state.products);
     const [value, setValue] = useState({});
     const dispatch = useDispatch();
-    const location = useLocation();
     const navigate = useNavigate();
-    const [dropDown, setDropDown] = useState(false);
-    console.log(location)
+    const [dropDown, setDropDown] = useState({
+        "FEMALE": false,
+        "MALE": false,
+        "KIDS": false,
+        "SPORT": false
+    });
+
+    useEffect(() => {
+        dispatch(getProducts())
+    },[])
 
     function handleChange(event: any) {
         setValue(event);
@@ -42,26 +50,75 @@ export default function NavBar(){
                 <img src={logo} className={styles.logo}/>
             </Link>
 
+            <ul className={styles.navItems}>
+                <li className={styles.cName} onMouseEnter={() => setDropDown({
+                    "FEMALE": false,
+                    "MALE": true,
+                    "KIDS": false,
+                    "SPORT": false
+                })} onMouseLeave={() => setDropDown({
+                    "FEMALE": false,
+                    "MALE": false,
+                    "KIDS": false,
+                    "SPORT": false
+                })}>
+                <Link to="/MALE">
+                    <button className={styles.buttonNav}>MEN</button>
+                </Link>
+                {dropDown.MALE && <DropDown categoryClick={"MALE"}/>}
+                </li>
 
-            <div>
-                <Link to='/products' onMouseEnter={() => setDropDown(true)} onMouseLeave={() => setDropDown(false)}>
-                    <button onClick={(e) => {return productCategory(e)}} value='MALE' className={styles.buttonNav}>MAN</button>
+                <li className={styles.cName} onMouseEnter={() => setDropDown({
+                    "FEMALE": true,
+                    "MALE": false,
+                    "KIDS": false,
+                    "SPORT": false
+                })} onMouseLeave={() => setDropDown({
+                    "FEMALE": false,
+                    "MALE": false,
+                    "KIDS": false,
+                    "SPORT": false
+                })}>
+                <Link to="/FEMALE">
+                    <button className={styles.buttonNav}>WOMEN</button>
                 </Link>
-                <Link to='/products' onMouseEnter={() => setDropDown(true)} onMouseLeave={() => setDropDown(false)}>
-                    <button onClick={(e) => {return productCategory(e)}} value='FEMALE' className={styles.buttonNav}>Woman</button>
-                </Link>
-                <Link to='/products' onMouseEnter={() => setDropDown(true)} onMouseLeave={() => setDropDown(false)}>
-                    <button onClick={(e) => {return productCategory(e)}} value='KIDS' className={styles.buttonNav}>Kids</button>
-                </Link>
-                {
-                    location.pathname === '/products' ?
-                    <Link to='/products'>
-                        <button onClick={(e) => {return resetStore(e)}} className={styles.buttonNav}>All Products</button>
-                    </Link>
-                    : <></>
-                }
+                {dropDown.FEMALE && <DropDown categoryClick={"FEMALE"}/>}
+                </li>
 
-            </div>
+                <li className={styles.cName} onMouseEnter={() => setDropDown({
+                    "FEMALE": false,
+                    "MALE": false,
+                    "KIDS": true,
+                    "SPORT": false
+                })} onMouseLeave={() => setDropDown({
+                    "FEMALE": false,
+                    "MALE": false,
+                    "KIDS": false,
+                    "SPORT": false
+                })}>
+                <Link to="/KIDS">
+                    <button className={styles.buttonNav}>KIDS</button>
+                </Link>
+                {dropDown.KIDS && <DropDown categoryClick={"KIDS"}/>}
+                </li>
+
+                <li className={styles.cName} onMouseEnter={() => setDropDown({
+                    "FEMALE": false,
+                    "MALE": false,
+                    "KIDS": false,
+                    "SPORT": true
+                })} onMouseLeave={() => setDropDown({
+                    "FEMALE": false,
+                    "MALE": false,
+                    "KIDS": false,
+                    "SPORT": false
+                })}>
+                <Link to="/SPORT">
+                    <button className={styles.buttonNav}>SPORT</button>
+                </Link>
+                {dropDown.SPORT && <DropDown categoryClick={"SPORT"}/>}
+                </li>
+            </ul>
 
             <div className={styles.orderIcons}>
 
@@ -94,7 +151,6 @@ export default function NavBar(){
 
             </div>
 
-                <DropDown/>
         </div>
     );
 };
