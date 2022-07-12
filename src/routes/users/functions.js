@@ -1,6 +1,6 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
-const { compare } = require("../../helpers/handleBcrypt");
+const { compare, encrypt } = require("../../helpers/handleBcrypt");
 
 //recordar user_name
 async function getUser(req, res) {
@@ -40,10 +40,11 @@ async function postUser(req, res) {
     if (userExists) {
       return res.status(200).json({ msg: "Username already exists" });
     }
+    hashPass = await encrypt(password)
     let user = await User.create({
       name: name,
       lastname: lastname,
-      password: password,
+      password: hashPass,
       email: email,
       genre: genre,
       dateOfBirth: dateOfBirth,
@@ -72,7 +73,7 @@ async function deleteUser(req, res) {
     res.json(error);
   }
 }
-
+//PUT
 async function putUser(req, res) {
   try {
     const { id, name, lastname, password, email, dateOfBirth, direction } =
@@ -100,8 +101,9 @@ async function putUser(req, res) {
         return res.status(200).json({ msg: "Email already register" });
       }
     }
+    const hashPass = await encrypt(password);
     if (password) {
-      user.password = password;
+      user.password = hashPass;
     }
     if (dateOfBirth) {
       user.dateOfBirth = dateOfBirth;
