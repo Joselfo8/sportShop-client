@@ -26,4 +26,5 @@ const registerCtrl = async (req, res) => {
 
 /* const loginCtrl = async (req, res) => {} */
 
+
 module.exports = {registerCtrl};
