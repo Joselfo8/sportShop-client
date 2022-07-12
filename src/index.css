@@ -34,6 +34,9 @@ html {
   --text: rgba(47, 53, 66, 1);
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  /* palette in rgb format */
+  --bg-rgb: 255, 71, 87;
+  --text-rgb: 47, 53, 66;
   /* breakpoints */
   --sm: 640px;
   --md: 768px;
@@ -42,14 +45,22 @@ html {
   --2xl: 1536px;
 }
 
+/* palettes */
+
 .primary {
   --bg: rgba(255, 71, 87, 1);
   --text: rgba(47, 53, 66, 1);
+  /* palette in rgb format */
+  --bg-rgb: 255, 71, 87;
+  --text-rgb: 47, 53, 66;
 }
 
 .secondary {
   --bg: rgba(87, 96, 111, 1);
   --text: rgba(241, 242, 246, 1);
+  /* palette in rgb format */
+  --bg-rgb: 87, 96, 111;
+  --text-rgb: 241, 242, 246;
 }
 
 .success {
@@ -65,6 +76,22 @@ html {
 .dark {
   --bg: rgba(47, 53, 66, 1);
   --text: rgba(241, 242, 246, 1);
+}
+
+/* transitions */
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
 }
 
 body {

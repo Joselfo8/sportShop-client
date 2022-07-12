@@ -1,0 +1,21 @@
+.bodyAbout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid rgb(0, 0, 0);
+    width: 500px;
+    height: 190px;
+
+    span{
+        width: 80%;
+    }
+}
+

@@ -1,13 +1,14 @@
 import axios from "axios";
 
 import {
-    GET_PRODUCTSBYNAME
+    GET_PRODUCTSBYNAME,
+    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY
 } from '../actionsTypes/actionsTypes';
 
 export function getProducts(){
     try{
         return async function name(dispatch: any) {
-            let json: any = await axios.get('https://fakestoreapi.com/products?limit=10');
+            let json: any = await axios.get('https://vlixes-server.herokuapp.com/products');
             return dispatch({
                 type: "GET_PRODUCTS",
                 payload: json.data
@@ -15,12 +16,13 @@ export function getProducts(){
         };
     }catch(error){
         console.log(error);
+        return alert('Product not found!');
     };
 };
 
 export const getDetails = (id: any) => async (dispatch: any) => {
     try {
-        const json: any = await axios.get(`https://fakestoreapi.com/products/${id}`)
+        const json: any = await axios.get(`https://vlixes-server.herokuapp.com/products/${id}`)
         return dispatch({
             type: "GET_DETAILS",
             payload: json.data
@@ -45,12 +47,12 @@ export function getProductsByName(name: any){
     };
 };
 
-export function getProductsMen(){
+export function getProductsByCategory(event: any){
     try{
         return async function name(dispatch: any) {
-            let json: any = await axios.get(`https://fakestoreapi.com/products/category/men's%20clothing`);
+            let json: any = await axios.get(`https://vlixes-server.herokuapp.com/products?category=${event}`);
             return dispatch({
-                type: "GET_MEN",
+                type: "GET_BY_CATEGORY",
                 payload: json.data
             });
         };
@@ -59,12 +61,13 @@ export function getProductsMen(){
     };
 };
 
-export function getProductsWomen(){
+export function getProductsByCategoryAndSubcategory(object: any){
+    // console.log(object)
     try{
         return async function name(dispatch: any) {
-            let json: any = await axios.get(`https://fakestoreapi.com/products/category/women's%20clothing`);
+            let json: any = await axios.get(`https://vlixes-server.herokuapp.com/products?category=${object.category}&subCategory=${object.argument}`);
             return dispatch({
-                type: "GET_WOMEN",
+                type: GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
                 payload: json.data
             });
         };
@@ -79,6 +82,13 @@ export function cleanStore(payload: any){
         payload
     };
 };
+
+
+export const orderByPrice = (payload:any) =>  (dispatch:any) => {
+    // console.log(payload)
+    return dispatch({type: "ORDER_BY_PRICE", payload})
+    
+  }
 
 
 

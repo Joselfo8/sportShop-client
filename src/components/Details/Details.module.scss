@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+
+
+.gridLayout {
+    width: 100%;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 75% auto;
+}
+
+.col1 {
+   
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+    .pLink{
+        display: inline-flex;
+        margin-right: 5px;
+    }
+    .pLink:hover {
+        text-decoration: underline;
+    }
+    
+   p { 
+        color: #000;
+        margin-top: 0;
+        font-family: $font;
+        font-weight: 100;
+        margin-left: 50px;
+    }
+    img {
+        margin-top: 30px;
+        width: 50%;
+        display: block;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+
+    // img:hover {
+    //     transform: scale(1.);
+    //     cursor: zoom-in;
+    // }
+
+    h2 {
+        font-family: $font;
+        margin-top: 50px;
+        margin-left: 50px;
+    }
+
+}
+
+.col2 {
+    margin-top: 20px;
+    h1 {
+        font-size: 30px;
+        margin: 20px 0 10px;
+        font-family: $font;
+        font-weight:$weightTitle;
+        color: #000;
+    }
+
+    h2 {
+        font-size: 25px;
+        margin: 60px 0 10px;
+        font-family: $font;
+        font-weight:$weightTitle;
+        color: #000;
+    }
+
+    span {
+        font-size: 12px;
+        font-family: $font;
+        font-weight: 100;
+        margin-left: 10px;  
+    }
+
+    p {
+        font-family: $font;
+        font-weight: 100;
+        text-align: justify;
+        
+    }
+
+    .price {
+        font-size: 18px;
+        font-family: $font;
+        font-weight: $weightTitle;
+    }
+
+  
+    .cart {
+        display: inline-flex;
+        width: 200px;
+        font-family: $font;
+        font-size: 15px;
+        font-weight: 100;
+        border-radius: 3px;
+        border: 1px solid #a70f0f;
+        background-color: #a70f0f;;
+        color: #fff;   
+        margin-top: 10px;
+        margin-right: 10px;
+        cursor: pointer;
+        padding: 5px;
+        justify-content: space-around;
+        align-items:center;
+        transition: 0.3s;
+    }
+
+    .cart:hover {
+        background-color: #a82c2c; 
+        color: #fff ;
+    }
+   
+    .favorite {
+        border: 0;
+        background-color: #fff;
+        cursor: pointer;
+   
+        
+        .heart {
+            color: #837b7b;
+            transition: 0.3s;
+        }
+
+        .heart:hover {
+            width: 80%;
+        }
+    }
+
+
+    .description {
+        margin-top: 70px;
+        font-family: $font;
+        font-weight: 600;
+    }
+
+}
+
+
+.link {
+    text-decoration: none;
+}
+
+
+// ----------------Tallas-------------
+.containerSize {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    display: inline-flex;
+    margin-right: 5px;
+}
+ul{
+    justify-content: flex-start;
+    padding-inline-start: 1px;
+}
+ul.ksCboxtags li{
+    display: inline-flex;
+}
+ul.ksCboxtags li label{
+    background-color: #fff;
+    border: 2px solid rgba(139, 139, 139, .3);
+    color: #adadad;
+    white-space: nowrap;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
+ul.ksCboxtags li label {
+    width: 40px;
+    text-align: center;
+    padding: 9px 11px;
+    cursor: pointer;
+    font: $font;
+    font-weight: 600;
+    border: 1px solid;
+    color: #000;
+}
+ul.ksCboxtags li label::before {
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 6px 2px 2px;
+    transition: transform .3s ease-in-out;
+}
+ul.ksCboxtags li input[type="radio"]:checked + label::before {
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+ul.ksCboxtags li input[type="radio"]:checked + label {
+    border: 2px solid #000000;
+    background-color: #000000;
+    color: #fff;
+    transition: all .2s;
+}
+ul.ksCboxtags li input[type="radio"] {
+    padding: -10;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+ul.ksCboxtags li input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+

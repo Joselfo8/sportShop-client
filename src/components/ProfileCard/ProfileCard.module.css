@@ -1,0 +1,7 @@
+.container {
+  background-color: var(--bg);
+  width: 100%;
+  min-height: 48rem;
+  padding: 1.5rem 2rem;
+  /* border-radius: 0 0.2rem 0.2rem 0; */
+}

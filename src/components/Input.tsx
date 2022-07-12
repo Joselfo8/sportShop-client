@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Input.module.css";
 
-interface InputProp {
+interface Props {
   text: string;
   type?: string;
   id: string;
   placeholder?: string;
+  defaultValue?: string;
   required?: boolean;
   getData: Function;
 }
 
-function Input({ text, type = "text", id, placeholder, required, getData }: InputProp) {
+function Input({
+  text,
+  type = "text",
+  id,
+  placeholder,
+  defaultValue = "",
+  required,
+  getData,
+}: Props) {
   const [value, setValue] = useState("");
   const [status, setStatus] = useState({ code: 0, message: "" });
 
@@ -22,6 +31,11 @@ function Input({ text, type = "text", id, placeholder, required, getData }: Inpu
     getData(newValue, mergeStatus);
     setValue(newValue);
   };
+
+  // set default value
+  useEffect(() => {
+    if (defaultValue.length > 0) setValue(defaultValue);
+  }, [defaultValue]);
 
   return (
     <label className={`${styles["label"]}`} htmlFor={id}>
