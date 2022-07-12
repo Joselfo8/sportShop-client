@@ -7,10 +7,10 @@ const rols = ["admin", "user"];
 //recordar user_name
 async function getAllUser(req, res) {
   try {
-    const { rol } = req.query;
+    const { role } = req.query;
     let where = { where: {} };
-    if (rol) {
-      where.where.rol = rol;
+    if (role) {
+      where.where.role = role;
     }
     let users = await User.findAll(where);
     return res.send({ msg: "Users found", users });
@@ -64,7 +64,7 @@ async function postUser(req, res) {
       return res.status(200).json({ msg: "Username already exists" });
     }
     if (role && !rols.includes(role)) {
-      return res.status(200).json({ msg: "rol not valid" });
+      return res.status(200).json({ msg: "role not valid" });
     }
 
     hashPass = await encrypt(password);
@@ -149,7 +149,7 @@ async function putUser(req, res) {
       user.direction = direction;
     }
     if (role) {
-      user.rol = role;
+      user.role = role;
     }
     await user.save();
     res.status(200).json({ msg: "User updated", user: user });
