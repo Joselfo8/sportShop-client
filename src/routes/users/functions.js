@@ -33,7 +33,7 @@ async function getUser(req, res) {
     return res.send({ msg: "User found", user });
   } catch (error) {
     console.log(error);
-    res.send({ msg: error });
+    return res.send({ msg: error });
   }
 }
 

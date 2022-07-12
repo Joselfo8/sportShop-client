@@ -26,25 +26,28 @@ const verifyToken = async (token) => {
   }
 };
 
-const checkRoleUser = (roles) => async (req, res, next) => {
+const checkRules = (roles) => async (req, res, next) => {
+  console.log(req.user);
   try {
-    //roles = "user" or "admin"
-    const token = req.headers.authorization.split(" ")[1];
-    //console.log(token)
-    const tokenInfo = await verifyToken(token);
-    //console.log(tokenInfo.id, tokenInfo.role)
-    const userInfo = await User.findByPk(tokenInfo.id);
-    //console.log(userInfo.role)
-    if (userInfo.role === roles) {
-      next();
+    if (req.user.id === 0) {
+      if (roles.includes(req.user.role)) {
+        return next();
+      } else {
+        return res.status(401).send({ msg: "No tienes acceso" });
+      }
     } else {
-      res.status(409);
-      res.send({ error: "you are not autorized" });
+      const user = await User.findByPk(req.user.id);
+      if (!user) return res.status(401).send({ msg: "el usuario no existe" });
+
+      if (roles.includes(user.role)) {
+        return next();
+      } else {
+        return res.status(409).send({ msg: "No tiene acceso a este recurso" });
+      }
     }
   } catch (e) {
-    res.status(409);
-    res.send({ msg: "por aqui no pasas" }); //por aqui no pasa
+    return res.status(409).send({ msg: "por aqui no pasas" }); //por aqui no pasa
   }
 };
 
-module.exports = { tokenSign, verifyToken, checkRoleUser };
+module.exports = { tokenSign, verifyToken, checkRules };

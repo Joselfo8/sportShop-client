@@ -7,16 +7,15 @@ const {
   loginUser,
   getAllUser,
 } = require("./functions");
-const { checkPermission, } = require('../../helpers/auth');//garantiza una secion iniciada
-const { checkRoleUser } = require('../../helpers/Token');
-
+const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
+const { checkRules } = require("../../helpers/Token");
 
 router.get("", getAllUser);
 router.post("", postUser);
 router.put("", putUser);
 
-router.post("/login", loginUser);// sorry but it most be a post not a get
+router.post("/login", loginUser); // sorry but it most be a post not a get
 
-router.get("/:id", checkPermission , checkRoleUser('admin'), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
+router.get("/:id", checkRole, checkRules(["user", "admin", "ghost"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
 router.delete("/:id", deleteUser);
 module.exports = { users: router };
