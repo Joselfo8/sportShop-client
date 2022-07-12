@@ -1,7 +1,7 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
-const { tokenSign,} = require('../../helpers/Token')
+const { tokenSign } = require("../../helpers/Token");
 
 const rols = ["admin", "user"];
 
@@ -39,7 +39,6 @@ async function getUser(req, res) {
 
 async function postUser(req, res) {
   try {
-
     const {
       name,
       lastname,
@@ -58,8 +57,7 @@ async function postUser(req, res) {
       !email ||
       !genre ||
       !dateOfBirth ||
-      !direction||
-      !role
+      !direction
     ) {
       return res.status(200).json({ msg: "All fields are required" });
     }
@@ -67,6 +65,7 @@ async function postUser(req, res) {
     if (userExists) {
       return res.status(200).json({ msg: "Username already exists" });
     }
+
     if (role && !rols.includes(role)) {
       return res.status(200).json({ msg: "role not valid" });
     }
@@ -82,7 +81,6 @@ async function postUser(req, res) {
       dateOfBirth: dateOfBirth,
       direction: direction,
       role: role,
-
     });
     return res.status(200).json({ msg: "User created", user: user });
   } catch (error) {
@@ -110,7 +108,6 @@ async function deleteUser(req, res) {
 //PUT
 async function putUser(req, res) {
   try {
-
     const {
       id,
       name,
@@ -125,7 +122,7 @@ async function putUser(req, res) {
     if (!id) {
       return res.status(200).json({ msg: "id_user is required" });
     }
-    
+
     if (Number.isNaN(parseInt(id))) {
       return res.status(200).json({ msg: "id isn´t number" });
     }
@@ -140,7 +137,7 @@ async function putUser(req, res) {
     if (lastname) {
       user.lastname = lastname;
     }
-    if (role) { ///
+    if (role && rols.includes(role)) {
       user.role = role;
     }
     if (email && email !== user.email) {
@@ -149,8 +146,8 @@ async function putUser(req, res) {
         return res.status(200).json({ msg: "Email already register" });
       }
     }
-    const validate_pass = await compare(password, user.password); //No seguro si la pense bien
-    if (validate_pass===true) {
+
+    if (password) {
       user.password = password;
     }
     if (dateOfBirth) {
@@ -159,12 +156,15 @@ async function putUser(req, res) {
     if (direction) {
       user.direction = direction;
     }
-    if (role) {
-      if(role!=="admin" || role!=="user"){
-        return res.status(200).json({ msg: "role is required & most be user or admin" });
-      }
-      user.role = role;
-    }
+
+    // if (role) {
+    //   if (!rols.includes(role)) {
+    //     return res
+    //       .status(200)
+    //       .json({ msg: "role is required & most be user or admin" });
+    //   }
+    //   user.role = role;
+    // }
     await user.save();
     res.status(200).json({ msg: "User updated", user: user });
   } catch (error) {
@@ -173,7 +173,8 @@ async function putUser(req, res) {
   }
 }
 
-async function loginUser(req, res) { /// Post para iniciar sesion
+async function loginUser(req, res) {
+  /// Post para iniciar sesion
   try {
     const { email, password } = req.body;
     if (!email || !password) {
