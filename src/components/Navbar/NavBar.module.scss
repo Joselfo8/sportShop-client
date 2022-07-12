@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap');
+
+
 .navBar{
     display: flex;
     flex-direction: row;
@@ -77,6 +80,7 @@
     padding: 10px 25px;
     border: 2px solid #000;
     font-weight: 500;
+
     background: transparent;
     cursor: pointer;
     transition: all 0.3s ease;

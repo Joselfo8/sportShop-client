@@ -27,8 +27,9 @@ function rootReducer(state = initialState, action: any){
             }
 
         case GET_PRODUCTSBYNAME:
-            const filter: any = state.products.filter((product: any) => product.title.toLowerCase().includes(action.payload.toLowerCase()))
-            return {
+            const filter: any = state.products.filter((product: any) => product.title.toLowerCase().includes(action.payload.toLowerCase()));
+/*             if(!filter.length){return alert('jijaja')}
+ */            return {
                 ...state,
                 productsFiltered: filter
             }
