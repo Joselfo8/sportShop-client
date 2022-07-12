@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const {loginCtrl,registerCtrl} = require('./functions');
+const {registerCtrl} = require('./functions');
 //login!
 //router.post('/login',loginCtrl)
-
 //Register the user!
 router.post('/',registerCtrl)
 

@@ -1,7 +1,7 @@
 const { User } = require("../../db");
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
-const { tokenSign, } = require('../../helpers/Token')
+const { tokenSign,} = require('../../helpers/Token')
 
 //recordar user_name
 async function getUser(req, res) {

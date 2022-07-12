@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const { User } = require("../db");
 
-const tokenSign=async(user)=>{ //Genera el Token
+const tokenSign = async (user) => { //Genera el Token
     return jwt.sign(
         {
             id: user.id,
@@ -10,35 +11,39 @@ const tokenSign=async(user)=>{ //Genera el Token
         {
             expiresIn: "2h", //Tiempo de expiracion
         }
-    )}
+    )
+}
 
-    const verifyToken=async(token)=>{ //Verifica el Token
-    try{
-        return jwt.verify(token, process.env.JWT_SECRET);
+const verifyToken = async (token) => { //Verifica el Token
+    try {
+        const thumb = jwt.verify(token, process.env.JWT_SECRET);
+        // console.log(thumb)
+        return thumb;
     }
-    catch(e){
+    catch (e) {
         return null
     }
-    }
-    
-    const checkRoleUser = (roles)=> async (req, res, next) => {
-        try {
-            const token = req.headers.authorization.split(' ').pop();
-            const tokenInfo = await verifyToken(token);
-            const userInfo = await userModel.findById(tokenInfo.id);
-            console.log(userInfo) //{ id: 1, role: 'user', iat: 1657604604, exp: 1657611804 }
-           /* if(roles!==1){
-            //if([].concat(roles).includes(userInfo.role)){
-                next()
-            }else{
-                res.status(409)
-                res.send({error:'do Not have permised '})
-            } */
-            next
-        } catch (e) {
-            res.status(409)
-            res.send({ msg: 'por aqui no pasas' })//por aqui no pasa
-        }
-    }
+}
 
-module.exports={tokenSign,verifyToken, checkRoleUser};
+const checkRoleUser = (roles) => async (req, res, next) => {
+    try {
+        //role = "user" or "admin"
+        const token = req.headers.authorization.split(' ')[1];
+        //console.log(token)
+        const tokenInfo = await verifyToken(token);
+        //console.log(tokenInfo.id, tokenInfo.role)
+        const userInfo = await User.findByPk(tokenInfo.id);
+        //console.log(userInfo.role)
+        if (userInfo.role === tokenInfo.role ) {
+            next()
+        } else {
+            res.status(409)
+            res.send({ error: "you are not autorized" })
+        }
+    } catch (e) {
+        res.status(409)
+        res.send({ msg: 'por aqui no pasas' })//por aqui no pasa
+    }
+}
+
+module.exports = { tokenSign, verifyToken, checkRoleUser };
