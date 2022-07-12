@@ -13,7 +13,7 @@ async function getUser(req, res) {
     if (!user) {
       return res.send({ msg: "User not found" });
     }
-    return res.send(user);
+    return res.send({ msg: "User found", user });
   } catch (error) {
     console.log(error);
     res.send({ msg: error });
@@ -36,6 +36,7 @@ async function postUser(req, res) {
       return res.status(200).json({ msg: "All fields are required" });
     }
     let userExists = await User.findOne({ where: { email: email } });
+    console.log("hasta aqui");
     if (userExists) {
       return res.status(200).json({ msg: "Username already exists" });
     }
@@ -51,7 +52,7 @@ async function postUser(req, res) {
     return res.status(200).json({ msg: "User created", user: user });
   } catch (error) {
     console.log("error", error);
-    res.status(200).json({ msg: "Failed to create user" });
+    res.status(200).json({ msg: "Failed to create user", error });
   }
 }
 
@@ -59,10 +60,10 @@ async function deleteUser(req, res) {
   const { id } = req.params;
   try {
     if (!id) {
-      return reject("id is required");
+      return res.send({ msg: "id is required" });
     }
     if (Number.isNaN(parseInt(id))) {
-      return reject("id must be a number");
+      return res.send({ msg: "id isn´t number" });
     }
     await User.destroy({ where: { id: id } });
     return res.json({ msg: "User deleted" });
