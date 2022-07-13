@@ -16,12 +16,10 @@ export default function DropDown(categoryClick:any){
         }));
     };
     let data = productSubCategory.map((e:any) => { return [e.category, e.subCategory]});
-
     let result = data.filter((item:any,index:any)=>{
         return data.map((e:any) => e[0]).indexOf(item[0]) === index ||
         data.map((e:any) => e[1]).indexOf(item[1]) === index
     });
-
     return(
         <>
         <ul className={styles.servicesSubmenu}>
