@@ -13,8 +13,10 @@ import UserProfile from "./routes/UserProfile";
 
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
+
 import List from "./components/Admin/List/List";
 import HomeAdmin from "./components/Admin/home/HomeAdmin";
+
 
 function App() {
   return (
@@ -34,9 +36,11 @@ function App() {
 
         <Route path="/about" element={<About />} />
 
+
         {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin/>} />
         <Route path="/admin/list" element={<List />} />
+
 
       </Routes>
     </BrowserRouter>
