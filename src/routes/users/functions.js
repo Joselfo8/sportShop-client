@@ -197,8 +197,18 @@ async function loginUser(req, res) {
     return res.send({
       msg: `welcome ${user.name}`,
       access: true,
-      user: user,
       token: token,
+       //only id and name from user
+      user: {
+        id: user.id,
+        role: user.role,
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email,
+        genre: user.genre,
+        dateOfBirth: user.dateOfBirth,
+        direction: user.direction,
+      },
     });
   } catch (error) {
     console.log(error);
