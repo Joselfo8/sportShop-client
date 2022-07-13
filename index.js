@@ -21,6 +21,7 @@ require("dotenv").config();
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 const { PORT, NODE_ENV } = process.env;
+
 // Syncing all the models at once.
 conn.sync({ alter: true }).then(() => {
   if (NODE_ENV === "development") {
@@ -28,7 +29,9 @@ conn.sync({ alter: true }).then(() => {
   } else if (NODE_ENV === "production") {
     console.log("REMOTE database synced");
   }
-  server.listen(PORT, () => {
-    console.log("server up on : http://localhost:" + PORT);
-  });
 });
+const serverUp = server.listen(PORT, () => {
+  console.log("server up on : http://localhost:" + PORT);
+});
+
+module.exports = { serverUp };

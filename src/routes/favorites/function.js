@@ -2,29 +2,29 @@ const { User, Product } = require("../../db");
 
 const getFavoritesById = async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
 
     //validar id
     if (!id) res.send({ msg: "user is required" });
     if (Number.isNaN(id)) res.send({ msg: "user must be a number" });
 
     //existencia del usuario
-    const user = await User.findOne({ where: { id: userId } });
-    if (!user) res.send({ msg: "user not exist" });
+    const user = await User.findOne({ where: { id } });
+    if (!user) return res.send({ msg: "user not exist" });
 
     const list = await user.getFavorite();
     const products = await list.getProducts();
 
-    res.send({ msg: "list of favorites", list: products });
+    return res.send({ msg: "list of favorites", list: products });
   } catch (error) {
     console.log("error", error);
-    res.send({ msg: "failed to get favorites", error: error });
+    return res.send({ msg: "failed to get favorites", error: error });
   }
 };
 
 const addToFavorites = async (req, res) => {
   try {
-    const { user, product } = req.query;
+    const { user, product } = req.body;
 
     //validar user
     if (!user) res.send({ msg: "user is required" });

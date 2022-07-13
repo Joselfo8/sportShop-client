@@ -55,9 +55,12 @@ const delete_item = async (req, res) => {
 
     const list = await userObj.getShopping_list();
 
-    const new_list = await list.removeProduct(product_to_delete);
+    await list.removeProduct(productObj);
+    const new_list = await list.getProducts();
+    console.log(new_list);
     res.status(201).send({ msg: "item deleted", list: new_list });
   } catch (e) {
+    console.log(e);
     res.send({ msg: "failed to delete item", error: e });
   }
 };
@@ -81,8 +84,8 @@ const destroy_trolly = async (req, res) => {
 
 const add_item = async (req, res) => {
   try {
-    const { user } = req.query;
-    const { product } = req.query;
+    const { user } = req.body;
+    const { product } = req.body;
 
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
@@ -94,16 +97,16 @@ const add_item = async (req, res) => {
       return res.send({ msg: "product must be a number" });
 
     //existencia de usuario
-    const userObj = await User.findOne({ where: { id: user_id } });
+    const userObj = await User.findOne({ where: { id: user } });
     if (!userObj) return res.send({ msg: "user not found" });
 
     //existencia de producto
-    const item_to_add = await Product.findOne({ where: { id: product_id } });
+    const item_to_add = await Product.findOne({ where: { id: product } });
     if (!item_to_add) return res.send({ msg: "product not found" });
 
     const list = await userObj.getShopping_list();
     await list.addProduct(item_to_add);
-    const new_list = await list.getProducts();
+    let new_list = await list.getProducts();
     new_list = new_list.map((e) => {
       return {
         productId: e.id,
