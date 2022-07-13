@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import List from "../List/List";
 
 export default function(){
     return(
-        <div></div>
-    )
-}
+        <div>
+            <List/>
+        </div>
+    );
+};

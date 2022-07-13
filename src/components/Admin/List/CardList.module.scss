@@ -1,0 +1,21 @@
+.bodyCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 1rem;
+    width: 50%;
+    background-color: black;
+}
+
+
+.containerInfo{
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.containerButtons{
+    padding-left: 10px;
+
+}
