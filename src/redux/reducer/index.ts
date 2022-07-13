@@ -4,11 +4,11 @@ import {
 } from '../actionsTypes/actionsTypes'
 
 const initialState: any = {
-    products : [],
-    productsFiltered : [],
+    products: [],
+    productsFiltered: [],
     searchProducts: [],
     productCart: [],
-    details : {}
+    details: {}
 };
 
 function rootReducer(state = initialState, action: any){
@@ -16,18 +16,18 @@ function rootReducer(state = initialState, action: any){
         case "GET_PRODUCTS":
             return{
                 ...state,
-                products: action.payload,
-                productCart: action.payload.slice(0, 3)
+                products: action.payload.products,
+                productCart: action.payload.products,
             }
 
         case "GET_DETAILS":
             return {
                 ...state,
-                details: action.payload
+                details: action.payload.product
             }
 
         case GET_PRODUCTSBYNAME:
-            const filter: any = state.products.filter((product: any) => product.title.toLowerCase().includes(action.payload.toLowerCase()))
+            const filter: any = state.products.filter((product: any) => product.title.toLowerCase().includes(action.payload.toLowerCase()));
             return {
                 ...state,
                 productsFiltered: filter
@@ -36,15 +36,14 @@ function rootReducer(state = initialState, action: any){
         case "GET_BY_CATEGORY":
             return{
                 ...state,
-                productsFiltered:action.payload,
+                productsFiltered:action.payload.products,
             }
 
         case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
             return{
                 ...state,
-                productsFiltered:action.payload,
+                productsFiltered:action.payload.products,
             }
-
 
         case "CLEAN_STORE":
             console.log("desde CLEAN_STORE")

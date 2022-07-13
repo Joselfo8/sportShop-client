@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap');
+
+
 .navBar{
     display: flex;
     flex-direction: row;
@@ -9,7 +12,21 @@
     border-bottom: 1px solid rgb(0, 0, 0);
 }
 
+.navItems{
+    display: flex;
+    list-style: none;
+    text-align: center;
+    width: 70vw;
+    justify-content: center;
+    margin-right: 2rem;
+}
 
+.cName{
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    // margin: 5px;
+}
 
 .logo{
     width: 50px;
@@ -72,11 +89,12 @@
 // Button NavBar
 
 .buttonNav {
-    width: 130px;
+    width: 9rem;
     height: 40px;
     padding: 10px 25px;
     border: 2px solid #000;
     font-weight: 500;
+
     background: transparent;
     cursor: pointer;
     transition: all 0.3s ease;

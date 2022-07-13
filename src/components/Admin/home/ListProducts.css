@@ -1,0 +1,19 @@
+.ListProducts {
+  margin: 15px 10vw;
+}
+.ListProducts .header {
+  width: 100%;
+  height: 55px;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+}
+.ListProducts .header input[type=text] {
+  border: none;
+  border-radius: 15px;
+  margin: 10px 0;
+  width: 300px;
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  border: 1px solid #f8a;
+}/*# sourceMappingURL=ListProducts.css.map */

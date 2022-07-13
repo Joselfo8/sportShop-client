@@ -1,0 +1,40 @@
+.CardProduct {
+  margin: 20px;
+  background-color: #f3f3f3;
+  border-radius: 20px;
+}
+.CardProduct h1 {
+  color: #f8a;
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 28pt;
+}
+.CardProduct .containerMain {
+  display: flex;
+}
+.CardProduct .containerImage {
+  height: 200px;
+  min-width: 200px;
+  margin: 20px;
+  transition: all 1s;
+}
+.CardProduct .containerImage:hover {
+  height: 220px;
+  min-width: 220px;
+}
+.CardProduct .containerImage img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.CardProduct .containerInfo p {
+  font-size: 16pt;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
+}
+.CardProduct .containerInfo h2 {
+  font-size: 20pt;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
+  text-align: right;
+  margin-right: 20px;
+}/*# sourceMappingURL=CardProduct.css.map */
