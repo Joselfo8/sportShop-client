@@ -12,7 +12,7 @@ export default function(){
             <NavBar/>
 
             {
-                allProducts.map(() => {
+                allProducts.map((e:any) => {
                     return <CardList />
                 })
             }
