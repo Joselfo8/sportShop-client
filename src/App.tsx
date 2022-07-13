@@ -12,16 +12,18 @@ import UserProfile from "./routes/UserProfile";
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
 import Purchase from "./components/Purchase/Purchase"; 
+import HomeAdmin from "./components/Admin/HomeAdmin/HomeAdmin";
+
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        
+
         <Route path="/login" element={<Login />} />
         <Route path="/user/profile" element={<UserProfile />} />
-        
+
         <Route path="/cart" element={<Cart />} />
         <Route path="/favorites" element={<Favorites/>} />
         <Route path="/purchase" element={<Purchase/>} />
@@ -29,8 +31,12 @@ function App() {
         <Route path='/:category' element={<Subcategory/>} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Details />} />
-        
+
         <Route path="/about" element={<About />} />
+
+        {/* ADNIN */}
+        <Route path="/admin" element={<HomeAdmin />} />
+
       </Routes>
     </BrowserRouter>
   );

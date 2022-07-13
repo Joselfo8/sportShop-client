@@ -6,7 +6,7 @@ import styles from "./DropDown.module.scss";
 
 export default function DropDown(categoryClick:any){
     const dispatch = useDispatch();
-    const state = useSelector((state:any) => state.products);
+    const productSubCategory = useSelector((state:any) => state.products);
 
     function productCategory(e:any, d:any){
         console.log(e, d)
@@ -15,16 +15,20 @@ export default function DropDown(categoryClick:any){
             "argument": d,
         }));
     };
-
+    let data = productSubCategory.map((e:any) => { return [e.category, e.subCategory]});
+    let result = data.filter((item:any,index:any)=>{
+        return data.map((e:any) => e[0]).indexOf(item[0]) === index ||
+        data.map((e:any) => e[1]).indexOf(item[1]) === index
+    });
     return(
         <>
         <ul className={styles.servicesSubmenu}>
         {
-            state.map((e:any) => {
-                return( categoryClick.categoryClick === e.category ?
+            result.map((e:any) => {
+                return( categoryClick.categoryClick === e[0] ?
                     <li>
                         <Link to={"/products"}>
-                            <button className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e.subCategory)}>{e.subCategory}</button>
+                            <button className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e[1])}>{e[1]}</button>
                         </Link>
                     </li>
                     : <></>
