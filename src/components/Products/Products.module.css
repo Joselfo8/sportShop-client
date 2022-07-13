@@ -1,0 +1,15 @@
+.cardContainer {
+  height: 74%;
+  width: 90%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 30px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+}/*# sourceMappingURL=Products.module.css.map */
