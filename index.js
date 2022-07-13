@@ -29,9 +29,7 @@ conn.sync({ alter: true }).then(() => {
   } else if (NODE_ENV === "production") {
     console.log("REMOTE database synced");
   }
+  server.listen(PORT, () => {
+    console.log("server up on : http://localhost:" + PORT);
+  });
 });
-const serverUp = server.listen(PORT, () => {
-  console.log("server up on : http://localhost:" + PORT);
-});
-
-module.exports = { serverUp };

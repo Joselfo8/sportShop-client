@@ -33,8 +33,8 @@ const get_item = async (req, res) => {
 // resivo id del item a borrar
 const delete_item = async (req, res) => {
   try {
-    const { product } = req.query;
-    const { user } = req.query;
+    const { product } = req.body;
+    const { user } = req.body;
 
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
@@ -57,7 +57,6 @@ const delete_item = async (req, res) => {
 
     await list.removeProduct(productObj);
     const new_list = await list.getProducts();
-    console.log(new_list);
     res.status(201).send({ msg: "item deleted", list: new_list });
   } catch (e) {
     console.log(e);

@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
     "shopping_list",
     {
       product_list: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },
