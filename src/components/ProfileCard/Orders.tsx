@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import defaultImage from "../../assets/default-item-image.jpg";
+// Components
+import Select from "../Select";
 // Styles
 import styles from "./Orders.module.css";
 
@@ -45,27 +47,60 @@ function Item() {
   );
 }
 
+interface SelectedVal {
+  label: string;
+  value: string;
+}
+
 function Orders() {
+  const timeOptions = [
+    { value: "30", label: "Last 30 days" },
+    { value: "60", label: "Last 60 days" },
+  ];
+  const pageOptions = [
+    { value: "10", label: "10" },
+    { value: "25", label: "25" },
+    { value: "50", label: "50" },
+  ];
+  const [selected, setSelected] = useState<{
+    time: string;
+    page: string;
+  }>({ time: "", page: "" });
+
+  const handleChange = (value: SelectedVal | null, id: string) => {
+    setSelected((prev) => ({ ...prev, [id]: value?.value }));
+  };
+
+  // set selected tab by default
+  useEffect(() => {
+    if (selected.time.length === 0)
+      setSelected({ time: timeOptions[0].value, page: pageOptions[0].value });
+  }, [selected, setSelected]);
+
   return (
     <>
       <div className={styles["title-cont"]}>
         <span className={styles["title"]}>Orders</span>
-
         <div className={styles["buttons"]}>
-          <label htmlFor="select-time">
+          <label className="dark" htmlFor="select-time">
             See orders from:
-            <select id="select-time">
-              <option value="30">Last 30 Days</option>
-              <option value="60">Last 60 Days</option>
-            </select>
+            <Select
+              options={timeOptions}
+              defaultValue={timeOptions[0]}
+              width="9rem"
+              margin="0 0.5rem"
+              onChange={(value) => handleChange(value, "time")}
+            />
           </label>
           <label htmlFor="select-page">
             Show
-            <select id="select-page">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-            </select>
+            <Select
+              options={pageOptions}
+              defaultValue={pageOptions[0]}
+              width="fit-content"
+              margin="0 0.5rem"
+              onChange={(value) => handleChange(value, "page")}
+            />
             per page
           </label>
         </div>

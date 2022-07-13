@@ -1,6 +1,6 @@
 .container {
-  width: 24rem;
-  padding: 2rem;
+  width: 100%;
+  padding: 2rem 1rem;
 }
 
 .wrapper {
@@ -50,4 +50,18 @@
 
 .cancel-button:active {
   opacity: 0.8;
+}
+
+@media only screen and (min-width: 500px) {
+  .container {
+    width: 24rem;
+    padding: 1.5rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    width: 28rem;
+    padding: 1.5rem;
+  }
 }
