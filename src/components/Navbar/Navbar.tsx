@@ -11,17 +11,20 @@ import heart from '../../assets/corazonVacio.png'
 import DropDown from './DropDown';
 
 export default function NavBar(){
-    const state = useSelector((state:any) => state.products);
+    const products = useSelector((state:any) => state.products);
     const [value, setValue] = useState({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [dropDown, setDropDown] = useState({
-        "FEMALE": false,
-        "MALE": false,
-        "KIDS": false,
-        "SPORT": false
+    const [dropDown, setDropDown]: any = useState({
+        FEMALE: false,
+        MALE: false,
+        KIDS: false,
+        SPORT: false
     });
-
+    let data = products.map((e:any) => { return e.category});
+    let result = data.filter((item:any,index:any)=>{
+        return data.indexOf(item) === index;
+    })
     useEffect(() => {
         dispatch(getProducts())
     },[])
@@ -35,14 +38,6 @@ export default function NavBar(){
         dispatch(getProductsByName(value));
         navigate('/products');
     };
-
-    function resetStore(event : any){
-        dispatch(cleanStore(event));
-    };
-
-    function productCategory(event: any) {
-        dispatch(getProductsByCategory(event.target.value));
-    };
     return (
         <div className={styles.navBar}>
 
@@ -51,73 +46,22 @@ export default function NavBar(){
             </Link>
 
             <ul className={styles.navItems}>
-                <li className={styles.cName} onMouseEnter={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": true,
-                    "KIDS": false,
-                    "SPORT": false
-                })} onMouseLeave={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })}>
-                <Link to="/MALE">
-                    <button className={styles.buttonNav}>MEN</button>
-                </Link>
-                {dropDown.MALE && <DropDown categoryClick={"MALE"}/>}
-                </li>
-
-                <li className={styles.cName} onMouseEnter={() => setDropDown({
-                    "FEMALE": true,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })} onMouseLeave={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })}>
-                <Link to="/FEMALE">
-                    <button className={styles.buttonNav}>WOMEN</button>
-                </Link>
-                {dropDown.FEMALE && <DropDown categoryClick={"FEMALE"}/>}
-                </li>
-
-                <li className={styles.cName} onMouseEnter={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": true,
-                    "SPORT": false
-                })} onMouseLeave={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })}>
-                <Link to="/KIDS">
-                    <button className={styles.buttonNav}>KIDS</button>
-                </Link>
-                {dropDown.KIDS && <DropDown categoryClick={"KIDS"}/>}
-                </li>
-
-                <li className={styles.cName} onMouseEnter={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": true
-                })} onMouseLeave={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })}>
-                <Link to="/SPORT">
-                    <button className={styles.buttonNav}>SPORT</button>
-                </Link>
-                {dropDown.SPORT && <DropDown categoryClick={"SPORT"}/>}
-                </li>
+            {
+                result.map((e:any) => {
+                    return(
+                        <li className={styles.cName}
+                        onMouseEnter={() => setDropDown({[e]:true})}
+                        onMouseLeave={() => setDropDown({[e]:false})}
+                        key={e}
+                        >
+                        <Link to={`/${e}`}>
+                            <button className={styles.buttonNav}>{e}</button>
+                        </Link>
+                        {dropDown[e] && <DropDown categoryClick={e}/>}
+                        </li>
+                    )
+                })
+            }
             </ul>
 
             <div className={styles.orderIcons}>
@@ -146,8 +90,6 @@ export default function NavBar(){
                 <Link to='/cart'>
                     <img src={cart} className={styles.cart}/>
                 </Link>
-
-                <a href="http://localhost:3000/user/profile">User_1</a>
 
             </div>
 
