@@ -13,7 +13,7 @@ import UserProfile from "./routes/UserProfile";
 
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
-import List from "./components/Admin/List/List";
+import HomeAdmin from "./components/Admin/HomeAdmin/HomeAdmin";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
         <Route path="/about" element={<About />} />
 
         {/* ADNIN */}
-        <Route path="/admin/list" element={<List />} />
+        <Route path="/admin" element={<HomeAdmin />} />
 
       </Routes>
     </BrowserRouter>
