@@ -15,11 +15,11 @@ export default function NavBar(){
     const [value, setValue] = useState({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [dropDown, setDropDown] = useState({
-        "FEMALE": false,
-        "MALE": false,
-        "KIDS": false,
-        "SPORT": false
+    const [dropDown, setDropDown]: any = useState({
+        FEMALE: false,
+        MALE: false,
+        KIDS: false,
+        SPORT: false
     });
 
     useEffect(() => {
@@ -36,13 +36,18 @@ export default function NavBar(){
         navigate('/products');
     };
 
-    function resetStore(event : any){
-        dispatch(cleanStore(event));
-    };
+    const setCategoriesFalse = () => { 
+        setDropDown(() => {
+            return {
+                "FEMALE": false,
+                "MALE": false,
+                "KIDS": false,
+                "SPORT": false            
+            }
+        })
+        
+    }
 
-    function productCategory(event: any) {
-        dispatch(getProductsByCategory(event.target.value));
-    };
     return (
         <div className={styles.navBar}>
 
@@ -51,51 +56,60 @@ export default function NavBar(){
             </Link>
 
             <ul className={styles.navItems}>
-                <li className={styles.cName} onMouseEnter={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": true,
-                    "KIDS": false,
-                    "SPORT": false
-                })} onMouseLeave={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })}>
-                <Link to="/MALE">
-                    <button className={styles.buttonNav}>MEN</button>
-                </Link>
-                {dropDown.MALE && <DropDown categoryClick={"MALE"}/>}
+                <li className={styles.cName} 
+                    onMouseEnter={() => setDropDown(() => {
+                            return {
+                                ...dropDown,
+                                MALE: true
+                            }
+                        })
+                    }
+                    onMouseLeave={() => setCategoriesFalse()}
+                    >
+
+                    <Link to="/MALE">
+                        <button className={styles.buttonNav}>MEN</button>
+                    </Link>
+                    {dropDown.MALE && <DropDown categoryClick={"MALE"}/>}
+
                 </li>
 
-                <li className={styles.cName} onMouseEnter={() => setDropDown({
-                    "FEMALE": true,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })} onMouseLeave={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })}>
+                <li className={styles.cName} 
+                
+                // onMouseEnter={() => setDropDown({
+                //     "FEMALE": true,
+                //     "MALE": false,
+                //     "KIDS": false,
+                //     "SPORT": false
+                // })} onMouseLeave={() => setDropDown({
+                //     "FEMALE": false,
+                //     "MALE": false,
+                //     "KIDS": false,
+                //     "SPORT": false
+                // })}
+                
+                onMouseEnter={() => setDropDown(() => {
+                    return {
+                        ...dropDown,
+                        FEMALE: true
+                    }
+                })
+                }
+                onMouseLeave={() => setCategoriesFalse()}
+                >
+
                 <Link to="/FEMALE">
                     <button className={styles.buttonNav}>WOMEN</button>
                 </Link>
                 {dropDown.FEMALE && <DropDown categoryClick={"FEMALE"}/>}
                 </li>
 
-                <li className={styles.cName} onMouseEnter={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": true,
-                    "SPORT": false
-                })} onMouseLeave={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
-                    "SPORT": false
-                })}>
+                <li 
+                    className={styles.cName} 
+                    onMouseEnter={() => setDropDown({ KIDS: true })} 
+                    onMouseLeave={() => setDropDown({ KIDS: false })}
+                >
+
                 <Link to="/KIDS">
                     <button className={styles.buttonNav}>KIDS</button>
                 </Link>
@@ -103,14 +117,8 @@ export default function NavBar(){
                 </li>
 
                 <li className={styles.cName} onMouseEnter={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
                     "SPORT": true
                 })} onMouseLeave={() => setDropDown({
-                    "FEMALE": false,
-                    "MALE": false,
-                    "KIDS": false,
                     "SPORT": false
                 })}>
                 <Link to="/SPORT">
