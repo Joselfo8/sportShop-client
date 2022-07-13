@@ -12,7 +12,6 @@ import Footer from "../Footer/Footer";
 
 // Style
 import style from "./Products.module.scss";
-import styles from '../../components/Filter/Filter.module.scss'
 
 export default function Products() {
     // save user click pagination button

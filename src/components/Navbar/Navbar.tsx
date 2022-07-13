@@ -38,6 +38,8 @@ export default function NavBar(){
         dispatch(getProductsByName(value));
         navigate('/products');
     };
+
+
     return (
         <div className={styles.navBar}>
 
@@ -46,6 +48,7 @@ export default function NavBar(){
             </Link>
 
             <ul className={styles.navItems}>
+
             {
                 result.map((e:any) => {
                     return(
@@ -62,6 +65,7 @@ export default function NavBar(){
                     )
                 })
             }
+
             </ul>
 
             <div className={styles.orderIcons}>
