@@ -82,6 +82,8 @@ async function postUser(req, res) {
       direction: direction,
       role: role,
     });
+    await user.createShopping_list({ product_list: [] });
+    await user.createFavorite({ name: "" });
     return res.status(200).json({ msg: "User created", user: user });
   } catch (error) {
     console.log("error", error);
