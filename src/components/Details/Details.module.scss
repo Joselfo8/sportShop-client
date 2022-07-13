@@ -1,28 +1,51 @@
-$font: 'Open Sanz Extra Bold';
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+
 
 .gridLayout {
     width: 100%;
     padding: 40px;
     display: grid;
-    grid-template-columns: 60% auto;
-    justify-content: flex-start;
+    grid-template-columns: 75% auto;
 }
 
 .col1 {
+   
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+    .pLink{
+        display: inline-flex;
+        margin-right: 5px;
+    }
+    .pLink:hover {
+        text-decoration: underline;
+    }
     
+   p { 
+        color: #000;
+        margin-top: 0;
+        font-family: $font;
+        font-weight: 100;
+        margin-left: 50px;
+    }
     img {
-        height: 500px;
+        margin-top: 30px;
+        width: 50%;
         display: block;
-        padding-left: 180px;
-        padding-top: 20px;
-        object-fit: cover;
-        transition: 0.5s;
+        margin: 0 auto;
+        margin-top: 50px;
     }
 
-    img:hover {
-        transform: scale(1.1);
-        cursor: zoom-in;
-    }
+    // img:hover {
+    //     transform: scale(1.);
+    //     cursor: zoom-in;
+    // }
 
     h2 {
         font-family: $font;
@@ -30,99 +53,68 @@ $font: 'Open Sanz Extra Bold';
         margin-left: 50px;
     }
 
-    p {
-        font-family: $font;
-        margin-left: 50px;
-    }
 }
 
-.col2{
-    
+.col2 {
+    margin-top: 20px;
     h1 {
         font-size: 30px;
-        font-family: $font
+        margin: 20px 0 10px;
+        font-family: $font;
+        font-weight:$weightTitle;
+        color: #000;
+    }
+
+    h2 {
+        font-size: 25px;
+        margin: 60px 0 10px;
+        font-family: $font;
+        font-weight:$weightTitle;
+        color: #000;
     }
 
     span {
+        font-size: 12px;
         font-family: $font;
-        padding-left: 10px;
-        font-size: 15px;
+        font-weight: 100;
+        margin-left: 10px;  
+    }
+
+    p {
+        font-family: $font;
+        font-weight: 100;
+        text-align: justify;
         
     }
 
-    .containerSize {
-        max-width: 640px;
+    .price {
+        font-size: 18px;
         font-family: $font;
-        font-size: 13px;
-        display:inline-block;
-        padding-top: 10px;
-        padding-bottom: 25px;
-        
-        // label {
-        //     background-color: #fff;
-        //     border: 1.2px solid  ;
-        //     color: #383838;
-        //     border-radius: 25px;
-        //     width: 50px;
-        //     padding: 8px 12px;
-        //     cursor: pointer;
-        // }
-
-        // input[type="radio"] {
-        //     position: relative;
-        //     opacity: 0;
-            
-        // }
-        :hover {
-            background-color: #383838;;
-            color: #fff ;
-        }
+        font-weight: $weightTitle;
     }
 
   
-
-
-    .price {
-        font-weight: 700;
-        font-size: 18px;
-        font-family: $font
-    }
-
-    .selectSize {
-        font-size: 25px;
-        text-transform: uppercase;
-        margin: 60px 0 10px;
-        font-family: $font
-    }
-
     .cart {
         display: inline-flex;
         width: 200px;
-        border-radius: 10px;
-        background: none;
-        border: 1px solid #383838;
-        color: #383838;
         font-family: $font;
         font-size: 15px;
-        margin-bottom: 20px;
-        margin-top: 30px;
+        font-weight: 100;
+        border-radius: 3px;
+        border: 1px solid #a70f0f;
+        background-color: #a70f0f;;
+        color: #fff;   
+        margin-top: 10px;
         margin-right: 10px;
         cursor: pointer;
         padding: 5px;
-        justify-content: center;
+        justify-content: space-around;
         align-items:center;
-
-        img {
-            width: 30px;
-            height: 30px;
-            align-items: center;
-            padding-right: 8px;
-        }
-        
+        transition: 0.3s;
     }
 
     .cart:hover {
-        background-color:#383838; ;
+        background-color: #a82c2c; 
         color: #fff ;
     }
    
@@ -130,33 +122,49 @@ $font: 'Open Sanz Extra Bold';
         border: 0;
         background-color: #fff;
         cursor: pointer;
+   
+        
+        .heart {
+            color: #837b7b;
+            transition: 0.3s;
+        }
+
+        .heart:hover {
+            width: 80%;
+        }
     }
+
 
     .description {
+        margin-top: 70px;
         font-family: $font;
+        font-weight: 600;
     }
 
 }
 
 
+.link {
+    text-decoration: none;
+}
 
 
-
-.container {
+// ----------------Tallas-------------
+.containerSize {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 13px;
-    display: inline-block;
+    display: inline-flex;
+    margin-right: 5px;
 }
 ul{
-    margin-block-start: 20px;
-    margin-block-end: 1px;
+    justify-content: flex-start;
     padding-inline-start: 1px;
 }
 ul.ksCboxtags li{
-    display: inline;
+    display: inline-flex;
 }
 ul.ksCboxtags li label{
-    background-color: rgba(255, 255, 255, .9);
+    background-color: #fff;
     border: 2px solid rgba(139, 139, 139, .3);
     color: #adadad;
     white-space: nowrap;
@@ -169,8 +177,14 @@ ul.ksCboxtags li label{
     transition: all .2s;
 }
 ul.ksCboxtags li label {
-    padding: 8px 12px;
+    width: 40px;
+    text-align: center;
+    padding: 9px 11px;
     cursor: pointer;
+    font: $font;
+    font-weight: 600;
+    border: 1px solid;
+    color: #000;
 }
 ul.ksCboxtags li label::before {
     text-rendering: auto;

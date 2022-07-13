@@ -5,16 +5,10 @@ import { getDetails } from '../../redux/action'
 import { Link } from 'react-router-dom'
 import NavBar from '../Navbar/Navbar'
 import styles from './Details.module.scss'
-import cart from '../../assets/cart.png';
-import { FaStar } from 'react-icons/fa'
-import { FiHeart } from "react-icons/fi";
+import { FaStar,FaHeart } from 'react-icons/fa'
+import { FiShoppingCart } from "react-icons/fi";
 
 
-
-// type Num = {
-//   rate:number;
-//   count:number;
-// }
 
 interface Detail {
   id:number;
@@ -33,18 +27,7 @@ interface Input {
 }
 
 
-function validateForm(size:Input){
 
-  let errors:any = {}
-
-  if(!size.s && !size.m && !size.l && size.xl){
-    errors.s= 'Select size first'
-  } else {
-    errors.s = ''
-  }
-
-  return errors
-}
 
 let sizes:string[]=['s','m','l','xl']
   
@@ -60,9 +43,7 @@ export default function Details(){
     let rate:number=productDetail?.rating
     
 
-    const [errors, setErrors] = useState({
-      size:''
-    })
+    const [errors, setErrors] = useState<String>()
 
     const [size, setSize]:any = useState({
       s:'',
@@ -83,27 +64,14 @@ export default function Details(){
     const addToCart = (e:any) => {
       e.preventDefault()
 
-      setErrors(validateForm({
-        ...size,
-        [e.target.id] : [e.target.value]
-      }))
-
-      
-    }
-
-    const handleSize = (e:any) => {
+      if(size.s.length === 0 && size.m.length === 0 && size.l.length === 0 && size.xl.length === 0){
+        return setErrors('Select your size first')
+      } else {
+        return setErrors('Sucessfully')
+      } 
     
-      setSize({
-        [e.target.id] : [e.target.value]
-      })
-      
-     
-
-      console.log(size)
-      // console.log(input.m)
-      // console.log(input.l)
-      // console.log(input.xl)
     }
+
 
   return (
     <div>
@@ -113,85 +81,78 @@ export default function Details(){
 
       <div className={styles.gridLayout}>
       
-
         <div className={styles.col1}>
-          {/* <p>Inicio / Categoria / Sub Cateogria</p> */}
+          <div>
+            <Link to='/' className={styles.link}>
+              <p className={styles.pLink}>Home</p>
+            </Link>
+            <span>/</span>
+
+            <Link to={`/:${productDetail.category}`}>
+              <p>{productDetail.category}</p>
+            </Link>
+          </div>
           <img src={productDetail.image} alt='Not found'/>
-          {/* <h2>Detalle del producto</h2>
-          <p> Texto de detallle </p> */}
-          <h2 >Cuidados</h2>
-          <p> {productDetail['product_care']} </p>
+          <h2 >CUIDADOS</h2>
+          <p> {productDetail['product_care']} Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium doloribus accusantium vel. Minus eum aperiam, ducimus maiores consequatur quod distinctio fugit sit libero suscipit, harum unde eveniet cumque, corporis maxime? </p>
         </div>
 
 
 
         <div className={styles.col2}>
-
           {[...Array(5)].map((star,i) => {
             const raitingValue:number = i + 1
             return (
-              <FaStar color={raitingValue <= rate ? '#000':'#e4e5e9'}  size={15}/>
+              <FaStar color={raitingValue <= rate ? '#000':'#e4e5e9'} />
             )})
           }
-          <span>({productDetail['rating_count']})</span>
+          <span >({productDetail['rating_count']})</span>
           
           <h1>{productDetail.title}</h1>
           <p className={styles.price}>${productDetail.price}</p>
-          <p className={styles.selectSize}>Select Size</p>
-
+          <h2>SELECT SIZE</h2>
 
           <form onSubmit={addToCart}>
             { 
               sizes.map((s,index) => 
-              <div className={styles.container}>
+              <div className={styles.containerSize}>
                 <ul key={index} className= {styles.ksCboxtags}>
-                  <li>
-                    
+                  <li> 
                     <input 
-                      onChange={(e)=> handleSize(e)} 
+                      onChange={(e)=> setSize(e.target.value)} 
                       value={s} 
                       type='radio'
                       id={s}
                       name='radio'/>
                       <label htmlFor={s}>{s.toUpperCase()}</label>
                   </li>
-                  
-                </ul>
-                
-                
+                </ul>    
               </div>) 
             }
+
             {
-              errors.size && <span>{errors.size}</span>
+              errors && <span>{errors}</span>
             }
             <br></br>
-           
+            
+            <Link to='/cart' className={styles.link}>
               <button type='submit' className={styles.cart}>
-                <img src={cart} alt='' className={styles.icon}/>
-                ADD TO CART
-              </button>
-            
-              
-              <Link to={'/login'}>
-                <button onSubmit={addFavorite} className={styles.favorite}>
-                  <FiHeart className={styles.heart} size={25}/>
+                  <FiShoppingCart/>               
+                  ADD TO CART
                 </button>
-              </Link>
+            </Link>
            
-            
+            <Link to={'/favorites'}>
+              <button onSubmit={addFavorite} className={styles.favorite}>
+                <FaHeart  className={styles.heart} />
+              </button>
+            </Link>
           </form>
 
-          <h2 className={styles.description}>Description</h2>
-          <p className={styles.description}>{productDetail.description}</p>
-          {/* <h2>Costo de envio</h2>
-          <p>Informacion</p>
-          <h2>Entrega</h2>
-          <p>Informacion</p>
-          <h2>Valoraciones</h2>
-          <p>Informacion</p> */}
-
-        
+          <h2 className={styles.description}>DESCRIPTION</h2>
+          <p>{productDetail.description} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat dicta quae eos quaerat optio, asperiores similique tempora voluptatum reiciendis debitis expedita quam impedit id exercitationem ea accusamus nostrum nemo possimus.</p>
         </div >
+
       </div>
     </div>
     
