@@ -12,11 +12,8 @@
 
 .buttons label {
   margin-bottom: 0.5rem;
-  display: block;
-}
-
-.buttons label select {
-  margin: 0 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .info-wrapper {
@@ -27,7 +24,7 @@
 /* Item */
 
 .item {
-  max-width: 46rem;
+  width: 100%;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 0.08rem solid rgba(0, 0, 0, 0.1);
@@ -44,7 +41,7 @@
 }
 
 .item-wrapper {
-  margin: 0 0.5rem;
+  width: 50%;
   margin-bottom: 0.5rem;
 }
 
@@ -69,6 +66,9 @@
   padding: 1rem;
   border: 0.03rem solid rgba(0, 0, 0, 0.2);
   box-shadow: var(--shadow-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .image-cont img {
@@ -134,4 +134,32 @@
 .item-span:hover {
   opacity: 0.9;
   border-bottom: 0.08rem solid var(--bg);
+}
+
+@media only screen and (min-width: 640px) {
+  .title-cont {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttons {
+    display: flex;
+  }
+
+  .buttons label:nth-child(2) {
+    margin-left: 1rem;
+  }
+
+  /* Item */
+
+  .item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .item-wrapper {
+    width: auto;
+    margin-right: 2rem;
+  }
 }

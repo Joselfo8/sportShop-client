@@ -6,7 +6,6 @@
   top: 0;
   left: -100%;
   z-index: 50;
-  overflow-y: auto;
 }
 
 .show {
@@ -25,8 +24,9 @@
   height: 3rem;
   padding: 0.5rem;
   border-radius: 0.2rem;
-  display: block;
+  box-shadow: var(--shadow-md);
   transition-duration: 500ms;
+  display: block;
   position: fixed;
   left: 0.5rem;
   bottom: 0.5rem;
@@ -49,4 +49,16 @@
 
 .menu-button-close {
   left: calc(100% - 3.5rem);
+}
+
+@media only screen and (min-width: 1024px) {
+  .container {
+    transition-duration: 0ms;
+    position: fixed;
+    left: 0;
+  }
+
+  .menu-button {
+    display: none;
+  }
 }

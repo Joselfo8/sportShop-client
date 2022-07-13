@@ -12,9 +12,11 @@ interface Props {
 function ProfileCard({ selected }: Props) {
   return (
     <div className={`${styles["container"]} secondary`}>
-      {selected === "user-information" && <UserInfo />}
-      {selected === "my-orders" && <Orders />}
-      {selected === "my-favorites" && <Favorites />}
+      <div className={styles["wrapper"]}>
+        {selected === "user-information" && <UserInfo />}
+        {selected === "my-orders" && <Orders />}
+        {selected === "my-favorites" && <Favorites />}
+      </div>
     </div>
   );
 }

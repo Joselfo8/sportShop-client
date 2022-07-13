@@ -88,6 +88,7 @@ function Orders() {
               options={timeOptions}
               defaultValue={timeOptions[0]}
               width="9rem"
+              margin="0 0.5rem"
               onChange={(value) => handleChange(value, "time")}
             />
           </label>
@@ -97,6 +98,7 @@ function Orders() {
               options={pageOptions}
               defaultValue={pageOptions[0]}
               width="fit-content"
+              margin="0 0.5rem"
               onChange={(value) => handleChange(value, "page")}
             />
             per page

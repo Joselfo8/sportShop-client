@@ -6,12 +6,14 @@ function Select({
   defaultValue = { label: "", value: "" },
   onChange,
   width = "8rem",
+  margin = "0",
 }: {
   options: Array<{ value: string; label: string }>;
   placeholder?: string;
   defaultValue?: { label: string; value: string };
   onChange?: (newValue: { label: string; value: string } | null) => void;
   width?: string;
+  margin?: string;
 }) {
   return (
     <ReactSelect
@@ -19,6 +21,7 @@ function Select({
         container: (props) => ({
           ...props,
           width,
+          margin,
         }),
         control: () => ({
           backgroundColor: "rgba(18, 18, 18)",
