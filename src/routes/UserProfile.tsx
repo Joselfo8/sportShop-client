@@ -30,7 +30,7 @@ function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
 }
 
 function UserProfile() {
-  const [selectedTab, setSelectedTab] = useState("user-information");
+  const [selectedTab, setSelectedTab] = useState("");
 
   return (
     <div className={`${styles["container"]} secondary`}>

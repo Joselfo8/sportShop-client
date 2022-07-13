@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import defaultImage from "../../assets/default-item-image.jpg";
 // Components
 import Select from "../Select";
@@ -47,6 +47,11 @@ function Item() {
   );
 }
 
+interface SelectedVal {
+  label: string;
+  value: string;
+}
+
 function Orders() {
   const timeOptions = [
     { value: "30", label: "Last 30 days" },
@@ -57,6 +62,20 @@ function Orders() {
     { value: "25", label: "25" },
     { value: "50", label: "50" },
   ];
+  const [selected, setSelected] = useState<{
+    time: string;
+    page: string;
+  }>({ time: "", page: "" });
+
+  const handleChange = (value: SelectedVal | null, id: string) => {
+    setSelected((prev) => ({ ...prev, [id]: value?.value }));
+  };
+
+  // set selected tab by default
+  useEffect(() => {
+    if (selected.time.length === 0)
+      setSelected({ time: timeOptions[0].value, page: pageOptions[0].value });
+  }, [selected, setSelected]);
 
   return (
     <>
@@ -65,11 +84,21 @@ function Orders() {
         <div className={styles["buttons"]}>
           <label className="dark" htmlFor="select-time">
             See orders from:
-            <Select options={timeOptions} />
+            <Select
+              options={timeOptions}
+              defaultValue={timeOptions[0]}
+              width="9rem"
+              onChange={(value) => handleChange(value, "time")}
+            />
           </label>
           <label htmlFor="select-page">
             Show
-            <Select options={pageOptions} />
+            <Select
+              options={pageOptions}
+              defaultValue={pageOptions[0]}
+              width="fit-content"
+              onChange={(value) => handleChange(value, "page")}
+            />
             per page
           </label>
         </div>
