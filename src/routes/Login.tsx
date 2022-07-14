@@ -1,7 +1,11 @@
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 // Components
 import Input from "../components/Input";
+// Actions
+import { login, register } from "../redux/action/auth";
 // Icons
 import { ReactComponent as FacebookIcon } from "../icons/facebook-icon.svg";
 import { ReactComponent as GoogleIcon } from "../icons/google-icon.svg";
@@ -56,8 +60,33 @@ function SignUp() {
     },
     mode: "onChange",
   });
+  // Store
+  const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const { message } = useSelector((state: any) => state.message);
+  const dispatch = useDispatch();
+
   // send data to api
-  const onSubmit = (data: SignUpInput) => console.log(data);
+  const onSubmit = async (data: SignUpInput) => {
+    // reqres registered sample user
+    const payload = {
+      username: "",
+      email: "eve.holt@reqres.in",
+      password: "cityslicka",
+    };
+
+    try {
+      const response = await register(
+        payload.username,
+        payload.email,
+        payload.password
+      );
+      dispatch(response);
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
+
+  if (isLoggedIn) return <Navigate to="/" />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -162,8 +191,28 @@ function SignIn() {
     },
     mode: "onChange",
   });
+  // Store
+  const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const { message } = useSelector((state: any) => state.message);
+  const dispatch = useDispatch();
+
   // send data to api
-  const onSubmit = (data: SignInInput) => console.log(data);
+  const onSubmit = async (data: SignInInput) => {
+    // reqres registered sample user
+    const payload = {
+      email: "eve.holt@reqres.in",
+      password: "cityslicka",
+    };
+
+    try {
+      const response = await login(payload.email, payload.password);
+      dispatch(response);
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
+
+  if (isLoggedIn) return <Navigate to="/" />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -202,10 +251,6 @@ function SignIn() {
       </div>
     </form>
   );
-}
-
-interface LoginProps {
-  register?: boolean;
 }
 
 function Login() {

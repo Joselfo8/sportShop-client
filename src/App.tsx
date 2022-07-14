@@ -17,8 +17,15 @@ import List from "./components/Admin/List/List";
 import HomeAdmin from "./components/Admin/home/HomeAdmin";
 
 import Purchase from "./components/Purchase/Purchase";
+// Helpers
+import setAuthToken from "./helpers/setAuthToken";
 
 function App() {
+  // check JWT token
+  const token = localStorage.getItem("token");
+
+  if (token) setAuthToken(token);
+
   return (
     <BrowserRouter>
       <Routes>
