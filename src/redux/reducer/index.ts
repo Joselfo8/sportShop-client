@@ -1,6 +1,8 @@
 import {
     GET_PRODUCTSBYNAME,
-    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY
+    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+    GET_USER_INFORMATION,
+    GET_SHOPPINGLIST_BY_USER_ID
 } from '../actionsTypes/actionsTypes'
 
 const initialState: any = {
@@ -8,7 +10,10 @@ const initialState: any = {
     productsFiltered: [],
     searchProducts: [],
     productCart: [],
-    details: {}
+    details: {},
+
+    userInformation: {},
+    shoppinglist: [],
 };
 
 function rootReducer(state = initialState, action: any){
@@ -42,7 +47,7 @@ function rootReducer(state = initialState, action: any){
         case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
             return{
                 ...state,
-                productsFiltered:action.payload.products,
+                productsFiltered: action.payload.products,
             }
 
         case "CLEAN_STORE":
@@ -69,6 +74,18 @@ function rootReducer(state = initialState, action: any){
             ...state,
             products: byPrice
           }
+
+        case GET_USER_INFORMATION:
+            return{
+                ...state,
+                userInformation: action.payload,
+            }
+            
+        case GET_SHOPPINGLIST_BY_USER_ID:
+            return{
+                ...state,
+                shoppinglist: action.payload,
+            }
 
         default:
             return state;

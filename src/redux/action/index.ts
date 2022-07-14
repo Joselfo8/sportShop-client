@@ -2,7 +2,9 @@ import axios from "axios";
 
 import {
     GET_PRODUCTSBYNAME,
-    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY
+    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+    GET_USER_INFORMATION,
+    GET_SHOPPINGLIST_BY_USER_ID
 } from '../actionsTypes/actionsTypes';
 
 export function getProducts(){
@@ -86,7 +88,36 @@ export function cleanStore(payload: any){
 
 export const orderByPrice = (payload:any) =>  (dispatch:any) => {
     return dispatch({type: "ORDER_BY_PRICE", payload})
-  }
+}
 
 
 
+export function getUserInformation(UserId: any){
+// console.log(object)
+    try{
+        return async function name(dispatch: any) {
+            let json: any = await axios.get(`https://vlixes-server.herokuapp.com/users/${UserId}`);
+            return dispatch({
+                type: GET_USER_INFORMATION,
+                payload: json.data.user
+            });
+        };
+    } catch(error){
+        console.log(error);
+    };
+};
+
+export function getShoppingListByUserId(UserId: any){
+    // console.log(object)
+    try{
+        return async function name(dispatch: any) {
+            let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/${UserId}`);
+            return dispatch({
+                type: GET_SHOPPINGLIST_BY_USER_ID,
+                payload: json.data.list
+            });
+        };
+    } catch(error){
+        console.log(error);
+    };
+};
