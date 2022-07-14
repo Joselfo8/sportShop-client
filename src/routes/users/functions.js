@@ -194,6 +194,7 @@ async function loginUser(req, res) {
       return res.send({
         msg: "the email incorret or the password is incorrect or the user does not exist",
         access: false,
+        redirect: "/user", //redirect a pagina de registro
       });
     }
     return res.send({
