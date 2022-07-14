@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, NODE_ENV, DEPLOY_LINK } =
   process.env;
-
 //conestructor for the sequelize object
 let sequelize = undefined;
 NODE_ENV === "development"
