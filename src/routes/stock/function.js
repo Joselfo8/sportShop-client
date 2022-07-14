@@ -19,7 +19,7 @@ const addStock = async (req, res) => {
         }
         //create stock
         let actualNumber = await Stock.findOne(
-            { where: { item_id: item_id } }
+            { where: { item_id, size } }
         )
         console.log(parseInt(quantity));
         //actualNumber.quantity? actualNumber.quantity += parseInt(quantity): actualNumber.quantity = parseInt(quantity);
@@ -42,29 +42,101 @@ const addStock = async (req, res) => {
         res.send(error)
     }
 }
-const stock_item_id = async (res,req) => {
-    let { item_id, size } = req.query;
-try{
-        //validamos que el stock exista
-        const stock = await Stock.findOne({ where: { item_id: item_id } });
+
+//get/stock_item?=id&size
+const getStock = async (req, res) => {
+    try {
+        let { item_id, size } = req.query;
+        if (!item_id) return res.send({ msg: "please, item_id is required" });
+        if (!size) return res.send({ msg: "please, size is required" });
+
+        const stock = await Stock.findOne({
+            where: {
+                item_id: item_id,
+                size: size
+            }
+        })
         if (!stock) {
-            return res.status(404).send({ msg: "stock not found" });
-            }
-            res.status(200).send(stock);
-        //validamos que el stock tenga el size
-        const stockSize = await Stock.findOne({ where: { item_id: item_id, size: size } });
-        if (!stockSize) {
-            return res.status(404).send({ msg: "stock not found" });
-            }
-            return res.status(200).send(stockSize);
+            return res.send({ msg: "stock not found" });
         }
-        
-    catch(error){
-        res.status(400).send({ msg: "error" });
+        return res.status(200).send({ stock });
+    }
+    catch (error) {
+        console.log("error", error);
+        //res.send(error.errors[0].message)
+        res.send(error)
     }
 }
-//recordar pintar en verde
+
+async function getAllSize(item_id){
+    try {
+        
+        if (!item_id) return { msg: "please, item_id is required" }
+//console.log(item_id)
+        const stock = await Stock.findAll({
+            where: {
+                item_id: item_id
+            }
+        })
+       // console.log(stock.map((e)=>e.dataValues))
+        
+        if (!stock) {
+            return { msg: "stock not found" }
+        }
+        return  stock.map((e)=>e.dataValues);
+    }
+    catch (error) {
+        console.log("error", error);
+        return (error)
+
+    }
+}
+//getAllSize(2)
+//get/stock_item?=id
+const getStockById = async (req, res) => {
+    let { item_id } = req.query;
+
+    try {
+        if (!item_id) return res.send({ msg: "please, item_id is required" });
+
+        const stock = await Stock.findAll({
+            where: {
+                item_id: item_id
+            }
+        })
+        if (!stock) {
+            return res.send({ msg: "stock not found" });
+        }
+        return res.status(200).send({ stock });
+    }
+    catch (error) {
+        console.log("error", error);
+        //res.send(error.errors[0].message)
+        res.send(error)
+    }
+}
+//delete/stock_item?=id
+const deleteStock = async (req, res) => {
+    try {
+        let { item_id } = req.params;
+        console.log(item_id)
+        if(!item_id) return res.send({ msg: "please, item_id is required" });
+        const stock = await Stock.findOne({ where: { item_id: item_id }})
+        if (!stock) {
+            return res.send({ msg: "stock not found" });
+        } 
+        Stock.destroy({
+            where: { item_id: item_id },
+          })
+        //await stock.destroy();
+        return res.status(200).send({ msg: "stock deleted" });
+    }
+    catch (error) {
+        console.log("error", error);
+        res.send(error)
+    }
+}
 
 module.exports = {
-    addStock, stock_item_id
-}
+    addStock, getStock, getStockById, deleteStock, getAllSize
+}   
