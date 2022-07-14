@@ -2,6 +2,7 @@ require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 const { Op } = require("sequelize");
 const { Product } = require("../../db");
+const { getAllSize}= require("../stock/function")
 
 const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
 const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
@@ -151,6 +152,8 @@ const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
     //vlidacion de id
+    const sizes = await getAllSize(id)
+console.log(sizes)
     if (!id) return res.send({ msg: "id is required" });
     if (Number.isNaN(parseInt(id)))
       return res.send({ msg: "id must be a number" });
@@ -159,7 +162,7 @@ const getProductById = async (req, res, next) => {
     const product = await Product.findOne({ where: { id: id } });
     if (!product) return res.status(500).send({ msg: "Product not found" });
 
-    return res.status(200).json({ msg: "product found", product });
+    return res.status(200).json({ msg: "product found", product , sizes });
   } catch (error) {
     res.status(500).send({ err: error });
   }

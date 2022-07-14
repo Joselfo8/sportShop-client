@@ -1,6 +1,6 @@
 const { Router } = require("express");
 // Importar todos los routers;
-
+const { stock } = require("./stock");
 const { products } = require("./products");
 const { users } = require("./users");
 
@@ -24,9 +24,8 @@ router.use("/users", users);
 router.use("/products", products);
 router.use("/shopping_list", shopping_list);
 router.use("/favorites", favorites);
-
 router.use("/auth", auth);
-
 router.use("/buys", buys);
+router.use("/stock", stock);
 
 module.exports = router;

@@ -199,12 +199,38 @@ async function loginUser(req, res) {
     return res.send({
       msg: `welcome ${user.name}`,
       access: true,
-      user: user,
       token: token,
+       //only id and name from user
+      user: {
+        id: user.id,
+        role: user.role,
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email,
+        genre: user.genre,
+        dateOfBirth: user.dateOfBirth,
+        direction: user.direction,
+      },
     });
   } catch (error) {
     console.log(error);
     res.send({ msg: "error", access: false });
+  }
+}
+async function logOut(req, res) {
+  try {
+    const { token } = req.body;
+    if (!token) {
+      return res.send({ msg: "token is required" });
+    }
+    const decoded = await tokenVerify(token);
+    if (!decoded) {
+      return res.send({ msg: "token is invalid" });
+    }
+    return res.send({ msg: "logout success" });
+  } catch (error) {
+    console.log(error);
+    res.send({ msg: "error" });
   }
 }
 
@@ -215,4 +241,5 @@ module.exports = {
   putUser,
   loginUser,
   getAllUser,
+  logOut,
 };
