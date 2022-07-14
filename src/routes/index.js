@@ -15,7 +15,7 @@ const router = Router();
 
 //healthckeck para el rollaback heroku
 router.get("/health", (req, res) => {
-  res.json({ msg: "OK" });
+  res.send("ok");
 });
 
 // Configurar los routers
