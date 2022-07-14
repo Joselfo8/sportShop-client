@@ -13,7 +13,7 @@ import Favorites from "./components/Favorites/Favorites";
 import HomeAdmin from "./components/Admin/home/HomeAdmin";
 import AddProduct from "./components/Admin/Forms/AddProduct";
 import Purchase from "./components/Purchase/Purchase";
-import EditProduct from "./components/Admin/Forms/CreateProduct";
+import EditProduct from "./components/Admin/Forms/EditProduct";
 
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
         {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin />} />
         <Route path='/admin/addProduct' element={<AddProduct />} />
-        <Route path="/admin/editProduct" element={<EditProduct />}/>
+        <Route path="/editProduct/:id" element={<EditProduct />}/>
 
       </Routes>
     </BrowserRouter>

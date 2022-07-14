@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { addProduct, getProducts } from '../../../redux/action'
 
-import styles from './AddProduct.module.scss'
+import styles from './FormProduct.module.scss'
 import validateProducts from './validateForms'
 interface Errors{
     title: string,
@@ -13,7 +13,7 @@ interface Errors{
     description:string,
     product_care:string,
     sizes:string,
-    image:string
+    // image:string
 }
 
 const FormProducts = () => {
@@ -30,8 +30,8 @@ const FormProducts = () => {
     price: '',
     description:'',
     product_care:'',
-    sizes:'',
-    image:''
+    sizes:''
+    // image:''
   })
 
   const [input, setInput] = useState({
@@ -42,7 +42,7 @@ const FormProducts = () => {
     description:'',
     product_care: '',
     sizes: '',
-    image:''
+    // image:''
   })  
 
   const allProducts = useSelector((state:any) => state.products)
@@ -66,17 +66,15 @@ const FormProducts = () => {
     
     //VARIABLES PARA VALIDAR
     let titleExist = allProducts?.filter((p:any) => p.title.toLowerCase() === input.title.toLowerCase())
-    let imageExist = allProducts?.filter((p:any) => p.image === input.image)
+    // let imageExist = allProducts?.filter((p:any) => p.image === input.image)
 
     
     //VALIDACION ON SUBMIT
     if(titleExist.length !== 0){
         return (alert('Title already exists'))
-    } else if(imageExist.length !== 0) {
-        return (alert('Image already exists'))
-    } else if (Object.values(errors).filter(p=> p !== '').length !== 0){
+    }else if (Object.values(errors).filter(p=> p !== '').length !== 0){
         return (alert('Check your mistakes!'))
-    } else {
+    }else {
         let text = "Are you sure you want to add the product?";
         if (window.confirm(text) == true) {
             const newProduct = {
@@ -86,7 +84,7 @@ const FormProducts = () => {
                 price: input.price,
                 description:input.description,
                 product_care:input.product_care,
-                image:input.image
+                // image:input.image
             }
             dispatch(addProduct(newProduct))
             e.target.reset()
@@ -178,7 +176,7 @@ const FormProducts = () => {
                </input>
                {errors.product_care && (<span>{errors.product_care}</span>)}
 
-               <label>IMAGE</label>
+               {/* <label>IMAGE</label>
                <input
                     className={styles.inputGeneral}
                     onChange={(e)=>handleChange(e)}
@@ -187,7 +185,7 @@ const FormProducts = () => {
                     type='text'
                 >
                </input>
-               {errors.image && (<span>{errors.image}</span>)}
+               {errors.image && (<span>{errors.image}</span>)} */}
 
                   {/* Stock? */}
                 {/* <label>SIZES</label>

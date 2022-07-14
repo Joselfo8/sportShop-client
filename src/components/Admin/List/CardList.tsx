@@ -26,7 +26,7 @@ export default function CardList({title, id, category, image}:any){
             </div>
 
             <div className={styles.containerButtons}>
-                <Link to={`/edit/${id}`} style={{color:"black"}}>
+                <Link to={`/editProduct/${id}`} style={{color:"black"}}>
                     <BsFillPencilFill/>
                 </Link>
                 <FaTrash onClick={() => {handleDelete(id)}}/>
