@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // Components
+import RouteGuard from "./components/RouteGuard";
 import Home from "./components/Home/Home";
 import Login from "./routes/Login";
 import Details from "./components/Details/Details";
@@ -25,8 +26,10 @@ function App() {
         <Route path="/login" element={<Login />}>
           <Route path=":register" element={<Login />} />
         </Route>
-        <Route path="/user/profile" element={<UserProfile />} />
-
+        <Route
+          path="/user/profile"
+          element={<RouteGuard outlet={<UserProfile />} />}
+        />
         <Route path="/cart" element={<Cart />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/purchase" element={<Purchase />} />
