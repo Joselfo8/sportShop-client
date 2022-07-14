@@ -89,4 +89,10 @@ export const orderByPrice = (payload:any) =>  (dispatch:any) => {
   }
 
 
+export const addProduct = (payload:any) => async (dispatch:any) => {
+    console.log(payload)
+    const json:any = await axios.post('https://vlixes-server.herokuapp.com/products',payload)
+    return dispatch({type: "POST_PRODUCT", payload: json.data})
+}
+
 

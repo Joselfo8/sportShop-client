@@ -70,6 +70,14 @@ function rootReducer(state = initialState, action: any){
             products: byPrice
           }
 
+          case "POST_PRODUCT":
+            console.log(action.payload)
+            return {
+                ...state,
+                products: state.products.concat(action.payload)
+            }
+
+
         default:
             return state;
     };

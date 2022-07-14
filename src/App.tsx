@@ -14,6 +14,8 @@ import UserProfile from "./routes/UserProfile";
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
 import HomeAdmin from "./components/Admin/HomeAdmin/HomeAdmin";
+import AddProduct from "./components/Admin/Forms/AddProduct";
+
 
 function App() {
   return (
@@ -33,8 +35,9 @@ function App() {
 
         <Route path="/about" element={<About />} />
 
-        {/* ADNIN */}
+        {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin />} />
+        <Route path='/admin/addProduct' element={<AddProduct />} />
 
       </Routes>
     </BrowserRouter>
