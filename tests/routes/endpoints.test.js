@@ -79,7 +79,7 @@ describe("create source", () => {
   it("should create user", async () => {
     const response = await api.post("/users").send(userData);
     expect(response.body.user).not.toBeNull();
-    console.log(response.body);
+
     userData.id = response.body.user.id;
   });
 
@@ -105,14 +105,14 @@ describe("get source", () => {
 
   it("should get product", async () => {
     const response = await api.get("/products/" + productData.id);
-    console.log(response.body);
+
     expect(response.status).toBe(200);
     expect(response.body.product).not.toBeNull();
   });
 
   it("should get product 2", async () => {
     const response = await api.get("/products/" + productData2.id);
-    console.log(response.body);
+
     expect(response.status).toBe(200);
     expect(response.body.product).not.toBeNull();
   });
@@ -148,10 +148,11 @@ describe("should update source", () => {
   it("should update product", async () => {
     const response = await api
       .put("/products")
-      .send({ id: productData.id, title: "test2" });
-    expect(response.status).toBe(200);
+      .send({ id: productData.id, description: "testtestetesttestmodified" });
+    expect(response.status).toBe(201);
+    console.log(response.body);
     expect(response.body.product).not.toBeNull();
-    expect(response.body.product.title).toBe("test2");
+    expect(response.body.product.description).toBe("testtestetesttestmodified");
   });
 });
 
