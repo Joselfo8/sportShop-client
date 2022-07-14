@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../../Navbar/Navbar";
+import List from "../List/List";
 import "./HomeAdmin.css"
-import ListProducts from "./ListProducts";
 
 
 export default function(){
@@ -29,7 +29,7 @@ export default function(){
                 <button>Administrar Compras</button>
             </div>
             {
-                getState.on?<ListProducts/>:null
+                getState.on?<List/>:null
         
             }
             
