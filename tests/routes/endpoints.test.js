@@ -53,8 +53,9 @@ beforeAll(async () => {
     console.log("server up on : http://localhost:" + PORT);
   });
   //delete the data using in test
-  await User.destroy({ where: {} });
-  await Product.destroy({ where: {} });
+  await User.destroy({ where: { email: userData.email } });
+  await Product.destroy({ where: { title: productData.title } });
+  await Product.destroy({ where: { title: productData2.title } });
   await Shopping_list.destroy({ where: {} });
 });
 
