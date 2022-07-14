@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../../redux/action";
+import styles from "./List.module.scss"
 import CardList from "./CardList";
 
 export default function List(){
     const dispatch = useDispatch();
     const allProducts = useSelector((state:any) => state.products);
-
+    useEffect(() => {
+        dispatch(getProducts());
+    },[]);
     return(
-        <div>
-            {
+        <div className={styles.container}>
+            {   allProducts &&
                 allProducts.map((e:any) => {
-                    return <CardList />
+                    return <CardList title={e.title} id={e.id} category={e.category} image={e.image}/>
                 })
             }
-
         </div>
-    )
-}
+    );
+};

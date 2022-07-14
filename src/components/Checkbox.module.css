@@ -1,0 +1,112 @@
+.checkbox-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox {
+  background-color: rgba(18, 18, 18, 1);
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border-radius: 0.2rem;
+  transform: translateY(-0.075em);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  place-content: center;
+}
+
+.checkbox:hover {
+  opacity: 0.9;
+}
+
+.checkbox:active {
+  opacity: 0.8;
+}
+
+.checkbox:focus {
+  border: 0.08rem solid grey;
+}
+
+/* Disable state */
+
+.checkbox:disabled {
+  color: #636363;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.checkbox:disabled::before {
+  box-shadow: inset 1em 1em #636363;
+}
+
+/* checkmark icon */
+
+.checkbox::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  background-color: var(--text);
+  transform-origin: bottom left;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+/* checked state */
+
+.checkbox:checked {
+  background-color: var(--bg);
+}
+
+/* .checkbox:checked:hover { */
+/*   background-color: aqua; */
+/* } */
+
+.checkbox:checked::before {
+  transform: scale(1);
+}
+
+/* .checkbox:checked:active { */
+/*   background-color: orange; */
+/* } */
+
+.checkbox:checked:focus {
+  border: 0.08rem solid grey;
+}
+
+/* indeterminate state */
+
+.checkbox:indeterminate {
+  background-color: grey;
+}
+
+/* indeterminate icon */
+
+.checkbox:indeterminate::after {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  border: solid white;
+  border-width: 0.18rem 0 0 0;
+  transition: 120ms all ease-in-out;
+  position: absolute;
+  top: 0.52rem;
+  left: 0.2rem;
+}
+
+.checkbox:indeterminate:hover {
+  opacity: 0.9;
+}
+
+.checkbox:indeterminate:active {
+  opacity: 0.8;
+}
+
+.checkbox:indeterminate:focus {
+  border: 0.08rem solid grey;
+}

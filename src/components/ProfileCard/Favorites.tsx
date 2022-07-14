@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import defaultImage from "../../assets/default-item-image.jpg";
+// Components
+import Checkbox from "../Checkbox";
+import Select from "../Select";
 // Styles
 import styles from "./Favorites.module.css";
 
@@ -33,13 +36,7 @@ function Item({
         </div>
       </div>
       <div className={styles["checkbox-cont"]}>
-        <input
-          onChange={onChange}
-          id={id}
-          value={id}
-          type="checkbox"
-          checked={checked}
-        />
+        <Checkbox onChange={onChange} id={id} value={id} checked={checked} />
       </div>
     </div>
   );
@@ -49,6 +46,11 @@ function Favorites() {
   const [isCheckedAll, setIsCheckedAll] = useState(false);
   const [isChecked, setIsChecked] = useState<Array<string>>([]);
   const [list, setList] = useState<Array<string>>([]);
+  const pageOptions = [
+    { value: "10", label: "10" },
+    { value: "25", label: "25" },
+    { value: "50", label: "50" },
+  ];
 
   // set items if array length === 0
   useEffect(() => {
@@ -81,20 +83,12 @@ function Favorites() {
         <div className={styles["buttons"]}>
           <label htmlFor="select-page">
             Show
-            <select id="select-page">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-            </select>
+            <Select defaultValue={pageOptions[0]} options={pageOptions} width="fit-content" margin="0 0.5rem" />
             per page
           </label>
           <label htmlFor="select-item" className={styles["checkbox"]}>
             Select all
-            <input
-              onChange={handleSelectAll}
-              id="select-item"
-              type="checkbox"
-            />
+            <Checkbox onChange={handleSelectAll} id="select-item" value="" />
           </label>
         </div>
       </div>
