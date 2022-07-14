@@ -215,6 +215,22 @@ async function loginUser(req, res) {
     res.send({ msg: "error", access: false });
   }
 }
+async function logOut(req, res) {
+  try {
+    const { token } = req.body;
+    if (!token) {
+      return res.send({ msg: "token is required" });
+    }
+    const decoded = await tokenVerify(token);
+    if (!decoded) {
+      return res.send({ msg: "token is invalid" });
+    }
+    return res.send({ msg: "logout success" });
+  } catch (error) {
+    console.log(error);
+    res.send({ msg: "error" });
+  }
+}
 
 module.exports = {
   getUser,
@@ -223,4 +239,5 @@ module.exports = {
   putUser,
   loginUser,
   getAllUser,
+  logOut,
 };
