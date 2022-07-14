@@ -1,0 +1,27 @@
+.bodyCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 1rem;
+    width: 40%;
+    border: 1px solid black;
+}
+
+.containerImgInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 1rem;
+}
+
+.containerInfo{
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+}
+
+.containerButtons{
+    display: flex;
+    padding: 3px;
+}
