@@ -90,8 +90,6 @@ export const orderByPrice = (payload:any) =>  (dispatch:any) => {
     return dispatch({type: "ORDER_BY_PRICE", payload})
 }
 
-
-
 export function getUserInformation(UserId: any){
 // console.log(object)
     try{
@@ -118,6 +116,15 @@ export function getShoppingListByUserId(UserId: any){
             });
         };
     } catch(error){
+        console.log(error);
+    };
+};
+
+export const deleteProduct = (id:number) => async(dispatch:any) => {
+    try{
+        const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/products/${id}`);
+        dispatch(getProducts());
+    }catch(error){
         console.log(error);
     };
 };
