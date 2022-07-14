@@ -4,18 +4,16 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-top: 1rem;
-    width: 50%;
-    background-color: black;
+    width: 40%;
+    border: 1px solid black;
 }
-
 
 .containerInfo{
     display: flex;
     flex-direction: column;
-    color: white;
 }
 
 .containerButtons{
-    padding-left: 10px;
-
+    display: flex;
+    padding: 3px;
 }
