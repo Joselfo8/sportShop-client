@@ -1,0 +1,82 @@
+h1 {
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.favorites {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  border: 0.3px solid #383838;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 300px;
+}
+.favorites .gridLayout {
+  display: grid;
+  grid-template-rows: auto auto;
+}
+.favorites .gridLayout .col1 {
+  margin-left: 10px;
+}
+.favorites .gridLayout .col1 .cantidad {
+  padding-top: 10px;
+  font-size: 10px;
+}
+.favorites .gridLayout .col1 .imgProduct {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+.favorites .gridLayout .col1 input {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  border: 0.5px solid;
+  margin-right: 10px;
+}
+.favorites .gridLayout .col1 p {
+  font-family: "Open Sanz Extra Bold";
+}
+.favorites .gridLayout .col1 button {
+  display: inline-flex;
+  width: 180px;
+  height: 30px;
+  border-radius: 10px;
+  background: none;
+  border: 1px solid #383838;
+  color: #383838;
+  font-family: "Open Sanz Extra Bold";
+  font-size: 15px;
+  cursor: pointer;
+  padding: 5px;
+}
+.favorites .gridLayout .col1 button .icon {
+  margin-left: 8px;
+  width: 15px;
+  height: 15px;
+  margin-right: 15px;
+}
+.favorites .gridLayout .col1 button:hover {
+  background-color: #383838;
+  color: #fff;
+}
+.favorites .gridLayout .col1 .link {
+  text-decoration: none;
+}
+.favorites .gridLayout .col2 {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.favorites .gridLayout .col2 button {
+  background-color: #fff;
+  border: none;
+  padding: 0;
+  margin-right: 15px;
+  margin-left: 10px;
+}
+.favorites .gridLayout .col2 button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}/*# sourceMappingURL=Favorites.module.css.map */

@@ -61,8 +61,7 @@ function rootReducer(state = initialState, action: any){
               })
               : state.products.sort((a:any,b:any)=>{
                 return b.price - a.price
-              }) 
-
+              })
 
               console.log(byPrice)
           return {

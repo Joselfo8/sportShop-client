@@ -1,0 +1,32 @@
+.HomeAdmin {
+  width: 100vw;
+  height: 100vh;
+}
+.HomeAdmin .containerButtons {
+  margin-top: 5vh;
+  background-color: #fafafa;
+  display: flex;
+  width: 100vw;
+  justify-content: space-evenly;
+  padding: 15px;
+}
+.HomeAdmin .containerButtons button {
+  flex-grow: 1;
+  text-align: center;
+  min-height: 100px;
+  flex-basis: 100px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 20pt;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: none;
+  outline: none;
+  transition: all 0.3s;
+}
+.HomeAdmin .containerButtons button:hover {
+  background-color: #d2d2d2;
+  letter-spacing: 2px;
+}
+.HomeAdmin .containerButtons .selected {
+  border: 2px solid #f8a;
+}/*# sourceMappingURL=HomeAdmin.css.map */

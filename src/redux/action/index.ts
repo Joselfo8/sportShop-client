@@ -86,6 +86,7 @@ export function cleanStore(payload: any){
 
 export const orderByPrice = (payload:any) =>  (dispatch:any) => {
     return dispatch({type: "ORDER_BY_PRICE", payload})
+
   }
 
 
@@ -95,4 +96,11 @@ export const addProduct = (payload:any) => async (dispatch:any) => {
     return dispatch({type: "POST_PRODUCT", payload: json.data})
 }
 
-
+export const deleteProduct = (id:number) => async(dispatch:any) => {
+    try{
+        const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/products/${id}`);
+        dispatch(getProducts());
+    }catch(error){
+        console.log(error);
+    };
+};

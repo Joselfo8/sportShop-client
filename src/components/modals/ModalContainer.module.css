@@ -5,7 +5,7 @@
   padding: 4rem 0;
   transition-duration: 300ms;
   inset: 0;
-  position: fixed;  
+  position: fixed;
   top: 0;
   right: 0;
   z-index: 50;
@@ -16,7 +16,7 @@
   background: var(--bg);
   border-radius: 0.2rem;
   box-shadow: var(--shadow-md);
-  width: fit-content;
+  width: 90%;
   margin: 0 auto;
   position: relative;
 }
@@ -50,4 +50,10 @@
 .close-button svg {
   width: 1.2rem;
   height: 1.5rem;
+}
+
+@media only screen and (min-width: 500px) {
+  .modal-content {
+    width: fit-content;
+  }
 }

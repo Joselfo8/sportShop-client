@@ -1,0 +1,43 @@
+.footerMain {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  border-top: 1px solid rgb(0, 0, 0);
+}
+.footerMain .networks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.footerMain .iconsOrder {
+  display: grid;
+  grid-template-rows: 30px 30px 30px;
+}
+.footerMain .icons {
+  width: 15px;
+  height: 15px;
+}
+.footerMain h1 {
+  cursor: pointer;
+}
+
+.infoSpan:hover {
+  border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+.orderMail {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px;
+}
+
+.orderPhone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 130px;
+}/*# sourceMappingURL=Footer.module.css.map */

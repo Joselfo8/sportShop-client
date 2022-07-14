@@ -2,6 +2,7 @@ import { useState } from "react";
 // Components
 import Tabs from "../components/Tabs";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
+import SidebarContainer from "../components/modals/SidebarContainer";
 // Icons
 import { ReactComponent as DefaultUser } from "../icons/default-user.svg";
 // Styles
@@ -33,7 +34,9 @@ function UserProfile() {
 
   return (
     <div className={`${styles["container"]} secondary`}>
-      <Sidebar getSelected={setSelectedTab} />
+      <SidebarContainer>
+        <Sidebar getSelected={setSelectedTab} />
+      </SidebarContainer>
       <ProfileCard selected={selectedTab} />
     </div>
   );
