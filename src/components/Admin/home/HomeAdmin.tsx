@@ -1,39 +1,48 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../../Navbar/Navbar";
-import List from "../List/List";
-import "./HomeAdmin.css"
-
+import ListProduct from "../List/ListProduct";
+import ListUser from "../List/ListUser";
+import ListBill from "../List/ListBill";
+import "./HomeAdmin.css";
 
 export default function(){
-    const [getState,setState]=useState({
-        products:[],
-        on:true
-    });
-    
-     function handleClik(){
-        setState({
-            ...getState,
-            on:!getState.on
-        })
-    }
+    const [getState, setState] = useState<Number>(0);
+
+    function handleClik(e: any){
+        setState(e);
+    };
 
     return(
         <div className="HomeAdmin">
             <NavBar />
 
             <div className="containerButtons">
-                {getState.on?<button onClick={handleClik} className="selected"> Administrar Productos</button>:<button onClick={handleClik} > Administrar Productos</button>}
-                
-                <button>Administrar Usuarios</button>
-                <button>Administrar Compras</button>
+
+                {   getState === 1 ?
+                    <button onClick={() => {handleClik(0)}} className="selected"> Products admin</button> :
+                    <button onClick={() => {handleClik(1)}}> Products admin</button>
+                }
+                {   getState === 2 ?
+                    <button onClick={() => {handleClik(0)}}className="selected">Users admin</button> :
+                    <button onClick={() => {handleClik(2)}}>Users admin</button>
+                }
+                {   getState === 3 ?
+                    <button onClick={() => {handleClik(0)}} className="selected">Purchases admin</button> :
+                    <button onClick={() => {handleClik(3)}} >Purchases admin</button>
+                }
+
             </div>
+
             {
-                getState.on?<List/>:null
-        
+                getState === 1 ? <ListProduct/> :null
             }
-            
-            
+            {
+                getState === 2 ? <ListUser/> :null
+            }
+            {
+                getState === 3 ? <ListBill/> :null
+            }
+
         </div>
-    )
-}
+    );
+};
