@@ -191,9 +191,11 @@ async function loginUser(req, res) {
     const acertijo = compare(user.name, user.email, user.password);
     const token = await tokenSign(user);
     if (acertijo === false) {
-      return res.send({
+      //redirect to postUser
+       return res.send({
         msg: "the email incorret or the password is incorrect or the user does not exist",
         access: false,
+        redirect: "/users", //redirect to postUser to create a new user
       });
     }
     return res.send({
