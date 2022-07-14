@@ -67,19 +67,8 @@ function SignUp() {
 
   // send data to api
   const onSubmit = async (data: SignUpInput) => {
-    // reqres registered sample user
-    const payload = {
-      username: "",
-      email: "eve.holt@reqres.in",
-      password: "cityslicka",
-    };
-
     try {
-      const response = await register(
-        payload.username,
-        payload.email,
-        payload.password
-      );
+      const response = await register(data.username, data.email, data.password);
       dispatch(response);
     } catch (err: any) {
       console.log(err);
@@ -156,7 +145,8 @@ function SignUp() {
           type="password"
           rules={{
             required: true,
-            validate: (value) => value === getValues("password") || "Should be equal to password",
+            validate: (value) =>
+              value === getValues("password") || "Should be equal to password",
           }}
         />
       </div>
@@ -190,14 +180,8 @@ function SignIn() {
 
   // send data to api
   const onSubmit = async (data: SignInInput) => {
-    // reqres registered sample user
-    const payload = {
-      email: "eve.holt@reqres.in",
-      password: "cityslicka",
-    };
-
     try {
-      const response = await login(payload.email, payload.password);
+      const response = await login(data.email, data.password);
       dispatch(response);
     } catch (err: any) {
       console.log(err);
