@@ -86,6 +86,14 @@ export function cleanStore(payload: any){
 
 export const orderByPrice = (payload:any) =>  (dispatch:any) => {
     return dispatch({type: "ORDER_BY_PRICE", payload})
+
+  }
+
+
+export const addProduct = (payload:any) => async (dispatch:any) => {
+    console.log(payload)
+    const json:any = await axios.post('https://vlixes-server.herokuapp.com/products',payload)
+    return dispatch({type: "POST_PRODUCT", payload: json.data})
 }
 
 export const deleteProduct = (id:number) => async(dispatch:any) => {

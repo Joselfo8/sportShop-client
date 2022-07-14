@@ -11,14 +11,10 @@ import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
-
-
-import List from "./components/Admin/List/List";
-import HomeAdmin from "./components/Admin/home/HomeAdmin";
-
-
+import HomeAdmin from "./components/Admin/HomeAdmin/HomeAdmin";
+import AddProduct from "./components/Admin/Forms/AddProduct";
+import List from "./components/Admin/List/List";;
 import Purchase from "./components/Purchase/Purchase"; 
-
 
 
 function App() {
@@ -42,9 +38,9 @@ function App() {
 
 
         {/* ADMIN */}
-        <Route path="/admin" element={<HomeAdmin/>} />
+        <Route path="/admin" element={<HomeAdmin />} />
+        <Route path='/admin/addProduct' element={<AddProduct />} />
         <Route path="/admin/list" element={<List />} />
-
 
       </Routes>
     </BrowserRouter>
