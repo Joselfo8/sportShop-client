@@ -27,8 +27,8 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: run test
         run: npm test
-      - name: deploy
-        # if: ${{github.event_name == "push"}}
+      - name: deploy to heroku
+        if: ${{github.event_name == 'push'}}
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_TOKEN}}

@@ -149,7 +149,7 @@ describe("should update source", () => {
     const response = await api
       .put("/products")
       .send({ id: productData.id, title: "test2" });
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
     expect(response.body.product).not.toBeNull();
     expect(response.body.product.title).toBe("test2");
   });
