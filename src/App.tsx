@@ -6,7 +6,6 @@ import Home from "./components/Home/Home";
 import Login from "./routes/Login";
 import Details from "./components/Details/Details";
 import Cart from "./components/Cart/Cart";
-import Categories from "./components/Categories/Categories";
 import Subcategory from "./components/Subcategory/Subcategory";
 import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
@@ -15,17 +14,11 @@ import Favorites from "./components/Favorites/Favorites";
 
 import List from "./components/Admin/List/List";
 import HomeAdmin from "./components/Admin/home/HomeAdmin";
-
+import AddProduct from "./components/Admin/Forms/AddProduct";
 import Purchase from "./components/Purchase/Purchase";
-// Helpers
-import setAuthToken from "./helpers/setAuthToken";
+import EditProduct from "./components/Admin/Forms/EditProduct";
 
 function App() {
-  // check JWT token
-  const token = localStorage.getItem("token");
-
-  if (token) setAuthToken(token);
-
   return (
     <BrowserRouter>
       <Routes>
@@ -48,6 +41,8 @@ function App() {
         {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin />} />
         <Route path="/admin/list" element={<List />} />
+        <Route path="/admin/addProduct" element={<AddProduct />} />
+        <Route path="/editProduct/:id" element={<EditProduct />} />
       </Routes>
     </BrowserRouter>
   );

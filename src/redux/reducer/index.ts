@@ -6,6 +6,8 @@ import message from "./message";
 import {
   GET_PRODUCTSBYNAME,
   GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+  GET_USER_INFORMATION,
+  GET_SHOPPINGLIST_BY_USER_ID,
 } from "../action/types";
 
 const initialState: any = {
@@ -14,6 +16,9 @@ const initialState: any = {
   searchProducts: [],
   productCart: [],
   details: {},
+
+  userInformation: {},
+  shoppinglist: [],
 };
 
 function rootReducer(state = initialState, action: any) {
@@ -74,6 +79,25 @@ function rootReducer(state = initialState, action: any) {
       return {
         ...state,
         products: byPrice,
+      };
+
+    case GET_USER_INFORMATION:
+      return {
+        ...state,
+        userInformation: action.payload,
+      };
+
+    case GET_SHOPPINGLIST_BY_USER_ID:
+      return {
+        ...state,
+        shoppinglist: action.payload,
+      };
+
+    case "POST_PRODUCT":
+      console.log(action.payload);
+      return {
+        ...state,
+        products: state.products.concat(action.payload),
       };
 
     default:
