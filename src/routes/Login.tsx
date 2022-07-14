@@ -51,7 +51,7 @@ interface SignUpInput {
 }
 
 function SignUp() {
-  const { handleSubmit, control } = useForm<any>({
+  const { handleSubmit, control, getValues } = useForm<any>({
     defaultValues: {
       username: "",
       email: "",
@@ -156,15 +156,7 @@ function SignUp() {
           type="password"
           rules={{
             required: true,
-            maxLength: {
-              value: 20,
-              message: "Password can have 20 characters maximum",
-            },
-            pattern: {
-              value: passwordRegex,
-              message:
-                "Password should have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:",
-            },
+            validate: (value) => value === getValues("password") || "Should be equal to password",
           }}
         />
       </div>
