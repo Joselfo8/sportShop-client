@@ -2,6 +2,9 @@ const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
 const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
 
 export default  function validateProducts(input:any):any{
+
+
+
     interface Errors{
         title: String,
         id:String,
@@ -11,7 +14,7 @@ export default  function validateProducts(input:any):any{
         description:String,
         product_care:String,
         sizes:String,
-        image:String
+        // image:String
     }
 
     //Objeto que guarda errores
@@ -24,7 +27,7 @@ export default  function validateProducts(input:any):any{
         description:'',
         product_care:'',
         sizes:'',
-        image:''
+        // image:''
     }
 
     //Variables para Regular Expresions
@@ -43,7 +46,7 @@ export default  function validateProducts(input:any):any{
     // Validar el input para añadir errores
 
     // ERRORES NOMBRE
-    if(!input.title){
+    if(!input.title ){
         errors.title = errorEmpty
     } else if(input.title.length > 100){
         errors.title = errorCharacters
@@ -103,12 +106,12 @@ export default  function validateProducts(input:any):any{
     }
     
     
-    // ERRORES IMAGENES
-    if(!input.image){
-        errors.image = errorEmpty
-    }  else if (!REurl.test(input.image)){
-        errors.image = errorURL
-    } 
+    // // ERRORES IMAGENES
+    // if(!input.image){
+    //     errors.image = errorEmpty
+    // }  else if (!REurl.test(input.image)){
+    //     errors.image = errorURL
+    // } 
 
     return errors
 }
