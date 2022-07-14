@@ -5,16 +5,15 @@ import Home from "./components/Home/Home";
 import Login from "./routes/Login";
 import Details from "./components/Details/Details";
 import Cart from "./components/Cart/Cart";
-import Categories from "./components/Categories/Categories";
 import Subcategory from './components/Subcategory/Subcategory'
 import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
-import HomeAdmin from "./components/Admin/HomeAdmin/HomeAdmin";
+import HomeAdmin from "./components/Admin/home/HomeAdmin";
 import AddProduct from "./components/Admin/Forms/AddProduct";
-import List from "./components/Admin/List/List";;
-import Purchase from "./components/Purchase/Purchase"; 
+import Purchase from "./components/Purchase/Purchase";
+import EditProduct from "./components/Admin/Forms/CreateProduct";
 
 
 function App() {
@@ -40,7 +39,7 @@ function App() {
         {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin />} />
         <Route path='/admin/addProduct' element={<AddProduct />} />
-        <Route path="/admin/list" element={<List />} />
+        <Route path="/admin/editProduct" element={<EditProduct />}/>
 
       </Routes>
     </BrowserRouter>
