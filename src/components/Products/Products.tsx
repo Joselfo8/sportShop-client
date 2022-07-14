@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJSDocTagsOfKind } from "typescript";
 import { getProducts } from "../../redux/action";
@@ -31,7 +31,7 @@ export default function Products() {
                 <div>
                     <h2>Loading products</h2>
                 </div>
-            ) : (
+            ) : (   
                 state.products.map((p: any) => {
                     return (
                         <Card

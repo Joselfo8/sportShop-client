@@ -2,7 +2,9 @@ import axios from "axios";
 
 import {
     GET_PRODUCTSBYNAME,
-    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY
+    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+    GET_USER_INFORMATION,
+    GET_SHOPPINGLIST_BY_USER_ID
 } from '../actionsTypes/actionsTypes';
 
 export function getProducts(){
@@ -95,6 +97,36 @@ export const addProduct = (payload:any) => async (dispatch:any) => {
     const json:any = await axios.post('https://vlixes-server.herokuapp.com/products',payload)
     return dispatch({type: "POST_PRODUCT", payload: json.data})
 }
+
+export function getUserInformation(UserId: any){
+// console.log(object)
+    try{
+        return async function name(dispatch: any) {
+            let json: any = await axios.get(`https://vlixes-server.herokuapp.com/users/${UserId}`);
+            return dispatch({
+                type: GET_USER_INFORMATION,
+                payload: json.data.user
+            });
+        };
+    } catch(error){
+        console.log(error);
+    };
+};
+
+export function getShoppingListByUserId(UserId: any){
+    // console.log(object)
+    try{
+        return async function name(dispatch: any) {
+            let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/${UserId}`);
+            return dispatch({
+                type: GET_SHOPPINGLIST_BY_USER_ID,
+                payload: json.data.list
+            });
+        };
+    } catch(error){
+        console.log(error);
+    };
+};
 
 export const deleteProduct = (id:number) => async(dispatch:any) => {
     try{

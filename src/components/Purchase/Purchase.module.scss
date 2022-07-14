@@ -29,11 +29,11 @@
 .image {
     margin: 10px;
     margin-left: 30px;
-}
-
-img {
-    height: 180px;       
-    box-shadow: rgba(50, 50, 50, 0.2) 2px 5px 6px 6px;
+    
+    img {
+        height: 180px;       
+        box-shadow: rgba(50, 50, 50, 0.2) 2px 5px 6px 6px;
+    }
 }
 
 .detail {
@@ -81,15 +81,36 @@ img {
 
 .customerInformation {
     // background-color: darkgoldenrod;
-    border: solid 1px rgb(87, 87, 87);
     grid-area: 1/2/4/3;
     
+}
+
+.customerContainer {
+    border: solid 1px rgb(87, 87, 87);
 }
 
 .customerInformation .textContainer {
     padding-left: 20px;
 }
 
+// ------------------------------ Warning ------------------------------ //
+
+.warningContainer {
+    color: rgb(207, 62, 62);
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.withoutProducts {
+    font-weight: bold;
+}
+
+.warning {
+    font-size: 40px;
+    margin-right: 10px;
+}
 
 // ---------------------------- All ------------------------------ //
 
