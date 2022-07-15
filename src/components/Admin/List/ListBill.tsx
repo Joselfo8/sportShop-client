@@ -4,7 +4,7 @@ import { getProducts } from "../../../redux/action";
 import styles from "./List.module.scss"
 import CardList from "./CardList";
 
-export default function List(){
+export default function ListProduct(){
     const dispatch = useDispatch();
     const allProducts = useSelector((state:any) => state.products);
     useEffect(() => {
@@ -12,6 +12,7 @@ export default function List(){
     },[]);
     return(
         <div className={styles.container}>
+            <input/>
             {   allProducts &&
                 allProducts.map((e:any) => {
                     return <CardList title={e.title} id={e.id} category={e.category} image={e.image}/>

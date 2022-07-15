@@ -11,9 +11,9 @@ const initialState: any = {
     searchProducts: [],
     productCart: [],
     details: {},
-
     userInformation: {},
     shoppinglist: [],
+    allUsers: [],
 };
 
 function rootReducer(state = initialState, action: any){
@@ -93,6 +93,12 @@ function rootReducer(state = initialState, action: any){
             return {
                 ...state,
                 products: state.products.concat(action.payload)
+            }
+
+        case "GET_ALL_USERS":
+            return{
+                ...state,
+                allUsers: action.payload.users
             }
 
 

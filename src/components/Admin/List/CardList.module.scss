@@ -14,7 +14,10 @@ $weightParagraph: 100;
     align-items: flex-start;
     margin-top: 1rem;
     width: 40%;
-    border: 1px solid black;
+    padding-top: 0.35rem;
+    border-radius: 0.3rem;
+    min-height: 6rem;
+    border: 2px solid #f8a;
 }
 
 .containerImgInfo{
@@ -32,5 +35,10 @@ $weightParagraph: 100;
 
 .containerButtons{
     display: flex;
+    flex-direction: column;
     padding: 3px;
+}
+
+.buttonX{
+    cursor: pointer;
 }
