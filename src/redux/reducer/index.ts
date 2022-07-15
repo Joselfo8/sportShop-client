@@ -11,98 +11,107 @@ import {
 } from "../action/types";
 
 const initialState: any = {
-  products: [],
-  productsFiltered: [],
-  searchProducts: [],
-  productCart: [],
-  details: {},
-
-  userInformation: {},
-  shoppinglist: [],
+    products: [],
+    productsFiltered: [],
+    searchProducts: [],
+    productCart: [],
+    details: {},
+    userInformation: {},
+    shoppinglist: [],
+    allUsers: [],
 };
 
-function rootReducer(state = initialState, action: any) {
-  switch (action.type) {
-    case "GET_PRODUCTS":
-      return {
-        ...state,
-        products: action.payload.products,
-        productCart: action.payload.products,
-      };
+function rootReducer(state = initialState, action: any){
+    switch(action.type){
+        case "GET_PRODUCTS":
+            return{
+                ...state,
+                products: action.payload.products,
+                productCart: action.payload.products,
+            }
 
-    case "GET_DETAILS":
-      return {
-        ...state,
-        details: action.payload.product,
-      };
+        case "GET_DETAILS":
+            return {
+                ...state,
+                details: action.payload.product
+            }
 
-    case GET_PRODUCTSBYNAME:
-      const filter: any = state.products.filter((product: any) =>
-        product.title.toLowerCase().includes(action.payload.toLowerCase())
-      );
-      return {
-        ...state,
-        productsFiltered: filter,
-      };
+        case GET_PRODUCTSBYNAME:
+            const filter: any = state.products.filter((product: any) => product.title.toLowerCase().includes(action.payload.toLowerCase()));
+            return {
+                ...state,
+                productsFiltered: filter
+            }
 
-    case "GET_BY_CATEGORY":
-      return {
-        ...state,
-        productsFiltered: action.payload.products,
-      };
+        case "GET_BY_CATEGORY":
+            return{
+                ...state,
+                productsFiltered:action.payload.products,
+            }
 
-    case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
-      return {
-        ...state,
-        productsFiltered: action.payload.products,
-      };
+        case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
+            return{
+                ...state,
+                productsFiltered: action.payload.products,
+            }
 
-    case "CLEAN_STORE":
-      console.log("desde CLEAN_STORE");
-      return {
-        ...state,
-        productsFiltered: [],
-      };
+        case "CLEAN_STORE":
+            console.log("desde CLEAN_STORE")
+            return{
+                ...state,
+                productsFiltered: [],
+            }
 
-    case "ORDER_BY_PRICE":
-      console.log(action.payload);
-      let byPrice =
-        action.payload === "minToMax"
-          ? state.products.sort((a: any, b: any) => {
-              return a.price - b.price;
-            })
-          : state.products.sort((a: any, b: any) => {
-              return b.price - a.price;
-            });
+        case "ORDER_BY_PRICE":
+            console.log(action.payload)
+            let byPrice = 
+            (action.payload === 'minToMax') 
+            ? state.products.sort((a:any,b:any)=>{
+                return a.price - b.price
+              })
+              : state.products.sort((a:any,b:any)=>{
+                return b.price - a.price
+              })
 
-      console.log(byPrice);
-      return {
-        ...state,
-        products: byPrice,
-      };
+              console.log(byPrice)
+          return {
+            ...state,
+            products: byPrice
+          }
 
-    case GET_USER_INFORMATION:
-      return {
-        ...state,
-        userInformation: action.payload,
-      };
 
-    case GET_SHOPPINGLIST_BY_USER_ID:
-      return {
-        ...state,
-        shoppinglist: action.payload,
-      };
+        case GET_USER_INFORMATION:
+            return{
+                ...state,
+                userInformation: action.payload,
+            }
+            
+        case GET_SHOPPINGLIST_BY_USER_ID:
+            return{
+                ...state,
+                shoppinglist: action.payload,
+            }
 
-    case "POST_PRODUCT":
-      console.log(action.payload);
-      return {
-        ...state,
-        products: state.products.concat(action.payload),
-      };
 
-    default:
-      return state;
-  }
-}
+          case "POST_PRODUCT":
+            console.log(action.payload)
+            return {
+                ...state,
+                products: state.products.concat(action.payload)
+            }
+
+        case "GET_ALL_USERS":
+            return{
+                ...state,
+                allUsers: action.payload.users
+            }
+
+
+ 
+        default:
+            return state;
+    };
+};
+
 
 export default combineReducers({ auth, message, rootReducer });
