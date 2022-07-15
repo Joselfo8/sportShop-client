@@ -1,76 +1,78 @@
+import { toast } from "react-toastify";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  SET_MESSAGE,
 } from "./types";
+import { setMessage } from "./message";
 import AuthService from "../../services/auth.service";
 
 export async function register(
-  username: string,
+  name: string,
+  lastname: string,
   email: string,
   password: string
 ) {
   return async (dispatch: any) => {
-    try {
-      const response = await AuthService.register(username, email, password);
+    const response = await AuthService.register(
+      name,
+      lastname,
+      email,
+      password
+    );
 
-      dispatch({
-        type: REGISTER_SUCCESS,
-      });
-      dispatch({
-        type: SET_MESSAGE,
-        payload: response.data.message,
-      });
-
-      return Promise.resolve();
-    } catch (err: any) {
-      const message =
-        (err.response && err.response.data && err.response.data.message) ||
-        err.message ||
-        err.toString();
+    if (!response.data.user) {
+      const message = response.data?.msg || "Login fail";
 
       dispatch({
         type: REGISTER_FAIL,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      });
 
-      return Promise.reject();
+      toast(message);
+
+      return Promise.reject(message);
     }
+    const message = response.data?.msg || "Login successful";
+
+    dispatch({
+      type: REGISTER_SUCCESS,
+    });
+    dispatch(setMessage("registered"));
+
+    toast(message);
+
+    return Promise.resolve(message);
   };
 }
 
-export async function login(username: string, password: string) {
+export async function login(email: string, password: string) {
   return async (dispatch: any) => {
-    try {
-      const response = await AuthService.login(username, password);
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: { user: response },
-      });
+    const response = await AuthService.login(email, password);
 
-      return Promise.resolve();
-    } catch (err: any) {
-      const message =
-        (err.response && err.response.data && err.response.data.message) ||
-        err.message ||
-        err.toString();
+    if (!response.access) {
+      const message = response?.msg || "Login fail";
 
       dispatch({
         type: LOGIN_FAIL,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      });
 
-      return Promise.reject();
+      toast(message);
+
+      return Promise.reject(message);
     }
+
+    const message = response?.msg || "Login successful";
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: response,
+    });
+
+    toast(message);
+
+    return Promise.resolve(message);
   };
 }
 

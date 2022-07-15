@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,15 +6,17 @@ import { Navigate } from "react-router-dom";
 // Components
 import Input from "../components/Input";
 // Actions
-import { login, register } from "../redux/action/auth";
+import { login, register, logout } from "../redux/action/auth";
 // Icons
 import { ReactComponent as FacebookIcon } from "../icons/facebook-icon.svg";
 import { ReactComponent as GoogleIcon } from "../icons/google-icon.svg";
 import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
 // Styles
 import styles from "./Login.module.css";
+import { useEffect } from "react";
+import { clearMessage } from "../redux/action/message";
 // Validate inputs
-const userRegex = /^[a-zA-Z0-9_-]*$/g;
+const onlyLettersRegex = /^[a-zA-Z]*$/g;
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g;
@@ -44,7 +47,8 @@ function SubmitButton({
 }
 
 interface SignUpInput {
-  username: string;
+  name: string;
+  lastname: string;
   email: string;
   password: string;
   repeatPassword: string;
@@ -60,22 +64,39 @@ function SignUp() {
     },
     mode: "onChange",
   });
+  const [redirect, setRedirect] = useState(false);
   // Store
-  const { isLoggedIn } = useSelector((state: any) => state.auth);
-  const { message } = useSelector((state: any) => state.message);
+  const {
+    auth: { isLoggedIn },
+    message,
+  } = useSelector((state: any) => state);
   const dispatch = useDispatch();
 
   // send data to api
   const onSubmit = async (data: SignUpInput) => {
     try {
-      const response = await register(data.username, data.email, data.password);
+      const response = await register(
+        data.name,
+        data.lastname,
+        data.email,
+        data.password
+      );
+
       dispatch(response);
     } catch (err: any) {
       console.log(err);
     }
   };
 
+  useEffect(() => {
+    if (message === "registered") setRedirect(true);
+  }, [message]);
+
   if (isLoggedIn) return <Navigate to="/" />;
+  if (redirect) {
+    dispatch(clearMessage());
+    return <Navigate to="/login" />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -83,20 +104,34 @@ function SignUp() {
       <div className={styles["input-wrapper"]}>
         <Input
           control={control}
-          name="username"
-          label="Username"
+          name="name"
+          label="Name"
           rules={{
             required: true,
-            minLength: {
-              value: 4,
-              message: "Username need a minimum of 4 characters",
-            },
             maxLength: {
               value: 16,
-              message: "Username can have 16 characters maximum",
+              message: "Name can have a maximum of 16 characters",
             },
             pattern: {
-              value: userRegex,
+              value: onlyLettersRegex,
+              message: "Name can only include letters",
+            },
+          }}
+        />
+      </div>
+      <div className={styles["input-wrapper"]}>
+        <Input
+          control={control}
+          name="lastname"
+          label="Last Name"
+          rules={{
+            required: true,
+            maxLength: {
+              value: 20,
+              message: "Last name can have a maximum of 20 characters",
+            },
+            pattern: {
+              value: onlyLettersRegex,
               message:
                 "Username can only include letters, numbers, dash and underscore",
             },
@@ -174,14 +209,14 @@ function SignIn() {
     mode: "onChange",
   });
   // Store
-  const { isLoggedIn } = useSelector((state: any) => state.auth);
-  const { message } = useSelector((state: any) => state.message);
+  const { isLoggedIn, auth } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   // send data to api
   const onSubmit = async (data: SignInInput) => {
     try {
       const response = await login(data.email, data.password);
+
       dispatch(response);
     } catch (err: any) {
       console.log(err);
@@ -230,7 +265,14 @@ function SignIn() {
 }
 
 function Login() {
+  const dispatch = useDispatch();
   const { register } = useParams();
+
+  useEffect(() => {
+    if (register === "logout") {
+      dispatch(logout());
+    }
+  }, [register]);
 
   return (
     <div className={`${styles["body"]} secondary`}>

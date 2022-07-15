@@ -5,12 +5,12 @@ import {
   LOGIN_FAIL,
   LOGOUT,
 } from "../action/types";
-const data = localStorage.getItem("user");
-const user = data !== null && JSON.parse(data);
+const response = localStorage.getItem("auth");
+const data = response !== null && JSON.parse(response);
 
-const initialState = user
-  ? { isLoggedIn: true, user }
-  : { isLoggedIn: false, user: null };
+const initialState = data
+  ? { isLoggedIn: true, auth: data }
+  : { isLoggedIn: false, auth: null };
 
 function auth(state = initialState, action: any) {
   const { type, payload } = action;
@@ -30,19 +30,19 @@ function auth(state = initialState, action: any) {
       return {
         ...state,
         isLoggedIn: true,
-        user: payload.user,
+        auth: payload,
       };
     case LOGIN_FAIL:
       return {
         ...state,
         isLoggedIn: false,
-        user: null,
+        auth: null,
       };
     case LOGOUT:
       return {
         ...state,
         isLoggedIn: false,
-        user: null,
+        auth: null,
       };
     default:
       return state;

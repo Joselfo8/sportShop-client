@@ -1,29 +1,35 @@
 import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL;
 
-function register(username: string, email: string, password: string) {
-  return axios.post(API_URL + "/users/register", {
-    username,
+function register(
+  name: string,
+  lastname: string,
+  email: string,
+  password: string
+) {
+  return axios.post(API_URL + "/users", {
+    name,
+    lastname,
     email,
     password,
   });
 }
 
-async function login(username: string, password: string) {
+async function login(email: string, password: string) {
   const response = await axios.post(API_URL + "/users/login", {
-    username,
+    email,
     password,
   });
 
-  if (response.data.accessToken) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+  if (response.data.token) {
+    localStorage.setItem("auth", JSON.stringify(response.data));
   }
 
   return response.data;
 }
 
 function logout() {
-  localStorage.removeItem("user");
+  localStorage.removeItem("auth");
 }
 
 const auth = {
