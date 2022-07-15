@@ -145,7 +145,7 @@ function SignUp() {
           type="password"
           rules={{
             required: true,
-            validate: (value) =>
+            validate: (value: any) =>
               value === getValues("password") || "Should be equal to password",
           }}
         />

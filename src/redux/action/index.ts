@@ -166,6 +166,26 @@ export const deleteProduct = (id: number) => async (dispatch: any) => {
   }
 };
 
+export const deleteUser = (id: number) => async (dispatch: any) => {
+    try{
+        const response: any = await axios.delete('https://vlixes-server.herokuapp.com/users/' + id);
+        dispatch(getUsers());
+        return response;
+    }catch(error){
+        console.log(error);
+    };
+};
+
+export const getUserByName = (name: string) => {
+    try{
+        return {
+            type: "GET_USER_BY_NAME",
+            payload: name
+        };
+    }catch(error){
+        console.log(error);
+    };
+};
 export const editProduct =
   (id: number, payload: any) => async (dispatch: any) => {
     try {
