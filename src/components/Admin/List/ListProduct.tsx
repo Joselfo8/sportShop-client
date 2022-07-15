@@ -6,7 +6,7 @@ import CardList from "./CardList";
 
 export default function ListProduct(){
     const dispatch = useDispatch();
-    const state = useSelector((state:any) => state);
+    const state = useSelector((state:any) => state.rootReducer);
     const [ value, setValue ] = useState('');
     const typeList = 'PRODUCT';
     useEffect(() => {
