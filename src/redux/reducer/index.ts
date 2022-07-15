@@ -1,9 +1,14 @@
+import { combineReducers } from "redux";
+// Reducers
+import auth from "./auth";
+import message from "./message";
+
 import {
-    GET_PRODUCTSBYNAME,
-    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
-    GET_USER_INFORMATION,
-    GET_SHOPPINGLIST_BY_USER_ID
-} from '../actionsTypes/actionsTypes'
+  GET_PRODUCTSBYNAME,
+  GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+  GET_USER_INFORMATION,
+  GET_SHOPPINGLIST_BY_USER_ID,
+} from "../action/types";
 
 const initialState: any = {
     products: [],
@@ -108,4 +113,5 @@ function rootReducer(state = initialState, action: any){
     };
 };
 
-export default rootReducer;
+
+export default combineReducers({ auth, message, rootReducer });
