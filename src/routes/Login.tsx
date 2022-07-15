@@ -2,11 +2,10 @@ import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { toast } from "react-toastify";
 // Components
 import Input from "../components/Input";
 // Actions
-import { login, register } from "../redux/action/auth";
+import { login, register, logout } from "../redux/action/auth";
 // Icons
 import { ReactComponent as FacebookIcon } from "../icons/facebook-icon.svg";
 import { ReactComponent as GoogleIcon } from "../icons/google-icon.svg";
@@ -189,7 +188,7 @@ function SignIn() {
     }
   };
 
-  {/* if (isLoggedIn) return <Navigate to="/" />; */}
+  if (isLoggedIn) return <Navigate to="/" />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -231,7 +230,14 @@ function SignIn() {
 }
 
 function Login() {
+  const dispatch = useDispatch();
   const { register } = useParams();
+
+  useEffect(() => {
+    if (register === "logout") {
+      dispatch(logout());
+    }
+  }, [register]);
 
   return (
     <div className={`${styles["body"]} secondary`}>
