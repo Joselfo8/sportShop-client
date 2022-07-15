@@ -3,6 +3,7 @@ const cloudinary = require("cloudinary").v2;
 const { Op } = require("sequelize");
 const { Product } = require("../../db");
 const { getAllSize } = require("../stock/function");
+const pagination = require("../../helpers/pagination");
 
 const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
 const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
@@ -103,7 +104,7 @@ const postProduct = async (req, res) => {
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    let { title, category, subCategory, pag, order } = req.query;
+    let { title, category, subCategory, pag = 1, order } = req.query;
     let where = { where: {} };
 
     //filtramos por contenido del titulo y omitmos mayusculas y minusculas
@@ -161,12 +162,19 @@ const getProductByName = async (req, res, next) => {
       pag = pag + 1;
     }
 
+    const paginated = pagination(filter, 10, pag);
+
     return res.status(200).json({
       msg: "search success",
-      products: filter,
-      pag,
-      maxPag,
+      ...paginated,
     });
+
+    // return res.status(200).json({
+    //   msg: "search success",
+    //   products: filter,
+    //   pag,
+    //   maxPag,
+    // });
   } catch (e) {
     console.log(e);
     res.status(500).send({ err: e });
