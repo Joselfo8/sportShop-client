@@ -194,6 +194,33 @@ describe("should get, add  and delete shopping list", () => {
     expect(response.body.list.length).toBe(0);
   });
 });
+describe("should login user", () => {
+  it("should login user", async () => {
+    const response = await api
+      .post("/users/login")
+      .send({ email: userData.email, password: userData.password });
+    expect(response.status).toBe(200);
+    expect(response.body.user).not.toBeNull();
+  });
+});
+
+describe("should delete source", () => {
+  it("should delete user", async () => {
+    const response = await api.delete("/users/" + userData.id);
+    expect(response.status).toBe(200);
+    expect(response.body.msg).not.toBeNull();
+  });
+  it("should delete product", async () => {
+    const response = await api.delete("/products/" + productData.id);
+    expect(response.status).toBe(200);
+    expect(response.body.msg).not.toBeNull();
+  });
+  it("should delete product 2", async () => {
+    const response = await api.delete("/products/" + productData2.id);
+    expect(response.status).toBe(200);
+    expect(response.body.msg).not.toBeNull();
+  });
+});
 
 afterAll(async () => {
   //await conn.close();
