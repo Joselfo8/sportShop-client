@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon -L",
-    "test": "jest "
+    "test": "cross-env NODE_ENV=devolopment jest  --forceExit --silent"
   },
   "author": "Henry FT25B-G4",
   "license": "ISC",
@@ -31,11 +31,10 @@
     "passport": "^0.6.0",
     "passport-google-oauth": "^2.0.0",
     "pg": "^8.5.1",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "stripe": "^9.13.0"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
     "supertest": "^6.2.4",
     "supertest-session": "^4.1.0"

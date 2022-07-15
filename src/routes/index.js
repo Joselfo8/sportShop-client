@@ -11,11 +11,13 @@ const { auth } = require("./auth");
 
 const { buys } = require("./buys");
 
+const { pay } = require("./pay");
+
 const router = Router();
 
 //healthckeck para el rollaback heroku
 router.get("/health", (req, res) => {
-  res.json({ msg: "OK" });
+  res.send("ok");
 });
 
 // Configurar los routers
@@ -27,5 +29,7 @@ router.use("/favorites", favorites);
 router.use("/auth", auth);
 router.use("/buys", buys);
 router.use("/stock", stock);
+router.use("/pay", pay);
+
 
 module.exports = router;

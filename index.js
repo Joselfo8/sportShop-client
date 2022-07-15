@@ -21,6 +21,7 @@ require("dotenv").config();
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 const { PORT, NODE_ENV } = process.env;
+
 // Syncing all the models at once.
 conn.sync({ alter: true }).then(() => {
   if (NODE_ENV === "development") {
