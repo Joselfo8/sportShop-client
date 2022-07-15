@@ -14,7 +14,7 @@ import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
 import styles from "./Login.module.css";
 import { useEffect } from "react";
 // Validate inputs
-const userRegex = /^[a-zA-Z0-9_-]*$/g;
+const onlyLettersRegex = /^[a-zA-Z]*$/g;
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g;
@@ -45,7 +45,8 @@ function SubmitButton({
 }
 
 interface SignUpInput {
-  username: string;
+  name: string;
+  lastname: string;
   email: string;
   password: string;
   repeatPassword: string;
@@ -68,7 +69,7 @@ function SignUp() {
   // send data to api
   const onSubmit = async (data: SignUpInput) => {
     try {
-      const response = await register(data.username, data.email, data.password);
+      const response = await register(data.name, data.lastname, data.email, data.password);
       dispatch(response);
     } catch (err: any) {
       console.log(err);
@@ -83,20 +84,34 @@ function SignUp() {
       <div className={styles["input-wrapper"]}>
         <Input
           control={control}
-          name="username"
-          label="Username"
+          name="name"
+          label="Name"
           rules={{
             required: true,
-            minLength: {
-              value: 4,
-              message: "Username need a minimum of 4 characters",
-            },
             maxLength: {
               value: 16,
-              message: "Username can have 16 characters maximum",
+              message: "Name can have a maximum of 16 characters",
             },
             pattern: {
-              value: userRegex,
+              value: onlyLettersRegex,
+              message: "Name can only include letters",
+            },
+          }}
+        />
+      </div>
+      <div className={styles["input-wrapper"]}>
+        <Input
+          control={control}
+          name="lastname"
+          label="Last Name"
+          rules={{
+            required: true,
+            maxLength: {
+              value: 20,
+              message: "Last name can have a maximum of 20 characters",
+            },
+            pattern: {
+              value: onlyLettersRegex,
               message:
                 "Username can only include letters, numbers, dash and underscore",
             },
