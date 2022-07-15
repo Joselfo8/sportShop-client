@@ -93,9 +93,13 @@ export const orderByPrice = (payload:any) =>  (dispatch:any) => {
 
 
 export const addProduct = (payload:any) => async (dispatch:any) => {
-    console.log(payload)
-    const json:any = await axios.post('https://vlixes-server.herokuapp.com/products',payload)
-    return dispatch({type: "POST_PRODUCT", payload: json.data})
+    try {
+        const json:any = await axios.post('https://vlixes-server.herokuapp.com/products',payload)
+        return dispatch({type: "POST_PRODUCT", payload: json.data})
+    } catch (error) {
+        console.log(error)
+    }
+   
 }
 
 export function getUserInformation(UserId: any){
@@ -149,3 +153,12 @@ export const getUsers = () => async (dispatch: any) => {
         console.log(error);
     };
 };
+
+export const editProduct = (id:number,payload:any) => async(dispatch:any) => {
+    try {
+        const json: any = await axios.put(`https://vlixes-server.herokuapp.com/products/${id}`, payload)
+        dispatch(getProducts())
+    } catch (error) {
+        console.log(error)
+    }
+} 

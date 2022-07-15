@@ -31,7 +31,7 @@ export default function CardList({title, id, category, image, name, role}:any){
             </div>
 
             <div className={styles.containerButtons}>
-                <Link to={`/edit/${id}`} style={{color:"black"}}>
+                <Link to={`/editProduct/${id}`} style={{color:"black"}}>
                     <BsFillPencilFill/>
                 </Link>
                 <FaTrash onClick={() => {handleDelete(id)}} className={styles.buttonX}/>
