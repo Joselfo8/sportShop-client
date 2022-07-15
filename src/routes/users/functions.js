@@ -41,23 +41,23 @@ async function postUser(req, res) {
   try {
     const {
       name,
-      lastname,
+     lastname,
       password,
       email,
-      genre,
-      dateOfBirth,
+     genre,
+     dateOfBirth,
       direction,
       role,
     } = req.body;
 
     if (
       !name ||
-      !lastname ||
+    //  !lastname ||
       !password ||
-      !email ||
-      !genre ||
-      !dateOfBirth ||
-      !direction
+      //  !genre ||
+      //  !dateOfBirth ||
+      // !direction ||
+      !email
     ) {
       return res.status(200).json({ msg: "All fields are required" });
     }
