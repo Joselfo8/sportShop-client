@@ -14,85 +14,81 @@ import Footer from "../Footer/Footer";
 import style from "./Products.module.scss";
 
 export default function Products() {
-    // save user click pagination button
-    const [selected, setSelected] = useState(1);
-    const dispatch = useDispatch();
-    const state = useSelector((state: any) => state);
+  // save user click pagination button
+  const [selected, setSelected] = useState(1);
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
 
-    // get products from store
-    useEffect(() => {
-        dispatch(getProducts());
-    }, [dispatch]);
+  // get products from store
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
 
-
-    const render = {
-        allProducts:
-            state.products.length === 0 ? (
-                <div>
-                    <h2>Loading products</h2>
-                </div>
-            ) : (   
-                state.products.map((p: any) => {
-                    return (
-                        <Card
-                            key={p.title}
-                            id={p.id}
-                            image={p.image}
-                            title={p.title}
-                            price={p.price}
-                        />
-                    );
-                })
-            ),
-
-        searchProducts:
-            state.productsFiltered.length === 0 ? (
-                <div>
-                    <h2>No products found!</h2>
-                </div>
-            ) : (
-                state.productsFiltered.map((p: any) => {
-                    return (
-                        <Card
-                            key={p.title}
-                            id={p.id}
-                            image={p.image}
-                            title={p.title}
-                            price={p.price}
-                        />
-                    );
-                })
-            ),
-    };
-
-    return (
+  const render = {
+    allProducts:
+      state.rootReducer.products.length === 0 ? (
         <div>
-            <NavBar/>
-
-            
-            <Filter/>
-            
-
-            <div className={style.cardContainer}>
-                {state.productsFiltered.length === 0
-                    ? render.allProducts
-                    : render.searchProducts}
-            </div>
-
-            <div className={style.pagination}>
-                <Pagination
-                    maxPage={state.products.length}
-                    next={{ limit: 10, page: 2 }}
-                    previous={{ limit: 10, page: 1 }}
-                    selected={selected}
-                    onSelected={setSelected}
-                />
-            </div>
-
-            <br />
-
-            <Footer/>
-
+          <h2>Loading products</h2>
         </div>
-    );
+      ) : (
+        state.rootReducer.products.map((p: any) => {
+          return (
+            <Card
+              key={p.title}
+              id={p.id}
+              image={p.image}
+              title={p.title}
+              price={p.price}
+            />
+          );
+        })
+      ),
+
+    searchProducts:
+      state.rootReducer.productsFiltered.length === 0 ? (
+        <div>
+          <h2>No products found!</h2>
+        </div>
+      ) : (
+        state.rootReducer.productsFiltered.map((p: any) => {
+          return (
+            <Card
+              key={p.title}
+              id={p.id}
+              image={p.image}
+              title={p.title}
+              price={p.price}
+            />
+          );
+        })
+      ),
+  };
+
+  return (
+    <div>
+      <NavBar />
+
+      <Filter />
+
+      <div className={style.cardContainer}>
+        {state.rootReducer.productsFiltered.length === 0
+          ? render.allProducts
+          : render.searchProducts}
+      </div>
+
+      <div className={style.pagination}>
+        <Pagination
+          maxPage={state.rootReducer.products.length}
+          next={{ limit: 10, page: 2 }}
+          previous={{ limit: 10, page: 1 }}
+          selected={selected}
+          onSelected={setSelected}
+        />
+      </div>
+
+      <br />
+
+      <Footer />
+    </div>
+  );
 }

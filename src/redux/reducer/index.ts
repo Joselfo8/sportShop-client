@@ -1,9 +1,14 @@
+import { combineReducers } from "redux";
+// Reducers
+import auth from "./auth";
+import message from "./message";
+
 import {
-    GET_PRODUCTSBYNAME,
-    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
-    GET_USER_INFORMATION,
-    GET_SHOPPINGLIST_BY_USER_ID
-} from '../actionsTypes/actionsTypes'
+  GET_PRODUCTSBYNAME,
+  GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+  GET_USER_INFORMATION,
+  GET_SHOPPINGLIST_BY_USER_ID,
+} from "../action/types";
 
 const initialState: any = {
     products: [],
@@ -11,9 +16,9 @@ const initialState: any = {
     searchProducts: [],
     productCart: [],
     details: {},
-
     userInformation: {},
     shoppinglist: [],
+    allUsers: [],
 };
 
 function rootReducer(state = initialState, action: any){
@@ -95,6 +100,12 @@ function rootReducer(state = initialState, action: any){
                 products: state.products.concat(action.payload)
             }
 
+        case "GET_ALL_USERS":
+            return{
+                ...state,
+                allUsers: action.payload.users
+            }
+
 
  
         default:
@@ -102,4 +113,5 @@ function rootReducer(state = initialState, action: any){
     };
 };
 
-export default rootReducer;
+
+export default combineReducers({ auth, message, rootReducer });
