@@ -25,7 +25,7 @@ export default function EditProduct(){
 
 
     // ESTADOS 
-    const product = useSelector((state:any) => state.details);
+    const product = useSelector((state:any) => state.rootReducer.details);
     
     const [errors,setErorrs] = useState<Errors>({
         title: '',

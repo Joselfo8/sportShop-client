@@ -36,9 +36,10 @@ let sizes:string[]=['s','m','l','xl']
 export default function Details(){
   
     const dispatch = useDispatch()
-    const productDetail: any = useSelector((state:any) => state.details)
+    const productDetail: any = useSelector((state:any) => state.rootReducer.details)
     const params = useParams()
-   
+
+    console.log(productDetail)
 
     let rate:number=productDetail?.rating
     
