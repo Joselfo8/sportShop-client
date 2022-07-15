@@ -24,7 +24,6 @@ export default function Products() {
     dispatch(getProducts());
   }, [dispatch]);
 
-  console.log(state.rootReducer.products)
 
   const render = {
     allProducts:

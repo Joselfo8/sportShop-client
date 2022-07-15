@@ -1,3 +1,4 @@
+import { read } from 'fs'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -30,11 +31,11 @@ const FormProducts = () => {
     price: '',
     description:'',
     product_care:'',
-    sizes:''
+    sizes:'',
     // image:''
   })
 
-  const [input, setInput] = useState({
+  const [input, setInput]:any = useState({
     title:'',
     category: '',
     subCategory:'',
@@ -42,7 +43,7 @@ const FormProducts = () => {
     description:'',
     product_care: '',
     sizes: '',
-    // image:''
+    // image: null
   })  
 
   const allProducts = useSelector((state:any) => state.rootReducer.products)
@@ -76,19 +77,29 @@ const FormProducts = () => {
         return (alert('Check your mistakes!'))
     }else {
         let text = "Are you sure you want to add the product?";
+
         if (window.confirm(text) == true) {
+
+            // const reader = new FileReader();
+
+            // reader.onload = function(e:any){
+            //     console.log(e.target.result)
+            // }
+            // reader.readAsDataURL(Blob(input.image))
             const newProduct = {
                 title: input.title,
-                category:input.category,
-                subCategory:input.subCategory,
+                category:input.category.toUpperCase(),
+                subCategory:input.subCategory.toUpperCase(),
                 price: input.price,
                 description:input.description,
                 product_care:input.product_care,
                 // image:input.image
             }
-            dispatch(addProduct(newProduct))
+            console.log(newProduct)
+            // dispatch(addProduct(newProduct))
             e.target.reset()
             navigate('/admin/addProduct')
+            
         } else {
             navigate('/admin/addProduct');      
         }
@@ -161,6 +172,7 @@ const FormProducts = () => {
                     type= 'text'
                     name= 'description'
                     placeholder='Insert description of product'
+                    
                 >   
                </input>
                {errors.description && (<span>{errors.description}</span>)}
@@ -180,14 +192,15 @@ const FormProducts = () => {
                <input
                     className={styles.inputGeneral}
                     onChange={(e)=>handleChange(e)}
-                    placeholder="https://example.com"
                     name='image'
-                    type='text'
+                    type='file'
+                    accept='image/*'
                 >
-               </input>
-               {errors.image && (<span>{errors.image}</span>)} */}
+               </input> */}
+               {/* {errors.image && (<span>{errors.image}</span>)} */}
 
-                  {/* Stock? */}
+
+                {/* Stock? */}
                 {/* <label>SIZES</label>
                 <input
                     onChange={(e)=>handleChange(e)}
