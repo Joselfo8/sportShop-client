@@ -5,44 +5,43 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  SET_MESSAGE,
 } from "./types";
 import AuthService from "../../services/auth.service";
 
 export async function register(
-  username: string,
+  name: string,
+  lastname: string,
   email: string,
   password: string
 ) {
   return async (dispatch: any) => {
-    try {
-      const response = await AuthService.register(username, email, password);
+    const response = await AuthService.register(
+      name,
+      lastname,
+      email,
+      password
+    );
 
-      dispatch({
-        type: REGISTER_SUCCESS,
-      });
-      dispatch({
-        type: SET_MESSAGE,
-        payload: response.data.message,
-      });
-
-      return Promise.resolve();
-    } catch (err: any) {
-      const message =
-        (err.response && err.response.data && err.response.data.message) ||
-        err.message ||
-        err.toString();
+    if (!response.data.user) {
+      const message = response.data?.msg || "Login fail";
 
       dispatch({
         type: REGISTER_FAIL,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      });
+
+      toast(message);
 
       return Promise.reject();
     }
+    const message = response.data?.msg || "Login successful";
+
+    dispatch({
+      type: REGISTER_SUCCESS,
+    });
+
+    toast(message);
+
+    return Promise.resolve();
   };
 }
 
