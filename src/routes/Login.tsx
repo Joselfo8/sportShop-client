@@ -176,7 +176,6 @@ function SignIn() {
   });
   // Store
   const { isLoggedIn } = useSelector((state: any) => state.auth);
-  const { message } = useSelector((state: any) => state.message);
   const dispatch = useDispatch();
 
   // send data to api
@@ -189,20 +188,6 @@ function SignIn() {
       console.log(err);
     }
   };
-
-  // show message notification
-  // useEffect(() => {
-  //   if (message?.length > 0)
-  //     toast(message, {
-  //       position: "top-right",
-  //       autoClose: false,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  // }, [message]);
 
   if (isLoggedIn) return <Navigate to="/" />;
 
