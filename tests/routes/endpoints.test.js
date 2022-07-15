@@ -24,7 +24,7 @@ let productData = {
   title: "testtesttesttest",
   description: "test",
   price: 100,
-  category: "MALE",
+  category: "WOMAN",
   subCategory: "PANT",
   product_care: "care 1",
 };
@@ -34,7 +34,7 @@ let productData2 = {
   title: "testtesttesttest2",
   description: "test",
   price: 100,
-  category: "MALE",
+  category: "MAN",
   subCategory: "PANT",
   product_care: "care 1",
 };
@@ -79,19 +79,21 @@ describe("create source", () => {
   it("should create user", async () => {
     const response = await api.post("/users").send(userData);
     expect(response.body.user).not.toBeNull();
-
+    console.log(response.body);
     userData.id = response.body.user.id;
   });
 
   it("should create product", async () => {
     const response = await api.post("/products").send(productData);
     expect(response.body.product).not.toBeNull();
+    console.log(response.body);
     productData.id = response.body.product.id;
   });
 
   it("should create product 2", async () => {
     const response = await api.post("/products").send(productData2);
     expect(response.body.product).not.toBeNull();
+    console.log(response.body);
     productData2.id = response.body.product.id;
   });
 });
