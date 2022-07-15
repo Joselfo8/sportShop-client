@@ -4,14 +4,14 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
-       role: {
+      role: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "user",
         isIn: {
-          args: [['user', 'admin']],
+          args: [["user", "admin"]],
           msg: "Must be user or admin",
-        }
+        },
       }, //user or admin
       name: {
         type: DataTypes.STRING,
@@ -53,11 +53,16 @@ module.exports = (sequelize) => {
       dateOfBirth: {
         type: DataTypes.DATEONLY,
         allowNull: false,
-
       },
       direction: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      country: {
+        type: DataTypes.STRING,
+      },
+      city: {
+        type: DataTypes.STRING,
       },
       role: {
         type: DataTypes.STRING,

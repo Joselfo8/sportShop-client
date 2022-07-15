@@ -47,6 +47,8 @@ async function postUser(req, res) {
       genre,
       dateOfBirth,
       direction,
+      country,
+      city,
       role,
     } = req.body;
 
@@ -57,7 +59,9 @@ async function postUser(req, res) {
       !email ||
       !genre ||
       !dateOfBirth ||
-      !direction
+      !direction ||
+      !country ||
+      !city
     ) {
       return res.status(200).json({ msg: "All fields are required" });
     }
@@ -80,6 +84,8 @@ async function postUser(req, res) {
       genre: genre,
       dateOfBirth: dateOfBirth,
       direction: direction,
+      country: country,
+      city: city,
       role: role,
     });
     await user.createShopping_list({ product_list: user.email });
@@ -118,6 +124,8 @@ async function putUser(req, res) {
       email,
       dateOfBirth,
       direction,
+      country,
+      city,
       role,
     } = req.body;
 
@@ -157,6 +165,12 @@ async function putUser(req, res) {
     }
     if (direction) {
       user.direction = direction;
+    }
+    if (country) {
+      user.country = country;
+    }
+    if (city) {
+      user.city = city;
     }
 
     // if (role) {
