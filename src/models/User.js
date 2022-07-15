@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
     {
        role: {
         type: DataTypes.STRING,
-        allowNull: false,
+       // allowNull: false,
         defaultValue: "user",
         isIn: {
           args: [['user', 'admin']],
@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
 
       lastname: {
         type: DataTypes.STRING,
-        allowNull: false,
+       // allowNull: false,
       },
 
       email: {
@@ -48,20 +48,20 @@ module.exports = (sequelize) => {
       },
       genre: {
         type: DataTypes.STRING,
-        allowNull: false,
+      //  allowNull: false,
       },
       dateOfBirth: {
         type: DataTypes.DATEONLY,
-        allowNull: false,
+       // allowNull: false,
 
       },
       direction: {
         type: DataTypes.STRING,
-        allowNull: false,
+       // allowNull: false,
       },
       role: {
         type: DataTypes.STRING,
-        allowNull: false,
+       // allowNull: false,
         defaultValue: "user",
       },
     },
