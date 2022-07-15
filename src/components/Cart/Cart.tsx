@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Cart(){
-    const state = useSelector((state:any) => state.productCart);
+    const state = useSelector((state:any) => state.rootReducer.productCart);
     const [productCart, setProductCart] = useState(state);
     let priceCart: number = 0;
     productCart.map((e: any) => priceCart = priceCart + e.price);
