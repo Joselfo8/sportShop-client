@@ -66,7 +66,7 @@ export async function login(email: string, password: string) {
 
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: { user: response },
+      payload: response,
     });
 
     toast(message);

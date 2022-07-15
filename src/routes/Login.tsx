@@ -175,7 +175,7 @@ function SignIn() {
     mode: "onChange",
   });
   // Store
-  const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const { isLoggedIn, auth } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   // send data to api
@@ -189,7 +189,7 @@ function SignIn() {
     }
   };
 
-  if (isLoggedIn) return <Navigate to="/" />;
+  {/* if (isLoggedIn) return <Navigate to="/" />; */}
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

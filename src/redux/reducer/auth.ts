@@ -30,7 +30,7 @@ function auth(state = initialState, action: any) {
       return {
         ...state,
         isLoggedIn: true,
-        auth: payload.auth,
+        auth: payload,
       };
     case LOGIN_FAIL:
       return {
