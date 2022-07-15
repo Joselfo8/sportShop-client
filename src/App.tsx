@@ -11,7 +11,7 @@ import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
-import List from "./components/Admin/List/List";
+import List from "./components/Admin/List/ListUser";
 import HomeAdmin from "./components/Admin/home/HomeAdmin";
 import AddProduct from "./components/Admin/Forms/AddProduct";
 import Purchase from "./components/Purchase/Purchase";

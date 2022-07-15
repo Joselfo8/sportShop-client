@@ -108,9 +108,7 @@ export const addProduct = (payload: any) => async (dispatch: any) => {
   }
 };
 
-
 export function getUserInformation(UserId: any) {
-  // console.log(object)
   try {
     return async function name(dispatch: any) {
       let json: any = await axios.get(
@@ -120,11 +118,11 @@ export function getUserInformation(UserId: any) {
         type: GET_USER_INFORMATION,
         payload: json.data.user,
       });
+    };
   } catch (error) {
     console.log(error);
   }
 }
-
 
 export function getShoppingListByUserId(UserId: any) {
   // console.log(object)
@@ -142,20 +140,20 @@ export function getShoppingListByUserId(UserId: any) {
     console.log(error);
   }
 }
- 
+
 export const getUsers = () => async (dispatch: any) => {
-    try{
-        const response: any = await axios.get('https://vlixes-server.herokuapp.com/users');
-        return dispatch({
-            type: "GET_ALL_USERS",
-            payload: response.data
-        })
-
-    }catch(error){
-        console.log(error);
-    };
+  try {
+    const response: any = await axios.get(
+      "https://vlixes-server.herokuapp.com/users"
+    );
+    return dispatch({
+      type: "GET_ALL_USERS",
+      payload: response.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
-
 
 export const deleteProduct = (id: number) => async (dispatch: any) => {
   try {
@@ -179,6 +177,4 @@ export const editProduct =
     } catch (error) {
       console.log(error);
     }
-
   };
-

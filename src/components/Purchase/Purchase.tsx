@@ -32,24 +32,24 @@ export default function Purchase() {
     console.log(state)
 
     // const subTotal = shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
-    const subTotal = state.shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
+    const subTotal = state.rootReducer.shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
     const shipping = 9
     const taxes = (subTotal + shipping)*0.0625 
     const total = subTotal + shipping + taxes
 
     // const soldProducts = shoppinglist.map((p: any) => p.title)
-    const soldProducts = state.shoppinglist.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
+    const soldProducts = state.rootReducer.shoppinglist.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
     //error lens
 
     const render = (
-        state.shoppinglist && state.shoppinglist.length === 0 
+        state.rootReducer.shoppinglist && state.rootReducer.shoppinglist.length === 0 
         // shoppinglist.length === 0
         ?   <div className={style.warningContainer}>
                 <AiFillWarning className={style.warning}/>
                 <h2 className={style.withoutProducts}>You have not selected products to buy!</h2>
             </div>
         :   (
-                state.shoppinglist.map((product: any) => {
+                state.rootReducer.shoppinglist.map((product: any) => {
                 // shoppinglist.map((product: any) => {
                     return (
                         <div className={style.product} key={product.id}>
@@ -98,12 +98,12 @@ export default function Purchase() {
 
                     <div className={style.textContainer}>
                         <p>{`Subtotal: `}</p>
-                        {
+                        {/* {
                             shoppinglist.length === 0
                             ?   <p>$0</p>
                             :   <p>{`$${subTotal}`}</p>
                             
-                        }
+                        } */}
                     </div>
 
                     <div className={style.textContainer}>
@@ -145,7 +145,7 @@ export default function Purchase() {
 
                         <div className={style.textContainer}>
                         {
-                        state.userInformation && !state.userInformation.name 
+                        state.rootReducer.userInformation && !state.rootReducer.userInformation.name 
                             ?   <></>
                             :   <div>
                                     <p>{`Direction: ${state.userInformation.direction}`}</p>
