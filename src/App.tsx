@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // Components
 import RouteGuard from "./components/RouteGuard";
 import Home from "./components/Home/Home";
@@ -40,6 +42,18 @@ function App() {
         <Route path="/admin/addProduct" element={<AddProduct />} />
         <Route path="/editProduct/:id" element={<EditProduct />} />
       </Routes>
+      {/* Notification component */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </BrowserRouter>
   );
 }

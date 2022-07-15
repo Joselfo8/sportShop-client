@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -55,18 +56,20 @@ export async function login(email: string, password: string) {
       dispatch({
         type: LOGIN_FAIL,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      });
+
+      toast(message);
 
       return Promise.reject(message);
     }
+
+    const message = response.message || "Login successful";
 
     dispatch({
       type: LOGIN_SUCCESS,
       payload: { user: response },
     });
+
+    toast(message);
 
     return Promise.resolve();
   };

@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 // Components
 import Input from "../components/Input";
 // Actions
@@ -12,6 +13,7 @@ import { ReactComponent as GoogleIcon } from "../icons/google-icon.svg";
 import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
 // Styles
 import styles from "./Login.module.css";
+import { useEffect } from "react";
 // Validate inputs
 const userRegex = /^[a-zA-Z0-9_-]*$/g;
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -62,7 +64,6 @@ function SignUp() {
   });
   // Store
   const { isLoggedIn } = useSelector((state: any) => state.auth);
-  const { message } = useSelector((state: any) => state.message);
   const dispatch = useDispatch();
 
   // send data to api
@@ -188,6 +189,20 @@ function SignIn() {
       console.log(err);
     }
   };
+
+  // show message notification
+  // useEffect(() => {
+  //   if (message?.length > 0)
+  //     toast(message, {
+  //       position: "top-right",
+  //       autoClose: false,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //     });
+  // }, [message]);
 
   if (isLoggedIn) return <Navigate to="/" />;
 
