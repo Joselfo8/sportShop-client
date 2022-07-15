@@ -29,7 +29,6 @@ module.exports = (sequelize) => {
 
       lastname: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
 
       email: {
@@ -48,26 +47,24 @@ module.exports = (sequelize) => {
       },
       genre: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       dateOfBirth: {
         type: DataTypes.DATEONLY,
-        allowNull: false,
       },
       direction: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       country: {
+        type: DataTypes.STRING,
+      },
+      state: {
         type: DataTypes.STRING,
       },
       city: {
         type: DataTypes.STRING,
       },
-      role: {
+      numberPhone: {
         type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "user",
       },
     },
     {
