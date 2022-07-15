@@ -29,6 +29,7 @@ h1 {
         width: 200px;
         height: 100px;
         margin-left: 50px;
+        size: 500;
     }
 
     label {
@@ -56,9 +57,9 @@ h1 {
     span {
         font-family: $font;
         font-weight: 200;
+        font-size: 15px;
         margin-left: 50px;
-        font-size: 10px;
-        color: red;
+        color: #cf0000;
        
     }
 }

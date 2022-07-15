@@ -80,6 +80,7 @@ export default function EditProduct(){
             let text = "Are you sure you want to edit the product?";
             if (window.confirm(text) == true) {
                 const edit = {
+                    id: misProductos.id,
                     title: misProductos.title,
                     category:misProductos.category,
                     subCategory:misProductos.subCategory,
@@ -89,7 +90,7 @@ export default function EditProduct(){
                     // image:input.image
                 }
                 console.log(edit)
-                dispatch(editProduct(misProductos.id,edit))
+                dispatch(editProduct(edit))
                 e.target.reset()
                 navigate('/admin')
             } else {

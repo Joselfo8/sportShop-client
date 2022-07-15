@@ -25,9 +25,7 @@ export function getProducts() {
 
 export const getDetails = (id: any) => async (dispatch: any) => {
   try {
-    const json: any = await axios.get(
-      `https://vlixes-server.herokuapp.com/products/${id}`
-    );
+    const json: any = await axios.get(`https://vlixes-server.herokuapp.com/products/${id}`);
     return dispatch({
       type: "GET_DETAILS",
       payload: json.data,
@@ -92,16 +90,22 @@ export function cleanStore(payload: any) {
   };
 }
 
-export const orderByPrice = (payload: any) => (dispatch: any) => {
-  return dispatch({ type: "ORDER_BY_PRICE", payload });
+export const orderByPrice = (order: any) => async(dispatch: any) => {
+  try {
+    const json = await axios.get(`http://vlixes-server.herokuapp.com/products?order=${order}`)
+    console.log(json)
+    return dispatch({ type: "ORDER_BY_PRICE", payload: json.data.products });
+  } catch (error) {
+    console.log(error)
+  }
+ 
 };
 
 export const addProduct = (payload: any) => async (dispatch: any) => {
   try {
-    const json: any = await axios.post(
-      "https://vlixes-server.herokuapp.com/products",
-      payload
-    );
+    console.log(payload)
+    const json: any = await axios.post("https://vlixes-server.herokuapp.com/products",payload);
+    // console.log(json.data)
     return dispatch({ type: "POST_PRODUCT", payload: json.data });
   } catch (error) {
     console.log(error);
@@ -186,15 +190,13 @@ export const getUserByName = (name: string) => {
         console.log(error);
     };
 };
-export const editProduct =
-  (id: number, payload: any) => async (dispatch: any) => {
+export const editProduct = ( payload: any) => async (dispatch: any) => {
     try {
-      const json: any = await axios.put(
-        `https://vlixes-server.herokuapp.com/products/${id}`,
-        payload
-      );
+      
+      const json: any = await axios.put(`https://vlixes-server.herokuapp.com/products/`, payload);
+      console.log(json)
       dispatch(getProducts());
     } catch (error) {
       console.log(error);
     }
-  };
+};

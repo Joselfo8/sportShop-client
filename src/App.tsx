@@ -33,7 +33,7 @@ function App() {
         <Route path="/purchase" element={<Purchase />} />
         <Route path="/:category" element={<Subcategory />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<Details/>}></Route>
+        <Route path="/products/:id" element={<Details/>}/>
         <Route path="/about" element={<About />} />
 
         {/* ADMIN */}
