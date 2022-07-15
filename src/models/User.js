@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
     {
       role: {
         type: DataTypes.STRING,
-        allowNull: false,
+       // allowNull: false,
         defaultValue: "user",
         isIn: {
           args: [["user", "admin"]],
@@ -53,6 +53,7 @@ module.exports = (sequelize) => {
       },
       direction: {
         type: DataTypes.STRING,
+
       },
       country: {
         type: DataTypes.STRING,

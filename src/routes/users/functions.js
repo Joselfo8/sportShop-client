@@ -41,11 +41,11 @@ async function postUser(req, res) {
   try {
     const {
       name,
-      lastname,
+     lastname,
       password,
       email,
-      genre,
-      dateOfBirth,
+     genre,
+     dateOfBirth,
       direction,
       country,
       state,
@@ -54,10 +54,12 @@ async function postUser(req, res) {
       role,
     } = req.body;
 
+
     if (!name || !password || !email) {
       return res
         .status(200)
         .json({ msg: "fields (name, password and email) are required" });
+
     }
     let userExists = await User.findOne({ where: { email: email } });
     if (userExists) {
