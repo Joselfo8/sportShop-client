@@ -20,45 +20,6 @@ const stripePromise = loadStripe("pk_test_51LKaEAATR7GdGLkc7mu5mssziGvjyttaMQtfX
 
 export default function Purchase() {
     const user = 10
-    
-    var shoppinglist: any = [
-        {
-            productId: 1,
-            title: "objeto ejemplo 1",
-            price: 10,
-            image: "https://ae01.alicdn.com/kf/HTB19SdxKpXXXXctXXXXq6xXFXXXc/404-folla-Not-Found-T-Shirt-blanco-y-negro-la-ropa-de-moda-t-mujeres-y.jpg_Q90.jpg_.webp",
-            shoppingListId: 1
-        },
-        {
-            productId: 2,
-            title: "objeto ejemplo 2",
-            price: 20,
-            image: "https://ae01.alicdn.com/kf/HTB19SdxKpXXXXctXXXXq6xXFXXXc/404-folla-Not-Found-T-Shirt-blanco-y-negro-la-ropa-de-moda-t-mujeres-y.jpg_Q90.jpg_.webp",
-            shoppingListId: 1
-        },
-        {
-            productId: 3,
-            title: "objeto ejemplo 3",
-            price: 30,
-            image: "https://ae01.alicdn.com/kf/HTB19SdxKpXXXXctXXXXq6xXFXXXc/404-folla-Not-Found-T-Shirt-blanco-y-negro-la-ropa-de-moda-t-mujeres-y.jpg_Q90.jpg_.webp",
-            shoppingListId: 1
-        },
-        {
-            productId: 4,
-            title: "objeto ejemplo 4",
-            price: 40,
-            image: "https://ae01.alicdn.com/kf/HTB19SdxKpXXXXctXXXXq6xXFXXXc/404-folla-Not-Found-T-Shirt-blanco-y-negro-la-ropa-de-moda-t-mujeres-y.jpg_Q90.jpg_.webp",
-            shoppingListId: 1
-        },
-        {
-            productId: 5,
-            title: "objeto ejemplo 5",
-            price: 50,
-            image: "https://ae01.alicdn.com/kf/HTB19SdxKpXXXXctXXXXq6xXFXXXc/404-folla-Not-Found-T-Shirt-blanco-y-negro-la-ropa-de-moda-t-mujeres-y.jpg_Q90.jpg_.webp",
-            shoppingListId: 1
-        }
-    ]
-    // console.log(shoppinglist)
 
     const dispatch = useDispatch();
     const state = useSelector((state: any) => state);
