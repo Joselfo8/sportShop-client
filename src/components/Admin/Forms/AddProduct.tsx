@@ -45,7 +45,7 @@ const FormProducts = () => {
     // image:''
   })  
 
-  const allProducts = useSelector((state:any) => state.products)
+  const allProducts = useSelector((state:any) => state.rootReducer.products)
   
 
   //HANDLES
