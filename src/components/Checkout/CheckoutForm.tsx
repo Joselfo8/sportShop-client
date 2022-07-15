@@ -9,20 +9,18 @@ import style from './CheckoutForm.module.scss';
 
 export default function CheckoutForm({total, soldProducts, name, email}: any) {
   const navigate = useNavigate()
+
   const stripe: any = useStripe();
   const elements: any = useElements();
   const [loading, setLoading] = useState(false)
 
   let jsonSoldProducts = JSON.stringify(soldProducts)
   
-  console.log(total)
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const {error, paymentMethod} = await stripe.createPaymentMethod({
       type: 'card',
-      receipt_email: 'aurot122@gmail.com',
       card: elements.getElement(CardElement)
     })
     setLoading(true)

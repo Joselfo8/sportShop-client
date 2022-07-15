@@ -15,11 +15,10 @@ import CheckoutForm from '../Checkout/CheckoutForm';
 // Style
 import style from "./Purchase.module.scss";
 
-// const { DB_USER } = process.env;
 const stripePromise = loadStripe("pk_test_51LKaEAATR7GdGLkc7mu5mssziGvjyttaMQtfXseG4I9kS4EBvdgPLm67UpkkRQ13I1UWUe7JjVUWMalVudbwbkl000KbydKI9L");
 
 export default function Purchase() {
-    const user = 10
+    const user = 26
 
     const dispatch = useDispatch();
     const state = useSelector((state: any) => state.rootReducer);
@@ -29,51 +28,46 @@ export default function Purchase() {
         dispatch(getShoppingListByUserId(user));
     }, [dispatch]);
 
-    // const subTotal = shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
     const subTotal = state.shoppinglist.length > 0 ? state.shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b) : null
     const shipping = 9
     const taxes = (subTotal + shipping)*0.0625 
     const total = subTotal + shipping + taxes
 
-    // const soldProducts = shoppinglist.map((p: any) => p.title)
     const soldProducts = state.shoppinglist.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
-    //error lens
 
     const render = (
-        state.shoppinglist && state.shoppinglist.length === 0 
-        // shoppinglist.length === 0
-        ?   <div className={style.warningContainer}>
+        state.shoppinglist && state.shoppinglist.length > 0 
+        ?   (
+            state.shoppinglist.map((product: any) => {
+                return (
+                    <div className={style.product} key={product.id}>
+                    
+                        <div className={style.image}>
+                            <img src={product.image || "https://th.bing.com/th/id/R.4f2b0468bf3ad3a7ab079eb1b219b27e?rik=rW45jIXlLLnMNQ&pid=ImgRaw&r=0"} alt="Camisa" />
+                        </div>
+
+                        <div className={style.detail}>
+                            <p>{product.title || `Red shirt`}</p>
+                            {/* no esta llegando marca */}
+                            <p>{`Adidas`}</p>
+                            {/* no esta llegando talla */}
+                            <p>{`Size M`}</p>
+                            <p>{`Units 1`}</p>
+                        </div>
+                        
+                        <div className={style.price}>
+                            <p>Unit value:</p>
+                            <p>{`$${product.price}` || `$19`}</p>
+                        </div>
+
+                    </div>
+                )
+            })
+    )
+        :   <div className={style.warningContainer}>
                 <AiFillWarning className={style.warning}/>
                 <h2 className={style.withoutProducts}>You have not selected products to buy!</h2>
             </div>
-        :   (
-                state.shoppinglist.map((product: any) => {
-                // shoppinglist.map((product: any) => {
-                    return (
-                        <div className={style.product} key={product.id}>
-                        
-                            <div className={style.image}>
-                                <img src={product.image || "https://th.bing.com/th/id/R.4f2b0468bf3ad3a7ab079eb1b219b27e?rik=rW45jIXlLLnMNQ&pid=ImgRaw&r=0"} alt="Camisa" />
-                            </div>
-
-                            <div className={style.detail}>
-                                <p>{product.title || `Red shirt`}</p>
-                                {/* no esta llegando marca */}
-                                <p>{`Adidas`}</p>
-                                {/* no esta llegando talla */}
-                                <p>{`Size M`}</p>
-                                <p>{`Units 1`}</p>
-                            </div>
-                            
-                            <div className={style.price}>
-                                <p>Unit value:</p>
-                                <p>{`$${product.price}` || `$19`}</p>
-                            </div>
-
-                        </div>
-                    )
-                })
-        )
     )
     
 
