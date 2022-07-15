@@ -7,10 +7,16 @@ import { useDispatch } from "react-redux";
 import { deleteProduct } from "../../../redux/action";
 import user from "../../../assets/userByAdmin.png"
 
-export default function CardList({title, id, category, image, name, role}:any){
+export default function CardList({title, id, category, image, name, role, type}:any){
     const dispatch = useDispatch();
     const handleDelete = (id: number) => {
-        dispatch(deleteProduct(id));
+        if(type === "PRODUCT"){
+            dispatch(deleteProduct(id));
+        }else if(type === "USER"){
+            dispatch();
+        }else if(type === "BILL"){
+
+        };
     };
     return(
         <div className={styles.bodyCard}>
