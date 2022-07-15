@@ -24,6 +24,8 @@ export default function Products() {
     dispatch(getProducts());
   }, [dispatch]);
 
+  console.log(state.rootReducer.products)
+
   const render = {
     allProducts:
       state.rootReducer.products.length === 0 ? (
@@ -38,6 +40,7 @@ export default function Products() {
               id={p.id}
               image={p.image}
               title={p.title}
+              category={p.category}
               price={p.price}
             />
           );
@@ -57,6 +60,7 @@ export default function Products() {
               id={p.id}
               image={p.image}
               title={p.title}
+              category={p.category}
               price={p.price}
             />
           );

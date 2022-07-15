@@ -1,5 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
 .card {
-    background-color: rgb(120, 120, 120);
+    background-color: rgb(141, 27, 27);
     font-size: smaller;
     width: 348px;
     height: 448px;
@@ -8,7 +14,7 @@
 
 .flag {
     width: 348px;
-    height: 348px;
+    height: 338px;
 }
 
 .textContainer {
@@ -24,6 +30,8 @@
     font-size: 15px;
     margin: 0;
     margin-bottom: 10px;
+    color: whitesmoke;
+    font-family: $font;
 }
 
 .card:hover {
