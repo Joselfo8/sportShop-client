@@ -179,7 +179,6 @@ const getProductById = async (req, res, next) => {
     const { id } = req.params;
     //vlidacion de id
     const sizes = await getAllSize(id);
-    console.log(sizes);
     if (!id) return res.send({ msg: "id is required" });
     if (Number.isNaN(parseInt(id)))
       return res.send({ msg: "id must be a number" });
