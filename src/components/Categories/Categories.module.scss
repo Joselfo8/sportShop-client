@@ -5,10 +5,10 @@
     
     display: grid;
     grid-template-columns: 1fr 500px 500px 1fr;
-    grid-template-rows: 60px 700px;
+    grid-template-rows: 60px 700px 400px;
     padding: 30px;
     margin: 0 auto;
-    gap: 20px;
+    gap: 30px;
 }
 
 .manContainer {
@@ -35,6 +35,15 @@
     background-size: 120%;
     display: grid;
     grid-area: 2 / 2 / 3 / 3;
+    justify-content:center;
+}
+
+.kidsContainer {
+    background-image: url('../../assets/Gender/Kids_1.jpg');
+    // ARREGLAR
+    background-size: 100%;
+    display: grid;
+    grid-area: 3 / 2 / 4 / 4;
     justify-content:center;
 }
 

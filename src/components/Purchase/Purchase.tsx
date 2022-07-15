@@ -22,34 +22,32 @@ export default function Purchase() {
     const user = 10
 
     const dispatch = useDispatch();
-    const state = useSelector((state: any) => state);
+    const state = useSelector((state: any) => state.rootReducer);
     
     useEffect(() => {
         dispatch(getUserInformation(user));
         dispatch(getShoppingListByUserId(user));
     }, [dispatch]);
 
-    console.log(state)
-
     // const subTotal = shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
-    const subTotal = state.rootReducer.shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
+    const subTotal = state.shoppinglist.length > 0 ? state.shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b) : null
     const shipping = 9
     const taxes = (subTotal + shipping)*0.0625 
     const total = subTotal + shipping + taxes
 
     // const soldProducts = shoppinglist.map((p: any) => p.title)
-    const soldProducts = state.rootReducer.shoppinglist.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
+    const soldProducts = state.shoppinglist.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
     //error lens
 
     const render = (
-        state.rootReducer.shoppinglist && state.rootReducer.shoppinglist.length === 0 
+        state.shoppinglist && state.shoppinglist.length === 0 
         // shoppinglist.length === 0
         ?   <div className={style.warningContainer}>
                 <AiFillWarning className={style.warning}/>
                 <h2 className={style.withoutProducts}>You have not selected products to buy!</h2>
             </div>
         :   (
-                state.rootReducer.shoppinglist.map((product: any) => {
+                state.shoppinglist.map((product: any) => {
                 // shoppinglist.map((product: any) => {
                     return (
                         <div className={style.product} key={product.id}>
@@ -88,22 +86,22 @@ export default function Purchase() {
             <div className={style.purchaseContainer}>
 
                 <div className={style.productsToBuy}>
-                    <h3>Abstract</h3>
-                    <h4>Products</h4>
+                    <h3 className={style.title}>Abstract</h3>
+                    <h4 className={style.subtitle}>Products</h4>
                     {render}
                 </div>
 
                 <div className={style.paymentMethod}>
-                    <h4>Total amount owed</h4>
+                    <h4 className={style.subtitle}>Total amount owed</h4>
 
                     <div className={style.textContainer}>
                         <p>{`Subtotal: `}</p>
-                        {/* {
-                            shoppinglist.length === 0
+                        {
+                            state.shoppinglist.length === 0
                             ?   <p>$0</p>
                             :   <p>{`$${subTotal}`}</p>
                             
-                        } */}
+                        }
                     </div>
 
                     <div className={style.textContainer}>
@@ -123,7 +121,7 @@ export default function Purchase() {
                 </div>
 
                 <div className={style.shoppingBox}>
-                    <h4>Payment method & purchase confirmation</h4>
+                    <h4 className={style.subtitle}>Payment method & purchase confirmation</h4>
 
                     <Elements stripe={stripePromise} >
                         <div className='formContainer'>
@@ -140,12 +138,12 @@ export default function Purchase() {
                 <div className={style.customerInformation}>
 
                     <div className={style.customerContainer}>
-                        <h3>Customer information</h3>
-                        <h4>Shipping Address</h4>
+                        <h3 className={style.title}>Customer information</h3>
+                        <h4 className={style.subtitle}>Shipping Address</h4>
 
                         <div className={style.textContainer}>
                         {
-                        state.rootReducer.userInformation && !state.rootReducer.userInformation.name 
+                        state.userInformation && !state.userInformation.name 
                             ?   <></>
                             :   <div>
                                     <p>{`Direction: ${state.userInformation.direction}`}</p>
@@ -156,7 +154,7 @@ export default function Purchase() {
                         </div>
 
                         
-                        <h3>Shipping</h3>
+                        <h3 className={style.title}>Shipping</h3>
 
                         <div className={style.textContainer}>
                             <p>The estimated delivery time is 1 to 5 business days.</p>
