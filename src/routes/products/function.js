@@ -2,10 +2,11 @@ require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 const { Op } = require("sequelize");
 const { Product } = require("../../db");
-const { getAllSize}= require("../stock/function")
+const { getAllSize } = require("../stock/function");
 
-const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
+const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
 const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
+const ORDERS = ["EXPENSIVE", "CHEAP"];
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -102,7 +103,7 @@ const postProduct = async (req, res) => {
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    let { title, category, subCategory, pag } = req.query;
+    let { title, category, subCategory, pag, order } = req.query;
     let where = { where: {} };
 
     //filtramos por contenido del titulo y omitmos mayusculas y minusculas
@@ -123,23 +124,48 @@ const getProductByName = async (req, res, next) => {
       where.where.subCategory = { [Op.eq]: `${subCategory}` };
     }
 
-    //solicitud de resuktados
+    //solicitud de resultados
     console.log(where);
     let filter = await Product.findAll(where);
 
+    //ordernacion por precio
+    if (order) {
+      if (!ORDERS.includes(order.toUpperCase()))
+        return res.send({ msg: `order ${order} is invalid` });
+      switch (order.toUpperCase()) {
+        case "EXPENSIVE":
+          filter = filter.sort((a, b) => b.price - a.price);
+          break;
+        case "CHEAP":
+          filter = filter.sort((a, b) => a.price - b.price);
+          break;
+        default:
+          filter = filter;
+          break;
+      }
+    }
     //pagination
-    if (!pag) pag = 1;
-    let page = parseInt(pag);
-    if (Number.isNaN(page)) return res.send({ msg: "page must be a number" });
-    page = page - 1;
-    if (page < 0) pag = 0;
-    const filterPag = filter.slice(page * 6, (page + 1) * 6);
+    const maxPag = Math.ceil(filter.length / 6);
+
+    if (pag) {
+      if (Number.isNaN(parseInt(pag))) {
+        return res.send({ msg: "pag must be a number" });
+      }
+      pag = parseInt(pag);
+      if (pag < 0) {
+        return res.send({ msg: "pag must be a positive number" });
+      }
+      pag = pag - 1;
+      if (pag < 0) pag = 0;
+      filter = filter.slice(pag * 6, (pag + 1) * 6);
+      pag = pag + 1;
+    }
 
     return res.status(200).json({
       msg: "search success",
-      products: filterPag,
+      products: filter,
       pag,
-      maxPag: Math.ceil(filter.length / 6),
+      maxPag,
     });
   } catch (e) {
     console.log(e);
@@ -152,8 +178,8 @@ const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
     //vlidacion de id
-    const sizes = await getAllSize(id)
-console.log(sizes)
+    const sizes = await getAllSize(id);
+    console.log(sizes);
     if (!id) return res.send({ msg: "id is required" });
     if (Number.isNaN(parseInt(id)))
       return res.send({ msg: "id must be a number" });
@@ -162,7 +188,7 @@ console.log(sizes)
     const product = await Product.findOne({ where: { id: id } });
     if (!product) return res.status(500).send({ msg: "Product not found" });
 
-    return res.status(200).json({ msg: "product found", product , sizes });
+    return res.status(200).json({ msg: "product found", product, sizes });
   } catch (error) {
     res.status(500).send({ err: error });
   }

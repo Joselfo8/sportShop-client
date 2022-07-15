@@ -41,23 +41,23 @@ async function postUser(req, res) {
   try {
     const {
       name,
-      lastname,
+     lastname,
       password,
       email,
-      genre,
-      dateOfBirth,
+     genre,
+     dateOfBirth,
       direction,
       role,
     } = req.body;
 
     if (
       !name ||
-      !lastname ||
+    //  !lastname ||
       !password ||
-      !email ||
-      !genre ||
-      !dateOfBirth ||
-      !direction
+      //  !genre ||
+      //  !dateOfBirth ||
+      // !direction ||
+      !email
     ) {
       return res.status(200).json({ msg: "All fields are required" });
     }
@@ -179,6 +179,7 @@ async function loginUser(req, res) {
   /// Post para iniciar sesion
   try {
     const { email, password } = req.body;
+    console.log({ email, password });
     if (!email || !password) {
       return res.send({
         msg: "all information(email,password) is required",
@@ -188,21 +189,25 @@ async function loginUser(req, res) {
     let user = await User.findOne({
       where: { email: email },
     });
-    const acertijo = compare(user.name, user.email, user.password);
+    const acertijo = await compare(password, user.password);
+    console.log(acertijo);
     const token = await tokenSign(user);
     if (acertijo === false) {
       //redirect to postUser
        return res.send({
         msg: "the email incorret or the password is incorrect or the user does not exist",
         access: false,
+<<<<<<< HEAD
         redirect: "/users", //redirect to postUser to create a new user
+=======
+        redirect: "/user", //redirect a pagina de registro
+>>>>>>> 086b822739628f701af5d7111f5c7822f82c558f
       });
     }
     return res.send({
       msg: `welcome ${user.name}`,
       access: true,
       token: token,
-       //only id and name from user
       user: {
         id: user.id,
         role: user.role,

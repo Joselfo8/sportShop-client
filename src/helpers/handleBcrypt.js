@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 
 const encrypt = async (passText) => {
-    const hash = await bcrypt.hash(passText, 10); //10 is the number of rounds
+    const hash = await bcrypt.hash(passText, 8); //10 is the number of rounds
     return hash;
 }
 //solo comparamos ninca se desencriptan los datos
