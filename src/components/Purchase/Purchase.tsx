@@ -19,7 +19,7 @@ import style from "./Purchase.module.scss";
 const stripePromise = loadStripe("pk_test_51LKaEAATR7GdGLkc7mu5mssziGvjyttaMQtfXseG4I9kS4EBvdgPLm67UpkkRQ13I1UWUe7JjVUWMalVudbwbkl000KbydKI9L");
 
 export default function Purchase() {
-    const user = 1
+    const user = 10
     
     var shoppinglist: any = [
         {
@@ -63,34 +63,35 @@ export default function Purchase() {
     const dispatch = useDispatch();
     const state = useSelector((state: any) => state);
     
-    // useEffect(() => {
-    //     dispatch(getUserInformation(user));
-    //     dispatch(getShoppingListByUserId(user));
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(getUserInformation(user));
+        dispatch(getShoppingListByUserId(user));
+    }, [dispatch]);
 
-    // console.log(state)
+    console.log(state)
 
-    const subTotal = shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
+    // const subTotal = shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
+    const subTotal = state.shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b);
     const shipping = 9
     const taxes = (subTotal + shipping)*0.0625 
     const total = subTotal + shipping + taxes
 
     // const soldProducts = shoppinglist.map((p: any) => p.title)
-    const soldProducts = shoppinglist.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
-
+    const soldProducts = state.shoppinglist.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
+    //error lens
 
     const render = (
-        // state.shoppinglist && state.shoppinglist.length === 0 
-        shoppinglist.length === 0
+        state.shoppinglist && state.shoppinglist.length === 0 
+        // shoppinglist.length === 0
         ?   <div className={style.warningContainer}>
                 <AiFillWarning className={style.warning}/>
                 <h2 className={style.withoutProducts}>You have not selected products to buy!</h2>
             </div>
         :   (
-                // state.shoppinglist.map((product: any) => {
-                shoppinglist.map((product: any) => {
+                state.shoppinglist.map((product: any) => {
+                // shoppinglist.map((product: any) => {
                     return (
-                        <div className={style.product}>
+                        <div className={style.product} key={product.id}>
                         
                             <div className={style.image}>
                                 <img src={product.image || "https://th.bing.com/th/id/R.4f2b0468bf3ad3a7ab079eb1b219b27e?rik=rW45jIXlLLnMNQ&pid=ImgRaw&r=0"} alt="Camisa" />
@@ -167,6 +168,8 @@ export default function Purchase() {
                         <div className='formContainer'>
                             <CheckoutForm 
                                 total={total.toFixed(2)}
+                                name={state.userInformation.name}
+                                email={state.userInformation.email}
                                 soldProducts={soldProducts}
                             />
                         </div>
@@ -180,9 +183,15 @@ export default function Purchase() {
                         <h4>Shipping Address</h4>
 
                         <div className={style.textContainer}>
-                            <p>{`Direction: `}</p>
-                            <p>{`City: - State: `}</p>
-                            <p>{`Telephone numbers: - `}</p>
+                        {
+                        state.userInformation && !state.userInformation.name 
+                            ?   <></>
+                            :   <div>
+                                    <p>{`Direction: ${state.userInformation.direction}`}</p>
+                                    <p>{`City: ${"Los Ángeles"} - Country: ${"United States of America"}`}</p>
+                                    <p>{`Telephone numbers: - ${+14243250588}`}</p>
+                                </div>
+                        }
                         </div>
 
                         
