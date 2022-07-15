@@ -4,13 +4,18 @@ import styles from "./CardList.module.scss";
 import {FaTrash} from "react-icons/fa";
 import {BsFillPencilFill} from "react-icons/bs"
 import { useDispatch } from "react-redux";
-import { deleteProduct } from "../../../redux/action";
+import { deleteProduct, deleteUser } from "../../../redux/action";
 import user from "../../../assets/userByAdmin.png"
 
-export default function CardList({title, id, category, image, name, role}:any){
+export default function CardList({title, id, category, image, name, role, type}:any){
     const dispatch = useDispatch();
     const handleDelete = (id: number) => {
-        dispatch(deleteProduct(id));
+        if(type === "PRODUCT"){
+            dispatch(deleteProduct(id));
+        }else if(type === "USER"){
+            dispatch(deleteUser(id));
+        }else if(type === "BILL"){
+        };
     };
     return(
         <div className={styles.bodyCard}>
