@@ -14,6 +14,7 @@ const initialState: any = {
     userInformation: {},
     shoppinglist: [],
     allUsers: [],
+    searchUser: [],
 };
 
 function rootReducer(state = initialState, action: any){
@@ -36,6 +37,13 @@ function rootReducer(state = initialState, action: any){
             return {
                 ...state,
                 productsFiltered: filter
+            }
+
+        case "GET_USER_BY_NAME":
+            const filterUser: any = state.allUsers.filter((user: any) => user.name.toLowerCase().includes(action.payload.toLowerCase()));
+            return {
+                ...state,
+                searchUser: filterUser
             }
 
         case "GET_BY_CATEGORY":
