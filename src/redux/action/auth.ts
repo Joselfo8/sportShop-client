@@ -6,6 +6,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
 } from "./types";
+import { setMessage } from "./message";
 import AuthService from "../../services/auth.service";
 
 export async function register(
@@ -31,17 +32,18 @@ export async function register(
 
       toast(message);
 
-      return Promise.reject();
+      return Promise.reject(message);
     }
     const message = response.data?.msg || "Login successful";
 
     dispatch({
       type: REGISTER_SUCCESS,
     });
+    dispatch(setMessage("registered"));
 
     toast(message);
 
-    return Promise.resolve();
+    return Promise.resolve(message);
   };
 }
 
@@ -70,7 +72,7 @@ export async function login(email: string, password: string) {
 
     toast(message);
 
-    return Promise.resolve();
+    return Promise.resolve(message);
   };
 }
 

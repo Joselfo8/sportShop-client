@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +14,7 @@ import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
 // Styles
 import styles from "./Login.module.css";
 import { useEffect } from "react";
+import { clearMessage } from "../redux/action/message";
 // Validate inputs
 const onlyLettersRegex = /^[a-zA-Z]*$/g;
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -62,21 +64,39 @@ function SignUp() {
     },
     mode: "onChange",
   });
+  const [redirect, setRedirect] = useState(false);
   // Store
-  const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const {
+    auth: { isLoggedIn },
+    message,
+  } = useSelector((state: any) => state);
   const dispatch = useDispatch();
 
   // send data to api
   const onSubmit = async (data: SignUpInput) => {
     try {
-      const response = await register(data.name, data.lastname, data.email, data.password);
+      const response = await register(
+        data.name,
+        data.lastname,
+        data.email,
+        data.password
+      );
+
       dispatch(response);
     } catch (err: any) {
       console.log(err);
     }
   };
 
+  useEffect(() => {
+    if (message === "registered") setRedirect(true);
+  }, [message]);
+
   if (isLoggedIn) return <Navigate to="/" />;
+  if (redirect) {
+    dispatch(clearMessage());
+    return <Navigate to="/login" />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
