@@ -1,4 +1,3 @@
-import { read } from 'fs'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -6,16 +5,19 @@ import { addProduct, getProducts } from '../../../redux/action'
 
 import styles from './FormProduct.module.scss'
 import validateProducts from './validateForms'
-interface Errors{
-    title: string,
-    category:string,
-    subCategory:string,
-    price: string,
-    description:string,
-    product_care:string,
-    sizes:string,
-    // image:string
-}
+
+// //INTERFACES
+// interface Errors{
+//     title: string,
+//     category:string,
+//     subCategory:string,
+//     price: string,
+//     description:string,
+//     product_care:string,
+//     sizes:string,
+//     // image:string
+// }
+
 
 const FormProducts = () => {
 
@@ -24,7 +26,7 @@ const FormProducts = () => {
 
     
   //ESTADOS:
-  const [errors,setErorrs] = useState<Errors>({
+  const [errors,setErorrs]:any = useState({
     title: '',
     category:'',
     subCategory:'',
@@ -32,8 +34,12 @@ const FormProducts = () => {
     description:'',
     product_care:'',
     sizes:'',
-    // image:''
+    image:''
   })
+
+  const [image, setImage]:any = useState()
+  
+  const [preview, setPreview]:any = useState()
 
   const [input, setInput]:any = useState({
     title:'',
@@ -50,42 +56,51 @@ const FormProducts = () => {
   
 
   //HANDLES
+  const handleChangeImage = (e:any) => {
+    const file = e.target.files[0]
+    console.log(file)
+    if(file && file.type.substr(0,5) === "image") {
+        setImage(file)
+    } else {
+        setImage(null)
+    } 
+  }
+
   const handleChange = (e:any) => {
     e.preventDefault()
+    
     setInput({
         ...input,
         [e.target.name]: e.target.value
     })
+  
     setErorrs(validateProducts({
         ...input,
         [e.target.name] : e.target.value
     }))
+    
   }
+
 
   const handleSubmit = (e:any) => {
     e.preventDefault()
-    
+   
     //VARIABLES PARA VALIDAR
     let titleExist = allProducts?.filter((p:any) => p.title.toLowerCase() === input.title.toLowerCase())
-    // let imageExist = allProducts?.filter((p:any) => p.image === input.image)
+    let imageExist = allProducts?.filter((p:any) => p.image === preview)
 
     
     //VALIDACION ON SUBMIT
     if(titleExist.length !== 0){
         return (alert('Title already exists'))
-    }else if (Object.values(errors).filter(p=> p !== '').length !== 0){
+    } else if(imageExist.length !== 0){
+        return (alert('Title already exists'))
+    } else if (Object.values(errors).filter(p=> p !== '').length !== 0){
         return (alert('Check your mistakes!'))
     }else {
-        let text = "Are you sure you want to add the product?";
-
-        if (window.confirm(text) == true) {
-
-            // const reader = new FileReader();
-
-            // reader.onload = function(e:any){
-            //     console.log(e.target.result)
-            // }
-            // reader.readAsDataURL(Blob(input.image))
+        let textConfirm:string = "Are you sure you want to add the product?";
+        
+        if (window.confirm(textConfirm) === true) {
             const newProduct = {
                 title: input.title,
                 category:input.category.toUpperCase(),
@@ -93,7 +108,7 @@ const FormProducts = () => {
                 price: input.price,
                 description:input.description,
                 product_care:input.product_care,
-                // image:input.image
+                image: preview
             }
             console.log(newProduct)
             // dispatch(addProduct(newProduct))
@@ -108,7 +123,20 @@ const FormProducts = () => {
     }
   }  
 
-  
+
+  // CICLOS DE VIDA 
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      setPreview(null);
+    }
+  }, [image]);
+
   useEffect(() => {
     dispatch(getProducts())  
   }, [dispatch])
@@ -188,16 +216,16 @@ const FormProducts = () => {
                </input>
                {errors.product_care && (<span>{errors.product_care}</span>)}
 
-               {/* <label>IMAGE</label>
+               <label>IMAGE</label>
                <input
                     className={styles.inputGeneral}
-                    onChange={(e)=>handleChange(e)}
+                    onChange={handleChangeImage}
                     name='image'
                     type='file'
                     accept='image/*'
                 >
-               </input> */}
-               {/* {errors.image && (<span>{errors.image}</span>)} */}
+               </input>
+               {errors.image && (<span>{errors.image}</span>)}
 
 
                 {/* Stock? */}
