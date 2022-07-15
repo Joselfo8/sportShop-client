@@ -43,6 +43,26 @@ export default function Categories(){
                     
                 </div>
 
+
+                <div className={style.kidsContainer}>
+
+                    <div className={style.components}>
+                    
+                        <div className={style.textContainer}>
+                            <h1 style={{textAlign: "center", fontSize:"50px"}} >Kid</h1>
+                        </div>
+                        
+                        <Link to='/kid' style={{textDecoration:"none"}}>
+                            <div className={style.button}>
+                                <h3>See more</h3>
+                            </div>
+                        </Link>
+
+                    </div>
+                    
+                </div>
+
             </div>
+            
     );
 };
