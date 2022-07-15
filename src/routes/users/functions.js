@@ -177,6 +177,7 @@ async function loginUser(req, res) {
   /// Post para iniciar sesion
   try {
     const { email, password } = req.body;
+    console.log(email, password);
     if (!email || !password) {
       return res.send({
         msg: "all information(email,password) is required",
@@ -186,7 +187,9 @@ async function loginUser(req, res) {
     let user = await User.findOne({
       where: { email: email },
     });
-    const acertijo = compare(user.name, user.email, user.password);
+    console.log(user.password);
+    const acertijo = await compare(password, user.password);
+    console.log(acertijo);
     const token = await tokenSign(user);
     if (acertijo === false) {
       return res.send({
@@ -199,7 +202,6 @@ async function loginUser(req, res) {
       msg: `welcome ${user.name}`,
       access: true,
       token: token,
-       //only id and name from user
       user: {
         id: user.id,
         role: user.role,
