@@ -15,6 +15,7 @@ export default function CheckoutForm({total, soldProducts, name, email}: any) {
 
   let jsonSoldProducts = JSON.stringify(soldProducts)
   
+  console.log(total)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
