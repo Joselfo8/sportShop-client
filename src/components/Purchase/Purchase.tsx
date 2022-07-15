@@ -164,5 +164,6 @@ export default function Purchase() {
             <Footer/>
 
         </div>
+        
     );    
 }
