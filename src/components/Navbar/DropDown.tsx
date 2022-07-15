@@ -6,7 +6,7 @@ import styles from "./DropDown.module.scss";
 
 export default function DropDown(categoryClick:any){
     const dispatch = useDispatch();
-    const productSubCategory = useSelector((state:any) => state.products);
+    const productSubCategory = useSelector((state:any) => state.rootReducer.products);
 
     function productCategory(e:any, d:any){
         console.log(e, d)

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 // Components
 import Input from "../Input";
 // Styles
@@ -19,102 +20,57 @@ interface Props {
 }
 
 function AddressEditor({ data, saveChange, onClose }: Props) {
-  const [values, setValues] = useState<Props["data"]>({
-    name: "",
-    address: "",
-    secondAddress: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    phone: "",
+  const { handleSubmit, control } = useForm<any>({
+    defaultValues: data,
+    mode: "onChange",
   });
-
-  // make a backup of data
-  useEffect(() => {
-    setValues(data);
-  }, [data]);
-
-  const handleChange = (val: string, key: string) => {
-    setValues((prev) => ({ ...prev, [key]: val }));
+  // send data to api
+  const onSubmit = (data: Props["data"]) => {
+    saveChange(data);
+    onClose();
   };
 
   return (
     <div className={styles["container"]}>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Name"
-          id="name"
-          defaultValue={values.name}
-          getData={(v: string) => handleChange(v, "name")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Address Line"
-          id="address"
-          defaultValue={values.address}
-          getData={(v: string) => handleChange(v, "address")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Address Line 2"
-          id="second-address"
-          defaultValue={values.secondAddress}
-          getData={(v: string) => handleChange(v, "secondAddress")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="City"
-          id="city"
-          defaultValue={values.city}
-          getData={(v: string) => handleChange(v, "city")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="State"
-          id="state"
-          defaultValue={values.state}
-          getData={(v: string) => handleChange(v, "state")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Zip code"
-          id="zip-code"
-          defaultValue={values.zipCode}
-          getData={(v: string) => handleChange(v, "zipCode")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Phone"
-          id="phone"
-          defaultValue={values.phone}
-          getData={(v: string) => handleChange(v, "phone")}
-        />
-      </div>
-      <div className={styles["button-cont"]}>
-        <button
-          onClick={() => {
-            saveChange(values);
-            // close modal
-            onClose();
-          }}
-          className={`${styles["submit-button"]} primary`}
-        >
-          Save changes
-        </button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles["wrapper"]}>
+          <Input control={control} name="name" label="Name" />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input control={control} name="address" label="Address Line" />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="secondAddress"
+            label="Address Line 2"
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input control={control} name="city" label="City" />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input control={control} name="state" label="State" />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input control={control} name="zipCode" label="Zip code" />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input control={control} name="phone" label="Phone" />
+        </div>
+        <div className={styles["button-cont"]}>
+          <button className={`${styles["submit-button"]} primary`}>
+            Save changes
+          </button>
 
-        <span
-          onClick={() => onClose()}
-          className={`${styles["cancel-button"]} primary`}
-        >
-          Cancel
-        </span>
-      </div>
+          <span
+            onClick={() => onClose()}
+            className={`${styles["cancel-button"]} primary`}
+          >
+            Cancel
+          </span>
+        </div>
+      </form>
     </div>
   );
 }

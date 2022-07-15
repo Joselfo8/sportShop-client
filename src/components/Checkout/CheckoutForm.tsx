@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import Swal from 'sweetalert2';
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 // Style
 import style from './CheckoutForm.module.scss';
 
-export default function CheckoutForm({total, soldProducts}: any) {
-
+export default function CheckoutForm({total, soldProducts, name, email}: any) {
+  const navigate = useNavigate()
   const stripe: any = useStripe();
   const elements: any = useElements();
   const [loading, setLoading] = useState(false)
@@ -20,12 +21,13 @@ export default function CheckoutForm({total, soldProducts}: any) {
 
     const {error, paymentMethod} = await stripe.createPaymentMethod({
       type: 'card',
+      receipt_email: 'aurot122@gmail.com',
       card: elements.getElement(CardElement)
     })
     setLoading(true)
 
+
     if(!error) {
-      // console.log(paymentMethod)
       const {id} = paymentMethod;
 
       try {
@@ -36,24 +38,19 @@ export default function CheckoutForm({total, soldProducts}: any) {
           amount: total*100, 
         });
       
-        console.log("PRUEBA data",data)
-
         if(data === "Succesfull payment") {
           Swal.fire({
-            // title: `Purchase made correctly`,
             title: `Order placed, thank you!`,
             text: `Confirmation will be sent you email.`,
             html: `<b>Transaction id: ${id}</b> <br/> <p>Confirmation will be sent you email.</p>`,
-            // html: 'Confirmation will be sent you email.',
             icon: "success",
             width: '40%',
             confirmButtonText: "Accept",
             footer: 'Remember that your order will be delivered within one to five days',
-            // customClass: {
-            //   confirmButtonText: 'example-class' //insert class here
-            // }
           })
-                    
+          
+          navigate('/')
+
         } else {
           Swal.fire({
             title: `Rejected transaction`,
@@ -61,7 +58,6 @@ export default function CheckoutForm({total, soldProducts}: any) {
             icon: "error",
             width: '40%',
             confirmButtonText: "Accept",
-            // footer: 'Remember that your order will be delivered within one to five days',
             // customClass: {
             //   confirmButtonText: 'example-class' //insert class here
             // }
@@ -81,42 +77,14 @@ export default function CheckoutForm({total, soldProducts}: any) {
     
   }
   
-
-  function fnalert() {
-    let id = 123456
-    // Swal.fire({
-    //   // title: `Purchase made correctly`,
-    //   title: `Order placed, thank you!`,
-    //   text: `Confirmation will be sent you email.`,
-    //   html: `<b>Transaction id: ${id}</b> <br/> <p>Confirmation will be sent you email.</p>`,
-    //   // html: 'Confirmation will be sent you email.',
-    //   icon: "success",
-    //   width: '40%',
-    //   confirmButtonText: "Accept",
-    //   footer: 'Remember that your order will be delivered within one to five days',
-    //   // customClass: {
-    //   //   confirmButtonText: 'example-class' //insert class here
-    //   // }
-    // })
-
-    Swal.fire({
-      title: `Rejected transaction`,
-      text: `Please review the information provided or contact your bank.`,
-      icon: "error",
-      width: '40%',
-      confirmButtonText: "Accept",
-      // footer: 'Remember that your order will be delivered within one to five days',
-      // customClass: {
-      //   confirmButtonText: 'example-class' //insert class here
-      // }
-    })
-  };
-
   return (
     <div className={style.formContainer}>
       <form onSubmit={handleSubmit} className={style.form}>
         
-        <p>Please enter your card information (credit / debit)</p>
+        <h5>Please enter your card information (credit / debit)</h5>
+
+        <p>{`Customer: ${name}`}</p>
+        <p>{`E-mail: ${email}`}</p>
 
         <div>
           <CardElement className={style.CardElement}/>
@@ -130,7 +98,6 @@ export default function CheckoutForm({total, soldProducts}: any) {
           </button>
         </div>
 
-        {/* <button onClick={() => fnalert()}>Prueba</button> */}
 
       </form>  
     </div>
