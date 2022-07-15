@@ -4,14 +4,14 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
-       role: {
+      role: {
         type: DataTypes.STRING,
        // allowNull: false,
         defaultValue: "user",
         isIn: {
-          args: [['user', 'admin']],
+          args: [["user", "admin"]],
           msg: "Must be user or admin",
-        }
+        },
       }, //user or admin
       name: {
         type: DataTypes.STRING,
@@ -29,7 +29,6 @@ module.exports = (sequelize) => {
 
       lastname: {
         type: DataTypes.STRING,
-       // allowNull: false,
       },
 
       email: {
@@ -48,21 +47,25 @@ module.exports = (sequelize) => {
       },
       genre: {
         type: DataTypes.STRING,
-      //  allowNull: false,
       },
       dateOfBirth: {
         type: DataTypes.DATEONLY,
-       // allowNull: false,
-
       },
       direction: {
         type: DataTypes.STRING,
-       // allowNull: false,
+
       },
-      role: {
+      country: {
         type: DataTypes.STRING,
-       // allowNull: false,
-        defaultValue: "user",
+      },
+      state: {
+        type: DataTypes.STRING,
+      },
+      city: {
+        type: DataTypes.STRING,
+      },
+      numberPhone: {
+        type: DataTypes.STRING,
       },
     },
     {
