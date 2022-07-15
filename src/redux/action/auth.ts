@@ -50,7 +50,7 @@ export async function login(email: string, password: string) {
     const response = await AuthService.login(email, password);
 
     if (!response.access) {
-      const message = response.message || "Login fail";
+      const message = response?.msg || "Login fail";
 
       dispatch({
         type: LOGIN_FAIL,
@@ -61,7 +61,7 @@ export async function login(email: string, password: string) {
       return Promise.reject(message);
     }
 
-    const message = response.message || "Login successful";
+    const message = response?.msg || "Login successful";
 
     dispatch({
       type: LOGIN_SUCCESS,
