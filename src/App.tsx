@@ -25,10 +25,7 @@ function App() {
         <Route path="/login" element={<Login />}>
           <Route path=":register" element={<Login />} />
         </Route>
-        <Route
-          path="/user/profile"
-          element={<RouteGuard outlet={<UserProfile />} />}
-        />
+        <Route path="/user/profile" element={<UserProfile />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/purchase" element={<Purchase />} />

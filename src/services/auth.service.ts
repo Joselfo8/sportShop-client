@@ -9,9 +9,9 @@ function register(username: string, email: string, password: string) {
   });
 }
 
-async function login(username: string, password: string) {
+async function login(email: string, password: string) {
   const response = await axios.post(API_URL + "/users/login", {
-    username,
+    email,
     password,
   });
 

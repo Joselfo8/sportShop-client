@@ -45,21 +45,12 @@ export async function register(
   };
 }
 
-export async function login(username: string, password: string) {
+export async function login(email: string, password: string) {
   return async (dispatch: any) => {
-    try {
-      const response = await AuthService.login(username, password);
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: { user: response },
-      });
+    const response = await AuthService.login(email, password);
 
-      return Promise.resolve();
-    } catch (err: any) {
-      const message =
-        (err.response && err.response.data && err.response.data.message) ||
-        err.message ||
-        err.toString();
+    if (!response.access) {
+      const message = response.message || "Login fail";
 
       dispatch({
         type: LOGIN_FAIL,
@@ -69,8 +60,15 @@ export async function login(username: string, password: string) {
         payload: message,
       });
 
-      return Promise.reject();
+      return Promise.reject(message);
     }
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: { user: response },
+    });
+
+    return Promise.resolve();
   };
 }
 

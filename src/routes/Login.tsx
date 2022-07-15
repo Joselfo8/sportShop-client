@@ -182,6 +182,7 @@ function SignIn() {
   const onSubmit = async (data: SignInInput) => {
     try {
       const response = await login(data.email, data.password);
+
       dispatch(response);
     } catch (err: any) {
       console.log(err);
