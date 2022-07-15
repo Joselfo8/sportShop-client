@@ -146,28 +146,21 @@ const getProductByName = async (req, res, next) => {
       }
     }
     //pagination
-    const maxPag = Math.ceil(filter.length / 6);
+    // const maxPag = Math.ceil(filter.length / 6);
 
-    if (pag) {
-      if (Number.isNaN(parseInt(pag))) {
-        return res.send({ msg: "pag must be a number" });
-      }
-      pag = parseInt(pag);
-      if (pag < 0) {
-        return res.send({ msg: "pag must be a positive number" });
-      }
-      pag = pag - 1;
-      if (pag < 0) pag = 0;
-      filter = filter.slice(pag * 6, (pag + 1) * 6);
-      pag = pag + 1;
-    }
-
-    const paginated = pagination(filter, 10, pag);
-
-    return res.status(200).json({
-      msg: "search success",
-      ...paginated,
-    });
+    // if (pag) {
+    //   if (Number.isNaN(parseInt(pag))) {
+    //     return res.send({ msg: "pag must be a number" });
+    //   }
+    //   pag = parseInt(pag);
+    //   if (pag < 0) {
+    //     return res.send({ msg: "pag must be a positive number" });
+    //   }
+    //   pag = pag - 1;
+    //   if (pag < 0) pag = 0;
+    //   filter = filter.slice(pag * 6, (pag + 1) * 6);
+    //   pag = pag + 1;
+    // }
 
     // return res.status(200).json({
     //   msg: "search success",
@@ -175,6 +168,13 @@ const getProductByName = async (req, res, next) => {
     //   pag,
     //   maxPag,
     // });
+
+    const paginated = pagination(filter, 10, pag);
+
+    return res.status(200).json({
+      msg: "search success",
+      ...paginated,
+    });
   } catch (e) {
     console.log(e);
     res.status(500).send({ err: e });
