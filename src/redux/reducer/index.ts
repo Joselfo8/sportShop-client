@@ -81,6 +81,7 @@ function rootReducer(state = initialState, action: any){
 
 
         case GET_USER_INFORMATION:
+            console.log("REDUCER getUserInformation")
             return{
                 ...state,
                 userInformation: action.payload,

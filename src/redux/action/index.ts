@@ -109,6 +109,7 @@ export const addProduct = (payload: any) => async (dispatch: any) => {
 };
 
 export function getUserInformation(UserId: any) {
+  console.log("desde getUserInformation")
   try {
     return async function name(dispatch: any) {
       let json: any = await axios.get(
