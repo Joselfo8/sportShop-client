@@ -213,11 +213,9 @@ async function loginUser(req, res) {
     const token = await tokenSign(user);
     if (acertijo === false) {
       //redirect to postUser
-       return res.send({
-        msg: "the email incorret or the password is incorrect or the user does not exist",
+      return res.send({
+        msg: `the ${user.email}is incorret or the password is incorrect or the user does not exist`,
         access: false,
-
-
         redirect: "/user", //redirect a pagina de registro
       });
     }
@@ -238,7 +236,7 @@ async function loginUser(req, res) {
     });
   } catch (error) {
     console.log(error);
-    res.send({ msg: "error", access: false });
+    res.send({ msg: "the password or email is incorrect", access: false });
   }
 }
 async function logOut(req, res) {
