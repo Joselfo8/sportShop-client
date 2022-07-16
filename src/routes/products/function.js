@@ -104,7 +104,7 @@ const postProduct = async (req, res) => {
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    let { title, category, subCategory, pag = 1, order } = req.query;
+    let { title, category, subCategory, pag = 1, limit = 5, order } = req.query;
     let where = { where: {} };
 
     //filtramos por contenido del titulo y omitmos mayusculas y minusculas
@@ -169,7 +169,7 @@ const getProductByName = async (req, res, next) => {
     //   maxPag,
     // });
 
-    const paginated = pagination(filter, 10, pag);
+    const paginated = pagination(filter, limit, pag);
 
     return res.status(200).json({
       msg: "search success",
