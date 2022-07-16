@@ -216,11 +216,9 @@ async function loginUser(req, res) {
        return res.send({
         msg: "the email incorret or the password is incorrect or the user does not exist",
         access: false,
-<<<<<<< HEAD
-        redirect: "/users", //redirect to postUser to create a new user
-=======
+
+
         redirect: "/user", //redirect a pagina de registro
->>>>>>> 086b822739628f701af5d7111f5c7822f82c558f
       });
     }
     return res.send({
