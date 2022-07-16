@@ -16,3 +16,6 @@ export const LOGOUT = "LOGOUT";
 // message
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+
+// user
+export const UPDATE_USER = "UPDATE_USER";
