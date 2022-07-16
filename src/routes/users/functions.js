@@ -212,10 +212,11 @@ async function loginUser(req, res) {
     console.log(acertijo);
     const token = await tokenSign(user);
     if (acertijo === false) {
+      //redirect to postUser
       return res.send({
         msg: `the ${user.email}is incorret or the password is incorrect or the user does not exist`,
         access: false,
-        //redirect: "/user", //redirect a pagina de registro
+        redirect: "/user", //redirect a pagina de registro
       });
     }
     return res.send({
