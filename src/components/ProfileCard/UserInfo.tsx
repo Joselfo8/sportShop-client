@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // Components
-import EditLabel from "../EditLabel";
 import ModalContainer from "../modals/ModalContainer";
 import AddressEditor from "../modals/AddressEditor";
+import InfoEditor from "../modals/InfoEditor";
+// Actions
+import { updateUser } from "../../redux/action/auth";
 // Icons
 import { ReactComponent as ErrorIcon } from "../../icons/error-icon.svg";
 import { ReactComponent as EditIcon } from "../../icons/edit-pen-icon.svg";
@@ -104,67 +107,67 @@ function Addresses() {
   );
 }
 
-function PersonalInfo() {
-  const [edit, setEdit] = useState(false);
-  const [info, setInfo] = useState<{
-    name: string;
-    lastName: string;
-    username: string;
-    email: string;
-  }>({
-    name: "John",
-    lastName: "Doe",
-    username: "JohnDoe123",
-    email: "johndoe123@example.com",
-  });
+interface PersonalInfoData {
+  name: string;
+  lastname: string;
+  email: string;
+  dateOfBirth: string;
+  genre: string;
+}
 
-  const handleSave = (val: string, key: string) => {
-    setInfo((prev) => ({ ...prev, [key]: val }));
+function PersonalInfo() {
+  const [showModal, setShowModal] = useState(false);
+  // store
+  const dispatch = useDispatch();
+  const auth = useSelector((state: any) => state.auth.auth);
+
+  const onSubmit = (data: PersonalInfoData) => {
+    const response = updateUser(data);
+    dispatch(response);
   };
 
   return (
     <div className={styles["container"]}>
       <div className={styles["title-cont"]}>
         <span className={styles["title"]}>User information</span>
-        <span onClick={() => setEdit(!edit)} className={styles["edit-button"]}>
-          {edit ? "Cancel" : "Edit"}
+        <span
+          onClick={() => setShowModal(!showModal)}
+          className={styles["edit-button"]}
+        >
+          Edit
         </span>
       </div>
-
       <div className={styles["info-wrapper"]}>
-        <EditLabel
-          type="text"
-          label="Name"
-          id="name"
-          edit={edit}
-          value={info.name}
-          onSave={(val) => handleSave(val, "name")}
-        />
-        <EditLabel
-          type="text"
-          label="Last Name"
-          id="last-name"
-          edit={edit}
-          value={info.lastName}
-          onSave={(val) => handleSave(val, "lastName")}
-        />
-        <EditLabel
-          type="text"
-          label="Username"
-          id="username"
-          edit={edit}
-          value={info.username}
-          onSave={(val) => handleSave(val, "username")}
-        />
-        <EditLabel
-          type="text"
-          label="Email"
-          id="email"
-          edit={edit}
-          value={info.email}
-          onSave={(val) => handleSave(val, "email")}
-        />
+        <div className={styles["info"]}>
+          <span>Name:</span>
+          <span>{auth.user.name}</span>
+        </div>
+        <div className={styles["info"]}>
+          <span>Last name:</span>
+          <span>{auth.user.lastname}</span>
+        </div>
+        <div className={styles["info"]}>
+          <span>Email:</span>
+          <span>{auth.user.email}</span>
+        </div>
+        <div className={styles["info"]}>
+          <span>Birthdate:</span>
+          <span>{auth.user.dateOfBirth}</span>
+        </div>
+        <div className={styles["info"]}>
+          <span>Genre:</span>
+          <span>{auth.user.genre}</span>
+        </div>
       </div>
+      {showModal && (
+        <ModalContainer show={showModal} onShow={setShowModal}>
+          <InfoEditor
+            onClose={() => setShowModal(false)}
+            saveChange={(data: PersonalInfoData) => onSubmit(data)}
+            data={auth.user}
+          />
+        </ModalContainer>
+      )}
     </div>
   );
 }
