@@ -21,9 +21,7 @@ export default function Products() {
 
   // get products from store
   useEffect(() => {
-    if (state) {
-      dispatch(getProducts(page));
-    }
+    dispatch(getProducts(page));
   }, [dispatch, page]);
 
   const render = {
