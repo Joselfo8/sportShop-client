@@ -1,5 +1,5 @@
-const CATEGORY = ["MALE", "FEMALE", "SPORTS"];
-const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
+const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
+const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESORIES"];
 
 export default  function validateProducts(input:any):any{
 
@@ -33,16 +33,20 @@ export default  function validateProducts(input:any):any{
     //Variables para Regular Expresions
     let REurl = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
     let REspaceWhite = /^\S/
-    let REsymbol= /^[a-zA-Z0-9-_]*$/
+    let REsymbol= /^[a-zA-Z0-9,_-]+( [a-zA-Z0-9,_-]+)*$/
 
+
+    //  Varriables errores/imagenes 
+    let errorEmptyImage = 'You must add at least one image'
     // Variables para errores
     let errorEmpty = 'The field cannot be empty'
     let errorisNaN= 'Only numbers are allowed'
     let errorNumber = 'Only number greater than 1 are allowed'
     let errorCharacters = 'Field must be between 1-100 characters'
     let errorCharac500 = 'Field must be between 1-500 characters'
-    let errorSymbol = 'The field can only contain letters(A-Z), numbers(#), hyphens(-) and underscores( _ )'
+    let errorSymbol = 'The field can only contain letters(A-Z), numbers(#), hyphens(-) and underscores( _ ).'
     let errorURL = 'The image most be a url link'
+    let errorCategory = 'Category is invalid. Only MAN, WOMAN AND KID'
     // Validar el input para añadir errores
 
     // ERRORES NOMBRE
@@ -61,10 +65,9 @@ export default  function validateProducts(input:any):any{
         errors.category = errorCharacters 
     } else if(!REsymbol.test(input.category)) {
         errors.category = errorSymbol
-    } else if(!CATEGORY.includes(input.category)){
-        errors.category = 'Category is invalid. Only MALE, FEMALE AND SPORTS'
+    } else if(!CATEGORY.includes(input.category.toUpperCase())){
+        errors.category = errorCategory
     }
-
     //ERRORES SUB CATEGORIA
     if(!input.subCategory){
         errors.subCategory = errorEmpty
@@ -72,7 +75,7 @@ export default  function validateProducts(input:any):any{
         errors.subCategory = errorCharacters 
     } else if(!REsymbol.test(input.subCategory)){
         errors.subCategory = errorSymbol
-    } else if(!SUBCATEGORY.includes(input.subCategory)){
+    } else if(!SUBCATEGORY.includes(input.subCategory.toUpperCase())){
         errors.subCategory = 'Sub-category is invalid. Only SHIRT,PANT,FOOTWEAR AND ACCESORIES'
     }
 
@@ -107,9 +110,9 @@ export default  function validateProducts(input:any):any{
     
     
     // // ERRORES IMAGENES
-    // if(!input.image){
-    //     errors.image = errorEmpty
-    // }  else if (!REurl.test(input.image)){
+    // if(!image){
+    //     errors.image = errorEmptyImage
+    // }  else if (!REurl.test(image)){
     //     errors.image = errorURL
     // } 
 
