@@ -35,6 +35,9 @@ export default  function validateProducts(input:any):any{
     let REspaceWhite = /^\S/
     let REsymbol= /^[a-zA-Z0-9,_-]+( [a-zA-Z0-9,_-]+)*$/
 
+
+    //  Varriables errores/imagenes 
+    let errorEmptyImage = 'You must add at least one image'
     // Variables para errores
     let errorEmpty = 'The field cannot be empty'
     let errorisNaN= 'Only numbers are allowed'
@@ -106,10 +109,10 @@ export default  function validateProducts(input:any):any{
     }
     
     
-    // ERRORES IMAGENES
-    // if(!input.image){
-    //     errors.image = errorEmpty
-    // }  else if (!REurl.test(input.image)){
+    // // ERRORES IMAGENES
+    // if(!image){
+    //     errors.image = errorEmptyImage
+    // }  else if (!REurl.test(image)){
     //     errors.image = errorURL
     // } 
 
