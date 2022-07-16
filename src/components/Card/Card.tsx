@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import style from './Card.module.scss'
 
-export default function Card({key, id, image, title, category, price}: any){
+export default function Card({ id, image, title, category, price}: any){
     return(
             <Link to={`/products/${id}`} style={{textDecoration:"none"}}>
                 <div className={style.card}>

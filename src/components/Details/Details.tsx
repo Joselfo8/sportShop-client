@@ -1,12 +1,13 @@
 import  { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { getDetails } from '../../redux/action'
+import { useNavigate, useParams } from 'react-router-dom'
+import { addProductToCart, addProductToFavorites, getDetails } from '../../redux/action'
 import { Link } from 'react-router-dom'
 import NavBar from '../Navbar/Navbar'
 import styles from './Details.module.scss'
 import { FaStar,FaHeart } from 'react-icons/fa'
 import { FiShoppingCart } from "react-icons/fi";
+import Footer from '../Footer/Footer'
 
 
 
@@ -37,9 +38,22 @@ export default function Details(){
   
     const dispatch = useDispatch()
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
+    const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
+    const auth: any =useSelector((state:any) => state.auth.auth)
+    
+    const product:number=productDetail.id
+    const user: number = auth.user.id  
+
+
+    const payload = {
+      user:user,  ///Para que funcione mientras tanto poner 66
+      product:product
+    }
+
+    const navigate = useNavigate()
     const params = useParams()
 
-    console.log(productDetail)
+    
 
     let rate:number=productDetail?.rating
     
@@ -53,24 +67,40 @@ export default function Details(){
       xl:''
     })
 
+   
+
     useEffect(()=>{
         dispatch(getDetails(params.id))
-    },[dispatch, params.id])
+    },[params.id])
     
-
+  
     const addFavorite = (e:any)=>{
       e.preventDefault()
+
+      if(!isLoggedIn){
+        navigate('/login')
+      } else {
+        dispatch(addProductToFavorites(payload))
+        return(alert('Product added to favorite successfully'),navigate('/favorites')) 
+      }
     }
 
     const addToCart = (e:any) => {
       e.preventDefault()
 
-      if(size.s.length === 0 && size.m.length === 0 && size.l.length === 0 && size.xl.length === 0){
+      if(!isLoggedIn){
+        navigate('/login')
+      } else if(size.s === '' && size.m === '' && size.l === '' && size.xl === '') {
         return setErrors('Select your size first')
       } else {
-        return setErrors('Sucessfully')
-      } 
-    
+        if(auth){
+          // console.log(user,product)
+          dispatch(addProductToCart(payload))
+          return(alert('Product added to cart successfully'),navigate('/cart'))
+        }else{
+          return(alert('Login first'),navigate('/login'))
+        }
+      }  
     }
 
 
@@ -116,11 +146,11 @@ export default function Details(){
           <form onSubmit={addToCart}>
             { 
               sizes.map((s,index) => 
-              <div className={styles.containerSize}>
-                <ul key={index} className= {styles.ksCboxtags}>
-                  <li> 
+              <div key= {index} className={styles.containerSize}>
+                <ul  className= {styles.ksCboxtags}>
+                  <li > 
                     <input 
-                      onChange={(e)=> setSize(e.target.value)} 
+                      onChange={(e) => setSize({[e.target.name]: e.target.value})} 
                       value={s} 
                       type='radio'
                       id={s}
@@ -136,15 +166,15 @@ export default function Details(){
             }
             <br></br>
             
-            <Link to='/cart' className={styles.link}>
-              <button type='submit' className={styles.cart}>
-                  <FiShoppingCart/>               
-                  ADD TO CART
-                </button>
-            </Link>
+            
+            <button type='submit' className={styles.cart}>
+                <FiShoppingCart/>               
+                ADD TO CART
+            </button>
+            
            
             <Link to={'/favorites'}>
-              <button onSubmit={addFavorite} className={styles.favorite}>
+              <button onClick={addFavorite} className={styles.favorite}>
                 <FaHeart  className={styles.heart} />
               </button>
             </Link>
@@ -155,6 +185,7 @@ export default function Details(){
         </div >
 
       </div>
+      <Footer />
     </div>
     
   )
