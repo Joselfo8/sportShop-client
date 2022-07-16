@@ -6,12 +6,14 @@ import {
   GET_SHOPPINGLIST_BY_USER_ID,
 } from "./types";
 
-export function getProducts() {
+export function getProducts(page?: number) {
   try {
     return async function name(dispatch: any) {
-      let json: any = await axios.get(
-        "https://vlixes-server.herokuapp.com/products"
-      );
+      // let json: any = await axios.get(
+      //   "https://vlixes-server.herokuapp.com/products"
+      // );
+      let json: any = await axios.get(`http://localhost:4040/products?pag=${page ? page : 1}&limit=3`)
+
       return dispatch({
         type: "GET_PRODUCTS",
         payload: json.data,

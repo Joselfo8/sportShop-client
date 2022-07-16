@@ -15,16 +15,14 @@ import style from "./Products.module.scss";
 
 export default function Products() {
   // save user click pagination button
-  const [selected, setSelected] = useState(1);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
 
   // get products from store
   useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
-
-  console.log(state.rootReducer.products)
+    dispatch(getProducts(page));
+  }, [dispatch, page]);
 
   const render = {
     allProducts:
@@ -82,11 +80,11 @@ export default function Products() {
 
       <div className={style.pagination}>
         <Pagination
-          maxPage={state.rootReducer.products.length}
-          next={{ limit: 10, page: 2 }}
-          previous={{ limit: 10, page: 1 }}
-          selected={selected}
-          onSelected={setSelected}
+          maxPage={state.rootReducer.maxPage}
+          next={state.rootReducer.next}
+          previous={state.rootReducer.previous}
+          selected={page}
+          onSelected={setPage}
         />
       </div>
 
