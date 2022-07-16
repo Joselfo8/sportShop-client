@@ -15,24 +15,23 @@ import style from "./Products.module.scss";
 
 export default function Products() {
   // save user click pagination button
-  const [selected, setSelected] = useState(1);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
-  const state = useSelector((state: any) => state);
+  const state = useSelector((state: any) => state.rootReducer);
 
   // get products from store
   useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
-
+    dispatch(getProducts(page));
+  }, [dispatch, page]);
 
   const render = {
     allProducts:
-      state.rootReducer.products.length === 0 ? (
+      state.products.length === 0 ? (
         <div>
           <h2>Loading products</h2>
         </div>
       ) : (
-        state.rootReducer.products.map((p: any) => {
+        state.products.map((p: any) => {
           return (
             <Card
               key={p.title}
@@ -47,12 +46,12 @@ export default function Products() {
       ),
 
     searchProducts:
-      state.rootReducer.productsFiltered.length === 0 ? (
+      state.productsFiltered.length === 0 ? (
         <div>
           <h2>No products found!</h2>
         </div>
       ) : (
-        state.rootReducer.productsFiltered.map((p: any) => {
+        state.productsFiltered.map((p: any) => {
           return (
             <div key={p.title}>
                     <Card
@@ -77,18 +76,18 @@ export default function Products() {
       <Filter />
 
       <div className={style.cardContainer}>
-        {state.rootReducer.productsFiltered.length === 0
+        {state.productsFiltered.length === 0
           ? render.allProducts
           : render.searchProducts}
       </div>
 
       <div className={style.pagination}>
         <Pagination
-          maxPage={state.rootReducer.products.length}
-          next={{ limit: 10, page: 2 }}
-          previous={{ limit: 10, page: 1 }}
-          selected={selected}
-          onSelected={setSelected}
+          maxPage={state.maxPage}
+          next={state.next}
+          previous={state.previous}
+          selected={page}
+          onSelected={setPage}
         />
       </div>
 

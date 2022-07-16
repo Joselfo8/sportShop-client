@@ -26,12 +26,12 @@ const initialState: any = {
 
 function rootReducer(state = initialState, action: any){
     switch(action.type){
-        case "GET_PRODUCTS":
-            return{
-                ...state,
-                products: action.payload.products,
-                productCart: action.payload.products,
-            }
+         case "GET_PRODUCTS":
+            return {
+              ...state,
+              ...action.payload,
+              productCart: action.payload.products,
+            };
 
         case "GET_DETAILS":
             return {
@@ -58,12 +58,15 @@ function rootReducer(state = initialState, action: any){
                 ...state,
                 productsFiltered:action.payload.products,
             }
-
+            
         case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
-            return{
-                ...state,
-                productsFiltered: action.payload.products,
-            }
+            return {
+              ...state,
+              maxPage: action.payload.maxPage,
+              next: action.payload.next,
+              previous: action.payload.previous,
+              productsFiltered: action.payload.products,
+            }; 
 
         case "CLEAN_STORE":
             console.log("desde CLEAN_STORE")
@@ -121,6 +124,5 @@ function rootReducer(state = initialState, action: any){
             return state;
     };
 };
-
 
 export default combineReducers({ auth, message, rootReducer });

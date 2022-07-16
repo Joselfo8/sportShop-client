@@ -5,13 +5,15 @@ import {
   GET_USER_INFORMATION,
   GET_SHOPPINGLIST_BY_USER_ID,
 } from "./types";
+const API_URL = process.env.REACT_APP_API_URL;
 
-export function getProducts() {
+export function getProducts(page?: number) {
   try {
     return async function name(dispatch: any) {
       let json: any = await axios.get(
-        "https://vlixes-server.herokuapp.com/products"
+        `${API_URL}/products?pag=${page ? page : 1}&limit=3`
       );
+
       return dispatch({
         type: "GET_PRODUCTS",
         payload: json.data,
@@ -71,7 +73,7 @@ export function getProductsByCategoryAndSubcategory(object: any) {
   try {
     return async function name(dispatch: any) {
       let json: any = await axios.get(
-        `https://vlixes-server.herokuapp.com/products?category=${object.category}&subCategory=${object.argument}`
+        `${API_URL}/products?category=${object.category}&subCategory=${object.argument}`
       );
       return dispatch({
         type: GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
@@ -169,24 +171,26 @@ export const deleteProduct = (id: number) => async (dispatch: any) => {
 };
 
 export const deleteUser = (id: number) => async (dispatch: any) => {
-    try{
-        const response: any = await axios.delete('https://vlixes-server.herokuapp.com/users/' + id);
-        dispatch(getUsers());
-        return response;
-    }catch(error){
-        console.log(error);
-    };
+  try {
+    const response: any = await axios.delete(
+      "https://vlixes-server.herokuapp.com/users/" + id
+    );
+    dispatch(getUsers());
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getUserByName = (name: string) => {
-    try{
-        return {
-            type: "GET_USER_BY_NAME",
-            payload: name
-        };
-    }catch(error){
-        console.log(error);
+  try {
+    return {
+      type: "GET_USER_BY_NAME",
+      payload: name,
     };
+  } catch (error) {
+    console.log(error);
+  }
 };
 export const editProduct = ( payload: any) => async (dispatch: any) => {
     try {
