@@ -27,7 +27,7 @@ export default function DropDown(categoryClick:any){
             result.map((e:any) => {
                 return( categoryClick.categoryClick === e[0] ?
                     <li>
-                        <Link to={"/products"}>
+                        <Link to={"/products"} >
                             <button className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e[1])}>{e[1]}</button>
                         </Link>
                     </li>
