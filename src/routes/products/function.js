@@ -3,6 +3,7 @@ const cloudinary = require("cloudinary").v2;
 const { Op } = require("sequelize");
 const { Product } = require("../../db");
 const { getAllSize } = require("../stock/function");
+const { Sequelize } = require("sequelize");
 
 const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
 const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
@@ -14,6 +15,34 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
+//post with bulkCreate
+const postAllatOnce = async (req, res, next) => {
+  //[{title, price, description, category, subCategory, product_care, image},{title, price, description, category, subCategory, product_care, image}]
+  let { arr } = req.body;
+  try {
+     arr = await arr.map((e) => {
+      return {
+        title: e.title,
+        price: e.price,
+        description: e.description,
+        category: e.category,
+        subCategory: e.subCategory,
+        product_care: e.product_care,
+        image: e.image,
+      };
+    })
+    const products = await Product.bulkCreate(arr);
+    return res.status(201).json({
+      msg: `${products.length} products added to the DB`,
+      products: products,
+    });
+  }
+  catch (err) {
+    next(new ErrorResponse(`Sorry, could not save ${req.body.name}`, 404));
+    res.send({ msg: "failed to created" });
+  }
+
+}
 //post/ product to db
 const postProduct = async (req, res) => {
   let {
@@ -299,4 +328,5 @@ module.exports = {
   getProductById,
   deleteProduct,
   putProduct,
+  postAllatOnce,
 };
