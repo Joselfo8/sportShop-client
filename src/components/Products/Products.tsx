@@ -53,14 +53,17 @@ export default function Products() {
       ) : (
         state.productsFiltered.map((p: any) => {
           return (
-            <Card
-              key={p.title}
+            <div key={p.title}>
+                    <Card
+              // key={p.title} //Al pasar una key por props a un elemento arroja un warning, por eso deb ponerse un div y pasarle como key el title
               id={p.id}
               image={p.image}
               title={p.title}
               category={p.category}
               price={p.price}
             />
+            </div>
+      
           );
         })
       ),
