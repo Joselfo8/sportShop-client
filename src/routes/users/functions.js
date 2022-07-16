@@ -47,23 +47,23 @@ async function postUser(req, res) {
      genre,
      dateOfBirth,
       direction,
+      country,
+      state,
+      city,
+      numberPhone,
       role,
     } = req.body;
 
-    if (
-      !name ||
-    //  !lastname ||
-      !password ||
-      //  !genre ||
-      //  !dateOfBirth ||
-      // !direction ||
-      !email
-    ) {
-      return res.status(200).json({ msg: "All fields are required" });
+
+    if (!name || !password || !email) {
+      return res
+        .status(200)
+        .json({ msg: "fields (name, password and email) are required" });
+
     }
     let userExists = await User.findOne({ where: { email: email } });
     if (userExists) {
-      return res.status(200).json({ msg: "Username already exists" });
+      return res.status(200).json({ msg: "email already is  register" });
     }
 
     if (role && !rols.includes(role)) {
@@ -80,6 +80,10 @@ async function postUser(req, res) {
       genre: genre,
       dateOfBirth: dateOfBirth,
       direction: direction,
+      country: country,
+      city: city,
+      state: state,
+      numberPhone: numberPhone,
       role: role,
     });
     await user.createShopping_list({ product_list: user.email });
@@ -118,9 +122,12 @@ async function putUser(req, res) {
       email,
       dateOfBirth,
       direction,
+      country,
+      state,
+      city,
+      numberPhone,
       role,
     } = req.body;
-
     if (!id) {
       return res.status(200).json({ msg: "id_user is required" });
     }
@@ -157,6 +164,18 @@ async function putUser(req, res) {
     }
     if (direction) {
       user.direction = direction;
+    }
+    if (country) {
+      user.country = country;
+    }
+    if (state) {
+      user.state = state;
+    }
+    if (city) {
+      user.city = city;
+    }
+    if (numberPhone) {
+      user.numberPhone = numberPhone;
     }
 
     // if (role) {

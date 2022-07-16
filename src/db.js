@@ -68,8 +68,8 @@ Product.belongsToMany(Shopping_list, { through: "user_shopping" });
 User.hasOne(Favorite);
 Favorite.belongsTo(User);
 //
-Favorite.belongsToMany(Product, { through: "user_product" });
-Product.belongsToMany(Favorite, { through: "user_product" });
+Favorite.belongsToMany(Product, { through: "user_favorite" });
+Product.belongsToMany(Favorite, { through: "user_favorite" });
 
 //aqui van las relaciones de las compras
 Buy.belongsTo(User);

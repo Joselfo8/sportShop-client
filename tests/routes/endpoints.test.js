@@ -136,6 +136,12 @@ describe("get source", () => {
     expect(response.status).toBe(200);
     expect(response.body.list.length).toBe(0);
   });
+
+  it("should get favorites list", async () => {
+    const response = await api.get("/favorites/" + userData.id);
+    expect(response.status).toBe(200);
+    expect(response.body.list.length).toBe(0);
+  });
 });
 
 describe("should update source", () => {
@@ -196,6 +202,46 @@ describe("should get, add  and delete shopping list", () => {
     expect(response.body.list.length).toBe(0);
   });
 });
+
+describe("should get, add  and delete favorites", () => {
+  it("should get the favorites", async () => {
+    const response = await api.get("/favorites/" + userData.id);
+    expect(response.status).toBe(200);
+    expect(response.body.list.length).toBe(0);
+  });
+
+  it("should add product to favorites", async () => {
+    const response = await api
+      .post("/favorites")
+      .send({ product: productData.id, user: userData.id });
+    expect(response.status).toBe(200);
+    expect(response.body.list.length).toBe(1);
+  });
+
+  it("should add product to favorites 2", async () => {
+    const response = await api
+      .post("/favorites")
+      .send({ product: productData2.id, user: userData.id });
+    expect(response.status).toBe(200);
+    expect(response.body.list.length).toBe(2);
+  });
+
+  it("should delete product to favorites", async () => {
+    const response = await api
+      .delete("/favorites")
+      .send({ product: productData.id, user: userData.id });
+    expect(response.body.list.length).toBe(1);
+  });
+
+  it("should delete product to favorites", async () => {
+    const response = await api
+      .delete("/favorites")
+      .send({ product: productData2.id, user: userData.id });
+    expect(response.status).toBe(200);
+    expect(response.body.list.length).toBe(0);
+  });
+});
+
 describe("should login user", () => {
   it("should login user", async () => {
     const response = await api
