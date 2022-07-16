@@ -9,6 +9,7 @@ import {
   GET_USER_INFORMATION,
   GET_SHOPPINGLIST_BY_USER_ID,
 } from "../action/types";
+import Products from "../../components/Products/Products";
 
 const initialState: any = {
     products: [],
@@ -20,6 +21,7 @@ const initialState: any = {
     shoppinglist: [],
     allUsers: [],
     searchUser: [],
+    favorites: []
 };
 
 function rootReducer(state = initialState, action: any){
@@ -71,13 +73,12 @@ function rootReducer(state = initialState, action: any){
             }
 
         case "ORDER_BY_PRICE":
-        //    return console.log(action.payload)
-          return {
-            ...state,
-            product: action.payload,    
-          }
-
-
+            return {
+                ...state,
+                products: action.payload, 
+              }
+        
+         
         case GET_USER_INFORMATION:
             return{
                 ...state,
@@ -91,7 +92,7 @@ function rootReducer(state = initialState, action: any){
             }
 
 
-          case "POST_PRODUCT":
+        case "POST_PRODUCT":
             console.log(action.payload)
             return {
                 ...state,
@@ -103,8 +104,18 @@ function rootReducer(state = initialState, action: any){
                 ...state,
                 allUsers: action.payload.users
             }
-
-
+        
+        case "ADD_TO_CART": 
+            return {
+                ...state,
+                productCart: state.productCart.concat(action.payload)
+            }
+        
+        case "ADD_TO_FAVORITES": 
+            return {
+                ...state,
+                favorites: state.favorites.concat(action.payload)
+            }
  
         default:
             return state;

@@ -108,10 +108,10 @@ const FormProducts = () => {
                 price: input.price,
                 description:input.description,
                 product_care:input.product_care,
-                image: preview
+                image: btoa(preview)
             }
             console.log(newProduct)
-            // dispatch(addProduct(newProduct))
+            dispatch(addProduct(newProduct))
             e.target.reset()
             navigate('/admin/addProduct')
             
@@ -145,6 +145,7 @@ const FormProducts = () => {
   return (
     <div >
         <h1>ADD PRODUCT</h1>
+        
         <div >
             <form onSubmit={handleSubmit} className={styles.containerForm}>
 

@@ -27,9 +27,9 @@ export default function Cart(){
 
                 <div>
                 {
-                    productCart.map((e: any) =>{
+                    productCart.map((e: any,index:any) =>{
                         return(
-                            <div className={styles.half1}>
+                            <div key={index} className={styles.half1}>
                                 <img src={e.image} alt="Not found" style={{width:"100px", height:"100px"}}/>
                                 <div className={styles.info}>
                                     <div>BRAND:</div>
