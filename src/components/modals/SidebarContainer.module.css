@@ -54,7 +54,7 @@
 @media only screen and (min-width: 1024px) {
   .container {
     transition-duration: 0ms;
-    position: fixed;
+    position: static;
     left: 0;
   }
 

@@ -118,7 +118,7 @@
 }
 
 .item-button:nth-child(2) {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.04);
   font-weight: inherit;
   color: var(--bg);
   border: 0.08rem solid var(--bg);
