@@ -66,6 +66,8 @@ html {
 .success {
   --bg: rgba(46, 213, 115, 1);
   --text: rgba(46, 213, 115, 1);
+  --bg-rgb: 46, 213, 115;
+  --text-rgb: 46, 213, 115;
 }
 
 .danger {
