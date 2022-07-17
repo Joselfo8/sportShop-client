@@ -18,7 +18,7 @@ export default function Favorites(){
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
     const auth: any =useSelector((state:any) => state.auth.auth)
     
-
+    
     const handleDelete = (e:any,payload:any) => {
         e.preventDefault()
         dispatch(deleteFavorite(payload))
@@ -54,7 +54,7 @@ export default function Favorites(){
         <NavBar/>
         <h1>MY WISH LIST</h1>
         <div className={styles.container}>
-        { favorites.map((f:any) => {
+        { favorites?.map((f:any) => {
             const payload = {
                 product: f.id,
                 user: userID

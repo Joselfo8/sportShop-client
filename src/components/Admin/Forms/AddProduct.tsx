@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { addProduct, getProducts } from '../../../redux/action'
+import NavBar from '../../Navbar/Navbar'
 
 import styles from './FormProduct.module.scss'
 import validateProducts from './validateForms'
@@ -144,6 +145,7 @@ const FormProducts = () => {
 
   return (
     <div >
+      <NavBar/>
         <h1>ADD PRODUCT</h1>
         
         <div >
