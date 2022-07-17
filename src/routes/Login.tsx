@@ -19,7 +19,7 @@ import { clearMessage } from "../redux/action/message";
 const onlyLettersRegex = /^[a-zA-Z]*$/g;
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g;
+  /^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).{10,16}$/;
 
 function AuthLogin() {
   return (
@@ -209,7 +209,6 @@ function SignIn() {
     mode: "onChange",
   });
   // Store
-  const { isLoggedIn, auth } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   // send data to api
@@ -222,8 +221,6 @@ function SignIn() {
       console.log(err);
     }
   };
-
-  if (isLoggedIn) return <Navigate to="/" />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -265,14 +262,18 @@ function SignIn() {
 }
 
 function Login() {
-  const dispatch = useDispatch();
   const { register } = useParams();
+  // store
+  const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (register === "logout") {
       dispatch(logout());
     }
   }, [register]);
+
+  if (isLoggedIn) return <Navigate to="/" />;
 
   return (
     <div className={`${styles["body"]} secondary`}>
