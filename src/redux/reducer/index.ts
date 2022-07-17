@@ -116,6 +116,11 @@ function rootReducer(state = initialState, action: any){
                 ...state,
                 favorites: state.favorites.concat(action.payload)
             }
+        case "GET_FAVORITES":
+            return {
+                ...state,
+                favorites: action.payload
+            }
  
         default:
             return state;

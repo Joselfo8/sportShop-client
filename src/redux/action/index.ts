@@ -188,6 +188,7 @@ export const getUserByName = (name: string) => {
         console.log(error);
     };
 };
+
 export const editProduct = ( payload: any) => async (dispatch: any) => {
     try {
       const json: any = await axios.put(`https://vlixes-server.herokuapp.com/products/`, payload);
@@ -218,6 +219,21 @@ export const addProductToFavorites = (payload:any) => async(dispatch:any) => {
   }
 }
 
-export const getFavorites = () => async(dispatch:any) => {
-  const json: any = await axios.get('https://vlixes-server.herokuapp.com/favorites')
+export const getFavorites = (userID:any) => async(dispatch:any,) => {
+  try {
+    const json: any = await axios.get(`https://vlixes-server.herokuapp.com/favorites/${userID}`)
+    dispatch({type: "GET_FAVORITES", payload: json.data.list})
+  } catch (error) {
+    console.log(error)
+  }
 }
+
+export const deleteFavorite = (payload:any) => async (dispatch: any) => {
+  try {
+    console.log(payload)
+    const json = await axios.delete(`https://vlixes-server.herokuapp.com/favorites?user=${payload.user}&product=${payload.product}`);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
