@@ -31,6 +31,7 @@
     "passport": "^0.6.0",
     "passport-google-oauth": "^2.0.0",
     "pg": "^8.5.1",
+    "react-google-login": "^5.2.2",
     "sequelize": "^6.3.5",
     "stripe": "^9.13.0"
   },
