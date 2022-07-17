@@ -14,13 +14,11 @@ export default function Cart(){
             userId: store.auth.auth.user.id,
         };
     });
-    console.log(state.products)
     useEffect(() => {
         dispatch(getShoppingListByUserId(state.userId));
     },[]);
-    let priceCart: number = 0;
-    state.products.map((e: any) => priceCart = priceCart + e.price);
-
+    let price: number = 0;
+    let priceTotal:any = state.products ? state.products.map((e: any) => price = price + e.price) : 0;
     const deleteProduct = (idUser:number, idProduct:number) =>{
         dispatch(deleteProductShop(idUser, idProduct))
     };
@@ -33,7 +31,7 @@ export default function Cart(){
             <div className={styles.centralice}>
 
                 <div>
-                { state.products &&
+                { state.products > 0 ?
                     state.products.map((e: any,index:any) =>{
                         return(
                             <div key={index} className={styles.half1}>
@@ -53,12 +51,13 @@ export default function Cart(){
                             </div>
                         )
                     })
+                    : <></>
                 }
                 </div>
 
                 <div className={styles.half2}>
                     <div>PRICE:</div>
-                    <div>TOTAL: {priceCart}</div>
+                    <div>TOTAL: {price}</div>
                     <Link to="/" style={{width:"100%"}}>
                         <button className={styles.buttonCart}>CONTINUE SHOPPING</button>
                     </Link>
