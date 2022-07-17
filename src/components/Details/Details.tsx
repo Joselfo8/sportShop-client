@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import NavBar from '../Navbar/Navbar'
 import styles from './Details.module.scss'
 import { FaStar,FaHeart } from 'react-icons/fa'
-import { FiShoppingCart } from "react-icons/fi";
+import { FiShoppingCart,FiHeart } from "react-icons/fi";
+import { TbHeartPlus } from "react-icons/tb"
 import Footer from '../Footer/Footer'
 
 
@@ -37,19 +38,27 @@ let sizes:string[]=['s','m','l','xl']
 export default function Details(){
   
     const dispatch = useDispatch()
-    const productDetail: any = useSelector((state:any) => state.rootReducer.details)
-    const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
-    const auth: any =useSelector((state:any) => state.auth.auth)
+
     
    
-
+    // HOOKS: 
     const navigate = useNavigate()
     const params = useParams()
 
     
 
+    // ESTADOS: 
+    const productDetail: any = useSelector((state:any) => state.rootReducer.details)
+
+    const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
+
+    const auth: any =useSelector((state:any) => state.auth.auth)
+
+    const [color, setColor] = useState<String>()
+
     let rate:number=productDetail?.rating
-    
+
+    const [successful, setSuccessful] = useState<String>()
 
     const [errors, setErrors] = useState<String>()
 
@@ -61,12 +70,12 @@ export default function Details(){
     })
 
    
-
+    // RENDERIZADO DEL COMPONENTE: 
     useEffect(()=>{
         dispatch(getDetails(params.id))
     },[params.id])
     
-  
+    // HANDLES PARA AGREGAR AL CARRITO Y FAVORITOS:
     const addFavorite = (e:any)=>{
       e.preventDefault()
 
@@ -77,11 +86,12 @@ export default function Details(){
           const product:number=productDetail.id
           const user: number = auth.user.id  
           const payload = {
-            user:user,  ///Para que funcione mientras tanto poner 66
+            user:user,  
             product:product
           }
             dispatch(addProductToFavorites(payload))
-            return(alert('Product added to favorite successfully'),navigate('/favorites')) 
+            setColor('#a70f0f')
+            setSuccessful('Added to favorites')
           } else {
             return(alert('Login first'),navigate('/login'))
           }
@@ -111,25 +121,32 @@ export default function Details(){
       }  
     }
 
+    const onChange = (e:any) => {
+      setSize({[e.target.name]: e.target.value})
+      setErrors('')
+      setSuccessful('')
+    }
+
 
   return (
     <div>
       <NavBar/> 
-      
-
 
       <div className={styles.gridLayout}>
       
         <div className={styles.col1}>
           <div>
             <Link to='/' className={styles.link}>
-              <p className={styles.pLink}>Home</p>
+              <span className={styles.pLink}>HOME</span>
             </Link>
             <span>/</span>
 
-            <Link to={`/:${productDetail.category}`}>
-              <p>{productDetail.category}</p>
+            <Link to={`/:${productDetail.category}`} className={styles.link}>
+              <span className={styles.pLink}>{productDetail.category}</span>
             </Link>
+           
+
+        
           </div>
           <img src={productDetail.image} alt='Not found'/>
           <h2 >CUIDADOS</h2>
@@ -158,7 +175,7 @@ export default function Details(){
                 <ul  className= {styles.ksCboxtags}>
                   <li > 
                     <input 
-                      onChange={(e) => setSize({[e.target.name]: e.target.value})} 
+                      onChange={(e) => onChange(e)} 
                       value={s} 
                       type='radio'
                       id={s}
@@ -180,12 +197,13 @@ export default function Details(){
                 ADD TO CART
             </button>
             
-           
-            <Link to={'/favorites'}>
-              <button onClick={addFavorite} className={styles.favorite}>
-                <FaHeart  className={styles.heart} />
+          
+              <button  onClick={addFavorite}  className={styles.favorite}>
+                <FiHeart  style = {{color: `${color}`}} className={styles.heart} />
               </button>
-            </Link>
+              {
+              successful && <span>{successful}</span>
+              }
           </form>
 
           <h2 className={styles.description}>DESCRIPTION</h2>

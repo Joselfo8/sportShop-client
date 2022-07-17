@@ -1,5 +1,5 @@
 const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
-const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESORIES"];
+const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
 
 export default  function validateProducts(input:any):any{
 

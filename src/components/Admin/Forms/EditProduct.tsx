@@ -2,6 +2,7 @@ import  { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { editProduct, getDetails} from "../../../redux/action";
+import NavBar from "../../Navbar/Navbar";
 import styles from './FormProduct.module.scss'
 import validateProducts from './validateForms'
 
@@ -103,6 +104,7 @@ export default function EditProduct(){
 
     return(
         <div >
+            <NavBar/>
             <h1>EDIT PRODUCT</h1>
             
                 {misProductos ?
