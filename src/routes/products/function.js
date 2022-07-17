@@ -20,7 +20,7 @@ cloudinary.config({
 const bulk = async (req, res) => {
   //return res.send("<h1>Bulk</h1>");
   try { 
-    const products = req.body;
+    const products = req.body;  //array de productos
 //return res.send(products);
 const productdb = products.forEach(async (e) => {
   const newProduct = { title : e.title,
