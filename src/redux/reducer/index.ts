@@ -14,7 +14,6 @@ import Products from "../../components/Products/Products";
 const initialState: any = {
     products: [],
     productsFiltered: [],
-    searchProducts: [],
     productCart: [],
     details: {},
     userInformation: {},
