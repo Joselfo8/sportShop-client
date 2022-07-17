@@ -55,14 +55,14 @@ function Pagination({
 
   // map maxPage prop to an array of objects
   useEffect(() => {
-    const { pages } = paginate(maxPage, selected, next.limit, pagesToShow);
+    const { pages } = paginate(maxPage, selected, next?.limit ? next?.limit : 10, pagesToShow);
 
     setButtons([
       <Button
         key="previous"
         selected={selected}
         onSelected={onSelected}
-        value={previous.page}
+        value={previous?.page}
         text="previous"
       >
         <ArrowPrevious className={styles["arrow"]} />
@@ -80,7 +80,7 @@ function Pagination({
         key="next"
         selected={selected}
         onSelected={onSelected}
-        value={next.page}
+        value={next?.page}
         text="next"
       >
         <ArrowNext className={styles["arrow"]} />
