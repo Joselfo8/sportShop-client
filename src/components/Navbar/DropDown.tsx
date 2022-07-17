@@ -24,9 +24,9 @@ export default function DropDown(categoryClick:any){
         <>
         <ul className={styles.servicesSubmenu}>
         {
-            result.map((e:any) => {
+            result.map((e:any,index:any) => {
                 return( categoryClick.categoryClick === e[0] ?
-                    <li>
+                    <li key={index}>
                         <Link to={"/products"}>
                             <button className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e[1])}>{e[1]}</button>
                         </Link>

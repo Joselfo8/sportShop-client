@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { addProduct, getProducts } from '../../../redux/action'
+import NavBar from '../../Navbar/Navbar'
 
 import styles from './FormProduct.module.scss'
 import validateProducts from './validateForms'
@@ -108,10 +109,10 @@ const FormProducts = () => {
                 price: input.price,
                 description:input.description,
                 product_care:input.product_care,
-                image: preview
+                image: btoa(preview)
             }
             console.log(newProduct)
-            // dispatch(addProduct(newProduct))
+            dispatch(addProduct(newProduct))
             e.target.reset()
             navigate('/admin/addProduct')
             
@@ -144,7 +145,9 @@ const FormProducts = () => {
 
   return (
     <div >
+      <NavBar/>
         <h1>ADD PRODUCT</h1>
+        
         <div >
             <form onSubmit={handleSubmit} className={styles.containerForm}>
 

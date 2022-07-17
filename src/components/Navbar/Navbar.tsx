@@ -14,9 +14,17 @@ import user from "../../assets/user.png";
 import lens from "../../assets/lupa.png";
 import heart from "../../assets/corazonVacio.png";
 import DropDown from "./DropDown";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import 'bootstrap/dist/css/bootstrap.css';
 
-export default function NavBar() {
-  const products = useSelector((state: any) => state.rootReducer.products);
+export default function NavBar(props: any) {
+  const state = useSelector((store: any) => {
+    return {
+        products: store.rootReducer.products,
+        userLoged: store.auth.isLoggedIn,
+        userDate: store.auth.isLoggedIn ? store.auth.auth.user : []
+    }
+})
   const [value, setValue] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,7 +34,8 @@ export default function NavBar() {
     KIDS: false,
     SPORT: false,
   });
-  let data = products.map((e: any) => {
+  const [modal, setModal] = useState(false);
+  let data = state.products.map((e: any) => {
     return e.category;
   });
   let result = data.filter((item: any, index: any) => {
@@ -45,6 +54,8 @@ export default function NavBar() {
     dispatch(getProductsByName(value));
     navigate("/products");
   }
+
+  const togleModal = () => setModal(!modal);
 
   return (
     <div className={styles.navBar}>
@@ -71,6 +82,7 @@ export default function NavBar() {
       </ul>
 
       <div className={styles.orderIcons}>
+
         <div className={styles.bodySearch}>
           <form onSubmit={(e) => handleSubmit(e)}>
             <input
@@ -84,18 +96,47 @@ export default function NavBar() {
           </form>
           <img src={lens} className={styles.search_submit} />
         </div>
-        <Link to="/login">
-          <img src={user} className={styles.cart} />
-        </Link>
 
+        <div onClick={() => {state.userLoged && togleModal()}}>
+          { state.userLoged ?
+            <img src={user} className={styles.cart} style={{cursor:"pointer"}} /> :
+            <Link to="/login">
+              <img src={user} className={styles.cart} />
+            </Link>
+          }
+        </div>
+
+        <div>
         <Link to="/favorites">
           <img src={heart} className={styles.heart} />
         </Link>
-
+        </div>
+        <div>
         <Link to="/cart">
           <img src={cart} className={styles.cart} />
         </Link>
+        </div>
+
+      <Modal
+      fade={false}
+      isOpen={modal}
+      toggle={togleModal}
+      >
+        <button onClick={togleModal} className={styles.buttonNav} style={{marginLeft:"auto", width:"3rem", backgroundColor:"black",color:"white"}}>X</button>
+        <ModalHeader>
+          <span style={{cursor:"pointer",paddingLeft:"1.5rem"}} className={styles.modalPop}>Hi {state.userDate.name}!</span>
+        </ModalHeader>
+        <ModalBody style={{display:"flex", justifyContent:"center"}}>
+          <Link to="/user/profile"><button className={styles.buttonNav}>Go to settings</button></Link>
+          { state.userDate.role === "admin" ?
+            <Link to="/admin" onClick={togleModal} className={styles.buttonNav}><button className={styles.buttonNav}>Admin</button></Link>
+            : <></>
+          }
+          <Link to="/login/logout"><button className={styles.buttonNav}>Logout</button></Link>
+        </ModalBody>
+      </Modal>
       </div>
+
     </div>
   );
 }

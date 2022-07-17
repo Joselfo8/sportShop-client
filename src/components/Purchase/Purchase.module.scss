@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
 .purchaseContainer {
     // background-color: burlywood;
     display: grid;
@@ -7,6 +13,7 @@
     padding-left: 10%;
     padding-right: 10%;
     column-gap: 10px;
+    font-family: $font;
 }
 
 // ------------------------------ Products ------------------------------ //

@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;600&family=Lato:wght@100&family=Montserrat:wght@200&display=swap');
 
 $font: 'Kanit', sans-serif;
 $weightTitle:600;
-$weightParagraph: 100;
+$weightParagraph: 300;
 
 
 
@@ -21,7 +21,12 @@ $weightParagraph: 100;
 
     .pLink{
         display: inline-flex;
-        margin-right: 5px;
+        margin-right: 10px;
+        font-size: 12px;
+        font-family: $font;
+        font-weight: 600;
+        margin-left: 10px;
+        color: #000;  
     }
     .pLink:hover {
         text-decoration: underline;
@@ -31,7 +36,7 @@ $weightParagraph: 100;
         color: #000;
         margin-top: 0;
         font-family: $font;
-        font-weight: 100;
+        font-weight: $weightParagraph;
         margin-left: 50px;
     }
     img {
@@ -51,6 +56,7 @@ $weightParagraph: 100;
         font-family: $font;
         margin-top: 50px;
         margin-left: 50px;
+        font-weight: 600;
     }
 
 }
@@ -58,6 +64,7 @@ $weightParagraph: 100;
 .col2 {
     margin-top: 20px;
     h1 {
+        justify-content: flex-start;
         font-size: 30px;
         margin: 20px 0 10px;
         font-family: $font;
@@ -69,20 +76,21 @@ $weightParagraph: 100;
         font-size: 25px;
         margin: 60px 0 10px;
         font-family: $font;
-        font-weight:$weightTitle;
+        font-weight:600;
         color: #000;
     }
 
     span {
         font-size: 12px;
         font-family: $font;
-        font-weight: 100;
-        margin-left: 10px;  
+        font-weight: 600;
+        margin-left: 10px;
+        color: #000;  
     }
 
     p {
         font-family: $font;
-        font-weight: 100;
+        font-weight: $weightParagraph;
         text-align: justify;
         
     }
@@ -99,7 +107,7 @@ $weightParagraph: 100;
         width: 200px;
         font-family: $font;
         font-size: 15px;
-        font-weight: 100;
+        font-weight: 300;
         border-radius: 3px;
         border: 1px solid #a70f0f;
         background-color: #a70f0f;;
@@ -122,15 +130,19 @@ $weightParagraph: 100;
         border: 0;
         background-color: #fff;
         cursor: pointer;
+        
    
         
         .heart {
-            color: #837b7b;
+            color: #000;
+            background-color: #fff;
+            border-radius: 50%;
             transition: 0.3s;
         }
 
         .heart:hover {
             width: 80%;
+            color: #a70f0f;
         }
     }
 
@@ -185,7 +197,9 @@ ul.ksCboxtags li label {
     font-weight: 600;
     border: 1px solid;
     color: #000;
+    transition: 0.2s;
 }
+
 ul.ksCboxtags li label::before {
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
@@ -198,6 +212,8 @@ ul.ksCboxtags li input[type="radio"]:checked + label::before {
     transform: rotate(-360deg);
     transition: transform .3s ease-in-out;
 }
+
+
 ul.ksCboxtags li input[type="radio"]:checked + label {
     border: 2px solid #000000;
     background-color: #000000;

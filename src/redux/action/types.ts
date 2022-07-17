@@ -1,10 +1,10 @@
+// Products
 export const GET_PRODUCTSBYNAME = "GET_PRODUCTSBYNAME";
-
 export const GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY =
   "GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY";
 
+// Purchase
 export const GET_USER_INFORMATION = "GET_USER_INFORMATION";
-
 export const GET_SHOPPINGLIST_BY_USER_ID = "GET_SHOPPINGLIST_BY_USER_ID";
 
 // auth
@@ -16,6 +16,5 @@ export const LOGOUT = "LOGOUT";
 // message
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
-
 // user
 export const UPDATE_USER = "UPDATE_USER";

@@ -27,8 +27,7 @@ function rootReducer(state = initialState, action: any) {
     case "GET_PRODUCTS":
       return {
         ...state,
-        products: action.payload.products,
-        productCart: action.payload.products,
+        ...action.payload,
       };
 
     case "GET_DETAILS":
@@ -64,6 +63,9 @@ function rootReducer(state = initialState, action: any) {
     case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
       return {
         ...state,
+        maxPage: action.payload.maxPage,
+        next: action.payload.next,
+        previous: action.payload.previous,
         productsFiltered: action.payload.products,
       };
 
@@ -75,10 +77,9 @@ function rootReducer(state = initialState, action: any) {
       };
 
     case "ORDER_BY_PRICE":
-      //    return console.log(action.payload)
       return {
         ...state,
-        product: action.payload,
+        products: action.payload,
       };
 
     case GET_USER_INFORMATION:
@@ -106,6 +107,22 @@ function rootReducer(state = initialState, action: any) {
         allUsers: action.payload.users,
       };
 
+    case "ADD_TO_CART":
+      return {
+        ...state,
+        productCart: state.productCart.concat(action.payload),
+      };
+
+    case "ADD_TO_FAVORITES":
+      return {
+        ...state,
+        favorites: state.favorites.concat(action.payload),
+      };
+    case "GET_FAVORITES":
+      return {
+        ...state,
+        favorites: action.payload,
+      };
     default:
       return state;
   }
