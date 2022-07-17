@@ -23,7 +23,7 @@ export default function Purchase() {
     const user = useSelector((state: any) => state.auth.auth.user);
     
     const {id} = user
-    // console.log(id)
+    console.log(user)
  
     useEffect(() => {
         dispatch(getUserInformation(id));
@@ -143,8 +143,9 @@ export default function Purchase() {
                             ?   <></>
                             :   <div>
                                     <p>{`Direction: ${state.userInformation.direction}`}</p>
-                                    <p>{`City: ${"Los Ángeles"} - Country: ${"United States of America"}`}</p>
-                                    <p>{`Telephone numbers: - ${+14243250588}`}</p>
+                                    <p>{`City: ${state.userInformation.city}, ${state.userInformation.state}`}</p>
+                                    <p>{`Country: ${state.userInformation.country}`}</p>
+                                    <p>{`Phone number: +${state.userInformation.numberPhone}`}</p>
                                 </div>
                         }
                         </div>
