@@ -236,8 +236,15 @@ export const deleteFavorite = (payload:any) => async (dispatch: any) => {
   try {
     console.log(payload)
     const json = await axios.delete(`https://vlixes-server.herokuapp.com/favorites?user=${payload.user}&product=${payload.product}`);
-
   } catch (error) {
+    console.log(error);
+  }
+};
+
+export const delteProductShop = () => async () => {
+  try{
+    const response = await axios.delete(``)
+  }catch(error){
     console.log(error);
   }
 };

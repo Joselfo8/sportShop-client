@@ -25,7 +25,6 @@ export default function NavBar(props: any) {
         userDate: store.auth.isLoggedIn ? store.auth.auth.user : []
     }
 })
-console.log(state.userLoged)
   const [value, setValue] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -127,13 +126,16 @@ console.log(state.userLoged)
         <ModalHeader>
           <span style={{cursor:"pointer",paddingLeft:"1.5rem"}} className={styles.modalPop}>Hi {state.userDate.name}!</span>
         </ModalHeader>
-        <ModalBody>
+        <ModalBody style={{display:"flex", justifyContent:"center"}}>
           <Link to="/user/profile"><button className={styles.buttonNav}>Go to settings</button></Link>
+          { state.userDate.role === "admin" ?
+            <Link to="/admin" onClick={togleModal} className={styles.buttonNav}><button className={styles.buttonNav}>Admin</button></Link>
+            : <></>
+          }
           <Link to="/login/logout"><button className={styles.buttonNav}>Logout</button></Link>
         </ModalBody>
       </Modal>
       </div>
-
 
     </div>
   );
