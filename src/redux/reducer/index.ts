@@ -13,7 +13,6 @@ import {
 const initialState: any = {
     products: [],
     productsFiltered: [],
-    searchProducts: [],
     productCart: [],
     details: {},
     userInformation: {},
