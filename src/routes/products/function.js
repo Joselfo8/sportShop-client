@@ -6,7 +6,7 @@ const { getAllSize } = require("../stock/function");
 const products = require(".");
 
 const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
-const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
+const SUBCATEGORY = ["CLOTHES",/* "SHIRT", "PANT", "FOOTWEAR" ,*/ "ACCESSORIES"];
 const ORDERS = ["EXPENSIVE", "CHEAP"];
 
 cloudinary.config({
