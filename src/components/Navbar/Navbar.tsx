@@ -21,6 +21,7 @@ export default function NavBar(props: any) {
   const state = useSelector((store: any) => {
     return {
         products: store.rootReducer.products,
+        userDate: store.auth.auth.user,
         userLoged: store.auth.isLoggedIn
     }
 })
@@ -81,6 +82,7 @@ export default function NavBar(props: any) {
       </ul>
 
       <div className={styles.orderIcons}>
+
         <div className={styles.bodySearch}>
           <form onSubmit={(e) => handleSubmit(e)}>
             <input
@@ -97,7 +99,7 @@ export default function NavBar(props: any) {
 
         <div onClick={() => {state.userLoged && togleModal()}}>
           { state.userLoged ?
-            <img src={user} className={styles.cart} /> :
+            <img src={user} className={styles.cart} style={{cursor:"pointer"}} /> :
             <Link to="/login">
               <img src={user} className={styles.cart} />
             </Link>
@@ -116,15 +118,16 @@ export default function NavBar(props: any) {
         </div>
 
       <Modal
-      size="lg"
       fade={false}
       isOpen={modal}
       toggle={togleModal}
       >
-        <button onClick={togleModal}></button>
-        <ModalHeader>Hola {}!</ModalHeader>
+        <button onClick={togleModal} className={styles.buttonNav} style={{marginLeft:"auto", width:"3rem", backgroundColor:"black",color:"white"}}>X</button>
+        <ModalHeader>
+          <span style={{cursor:"pointer",paddingLeft:"1.5rem"}} className={styles.modalPop}>Hi {state.userDate.name}!</span>
+        </ModalHeader>
         <ModalBody>
-          <Link to="/user/profile">Go to settings</Link>
+          <Link to="/user/profile"><button className={styles.buttonNav}>Go to settings</button></Link>
         </ModalBody>
       </Modal>
       </div>

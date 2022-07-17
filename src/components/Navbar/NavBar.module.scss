@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap');
-
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
 
 .navBar{
     display: flex;
@@ -11,8 +13,15 @@
     height: 60px;
     border-bottom: 1px solid rgb(0, 0, 0);
 }
+
+.modalPop{
+    font-family: $font;
+    font-weight: $weightTitle;
+}
+
 .orderIcons{
-    display: flex;
+    display: grid;
+    grid-template-columns: 2rem 2rem 2rem 2rem;
 }
 .modal{
     position: absolute;
@@ -24,6 +33,7 @@
     text-align: center;
     width: 70vw;
     justify-content: center;
+    padding-top: 1rem;
     margin-right: 2rem;
 }
 
@@ -64,7 +74,7 @@
     width: 0px;
     position: absolute;
     top: 0;
-    right: 0;
+    right: 5px;
     background: none;
     z-index: 3;
     transition: width .4s cubic-bezier(0.000, 0.795, 1.000, 1.000);
@@ -85,8 +95,8 @@
     text-indent: -10000px;
     border: none;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 2px;
+    right: 5px;
     z-index: 2;
     cursor: pointer;
     cursor: pointer;
