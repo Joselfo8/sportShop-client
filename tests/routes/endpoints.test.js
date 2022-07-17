@@ -227,15 +227,15 @@ describe("should get, add  and delete favorites", () => {
   });
 
   it("should delete product to favorites", async () => {
-    const response = await api
-      .delete("/favorites")
-      .send({ product: productData.id, user: userData.id });
+    const response = await api.delete(
+      `/favorites?user=${userData.id}&product=${productData.id}`
+    );
     expect(response.body.list.length).toBe(1);
   });
 
   it("should delete product to favorites", async () => {
     const response = await api
-      .delete("/favorites")
+      .delete(`/favorites?user=${userData.id}&product=${productData2.id}`)
       .send({ product: productData2.id, user: userData.id });
     expect(response.status).toBe(200);
     expect(response.body.list.length).toBe(0);
