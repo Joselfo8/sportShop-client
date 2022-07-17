@@ -3,7 +3,6 @@ const cloudinary = require("cloudinary").v2;
 const { Op } = require("sequelize");
 const { Product } = require("../../db");
 const { getAllSize } = require("../stock/function");
-const { Sequelize } = require("sequelize");
 const products = require(".");
 
 const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
@@ -18,17 +17,45 @@ cloudinary.config({
 
 //post with bulkCreate
 // const products =[{title:"nike polera"},{title:"lacoste polera"}]
-  const bulk = async (req, res) => {
-    try {
-      const products = req.body;
-      await Product.bulkCreate(products);
-      return res.send({ msg: "products added" });
-    } catch (error) {
-      res.status(500).send({ err: error });
-    }
+const bulk = async (req, res) => {
+  //return res.send("<h1>Bulk</h1>");
+  try { 
+    const products = req.body;
+//return res.send(products);
+const productdb = products.forEach(async (e) => {
+  const newProduct = { title : e.title,
+    price : e.price,
+    description : e.description,
+    category : e.category,
+    subCategory : e.subCategory,
+    product_care : e.product_care,
+    image : e.image,
+    rating : e.rating,
+    rating_count: e.rating_count,
   }
+  //console.log(productdb);
+  console.log(newProduct);
+  await Product.create(newProduct);
+  console.log("newProduct Created");
+  return newProduct;
+})
+return res.send(productdb);
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
 
- 
+// get all products
+const getProducts = async (req, res) => {
+  try {
+    const products = await Product.findAll();
+    return res.status(200).json({ products });
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
 
 //post/ product to db
 const postProduct = async (req, res) => {
@@ -315,6 +342,7 @@ module.exports = {
   getProductById,
   deleteProduct,
   putProduct,
+  getProducts,
   //postAllatOnce,
   bulk,
 };
