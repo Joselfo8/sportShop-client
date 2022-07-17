@@ -19,6 +19,7 @@ export default function Cart(){
     },[]);
     let price: number = 0;
     let priceTotal:any = state.products ? state.products.map((e: any) => price = price + e.price) : 0;
+    console.log(state.products)
     const deleteProduct = (idUser:number, idProduct:number) =>{
         dispatch(deleteProductShop(idUser, idProduct))
     };
@@ -31,16 +32,16 @@ export default function Cart(){
             <div className={styles.centralice}>
 
                 <div>
-                { state.products > 0 ?
+                { state.products ?
                     state.products.map((e: any,index:any) =>{
                         return(
                             <div key={index} className={styles.half1}>
                                 <img src={e.image} alt="Not found" style={{width:"100px", height:"100px"}}/>
                                 <div className={styles.info}>
-                                    <div>BRAND:</div>
+                                    <div>BRAND: none</div>
                                     <div>TITLE: {e.title}</div>
-                                    <div>SIZE: {}</div>
-                                    <select>
+                                    <div>SIZE: none</div>
+                                    <select style={{width:"5rem"}}>
                                         <option>1</option>
                                     </select>
                                 </div>

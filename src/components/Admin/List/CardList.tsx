@@ -36,9 +36,12 @@ export default function CardList({title, id, category, image, name, role, type}:
             </div>
 
             <div className={styles.containerButtons}>
-                <Link to={`/editProduct/${id}`} style={{color:"black"}}>
-                    <BsFillPencilFill/>
-                </Link>
+                { type === "PRODUCT" ?
+                    <Link to={`/editProduct/${id}`} style={{color:"black"}}>
+                        <BsFillPencilFill/>
+                    </Link>
+                    : <></>
+                }
                 <FaTrash onClick={() => {handleDelete(id)}} className={styles.buttonX}/>
             </div>
 
