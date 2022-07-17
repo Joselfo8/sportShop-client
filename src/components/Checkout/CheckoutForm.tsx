@@ -32,6 +32,8 @@ export default function CheckoutForm({total, soldProducts, name, email}: any) {
       try {
         //generar una action y un reducer para esta accion
         const {data} = await axios.post('http://localhost:3001/api/checkout', {
+        // const {data} = await axios.post('http://vlixes-server.herokuapp.com/pay', {
+          
           id,
           jsonSoldProducts,
           amount: total*100, 

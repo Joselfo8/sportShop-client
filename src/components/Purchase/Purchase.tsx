@@ -15,7 +15,7 @@ import CheckoutForm from '../Checkout/CheckoutForm';
 // Style
 import style from "./Purchase.module.scss";
 
-const stripePromise = loadStripe("pk_test_51LMEEfF0EVRAGrurDxlJhPto7jrjy8YE3NSvAMQH03qqDvQeRCdnYMumRpaDGr8L0elLLzdLwQy2BkaZ6TIblY6H00xn2C10i2");
+const stripePromise = loadStripe("pk_test_51LKaEAATR7GdGLkc7mu5mssziGvjyttaMQtfXseG4I9kS4EBvdgPLm67UpkkRQ13I1UWUe7JjVUWMalVudbwbkl000KbydKI9L");
 
 export default function Purchase() {
     const dispatch = useDispatch();
