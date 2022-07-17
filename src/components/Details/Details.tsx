@@ -41,14 +41,7 @@ export default function Details(){
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
     const auth: any =useSelector((state:any) => state.auth.auth)
     
-    const product:number=productDetail.id
-    const user: number = auth.user.id  
-
-
-    const payload = {
-      user:user,  ///Para que funcione mientras tanto poner 66
-      product:product
-    }
+   
 
     const navigate = useNavigate()
     const params = useParams()
@@ -80,9 +73,19 @@ export default function Details(){
       if(!isLoggedIn){
         navigate('/login')
       } else {
-        dispatch(addProductToFavorites(payload))
-        return(alert('Product added to favorite successfully'),navigate('/favorites')) 
-      }
+        if(auth){ 
+          const product:number=productDetail.id
+          const user: number = auth.user.id  
+          const payload = {
+            user:user,  ///Para que funcione mientras tanto poner 66
+            product:product
+          }
+            dispatch(addProductToFavorites(payload))
+            return(alert('Product added to favorite successfully'),navigate('/favorites')) 
+          } else {
+            return(alert('Login first'),navigate('/login'))
+          }
+        }
     }
 
     const addToCart = (e:any) => {
@@ -94,7 +97,12 @@ export default function Details(){
         return setErrors('Select your size first')
       } else {
         if(auth){
-          // console.log(user,product)
+          const product:number=productDetail.id
+          const user: number = auth.user.id  
+          const payload = {
+            user:user,  ///Para que funcione mientras tanto poner 66
+            product:product
+          }
           dispatch(addProductToCart(payload))
           return(alert('Product added to cart successfully'),navigate('/cart'))
         }else{
