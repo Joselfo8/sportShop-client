@@ -21,10 +21,11 @@ export default function NavBar(props: any) {
   const state = useSelector((store: any) => {
     return {
         products: store.rootReducer.products,
-        userDate: store.auth.auth.user,
-        userLoged: store.auth.isLoggedIn
+        userLoged: store.auth.isLoggedIn,
+        userDate: store.auth.isLoggedIn ? store.auth.auth.user : []
     }
 })
+console.log(state.userLoged)
   const [value, setValue] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -128,6 +129,7 @@ export default function NavBar(props: any) {
         </ModalHeader>
         <ModalBody>
           <Link to="/user/profile"><button className={styles.buttonNav}>Go to settings</button></Link>
+          <Link to="/login/logout"><button className={styles.buttonNav}>Logout</button></Link>
         </ModalBody>
       </Modal>
       </div>
