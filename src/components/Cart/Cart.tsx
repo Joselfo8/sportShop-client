@@ -6,17 +6,22 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Cart(){
-    const state = useSelector((state:any) => state.rootReducer.productCart);
-    const [productCart, setProductCart] = useState(state);
+    const state = useSelector((store:any) => {
+        return {
+            products: store.rootReducer.productCart,
+            userProducts: store.auth.auth.user
+        }
+    });
+    const [productCart, setProductCart] = useState(state.products);
     let priceCart: number = 0;
-    productCart.map((e: any) => priceCart = priceCart + e.price);
+    state.products.map((e: any) => priceCart = priceCart + e.price);
 
     const deleteProduct = (e:any) =>{
         setProductCart(
             productCart.filter((product: any) => product.id !== e )
         );
     };
-
+    console.log(state.userProducts)
     return (
         <div className={styles.bodyCart}>
             <NavBar />
@@ -34,7 +39,7 @@ export default function Cart(){
                                 <div className={styles.info}>
                                     <div>BRAND:</div>
                                     <div>TITLE: {e.title}</div>
-                                    <div>SIZE:</div>
+                                    <div>SIZE: {}</div>
                                     <select>
                                         <option>1</option>
                                     </select>
