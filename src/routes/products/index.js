@@ -5,7 +5,8 @@ const {
   getProductById,
   deleteProduct,
   putProduct,
-  postAllatOnce,
+ // postAllatOnce,
+  bulk,
 } = require("./function");
 
 //get/products?name&category&subCategory
@@ -24,6 +25,6 @@ router.post("", postProduct);
 router.delete("/:id", deleteProduct);
 
 //postAllatOnce/products/all
-router.post("/all", postAllatOnce);
+router.post("/all", bulk);
 
 module.exports = { products: router };
