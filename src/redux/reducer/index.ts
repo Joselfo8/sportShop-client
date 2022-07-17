@@ -14,7 +14,6 @@ import Products from "../../components/Products/Products";
 const initialState: any = {
     products: [],
     productsFiltered: [],
-    productCart: [],
     details: {},
     userInformation: {},
     shoppinglist: [],
@@ -29,7 +28,6 @@ function rootReducer(state = initialState, action: any){
             return {
               ...state,
               ...action.payload,
-              productCart: action.payload.products,
             };
 
         case "GET_DETAILS":
@@ -123,7 +121,6 @@ function rootReducer(state = initialState, action: any){
                 ...state,
                 favorites: action.payload
             }
- 
         default:
             return state;
     };
