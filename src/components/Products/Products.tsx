@@ -76,7 +76,12 @@ export default function Products() {
       <Filter />
 
         {
-          state.productsFiltered.length === 0 ? <div style={{paddingLeft:"120px"}}>Product Not Found</div> : <></>
+          state.productsFiltered.length === 0
+          ? <div>
+              <h1 style={{paddingRight:"55rem"}}>Product Not Found...</h1>
+              <h2 style={{paddingLeft:"4.3rem",paddingTop:"5rem"}}>Recomended products</h2>
+            </div>
+          : <></>
         }
       <div className={style.cardContainer}>
         {state.productsFiltered.length === 0
