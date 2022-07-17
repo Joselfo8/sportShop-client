@@ -18,14 +18,16 @@ import style from "./Purchase.module.scss";
 const stripePromise = loadStripe("pk_test_51LKaEAATR7GdGLkc7mu5mssziGvjyttaMQtfXseG4I9kS4EBvdgPLm67UpkkRQ13I1UWUe7JjVUWMalVudbwbkl000KbydKI9L");
 
 export default function Purchase() {
-    const user = 26
-
     const dispatch = useDispatch();
     const state = useSelector((state: any) => state.rootReducer);
+    const user = useSelector((state: any) => state.auth.auth.user);
     
+    const {id} = user
+    // console.log(id)
+ 
     useEffect(() => {
-        dispatch(getUserInformation(user));
-        dispatch(getShoppingListByUserId(user));
+        dispatch(getUserInformation(id));
+        dispatch(getShoppingListByUserId(id));
     }, [dispatch]);
 
     const subTotal = state.shoppinglist.length > 0 ? state.shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b) : null
@@ -147,7 +149,6 @@ export default function Purchase() {
                         }
                         </div>
 
-                        
                         <h3 className={style.title}>Shipping</h3>
 
                         <div className={style.textContainer}>

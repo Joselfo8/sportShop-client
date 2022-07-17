@@ -9,27 +9,28 @@ import {
   GET_USER_INFORMATION,
   GET_SHOPPINGLIST_BY_USER_ID,
 } from "../action/types";
+import Products from "../../components/Products/Products";
 
 const initialState: any = {
     products: [],
     productsFiltered: [],
-    searchProducts: [],
     productCart: [],
     details: {},
     userInformation: {},
     shoppinglist: [],
     allUsers: [],
     searchUser: [],
+    favorites: []
 };
 
 function rootReducer(state = initialState, action: any){
     switch(action.type){
-        case "GET_PRODUCTS":
-            return{
-                ...state,
-                products: action.payload.products,
-                productCart: action.payload.products,
-            }
+         case "GET_PRODUCTS":
+            return {
+              ...state,
+              ...action.payload,
+              productCart: action.payload.products,
+            };
 
         case "GET_DETAILS":
             return {
@@ -56,12 +57,15 @@ function rootReducer(state = initialState, action: any){
                 ...state,
                 productsFiltered:action.payload.products,
             }
-
+            
         case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
-            return{
-                ...state,
-                productsFiltered: action.payload.products,
-            }
+            return {
+              ...state,
+              maxPage: action.payload.maxPage,
+              next: action.payload.next,
+              previous: action.payload.previous,
+              productsFiltered: action.payload.products,
+            }; 
 
         case "CLEAN_STORE":
             console.log("desde CLEAN_STORE")
@@ -71,13 +75,12 @@ function rootReducer(state = initialState, action: any){
             }
 
         case "ORDER_BY_PRICE":
-        //    return console.log(action.payload)
-          return {
-            ...state,
-            product: action.payload,    
-          }
-
-
+            return {
+                ...state,
+                products: action.payload, 
+              }
+        
+         
         case GET_USER_INFORMATION:
             return{
                 ...state,
@@ -91,7 +94,7 @@ function rootReducer(state = initialState, action: any){
             }
 
 
-          case "POST_PRODUCT":
+        case "POST_PRODUCT":
             console.log(action.payload)
             return {
                 ...state,
@@ -103,13 +106,27 @@ function rootReducer(state = initialState, action: any){
                 ...state,
                 allUsers: action.payload.users
             }
-
-
+        
+        case "ADD_TO_CART": 
+            return {
+                ...state,
+                productCart: state.productCart.concat(action.payload)
+            }
+        
+        case "ADD_TO_FAVORITES": 
+            return {
+                ...state,
+                favorites: state.favorites.concat(action.payload)
+            }
+        case "GET_FAVORITES":
+            return {
+                ...state,
+                favorites: action.payload
+            }
  
         default:
             return state;
     };
 };
-
 
 export default combineReducers({ auth, message, rootReducer });
