@@ -28,7 +28,7 @@ export default function Orders() {
 
             <div className={style.secondLine}>
               <p>Made on: 04/10/21</p>
-              <button>hide order</button>
+              <button className={style.button}>hide order</button>
             </div>
                       
           </div>
@@ -197,7 +197,7 @@ export default function Orders() {
 
                   <div className={style.textSymple}>
                     <p>Invoice No.: 0001-03715444</p>
-                    <button>Download</button> 
+                    <button className={style.button}>Download</button> 
                   </div>
                   
 

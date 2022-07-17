@@ -37,6 +37,17 @@ $weightParagraph: 100;
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
+            
+            .button {
+                background-color:rgb(200, 52, 52);
+                border: solid 3px rgb(100, 29, 29);
+                border-radius: 7px;
+                color: whitesmoke;
+
+                .button:hover {
+                    background-color: rgb(250, 52, 52);
+                }
+            }
         }
     }
 
@@ -68,7 +79,7 @@ $weightParagraph: 100;
                 background-color: white;
                 display: flex;
                 flex-direction: row;
-                align-items: center;
+                // align-items: center;
                 gap: 20px;
 
                 padding-left: 10px;
@@ -82,7 +93,6 @@ $weightParagraph: 100;
 
     .purchaseContainer {
         background-color:rgb(145, 52, 52);
-        margin-bottom: 10px;
         color: black;
 
         .subtitle {
@@ -179,7 +189,6 @@ $weightParagraph: 100;
             }
 
             .resume {
-                // background-color: bisque;
                 display: grid;
                 grid-template-columns: 30% 69%;
                 grid-template-rows: auto auto auto;
@@ -248,7 +257,8 @@ $weightParagraph: 100;
                 .invoice {
                     // background-color: darkolivegreen;
                     grid-area: 3/1/4/2;
-                    border-bottom: solid 1px rgb(209, 209, 209);
+                    // border-bottom: solid 1px rgb(209, 209, 209);
+                    margin-bottom: 10px;
 
                     .subSubTitle {
                         background-color:rgb(187, 52, 52);
@@ -260,7 +270,19 @@ $weightParagraph: 100;
 
                     .textSymple {
                         margin-left: 10px;
+
+                        .button {
+                            background-color:rgb(200, 52, 52);
+                            border: solid 3px rgb(100, 29, 29);
+                            border-radius: 7px;
+                            color: whitesmoke;
+                        }
+
+                        .button:hover {
+                            background-color: rgb(250, 52, 52);
+                        }
                     }
+
                 }
             }
         }
