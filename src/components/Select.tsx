@@ -38,6 +38,7 @@ function Select({
           return {
             ...props,
             backgroundColor: bg,
+            color: "rgba(255, 255, 255, 1)",
             width: "100%",
             ":active": { backgroundColor: "rgba(51, 51, 51, 0.5)" },
           };
