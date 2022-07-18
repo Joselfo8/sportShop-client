@@ -69,7 +69,7 @@ export function getProductsByCategory(event: any) {
 }
 
 export function getProductsByCategoryAndSubcategory(object: any) {
-  // console.log(object)
+  console.log(object)
   try {
     return async function name(dispatch: any) {
       let json: any = await axios.get(
