@@ -6,10 +6,12 @@ const { getAllSize } = require("../stock/function");
 
 const pagination = require("../../helpers/pagination");
 
-
-
 const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
-const SUBCATEGORY = ["CLOTHES",/* "SHIRT", "PANT",*/ "FOOTWEAR" , "ACCESSORIES"];
+const SUBCATEGORY = [
+  "CLOTHES",
+  /* "SHIRT", "PANT",*/ "FOOTWEAR",
+  "ACCESSORIES",
+];
 const ORDERS = ["EXPENSIVE", "CHEAP"];
 
 cloudinary.config({
@@ -22,43 +24,42 @@ cloudinary.config({
 // const products =[{title:"nike polera"},{title:"lacoste polera"}]
 const bulk = async (req, res) => {
   //return res.send("<h1>Bulk</h1>");
-  try { 
+  try {
     const products = req.body; //array de producto
-//return res.send(products);
-const productdb = products.forEach(async (e) => {
-  const newProduct = { title : e.title,
-    price : e.price,
-    description : e.description,
-    category : e.category,
-    subCategory : e.subCategory,
-    product_care : e.product_care,
-    image : e.image,
-    rating : e.rating,
-    rating_count: e.rating_count,
-  }
-  //console.log(productdb);
-  console.log(newProduct);
-  await Product.create(newProduct);
-  console.log("newProduct Created");
-  return newProduct;
-})
-return res.send(productdb);
-  }
-  catch (err) {
+    //return res.send(products);
+    const productdb = products.forEach(async (e) => {
+      const newProduct = {
+        title: e.title,
+        price: e.price,
+        description: e.description,
+        category: e.category,
+        subCategory: e.subCategory,
+        product_care: e.product_care,
+        image: e.image,
+        rating: e.rating,
+        rating_count: e.rating_count,
+      };
+      //console.log(productdb);
+      console.log(newProduct);
+      await Product.create(newProduct);
+      console.log("newProduct Created");
+      return newProduct;
+    });
+    return res.send(productdb);
+  } catch (err) {
     console.log(err);
   }
-}
+};
 
 // get all products
 const getProducts = async (req, res) => {
   try {
     const products = await Product.findAll();
     return res.status(200).json({ products });
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
   }
-}
+};
 
 //post/ product to db
 const postProduct = async (req, res) => {
@@ -102,7 +103,7 @@ const postProduct = async (req, res) => {
     } else return res.send({ msg: "subCategory is required" });
 
     if (!product_care) return res.send({ msg: "product_care is required" });
-    product_care = product_care.trim();
+    product_care = product_care.toString().trim();
 
     if (image && image.slice(0, 4) !== "http") {
       image = atob(image);
@@ -140,8 +141,7 @@ const postProduct = async (req, res) => {
         msg: err.errors.map((e) => e.message),
       });
     } else {
-      next(new ErrorResponse(`Sorry, could not save ${req.body.name}`, 404));
-      res.send({ msg: "failed to created" });
+      return res.send({ msg: "failed to created" });
     }
   }
 };
