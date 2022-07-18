@@ -27,6 +27,7 @@ const bulk = async (req, res) => {
   try {
     const products = req.body; //array de producto
     //return res.send(products);
+
     const productdb = products.forEach(async (e) => {
       const newProduct = {
         title: e.title,
