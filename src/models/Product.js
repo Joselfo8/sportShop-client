@@ -67,28 +67,28 @@ module.exports = (sequelize) => {
       },
       product_care: {
         type: DataTypes.STRING,
-        validate: {
-          is: {
-            arg: /^\S/,
-            msg: "The product care must not start with blank spaces",
-          },
-          is: {
-            arg: /^[a-zA-Z0-9-_]*$/,
-            msg: "The product care can only contain letters, numbers, hyphens and underscores",
-          },
-        },
+        // validate: {
+        //   is: {
+        //     arg: /^\S/,
+        //     msg: "The product care must not start with blank spaces",
+        //   },
+        //   is: {
+        //     arg: /^[a-zA-Z0-9-_]*$/,
+        //     msg: "The product care can only contain letters, numbers, hyphens and underscores",
+        //   },
+        // },
       },
       image: {
         type: DataTypes.TEXT,
         defaultValue:
           "https://ae01.alicdn.com/kf/HTB19SdxKpXXXXctXXXXq6xXFXXXc/404-folla-Not-Found-T-Shirt-blanco-y-negro-la-ropa-de-moda-t-mujeres-y.jpg_Q90.jpg_.webp",
-        validate: {
-          is: {
-            arg: /^\S/,
-            msg: "The imgage link must not start with blank spaces",
-          },
-          isURL: { arg: true, msg: "the image most be a url link" },
-        },
+        // validate: {
+        //   is: {
+        //     arg: /^\S/,
+        //     msg: "The imgage link must not start with blank spaces",
+        //   },
+        //   isURL: { arg: true, msg: "the image most be a url link" },
+        // },
       },
       rating: {
         type: DataTypes.REAL,

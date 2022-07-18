@@ -3,7 +3,13 @@ const app = require("../../src/app.js");
 
 require("dotenv").config();
 const server = require("../../src/app.js");
-const { conn, User, Product, Shopping_list } = require("../../src/db.js");
+const {
+  conn,
+  User,
+  Product,
+  Shopping_list,
+  Favorite,
+} = require("../../src/db.js");
 const { PORT, NODE_ENV } = process.env;
 
 const api = supertest(app);
@@ -25,7 +31,7 @@ let productData = {
   description: "test",
   price: 100,
   category: "WOMAN",
-  subCategory: "PANT",
+  subCategory: "CLOTHES",
   product_care: "care 1",
 };
 
@@ -35,7 +41,7 @@ let productData2 = {
   description: "test",
   price: 100,
   category: "MAN",
-  subCategory: "PANT",
+  subCategory: "FOOTWEAR",
   product_care: "care 1",
 };
 
@@ -56,7 +62,8 @@ beforeAll(async () => {
   await User.destroy({ where: { email: userData.email } });
   await Product.destroy({ where: { title: productData.title } });
   await Product.destroy({ where: { title: productData2.title } });
-  await Shopping_list.destroy({ where: {} });
+  await Shopping_list.destroy({ where: { product_list: userData.email } });
+  await Favorite.destroy({ where: { name: userData.email } });
 });
 
 describe("health", () => {
@@ -227,15 +234,15 @@ describe("should get, add  and delete favorites", () => {
   });
 
   it("should delete product to favorites", async () => {
-    const response = await api
-      .delete("/favorites")
-      .send({ product: productData.id, user: userData.id });
+    const response = await api.delete(
+      `/favorites?user=${userData.id}&product=${productData.id}`
+    );
     expect(response.body.list.length).toBe(1);
   });
 
   it("should delete product to favorites", async () => {
     const response = await api
-      .delete("/favorites")
+      .delete(`/favorites?user=${userData.id}&product=${productData2.id}`)
       .send({ product: productData2.id, user: userData.id });
     expect(response.status).toBe(200);
     expect(response.body.list.length).toBe(0);
