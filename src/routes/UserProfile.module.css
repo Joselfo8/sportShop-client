@@ -7,7 +7,6 @@
 
 .wrapper {
   width: 100%;
-  display: flex;
 }
 
 /* Sidebar */
@@ -17,7 +16,6 @@
   color: var(--text);
   width: 18rem;
   height: 100%;
-  min-height: 100vh;
   border-right: 1px solid var(--text);
   padding: 1.5rem 0;
   display: flex;
@@ -43,4 +41,11 @@
 
 .sidebar-body {
   width: 100%;
+}
+
+@media only screen and (min-width: 1024px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 18rem auto;
+  }
 }
