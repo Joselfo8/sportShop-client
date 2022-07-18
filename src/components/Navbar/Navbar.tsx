@@ -18,6 +18,7 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default function NavBar(props: any) {
+  const location = useLocation();
   const state = useSelector((store: any) => {
     return {
         products: store.rootReducer.products,
@@ -56,12 +57,16 @@ export default function NavBar(props: any) {
   }
 
   const togleModal = () => setModal(!modal);
-
+console.log(location)
   return (
     <div className={styles.navBar}>
       <Link to="/">
         <img src={logo} className={styles.logo} />
       </Link>
+        { location.pathname === "/admin" ?
+          <Link to="/admin/addProduct"><button className={styles.buttonNav}>Create Product</button></Link>
+          : <></>
+        }
 
       <ul className={styles.navItems}>
         {result.map((e: any) => {
