@@ -12,10 +12,10 @@ export default function Categories(){
                     <div className={style.components}>
                     
                         <div className={style.textContainer}>
-                            <h1 style={{textAlign: "center", fontSize:"50px"}}>Man</h1>
+                            <h1 style={{textAlign: "center", fontSize:"50px"}}>MAN</h1>
                         </div>
 
-                        <Link to='/male' style={{textDecoration:"none"}}>
+                        <Link to='/MAN' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>
@@ -30,10 +30,10 @@ export default function Categories(){
                     <div className={style.components}>
                     
                         <div className={style.textContainer}>
-                            <h1 style={{textAlign: "center", fontSize:"50px"}} >Woman</h1>
+                            <h1 style={{textAlign: "center", fontSize:"50px"}} >WOMAN</h1>
                         </div>
                         
-                        <Link to='/female' style={{textDecoration:"none"}}>
+                        <Link to='/WOMAN' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>
@@ -49,10 +49,10 @@ export default function Categories(){
                     <div className={style.components}>
                     
                         <div className={style.textContainer}>
-                            <h1 style={{textAlign: "center", fontSize:"50px"}} >Kid</h1>
+                            <h1 style={{textAlign: "center", fontSize:"50px"}} >KID</h1>
                         </div>
                         
-                        <Link to='/kid' style={{textDecoration:"none"}}>
+                        <Link to='/KID' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>
