@@ -135,14 +135,7 @@ const postProduct = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    if (err.name === "SequelizeValidationError") {
-      return res.status(400).json({
-        success: false,
-        msg: err.errors.map((e) => e.message),
-      });
-    } else {
-      return res.send({ msg: "failed to created" });
-    }
+    return res.send({ msg: "failed to create product", err: err });
   }
 };
 
