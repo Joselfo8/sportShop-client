@@ -35,4 +35,4 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_APP}} #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           healthcheck: "https://${{secrets.HEROKU_APP}}.herokuapp.com/health"
-          rollbackonhealthcheckfailed: true
+          # rollbackonhealthcheckfailed: true
