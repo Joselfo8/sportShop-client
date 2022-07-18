@@ -3,7 +3,10 @@ const cloudinary = require("cloudinary").v2;
 const { Op } = require("sequelize");
 const { Product } = require("../../db");
 const { getAllSize } = require("../stock/function");
-const products = require(".");
+
+const pagination = require("../../helpers/pagination");
+
+
 
 const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
 const SUBCATEGORY = ["CLOTHES",/* "SHIRT", "PANT",*/ "FOOTWEAR" , "ACCESSORIES"];
@@ -146,7 +149,7 @@ const postProduct = async (req, res) => {
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    let { title, category, subCategory, pag, order } = req.query;
+    let { title, category, subCategory, pag = 1, limit = 5, order } = req.query;
     let where = { where: {} };
 
     //filtramos por contenido del titulo y omitmos mayusculas y minusculas
@@ -188,27 +191,34 @@ const getProductByName = async (req, res, next) => {
       }
     }
     //pagination
-    const maxPag = Math.ceil(filter.length / 6);
+    // const maxPag = Math.ceil(filter.length / 6);
 
-    if (pag) {
-      if (Number.isNaN(parseInt(pag))) {
-        return res.send({ msg: "pag must be a number" });
-      }
-      pag = parseInt(pag);
-      if (pag < 0) {
-        return res.send({ msg: "pag must be a positive number" });
-      }
-      pag = pag - 1;
-      if (pag < 0) pag = 0;
-      filter = filter.slice(pag * 6, (pag + 1) * 6);
-      pag = pag + 1;
-    }
+    // if (pag) {
+    //   if (Number.isNaN(parseInt(pag))) {
+    //     return res.send({ msg: "pag must be a number" });
+    //   }
+    //   pag = parseInt(pag);
+    //   if (pag < 0) {
+    //     return res.send({ msg: "pag must be a positive number" });
+    //   }
+    //   pag = pag - 1;
+    //   if (pag < 0) pag = 0;
+    //   filter = filter.slice(pag * 6, (pag + 1) * 6);
+    //   pag = pag + 1;
+    // }
+
+    // return res.status(200).json({
+    //   msg: "search success",
+    //   products: filter,
+    //   pag,
+    //   maxPag,
+    // });
+
+    const paginated = pagination(filter, limit, pag);
 
     return res.status(200).json({
       msg: "search success",
-      products: filter,
-      pag,
-      maxPag,
+      ...paginated,
     });
   } catch (e) {
     console.log(e);
