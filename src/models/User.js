@@ -8,15 +8,15 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
        // allowNull: false,
         defaultValue: "user",
-        isIn: {
+        /* isIn: {
           args: [["user", "admin"]],
           msg: "Must be user or admin",
-        },
+        }, */
       }, //user or admin
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
+        //allowNull: false,
+        /*  validate: {
           notEmpty: { arg: true, msg: "the name must not be empty" },
           is: { arg: /^\S/, msg: "the name must not start with blank spaces" },
           is: {
@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
             msg: "The title can only contain letters, numbers, hyphens and underscores",
           },
           len: { args: [1, 50], msg: "title must be between 1-50 characters" },
-        },
+        },  */
       },
 
       lastname: {
@@ -35,11 +35,11 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         isUnique: { arg: true, msg: "the email is already in use" },
         allowNull: false,
-        validate: {
+        /* validate: {
           notEmpty: { arg: true, msg: "the email must not be empty" },
           is: { arg: /^\S/, msg: "the email must not start with blank spaces" },
           isEmail: { arg: true, msg: "the email must be a valid email" },
-        },
+        }, */
       },
       password: {
         type: DataTypes.STRING,
