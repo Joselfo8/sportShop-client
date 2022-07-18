@@ -54,7 +54,7 @@ async function postUser(req, res) {
       role,
     } = req.body;
 
-
+console.log(name)
     if (!name || !password || !email) {
       return res
         .status(200)
