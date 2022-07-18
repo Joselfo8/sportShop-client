@@ -59,7 +59,6 @@ const FormProducts = () => {
   //HANDLES
   const handleChangeImage = (e:any) => {
     const file = e.target.files[0]
-    console.log(file)
     if(file && file.type.substr(0,5) === "image") {
         setImage(file)
     } else {
