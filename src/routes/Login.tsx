@@ -167,7 +167,7 @@ function SignUp() {
             pattern: {
               value: passwordRegex,
               message:
-                "Password should have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:",
+                "Password should have minimum ten characters, at least one uppercase letter, one lowercase letter, one number and one special character:",
             },
           }}
         />
