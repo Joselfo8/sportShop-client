@@ -105,7 +105,7 @@ export const orderByPrice = (order: any) => async(dispatch: any) => {
 export const addProduct = (payload:any) => async (dispatch: any) => {
   try {
     const json: any = await axios.post("https://vlixes-server.herokuapp.com/products",payload);
-    // console.log(json.data)
+    console.log(json.data)
     return dispatch({ type: "POST_PRODUCT", payload: json.data });
   } catch (error) {
     console.log(error);
@@ -197,7 +197,7 @@ export const editProduct = ( payload: any) => async (dispatch: any) => {
     try {
       const json: any = await axios.put(`https://vlixes-server.herokuapp.com/products/`, payload);
       console.log(json)
-      dispatch(getProducts());
+      // dispatch(getProducts());
     } catch (error) {
       console.log(error);
     }

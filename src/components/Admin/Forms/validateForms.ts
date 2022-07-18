@@ -1,5 +1,5 @@
 const CATEGORY = ["MAN", "WOMAN", "SPORTS", "KID"];
-const SUBCATEGORY = ["SHIRT", "PANT", "FOOTWEAR", "ACCESSORIES"];
+const SUBCATEGORY = ["CLOTHES","FOOTWEAR","ACCESSORIES"];
 
 export default  function validateProducts(input:any):any{
 
@@ -76,7 +76,7 @@ export default  function validateProducts(input:any):any{
     } else if(!REsymbol.test(input.subCategory)){
         errors.subCategory = errorSymbol
     } else if(!SUBCATEGORY.includes(input.subCategory.toUpperCase())){
-        errors.subCategory = 'Sub-category is invalid. Only SHIRT,PANT,FOOTWEAR AND ACCESORIES'
+        errors.subCategory = 'Sub-category is invalid. Only CLOTHES,FOOTWEAR AND ACCESORIES'
     }
 
 
