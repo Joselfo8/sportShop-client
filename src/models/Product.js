@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
         // }
       },
       description: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(800),
         allowNull: false,
         validate: {
           notEmpty: { arg: true, msg: "the description must have a category" },
@@ -40,11 +40,11 @@ module.exports = (sequelize) => {
             args: [1, 800],
             msg: "the description must be between 1-800 characters",
           },
-          is: { arg: /^\S/, msg: "The title must not start with blank spaces" },
-          is: {
-            arg: /^[a-zA-Z0-9-_]*$/,
-            msg: "The category can only contain letters, numbers, hyphens and underscores",
-          },
+          // is: { arg: /^\S/, msg: "The title must not start with blank spaces" },
+          // is: {
+          //   arg: /^[a-zA-Z0-9-_]*$/,
+          //   msg: "The category can only contain letters, numbers, hyphens and underscores",
+          // },
         },
       },
       category: {
