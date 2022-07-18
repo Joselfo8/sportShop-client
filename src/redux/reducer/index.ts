@@ -18,6 +18,7 @@ const initialState: any = {
   details: {},
   userInformation: {},
   shoppinglist: [],
+  favorites: [],
   allUsers: [],
   searchUser: [],
 };
