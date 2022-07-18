@@ -22,6 +22,7 @@ export default function Orders() {
 
             <div className={style.firstLine}>
               <b>Order No. 217778232</b>
+              <p>User id: 10</p>
               <p>Quantity: <b>4 products</b></p>
               <p>Order Total:<b>$ 157.135</b></p>
             </div>
@@ -130,7 +131,7 @@ export default function Orders() {
                   </div>
 
                   <div className={style.Subtotal}>
-                    <p>$ 59.900</p>
+                    <p>$ 59.9</p>
                   </div>
 
                 </div>
@@ -181,7 +182,7 @@ export default function Orders() {
                   </div>
 
                   <div className={style.textSymple}>
-                    <p>Recipient name:</p>
+                    <p>Recipient name: Camilo Perez</p>
                     <p>150 East 58th St., 30th Floor</p>
                     <p>Manhattan, New York.</p>  
                     <p>United States</p>
