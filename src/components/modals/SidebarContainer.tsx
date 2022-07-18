@@ -22,21 +22,16 @@ function SidebarContainer({ children }: Props) {
 
   return (
     // container
-    <div
-      ref={containerRef}
-      className={`${styles["container"]} secondary transition-all`}
-    >
+    <div ref={containerRef} className={`${styles["container"]} transition-all`}>
       {/* content */}
-      <div className={styles["content"]}>
-        {children}
-        <span onClick={handleShow} className={`${styles["menu-button"]} dark`}>
-          {iconToggle ? (
-            <ErrorIcon className="primary" />
-          ) : (
-            <MenuIcon className="primary" />
-          )}
-        </span>
-      </div>
+      {children}
+      <span onClick={handleShow} className={`${styles["menu-button"]} primary`}>
+        {iconToggle ? (
+          <ErrorIcon className="secondary" />
+        ) : (
+          <MenuIcon className="secondary" />
+        )}
+      </span>
     </div>
   );
 }

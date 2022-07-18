@@ -5,9 +5,11 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  UPDATE_USER,
 } from "./types";
 import { setMessage } from "./message";
 import AuthService from "../../services/auth.service";
+import UserService from "../../services/user.service";
 
 export async function register(
   name: string,
@@ -82,3 +84,34 @@ export const logout = () => (dispatch: any) => {
     type: LOGOUT,
   });
 };
+
+interface UpdateUserInfo {
+  name: string;
+  lastname: string;
+  email: string;
+  dateOfBirth: string;
+  genre: string;
+}
+
+export function updateUser(info: UpdateUserInfo) {
+  return async (dispatch: any) => {
+    const userId = 41;
+    const response = await UserService.updateUser(userId, info);
+
+    if (!response.data.user) {
+      const message = response.data?.msg || "Login fail";
+      toast(message);
+
+      return Promise.reject(message);
+    }
+    const message = response.data?.msg || "Login successful";
+
+    dispatch({
+      type: UPDATE_USER,
+    });
+
+    toast(message);
+
+    return Promise.resolve(message);
+  };
+}

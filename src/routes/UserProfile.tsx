@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 // Components
 import Tabs from "../components/Tabs";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import SidebarContainer from "../components/modals/SidebarContainer";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 // Icons
 import { ReactComponent as DefaultUser } from "../icons/default-user.svg";
 // Styles
@@ -10,7 +14,7 @@ import styles from "./UserProfile.module.css";
 
 function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
   return (
-    <div className={`${styles["sidebar"]} dark`}>
+    <div className={`${styles["sidebar"]} secondary`}>
       <div className={styles["user-image-cont"]}>
         <DefaultUser className={styles["user-image"]} />
         {/* <img */}
@@ -31,13 +35,21 @@ function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
 
 function UserProfile() {
   const [selectedTab, setSelectedTab] = useState("");
+  // Store
+  const { isLoggedIn } = useSelector((state: any) => state.auth);
+
+  if (!isLoggedIn) return <Navigate to="/login" />;
 
   return (
     <div className={`${styles["container"]} secondary`}>
-      <SidebarContainer>
-        <Sidebar getSelected={setSelectedTab} />
-      </SidebarContainer>
-      <ProfileCard selected={selectedTab} />
+      <Navbar />
+      <div className={styles["wrapper"]}>
+        <SidebarContainer>
+          <Sidebar getSelected={setSelectedTab} />
+        </SidebarContainer>
+        <ProfileCard selected={selectedTab} />
+      </div>
+      <Footer />
     </div>
   );
 }

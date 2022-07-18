@@ -4,6 +4,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  UPDATE_USER,
 } from "../action/types";
 const response = localStorage.getItem("auth");
 const data = response !== null && JSON.parse(response);
@@ -43,6 +44,11 @@ function auth(state = initialState, action: any) {
         ...state,
         isLoggedIn: false,
         auth: null,
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        "auth.user": payload,
       };
     default:
       return state;
