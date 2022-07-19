@@ -101,13 +101,13 @@ function Addresses({
   );
 }
 
-function Info({ name, lastname, email, dateOfBirth, genre }: Data) {
+function Info({ id, data }: Data) {
   const [showModal, setShowModal] = useState(false);
   // store
   const dispatch = useDispatch();
 
-  const onSubmit = (data: Data) => {
-    const response = updateUser(data);
+  const onSubmit = (data: Data["data"]) => {
+    const response = updateUser(id, data);
     dispatch(response);
   };
 
@@ -125,31 +125,31 @@ function Info({ name, lastname, email, dateOfBirth, genre }: Data) {
       <div className={styles["info-wrapper"]}>
         <div className={styles["info"]}>
           <span>Name:</span>
-          <span>{name}</span>
+          <span>{data.name}</span>
         </div>
         <div className={styles["info"]}>
           <span>Last name:</span>
-          <span>{lastname}</span>
+          <span>{data.lastname}</span>
         </div>
         <div className={styles["info"]}>
           <span>Email:</span>
-          <span>{email}</span>
+          <span>{data.email}</span>
         </div>
         <div className={styles["info"]}>
           <span>Birthdate:</span>
-          <span>{dateOfBirth}</span>
+          <span>{data.dateOfBirth}</span>
         </div>
         <div className={styles["info"]}>
           <span>Genre:</span>
-          <span>{genre}</span>
+          <span>{data.genre}</span>
         </div>
       </div>
       {showModal && (
         <ModalContainer show={showModal} onShow={setShowModal}>
           <InfoEditor
             onClose={() => setShowModal(false)}
-            saveChange={(data: Data) => onSubmit(data)}
-            data={{ name, lastname, email, dateOfBirth, genre }}
+            saveChange={(data: Data["data"]) => onSubmit(data)}
+            data={data}
           />
         </ModalContainer>
       )}
@@ -158,23 +158,20 @@ function Info({ name, lastname, email, dateOfBirth, genre }: Data) {
 }
 
 interface Data {
-  name: string;
-  lastname: string;
-  email: string;
-  dateOfBirth: string;
-  genre: string;
+  id: number;
+  data: {
+    name: string;
+    lastname: string;
+    email: string;
+    dateOfBirth: string;
+    genre: string;
+  };
 }
 
 function UserInfo() {
   // store
   const auth = useSelector((state: any) => state.auth.auth);
-  const user = {
-    name: auth.user.name,
-    lastname: auth.user.lastname,
-    dateOfBirth: auth.user.dateOfBirth,
-    genre: auth.user.genre,
-    email: auth.user.email,
-  };
+  const { id, ...data } = auth.user;
   const shippingAddress = {
     name: auth.user.name,
     address: auth.user.direction,
@@ -187,7 +184,7 @@ function UserInfo() {
 
   return (
     <>
-      <Info {...user} />
+      <Info id={id} data={data} />
       <Addresses {...shippingAddress} />
     </>
   );

@@ -48,7 +48,10 @@ function auth(state = initialState, action: any) {
     case UPDATE_USER:
       return {
         ...state,
-        "auth.user": payload,
+        auth: {
+          ...state.auth,
+          user: payload,
+        },
       };
     default:
       return state;

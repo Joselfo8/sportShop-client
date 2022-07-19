@@ -57,7 +57,7 @@ export default function NavBar(props: any) {
   }
 
   const togleModal = () => setModal(!modal);
-console.log(location)
+// console.log(location)
   return (
     <div className={styles.navBar}>
       <Link to="/">

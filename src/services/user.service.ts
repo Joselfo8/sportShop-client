@@ -2,7 +2,7 @@ import axios from "axios";
 import authHeader from "./auth-header";
 const API_URL = process.env.REACT_APP_API_URL;
 
-interface UpdateUserInfo {
+interface UpdateUserData {
   name: string;
   lastname: string;
   email: string;
@@ -10,9 +10,9 @@ interface UpdateUserInfo {
   genre: string;
 }
 
-async function updateUser(userId: number, info: UpdateUserInfo) {
+async function updateUser(userId: number, data: UpdateUserData) {
   // return await axios.put(API_URL + "/users", { ...info }, { headers: authHeader() });
-  return await axios.put(API_URL + "/users", { id: userId, ...info });
+  return await axios.put(API_URL + "/users", { id: userId, ...data });
 }
 
 function getPublicContent() {
