@@ -41,11 +41,11 @@ async function postUser(req, res) {
   try {
     const {
       name,
-     lastname,
+      lastname,
       password,
       email,
-     genre,
-     dateOfBirth,
+      genre,
+      dateOfBirth,
       direction,
       country,
       state,
@@ -54,12 +54,11 @@ async function postUser(req, res) {
       role,
     } = req.body;
 
-console.log(name)
+    console.log(name);
     if (!name || !password || !email) {
       return res
         .status(200)
         .json({ msg: "fields (name, password and email) are required" });
-
     }
     let userExists = await User.findOne({ where: { email: email } });
     if (userExists) {
@@ -113,84 +112,34 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
+  const id = req.params.id;
+
   try {
-    const {
-      id,
-      name,
-      lastname,
-      password,
-      email,
-      dateOfBirth,
-      direction,
-      country,
-      state,
-      city,
-      numberPhone,
-      role,
-    } = req.body;
-    if (!id) {
-      return res.status(200).json({ msg: "id_user is required" });
-    }
+    const { password, email, ...data } = req.body;
 
-    if (Number.isNaN(parseInt(id))) {
-      return res.status(200).json({ msg: "id isn´t number" });
-    }
+    // get user by id
     let user = await User.findOne({ where: { id: id } });
-    if (!user) {
-      return res.status(200).json({ msg: "User not found" });
-    }
 
-    if (name) {
-      user.name = name;
-    }
-    if (lastname) {
-      user.lastname = lastname;
-    }
-    if (role && rols.includes(role)) {
-      user.role = role;
-    }
-    if (email && email !== user.email) {
-      let usuarioExiste = await User.findOne({ where: { email: email } });
-      if (usuarioExiste) {
-        return res.status(200).json({ msg: "Email already register" });
-      }
-    }
+    if (!user) return res.status(200).json({ msg: "User not found" });
 
-    if (password) {
-      user.password = password;
-    }
-    if (dateOfBirth) {
-      user.dateOfBirth = dateOfBirth;
-    }
-    if (direction) {
-      user.direction = direction;
-    }
-    if (country) {
-      user.country = country;
-    }
-    if (state) {
-      user.state = state;
-    }
-    if (city) {
-      user.city = city;
-    }
-    if (numberPhone) {
-      user.numberPhone = numberPhone;
-    }
+    // email can't be update
+    if (email) return res.status(200).json({ msg: "Email can't be update" });
 
-    // if (role) {
-    //   if (!rols.includes(role)) {
-    //     return res
-    //       .status(200)
-    //       .json({ msg: "role is required & most be user or admin" });
-    //   }
-    //   user.role = role;
-    // }
+    // password can't be update
+    if (password)
+      return res.status(200).json({ msg: "Password can't be update" });
+
+    user.set(data);
+
     await user.save();
-    res.status(200).json({ msg: "User updated", user: user });
+
+    // send all values, less password
+    const { password: _1, ...response } = user.dataValues;
+
+    res.status(200).json({ msg: "User updated", data: response });
   } catch (error) {
-    console.log("error", error);
-    res.status(200).json({ msg: "Failed to update user" });
+    res.status(200).json({ msg: error.message });
+    // res.status(200).json({ msg: "Failed to update user" });
   }
 }
 
@@ -239,6 +188,7 @@ async function loginUser(req, res) {
     res.send({ msg: "the password or email is incorrect", access: false });
   }
 }
+
 async function logOut(req, res) {
   try {
     const { token } = req.body;

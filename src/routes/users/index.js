@@ -13,7 +13,7 @@ const { checkRules } = require("../../helpers/Token");
 
 router.get("", getAllUser);
 router.post("", postUser);
-router.put("", putUser);
+router.put("/:id", putUser);
 
 router.post("/login", loginUser);
 
