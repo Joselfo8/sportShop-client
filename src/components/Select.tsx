@@ -2,15 +2,15 @@ import ReactSelect from "react-select";
 
 function Select({
   options,
-  placeholder,
-  defaultValue = { label: "", value: "" },
+  placeholder = "",
+  defaultValue = null,
   onChange,
   width = "8rem",
   margin = "0",
 }: {
   options: Array<{ value: string; label: string }>;
   placeholder?: string;
-  defaultValue?: { label: string; value: string };
+  defaultValue?: { label: string; value: string } | null;
   onChange?: (newValue: { label: string; value: string } | null) => void;
   width?: string;
   margin?: string;
@@ -49,10 +49,7 @@ function Select({
           borderRadius: "0.2rem",
         }),
       }}
-      options={options}
-      placeholder={placeholder}
-      defaultValue={defaultValue}
-      onChange={onChange}
+      {...{ options, defaultValue, placeholder, onChange }}
     />
   );
 }

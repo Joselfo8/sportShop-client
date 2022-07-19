@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 // Components
 import Input from "../Input";
+import Select from "../Select";
 // Styles
 import styles from "./AddressEditor.module.css";
 
@@ -21,10 +23,18 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
     defaultValues: data,
     mode: "onChange",
   });
+  const genreSelect = [
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
+  ];
+  const [genre, setGenre] = useState<{ label: string; value: string } | null>({
+    label: "",
+    value: "",
+  });
 
   // send data to api
   const onSubmit = (data: Props["data"]) => {
-    saveChange(data);
+    saveChange({ ...data, genre: genre?.value || data.genre });
     onClose();
   };
 
@@ -44,7 +54,16 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
           <Input control={control} name="dateOfBirth" label="Birthdate" />
         </div>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="genre" label="Genre" />
+          <label className={styles["label"]}>
+            <span className={styles["label-title"]}>Genre</span>
+            <Select
+              options={genreSelect}
+              placeholder="Select genre"
+              width="10rem"
+              defaultValue={data.genre !== null ? { label: data.genre, value: data.genre } : null}
+              onChange={(data) => setGenre(data)}
+            />
+          </label>
         </div>
         <div className={styles["button-cont"]}>
           <button className={`${styles["submit-button"]} primary`}>
