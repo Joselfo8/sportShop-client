@@ -57,7 +57,7 @@ module.exports = (sequelize) => {
         //   is: { arg: /^[a-zA-Z0-9-_]*$/, msg: "The category can only contain letters, numbers, hyphens and underscores" }// validamos que la categoria solo puede contener letras, numeros, guiones y guion bajo
         // },
       },
-      subCategory: {
+      sub_category: {
         type: DataTypes.STRING,
         // validate: {
         //   len: { args: [1, 50], msg: "SubCategory must be between 1-50 characters" },
