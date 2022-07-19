@@ -143,7 +143,7 @@ const postProduct = async (req, res) => {
 //get product By name
 const getProductByName = async (req, res, next) => {
   try {
-    let { title, category, subCategory, pag = 1, limit = 5, order } = req.query;
+    let { title, category, subCategory, pag, limit, order } = req.query;
     let where = { where: {} };
 
     //filtramos por contenido del titulo y omitmos mayusculas y minusculas
@@ -173,10 +173,10 @@ const getProductByName = async (req, res, next) => {
       if (!ORDERS.includes(order.toUpperCase()))
         return res.send({ msg: `order ${order} is invalid` });
       switch (order.toUpperCase()) {
-        case "EXPENSIVE":
+        case ORDERS[0]:
           filter = filter.sort((a, b) => b.price - a.price);
           break;
-        case "CHEAP":
+        case ORDERS[1]:
           filter = filter.sort((a, b) => a.price - b.price);
           break;
         default:
@@ -184,36 +184,20 @@ const getProductByName = async (req, res, next) => {
           break;
       }
     }
-    //pagination
-    // const maxPag = Math.ceil(filter.length / 6);
+    //paginacion
+    if (pag && limit) {
+      filter = pagination(filter, limit, pag);
 
-    // if (pag) {
-    //   if (Number.isNaN(parseInt(pag))) {
-    //     return res.send({ msg: "pag must be a number" });
-    //   }
-    //   pag = parseInt(pag);
-    //   if (pag < 0) {
-    //     return res.send({ msg: "pag must be a positive number" });
-    //   }
-    //   pag = pag - 1;
-    //   if (pag < 0) pag = 0;
-    //   filter = filter.slice(pag * 6, (pag + 1) * 6);
-    //   pag = pag + 1;
-    // }
-
-    // return res.status(200).json({
-    //   msg: "search success",
-    //   products: filter,
-    //   pag,
-    //   maxPag,
-    // });
-
-    const paginated = pagination(filter, limit, pag);
-
-    return res.status(200).json({
-      msg: "search success",
-      ...paginated,
-    });
+      return res.status(200).json({
+        msg: "search success",
+        ...filter,
+      });
+    } else {
+      return res.status(200).json({
+        msg: "search success",
+        products: filter,
+      });
+    }
   } catch (e) {
     console.log(e);
     res.status(500).send({ err: e });
