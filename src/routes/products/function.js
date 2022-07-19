@@ -34,7 +34,7 @@ const bulk = async (req, res) => {
         price: e.price,
         description: e.description,
         category: e.category,
-        subCategory: e.subCategory,
+        sub_category: e.subCategory,
         product_care: e.product_care,
         image: e.image,
         rating: e.rating,
@@ -125,7 +125,7 @@ const postProduct = async (req, res) => {
       price,
       description,
       category,
-      subCategory,
+      sub_category: subCategory,
       product_care,
       image,
     });
@@ -270,7 +270,7 @@ const putProduct = async (req, res) => {
     }
     if (subCategory) {
       subCategory = subCategory.trim();
-      producto.subCategory = subCategory;
+      producto.sub_category = subCategory;
     }
 
     if (product_care) {
