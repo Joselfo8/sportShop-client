@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import PhoneInput from "react-phone-input-2";
 // Components
 import Input from "../Input";
 // Styles
 import styles from "./AddressEditor.module.css";
+import "react-phone-input-2/lib/style.css";
 
 interface Props {
   data: {
@@ -24,9 +26,10 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
     defaultValues: data,
     mode: "onChange",
   });
+  const [phone, setPhone] = useState("");
   // send data to api
   const onSubmit = (data: Props["data"]) => {
-    saveChange(data);
+    saveChange({ ...data, phone });
     onClose();
   };
 
@@ -56,7 +59,14 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
           <Input control={control} name="zipCode" label="Zip code" />
         </div>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="phone" label="Phone" />
+          <label className={styles["label"]}>
+            <span className={styles["label-title"]}>Phone</span>
+            <PhoneInput
+              placeholder="Your phone number..."
+              value={phone ? phone : data.phone}
+              onChange={(data) => setPhone(data)}
+            />
+          </label>
         </div>
         <div className={styles["button-cont"]}>
           <button className={`${styles["submit-button"]} primary`}>
