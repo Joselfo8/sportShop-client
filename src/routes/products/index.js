@@ -5,11 +5,14 @@ const {
   getProductById,
   deleteProduct,
   putProduct,
- // postAllatOnce,
- bulk,
- getProducts,
+  // postAllatOnce,
+  bulk,
+  getProducts,
+  getCategory,
 } = require("./function");
 
+//get categories
+router.get("/category", getCategory);
 //get/products
 router.get("/getall", getProducts);
 //get/products?name&category&subCategory
@@ -28,6 +31,5 @@ router.post("", postProduct);
 
 //delete/products/:id
 router.delete("/:id", deleteProduct);
-
 
 module.exports = { products: router };

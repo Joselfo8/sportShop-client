@@ -1,7 +1,7 @@
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 const { Op } = require("sequelize");
-const { Product } = require("../../db");
+const { Product, conn } = require("../../db");
 const { getAllSize } = require("../stock/function");
 
 const pagination = require("../../helpers/pagination");
@@ -324,6 +324,20 @@ const deleteProduct = async (req, res, next) => {
   }
 };
 
+const getCategory = async (req, res) => {
+  try {
+    const categories = await conn.query(
+      "select sub_category,category, count(category) as cantidad from products group by  category,sub_category"
+    );
+    return res.status(200).json({
+      msg: "categories found",
+      categories: categories[0],
+    });
+  } catch (err) {
+    console.log();
+  }
+};
+
 module.exports = {
   postProduct,
   getProductByName,
@@ -333,4 +347,5 @@ module.exports = {
   getProducts,
   //postAllatOnce,
   bulk,
+  getCategory,
 };
