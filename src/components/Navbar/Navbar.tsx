@@ -57,6 +57,7 @@ export default function NavBar(props: any) {
   }
 
   const togleModal = () => setModal(!modal);
+
   return (
     <div className={styles.navBar}>
       <Link to="/">
@@ -111,12 +112,12 @@ export default function NavBar(props: any) {
         </div>
 
         <div>
-        <Link to="/favorites">
+        <Link to={state.userLoged ? "/favorites" : "/login"}>
           <img src={heart} className={styles.heart} />
         </Link>
         </div>
         <div>
-        <Link to="/cart">
+        <Link to={state.userLoged ? "/cart" : "/login"}>
           <img src={cart} className={styles.cart} />
         </Link>
         </div>
