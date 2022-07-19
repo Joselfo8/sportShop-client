@@ -19,9 +19,8 @@ export default function Cart(){
     },[]);
     let price: number = 0;
     let priceTotal:any = state.products ? state.products.map((e: any) => price = price + e.price) : 0;
-    console.log(state.products)
     const deleteProduct = (idUser:number, idProduct:number) =>{
-        dispatch(deleteProductShop(idUser, idProduct))
+        dispatch(deleteProductShop(idUser, idProduct));
     };
     return (
         <div className={styles.bodyCart}>
@@ -71,5 +70,5 @@ export default function Cart(){
             </form>
 
         </div>
-    )
-}
+    );
+};
