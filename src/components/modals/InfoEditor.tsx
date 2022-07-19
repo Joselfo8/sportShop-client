@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import DatePicker from "react-date-picker";
 // Components
 import Input from "../Input";
 import Select from "../Select";
@@ -31,6 +32,7 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
     label: "",
     value: "",
   });
+  const [date, setDate] = useState(new Date());
 
   // send data to api
   const onSubmit = (data: Props["data"]) => {
@@ -51,7 +53,10 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
           <Input control={control} name="email" label="Email" />
         </div>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="dateOfBirth" label="Birthdate" />
+          <label className={styles["label"]}>
+            <span className={styles["label-title"]}>Birthdate</span>
+            <DatePicker onChange={setDate} value={date} />
+          </label>
         </div>
         <div className={styles["wrapper"]}>
           <label className={styles["label"]}>
@@ -60,7 +65,11 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
               options={genreSelect}
               placeholder="Select genre"
               width="10rem"
-              defaultValue={data.genre !== null ? { label: data.genre, value: data.genre } : null}
+              defaultValue={
+                data.genre !== null
+                  ? { label: data.genre, value: data.genre }
+                  : null
+              }
               onChange={(data) => setGenre(data)}
             />
           </label>
