@@ -33,6 +33,10 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
     onClose();
   };
 
+  useEffect(() => {
+    if (phone.length === 0) setPhone(data.phone);
+  }, [data]);
+
   return (
     <div className={styles["container"]}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -63,7 +67,7 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
             <span className={styles["label-title"]}>Phone</span>
             <PhoneInput
               placeholder="Your phone number..."
-              value={phone ? phone : data.phone}
+              value={phone}
               onChange={(data) => setPhone(data)}
             />
           </label>

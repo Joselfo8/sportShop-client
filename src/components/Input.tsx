@@ -16,7 +16,11 @@ function Input({ label, type, ...props }: UseControllerProps & Props) {
   return (
     <label className={`${styles["label"]}`}>
       <span className={styles["title"]}>{label}</span>
-      <input {...field} type={type} className={styles["input"]} />
+      <input
+        {...{ ...field, value: field.value ? field.value : "" }}
+        type={type}
+        className={styles["input"]}
+      />
       <span
         className={`${styles["description"]} ${
           error ? styles["error-message"] : ""
