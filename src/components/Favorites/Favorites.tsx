@@ -1,12 +1,11 @@
 import  { useEffect } from 'react'
 import NavBar from '../Navbar/Navbar'
 import styles from './Favorites.module.scss'
-import camiseta from './camiseta.jpg'
 import { Link, useNavigate } from 'react-router-dom'
-import cart from '../../assets/cart.png';
 import { useDispatch, useSelector } from 'react-redux'
 import { addProductToCart, deleteFavorite, getFavorites } from '../../redux/action'
 import Footer from '../Footer/Footer'
+import { FiShoppingCart } from "react-icons/fi";
 
 
 export default function Favorites(){
@@ -47,7 +46,7 @@ export default function Favorites(){
 
     useEffect(() => {
         dispatch(getFavorites(userID))
-    },[favorites])
+    },[])
     
   return (
     <div >
@@ -64,22 +63,23 @@ export default function Favorites(){
                 
                     <div className={styles.gridLayout}>
 
-                        <div className={styles.col1}>
+                        <div className={styles.row1}>
                             <img src={f.image} alt='cargando' className={styles.imgProduct}/>
-                            <p>Price: ${f.price}</p>
-                            <p>Name: {f.title}</p>
+                            <hr></hr>
+                            <p>Price: <span>${f.price}</span></p>
+                            <p>Name:  <span>{f.title}</span> </p>
                             {/* <p className={styles.cantidad}>Cantidad</p>
                             <input type='text'></input> */}
                             <Link to='/cart' className={styles.link}>
                                 <button value={f.id} onClick={(e) => addToCart(e)} >
-                                    <img src={cart} alt='' className={styles.icon} />
+                                    <FiShoppingCart/>  
                                     ADD TO CART
                                 </button>     
                             </Link>                                           
                         </div>
                             
 
-                        <div className={styles.col2}>    
+                        <div className={styles.row2}>    
                             <button  onClick={(e)=>handleDelete(e,payload)}>Delete »</button>
                                 <Link to = {`/products/${f.id}`}>
                                     <button>Details »</button>
