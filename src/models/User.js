@@ -4,6 +4,10 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
+      googleId:{
+        type: DataTypes.STRING,
+
+      },
       role: {
         type: DataTypes.STRING,
        // allowNull: false,

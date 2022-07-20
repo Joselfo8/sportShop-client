@@ -1,4 +1,4 @@
-const router = require("express").Router();
+/* const router = require("express").Router();
 const {
     deleteStock, getStockById,addStock, getStock }= require("./function");
 
@@ -14,4 +14,4 @@ router.get("/",getStock);
 //delete/stock_item/:id
 router.delete("/:item_id",deleteStock)
 
-module.exports = { stock: router };
+module.exports = { stock: router }; */

@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+/* const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
@@ -14,19 +14,19 @@ module.exports = (sequelize) => {
             arg: /^[a-zA-Z0-9-_]*$/,
             msg: "The size can only contain letters, numbers, hyphens and underscores",
           },
-        }, */
+        }, 
       },
       quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        /* validate: {
+         validate: {
           isNumeric: { args: true, msg: "cantidad must be numerico positivo" },
-          /* is: {
+           is: {
             arg: /^\S/,
             msg: "The cantidad must not start with blank spaces",
           },
-        }, */
+        }, 
       },
       item_id: {
         type: DataTypes.INTEGER,
@@ -41,3 +41,4 @@ module.exports = (sequelize) => {
     }
   );
 };
+ */

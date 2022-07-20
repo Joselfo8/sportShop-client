@@ -1,4 +1,4 @@
-const { User, Shopping_list, Product } = require("../../db");
+/* const { User, Shopping_list, Product,Stock } = require("../../db");
 
 const get_item = async (req, res) => {
   try {
@@ -52,10 +52,11 @@ const delete_item = async (req, res) => {
     //existencia de producto
     let productObj = await Product.findOne({ where: { id: product } });
     if (!productObj) return res.send({ msg: "product not found" });
-
+    
     const list = await userObj.getShopping_list();
 
     await list.removeProduct(productObj);
+    
     const new_list = await list.getProducts();
     res.status(201).send({ msg: "item deleted", list: new_list });
   } catch (e) {
@@ -80,7 +81,7 @@ const destroy_trolly = async (req, res) => {
     res.send(e);
   }
 };
-
+//////////////////////////////////////////
 const add_item = async (req, res) => {
   try {
     const { user } = req.body;
@@ -102,8 +103,14 @@ const add_item = async (req, res) => {
     //existencia de producto
     const item_to_add = await Product.findOne({ where: { id: product } });
     if (!item_to_add) return res.send({ msg: "product not found" });
+    //get form Stock
+    //let stockProduct = await Stock.findOne({ where: { productId: item_id }
+    // } );
+    //if (!stockProduct) return res.send({ msg: "product not found" });
+    //console.log(stockProduct);
 
     const list = await userObj.getShopping_list();
+    //console.log(list.product_list);
     await list.addProduct(item_to_add);
     let new_list = await list.getProducts();
     new_list = new_list.map((e) => {
@@ -112,6 +119,8 @@ const add_item = async (req, res) => {
         title: e.title,
         price: e.price,
         image: e.image,
+        quantity: e.quantity,
+        size : e.size,
         shoppingListId: e.user_shopping.shoppingListId,
       };
     });
@@ -122,4 +131,4 @@ const add_item = async (req, res) => {
   }
 };
 
-module.exports = { get_item, delete_item, destroy_trolly, add_item };
+module.exports = { get_item, delete_item, destroy_trolly, add_item }; */

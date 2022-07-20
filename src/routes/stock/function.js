@@ -1,4 +1,4 @@
-require("dotenv").config();
+/* require("dotenv").config();
 const { Stock } = require("../../db");
 const { Product } = require("../../db");
 const { Op } = require("sequelize");
@@ -139,4 +139,4 @@ const deleteStock = async (req, res) => {
 
 module.exports = {
     addStock, getStock, getStockById, deleteStock, getAllSize
-}   
+}    */
