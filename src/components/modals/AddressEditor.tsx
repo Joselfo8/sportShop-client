@@ -12,6 +12,7 @@ import validate from "helpers/validations";
 interface Props {
   data: {
     name: string;
+    lastname: string;
     address: string;
     secondAddress?: string;
     city: string;
@@ -86,8 +87,8 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
             rules={{
               required: true,
               maxLength: {
-                value: 30,
-                message: "Address can have a maximum of 30 characters",
+                value: 50,
+                message: "Address can have a maximum of 50 characters",
               },
             }}
           />
@@ -99,8 +100,8 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
             label="Address Line 2"
             rules={{
               maxLength: {
-                value: 30,
-                message: "Address can have a maximum of 30 characters",
+                value: 50,
+                message: "Address can have a maximum of 50 characters",
               },
             }}
           />
@@ -129,6 +130,20 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
               maxLength: {
                 value: 20,
                 message: "State name can have a maximum of 20 characters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="country"
+            label="Country *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 20,
+                message: "Country name can have a maximum of 20 characters",
               },
             }}
           />

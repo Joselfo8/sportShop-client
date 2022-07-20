@@ -106,8 +106,8 @@ function SignUp() {
           rules={{
             required: true,
             maxLength: {
-              value: 16,
-              message: "Name can have a maximum of 16 characters",
+              value: 30,
+              message: "Name can have a maximum of 30 characters",
             },
             pattern: {
               value: validate.onlyLetters,
@@ -124,8 +124,8 @@ function SignUp() {
           rules={{
             required: true,
             maxLength: {
-              value: 20,
-              message: "Last name can have a maximum of 20 characters",
+              value: 30,
+              message: "Last name can have a maximum of 30 characters",
             },
             pattern: {
               value: validate.onlyLetters,
