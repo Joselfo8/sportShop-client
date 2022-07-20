@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import DatePicker from "react-date-picker";
 // Components
@@ -36,9 +36,26 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
 
   // send data to api
   const onSubmit = (data: Props["data"]) => {
-    saveChange({ ...data, genre: genre?.value || data.genre });
+    // convert date to yyyy-mm-dd string
+    const newDate = date.toISOString().substring(0, 10);
+
+    saveChange({
+      ...data,
+      dateOfBirth: newDate,
+      genre: genre?.value || data.genre,
+    });
     onClose();
   };
+
+  // save dateOfBirth to date state
+  useEffect(() => {
+    if (data.dateOfBirth !== null) {
+      // convert string to date format
+      const [y, m, d] = data.dateOfBirth.split("-");
+      const newDate = new Date(Number(y), Number(m) - 1, Number(d));
+      setDate(newDate);
+    }
+  }, [data]);
 
   return (
     <div className={styles["container"]}>
@@ -48,9 +65,6 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
         </div>
         <div className={styles["wrapper"]}>
           <Input control={control} name="lastname" label="Last name" />
-        </div>
-        <div className={styles["wrapper"]}>
-          <Input control={control} name="email" label="Email" />
         </div>
         <div className={styles["wrapper"]}>
           <label className={styles["label"]}>

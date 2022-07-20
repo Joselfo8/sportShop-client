@@ -107,7 +107,8 @@ function Info({ id, data }: Data) {
   const dispatch = useDispatch();
 
   const onSubmit = (data: Data["data"]) => {
-    const response = updateUser(id, data);
+    const { email: _, ...info } = data;
+    const response = updateUser(id, info);
     dispatch(response);
   };
 
@@ -137,7 +138,9 @@ function Info({ id, data }: Data) {
         </div>
         <div className={styles["info"]}>
           <span>Birthdate:</span>
-          <span>{data.dateOfBirth}</span>
+          <span>
+            {data.dateOfBirth !== null ? String(data.dateOfBirth) : ""}
+          </span>
         </div>
         <div className={styles["info"]}>
           <span>Genre:</span>

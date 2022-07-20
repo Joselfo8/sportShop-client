@@ -88,7 +88,6 @@ export const logout = () => (dispatch: any) => {
 interface UpdateUserData {
   name: string;
   lastname: string;
-  email: string;
   dateOfBirth: string;
   genre: string;
 }
@@ -97,7 +96,7 @@ export function updateUser(userId: number, data: UpdateUserData) {
   return async (dispatch: any) => {
     const response = await UserService.updateUser(userId, data);
 
-    if (!response.data.user) {
+    if (!response.data.data) {
       const message = response.data?.msg || "Login fail";
       toast(message);
 
@@ -107,7 +106,7 @@ export function updateUser(userId: number, data: UpdateUserData) {
 
     dispatch({
       type: UPDATE_USER,
-      payload: response.data.user,
+      payload: response.data.data,
     });
 
     toast(message);
