@@ -72,7 +72,7 @@ Favorite.belongsToMany(Product, { through: "user_favorite" });
 Product.belongsToMany(Favorite, { through: "user_favorite" });
 
 // create one to many association between User and ShippingAddress
-User.hasMany(ShippingAddress);
+User.hasMany(ShippingAddress, { as: "shippingAddresses" });
 ShippingAddress.belongsTo(User);
 
 module.exports = {

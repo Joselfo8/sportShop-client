@@ -1,4 +1,4 @@
-const { User } = require("../../db");
+const { User, ShippingAddress } = require("../../db");
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
 const { tokenSign } = require("../../helpers/Token");
@@ -115,10 +115,12 @@ async function putUser(req, res) {
   const id = req.params.id;
 
   try {
-    const { password, email, ...data } = req.body;
+    const { password, email, shippingAddress, ...data } = req.body;
 
     // get user by id
-    let user = await User.findOne({ where: { id: id } });
+    let user = await User.findOne({
+      where: { id: id },
+    });
 
     if (!user) return res.status(200).json({ msg: "User not found" });
 
@@ -129,14 +131,27 @@ async function putUser(req, res) {
     if (password)
       return res.status(200).json({ msg: "Password can't be update" });
 
-    user.set(data);
+    // create one address, associate with user and save
+    if (shippingAddress) {
+      const newAddr = await ShippingAddress.create(shippingAddress);
 
+      await user.addShippingAddress(newAddr);
+    }
+
+    // update user data
+    user.set(data);
     await user.save();
+
+    // get user shipping addresses
+    const addresses = await user.getShippingAddresses();
 
     // send all values, less password
     const { password: _1, ...response } = user.dataValues;
 
-    res.status(200).json({ msg: "User updated", data: response });
+    res.status(200).json({
+      msg: "User updated",
+      data: { ...response, shippingAddresses: addresses },
+    });
   } catch (error) {
     res.status(200).json({ msg: error.message });
     // res.status(200).json({ msg: "Failed to update user" });
