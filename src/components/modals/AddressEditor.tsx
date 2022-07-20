@@ -6,6 +6,8 @@ import Input from "../Input";
 // Styles
 import styles from "./AddressEditor.module.css";
 import "react-phone-input-2/lib/style.css";
+// Validations
+import validate from "helpers/validations";
 
 interface Props {
   data: {
@@ -41,34 +43,122 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
     <div className={styles["container"]}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="name" label="Name" />
+          <Input
+            control={control}
+            name="name"
+            label="Name *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 16,
+                message: "Name can have a maximum of 16 characters",
+              },
+              pattern: {
+                value: validate.onlyLetters,
+                message: "Name can only include letters",
+              },
+            }}
+          />
         </div>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="address" label="Address Line" />
+          <Input
+            control={control}
+            name="lastname"
+            label="Last Name *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 20,
+                message: "Last name can have a maximum of 20 characters",
+              },
+              pattern: {
+                value: validate.onlyLetters,
+                message: "Last name can only include letters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="address"
+            label="Address Line *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 30,
+                message: "Address can have a maximum of 30 characters",
+              },
+            }}
+          />
         </div>
         <div className={styles["wrapper"]}>
           <Input
             control={control}
             name="secondAddress"
             label="Address Line 2"
+            rules={{
+              maxLength: {
+                value: 30,
+                message: "Address can have a maximum of 30 characters",
+              },
+            }}
           />
         </div>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="city" label="City" />
+          <Input
+            control={control}
+            name="city"
+            label="City *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 20,
+                message: "City name can have a maximum of 20 characters",
+              },
+            }}
+          />
         </div>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="state" label="State" />
+          <Input
+            control={control}
+            name="state"
+            label="State *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 20,
+                message: "State name can have a maximum of 20 characters",
+              },
+            }}
+          />
         </div>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="zipCode" label="Zip code" />
+          <Input
+            control={control}
+            name="zipCode"
+            label="Zip code *"
+            rules={{
+              required: true,
+              minLength: {
+                value: 3,
+                message: "A minimum of 3 characters is required",
+              },
+              maxLength: {
+                value: 10,
+                message: "10 characters maximum",
+              },
+            }}
+          />
         </div>
         <div className={styles["wrapper"]}>
           <label className={styles["label"]}>
-            <span className={styles["label-title"]}>Phone</span>
+            <span className={styles["label-title"]}>Phone *</span>
             <PhoneInput
               placeholder="Your phone number..."
               value={phone}
               onChange={(data) => setPhone(data)}
+              inputProps={{ required: true }}
             />
           </label>
         </div>
