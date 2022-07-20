@@ -1,12 +1,14 @@
 const { Buy, User } = require("../../db");
 
 async function getBuys(req, res) {
-  let buys = await Buy.findAll();
+  let buys = await Buy.findAll({ include: [User] });
   buys = buys.map((x) => {
     return {
       id: x.id,
       status_history: x.status_history,
       sub_total: x.sub_total,
+      user_id: x.user_id,
+      user: x.user.name,
     };
   });
   res.send(buys);
@@ -17,7 +19,7 @@ async function getBuyById(req, res) {
 
     if (!id) return res.send({ msg: "id is required" });
 
-    const buy = await Buy.findOne({ where: { id } });
+    const buy = await Buy.findOne({ where: { id }, include: [User] });
     if (!buy) return res.send({ msg: "buy not found" });
 
     res.send(buy);
