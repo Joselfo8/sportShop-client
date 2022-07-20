@@ -154,11 +154,11 @@ describe("get source", () => {
 describe("should update source", () => {
   it("should update user", async () => {
     const response = await api
-      .put("/users")
-      .send({ id: userData.id, name: "test2" });
+      .put(`/users/${userData.id}`)
+      .send({ name: "test2" });
     expect(response.status).toBe(200);
-    expect(response.body.user).not.toBeNull();
-    expect(response.body.user.name).toBe("test2");
+    expect(response.body.data).not.toBeNull();
+    expect(response.body.data.name).toBe("test2");
   });
   it("should update product", async () => {
     const response = await api

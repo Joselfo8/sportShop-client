@@ -1,17 +1,11 @@
-/* const router = require("express").Router();
-const {
-    deleteStock, getStockById,addStock, getStock }= require("./function");
 
-    //post/stock_item body:id,size
-    router.post("", addStock);
+const router = require("express").Router();
+const { modifiedStock } = require("./function");
+
+//post/stock_item body:id,size
+router.post("", modifiedStock);
 //get/stock_item?id
-router.get("",getStockById)
 
 
-//get/stock_item?=id&size
-router.get("/",getStock);
+module.exports = { stock: router };
 
-//delete/stock_item/:id
-router.delete("/:item_id",deleteStock)
-
-module.exports = { stock: router }; */
