@@ -1,3 +1,4 @@
+
 const router = require("express").Router();
 const { modifiedStock } = require("./function");
 
@@ -5,4 +6,6 @@ const { modifiedStock } = require("./function");
 router.post("", modifiedStock);
 //get/stock_item?id
 
+
 module.exports = { stock: router };
+

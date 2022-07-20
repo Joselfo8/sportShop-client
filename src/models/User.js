@@ -4,6 +4,10 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
+      googleId:{
+        type: DataTypes.STRING,
+
+      },
       role: {
         type: DataTypes.STRING,
        // allowNull: false,
@@ -67,6 +71,10 @@ module.exports = (sequelize) => {
       numberPhone: {
         type: DataTypes.STRING,
       },
+      trolly:{
+        type: DataTypes.JSONB,
+        defaultValue: {},
+      }
     },
     {
       timestamps: false,

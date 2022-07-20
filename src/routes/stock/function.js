@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 const { Product } = require("../../db");
 
@@ -56,5 +57,6 @@ const modifiedStock = async (req, res) => {
 };
 
 module.exports = {
+
   modifiedStock,
 };
