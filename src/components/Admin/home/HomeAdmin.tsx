@@ -4,8 +4,14 @@ import ListProduct from "../List/ListProduct";
 import ListUser from "../List/ListUser";
 import ListBill from "../List/ListBill";
 import "./HomeAdmin.css";
+import { useSelector } from "react-redux";
 
 export default function(){
+    const isAdmin = useSelector((state:any) => state.auth.auth.user.role);
+    if(isAdmin !== "admin"){
+        alert(`You are not a Admin`);
+        return (<></>)
+    };
     const [getState, setState] = useState<Number>(0);
 
     function handleClik(e: any){

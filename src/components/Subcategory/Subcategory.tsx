@@ -29,11 +29,11 @@ export default function Subcategory(){
                     <div className={style.components}>
 
                         <div className={style.textContainer}>
-                            <h1 style={{textAlign: "center", fontSize:"50px"}} >Accessories</h1>
+                            <h1 style={{textAlign: "center", fontSize:"50px"}} >ACCESORIES</h1>
                         </div>
                         
                         {/* <Link to={`/${category}?category=accessories`} style={{textDecoration:"none"}}> */}
-                        <Link onClick={() => filter("accessories")} to='/products' style={{textDecoration:"none"}}>
+                        <Link onClick={() => filter("ACCESORIES")} to='/products' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>
@@ -49,7 +49,7 @@ export default function Subcategory(){
                     <div className={style.components}>
                     
                         <div className={style.textContainer}>
-                            <h1 style={{textAlign: "center", fontSize:"50px"}}>Footwear</h1>
+                            <h1 style={{textAlign: "center", fontSize:"50px"}}>FOOTWEAR</h1>
                         </div>
 
                         <Link onClick={() => filter("FOOTWEAR")} to='/products' style={{textDecoration:"none"}}>
@@ -68,11 +68,11 @@ export default function Subcategory(){
                     <div className={style.components}>
                     
                         <div className={style.textContainer}>
-                            <h1 style={{textAlign: "center", fontSize:"50px"}}>Clothes</h1>
+                            <h1 style={{textAlign: "center", fontSize:"50px"}}>CLOTHES</h1>
                         </div>
 
                         {/* cambiar PANT por clothes */}
-                        <Link onClick={() => filter("PANT")}  to='/products' style={{textDecoration:"none"}}>
+                        <Link onClick={() => filter("CLOTHES")}  to='/products' style={{textDecoration:"none"}}>
                             <div className={style.button}>
                                 <h3>See more</h3>
                             </div>

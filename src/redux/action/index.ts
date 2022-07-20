@@ -69,7 +69,7 @@ export function getProductsByCategory(event: any) {
 }
 
 export function getProductsByCategoryAndSubcategory(object: any) {
-  // console.log(object)
+  console.log(object)
   try {
     return async function name(dispatch: any) {
       let json: any = await axios.get(
@@ -105,7 +105,7 @@ export const orderByPrice = (order: any) => async(dispatch: any) => {
 export const addProduct = (payload:any) => async (dispatch: any) => {
   try {
     const json: any = await axios.post("https://vlixes-server.herokuapp.com/products",payload);
-    // console.log(json.data)
+    console.log(json.data)
     return dispatch({ type: "POST_PRODUCT", payload: json.data });
   } catch (error) {
     console.log(error);
@@ -145,59 +145,11 @@ export function getShoppingListByUserId(UserId: any) {
   }
 }
 
-export const getUsers = () => async (dispatch: any) => {
-  try {
-    const response: any = await axios.get(
-      "https://vlixes-server.herokuapp.com/users"
-    );
-    return dispatch({
-      type: "GET_ALL_USERS",
-      payload: response.data,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const deleteProduct = (id: number) => async (dispatch: any) => {
-  try {
-    const response: any = await axios.delete(
-      `https://vlixes-server.herokuapp.com/products/${id}`
-    );
-    dispatch(getProducts());
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const deleteUser = (id: number) => async (dispatch: any) => {
-  try {
-    const response: any = await axios.delete(
-      "https://vlixes-server.herokuapp.com/users/" + id
-    );
-    dispatch(getUsers());
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getUserByName = (name: string) => {
-  try {
-    return {
-      type: "GET_USER_BY_NAME",
-      payload: name,
-    };
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const editProduct = ( payload: any) => async (dispatch: any) => {
     try {
       const json: any = await axios.put(`https://vlixes-server.herokuapp.com/products/`, payload);
       console.log(json)
-      dispatch(getProducts());
+      // dispatch(getProducts());
     } catch (error) {
       console.log(error);
     }
@@ -241,13 +193,26 @@ export const deleteFavorite = (payload:any) => async (dispatch: any) => {
   }
 };
 
-export const deleteProductShop = (idUser:number, idProduct:number) => async () => {
+export const deleteProductShop = (idUser:number, idProduct:number) => async (dispatch: any) => {
   try{
     let payload = {
       "product": idProduct,
       "user": idUser
     }
     const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/shopping_list/`, {data: payload});
+    dispatch(getShoppingListByUserId(idUser))
+  }catch(error){
+    console.log(error);
+  };
+};
+
+export const allCategories = () => async (dispatch: any) => {
+  try{
+    const response = await axios.get("https://vlixes-server.herokuapp.com/products/category");
+    return dispatch({
+      type: "ALL_CATEGORIES",
+      payload: response.data,
+    })
   }catch(error){
     console.log(error);
   };

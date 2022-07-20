@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserByName, getUsers } from "../../../redux/action";
+import { getUserByName, getAllUsers } from "../../../redux/action/admin";
 import styles from "./List.module.scss"
 import CardList from "./CardList";
 
 export default function ListUsers(){
     const dispatch = useDispatch();
-    const state = useSelector((state:any) => state.rootReducer);
+    const state = useSelector((state:any) =>{
+        return{
+            users: state.admin.users,
+            search: state.admin.searchUser,
+        }
+    });
     const [ value, setValue ] = useState('');
     const typeList = 'USER';
     useEffect(() => {
-        dispatch(getUsers());
+        dispatch(getAllUsers());
     },[]);
     function handleChange(event: any) {
         setValue(event);
@@ -19,6 +24,7 @@ export default function ListUsers(){
         event.preventDefault();
         dispatch(getUserByName(value));
     };
+    console.log(state.search)
     return(
         <div className={styles.container}>
             <form onSubmit={(e) => handleSubmit(e)}>
@@ -30,11 +36,13 @@ export default function ListUsers(){
                 onChange={(e) => handleChange(e.target.value)}
                 />
             </form>
-            {   state.searchUser.length === 0 ?
-                state.allUsers.map((e:any) => {
+            {   state.search.length === 0
+                ?
+                state.users.map((e:any) => {
                     return <CardList name={e.name} id={e.id} role={e.role} image={e.image} type={typeList}/>
-                }) :
-                state.searchUser.map((e:any) => {
+                })
+                :
+                state.search.map((e:any) => {
                     return <CardList name={e.name} id={e.id} role={e.role} image={e.image} type={typeList}/>
                 })
             }

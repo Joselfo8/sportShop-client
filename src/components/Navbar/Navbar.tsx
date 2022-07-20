@@ -6,7 +6,7 @@ import {
   cleanStore,
   getProductsByName,
   getProductsByCategory,
-  getProducts,
+  allCategories,
 } from "../../redux/action";
 import styles from "./NavBar.module.scss";
 import cart from "../../assets/cart.png";
@@ -17,36 +17,31 @@ import DropDown from "./DropDown";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.css';
 
-export default function NavBar(props: any) {
+export default function NavBar() {
   const location = useLocation();
   const state = useSelector((store: any) => {
     return {
-        products: store.rootReducer.products,
+        products: store.rootReducer.categories.categories,
         userLoged: store.auth.isLoggedIn,
         userDate: store.auth.isLoggedIn ? store.auth.auth.user : []
     }
-})
-  const [value, setValue] = useState({});
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [dropDown, setDropDown]: any = useState({
-    FEMALE: false,
-    MALE: false,
-    KIDS: false,
-    SPORT: false,
-  });
-  const [modal, setModal] = useState(false);
-  let data = state.products.map((e: any) => {
-    return e.category;
-  });
-  let result = data.filter((item: any, index: any) => {
-    return data.indexOf(item) === index;
-  });
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
+});
+const [value, setValue] = useState({});
+const dispatch = useDispatch();
+const navigate = useNavigate();
+const [dropDown, setDropDown]: any = useState({
+  FEMALE: false,
+  MALE: false,
+  KIDS: false,
+  SPORT: false,
+});
+const [modal, setModal] = useState(false);
 
-  function handleChange(event: any) {
+useEffect(() => {
+  dispatch(allCategories());
+}, []);
+
+function handleChange(event: any) {
     setValue(event);
   }
 
@@ -57,7 +52,6 @@ export default function NavBar(props: any) {
   }
 
   const togleModal = () => setModal(!modal);
-// console.log(location)
   return (
     <div className={styles.navBar}>
       <Link to="/">
@@ -69,21 +63,22 @@ export default function NavBar(props: any) {
         }
 
       <ul className={styles.navItems}>
-        {result.map((e: any) => {
+        { state.products !== 0 ?
+          state.products?.map((e: any) => {
           return (
             <li
               className={styles.cName}
-              onMouseEnter={() => setDropDown({ [e]: true })}
-              onMouseLeave={() => setDropDown({ [e]: false })}
-              key={e}
+              onMouseEnter={() => setDropDown({ [e.category]: true })}
+              onMouseLeave={() => setDropDown({ [e.category]: false })}
+              key={e.category}
             >
-              <Link to={`/${e}`}>
-                <button className={styles.buttonNav}>{e}</button>
+              <Link to={`/${e.category}`}>
+                <button className={styles.buttonNav}>{e.category}</button>
               </Link>
-              {dropDown[e] && <DropDown categoryClick={e} />}
+              {dropDown[e.category] && <DropDown categoryClick={e.category} />}
             </li>
           );
-        })}
+        }): <></>}
       </ul>
 
       <div className={styles.orderIcons}>
@@ -112,12 +107,12 @@ export default function NavBar(props: any) {
         </div>
 
         <div>
-        <Link to="/favorites">
+        <Link to={state.userLoged ? "/favorites" : "/login"}>
           <img src={heart} className={styles.heart} />
         </Link>
         </div>
         <div>
-        <Link to="/cart">
+        <Link to={state.userLoged ? "/cart" : "/login"}>
           <img src={cart} className={styles.cart} />
         </Link>
         </div>

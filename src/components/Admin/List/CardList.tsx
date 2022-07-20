@@ -4,8 +4,9 @@ import styles from "./CardList.module.scss";
 import {FaTrash} from "react-icons/fa";
 import {BsFillPencilFill} from "react-icons/bs"
 import { useDispatch } from "react-redux";
-import { deleteProduct, deleteUser } from "../../../redux/action";
+import { deleteUser } from "../../../redux/action/admin";
 import user from "../../../assets/userByAdmin.png"
+import { deleteProduct } from "../../../redux/action/admin";
 
 export default function CardList({title, id, category, image, name, role, type}:any){
     const dispatch = useDispatch();
