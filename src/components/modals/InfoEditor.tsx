@@ -66,8 +66,9 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
           <Input
             control={control}
             name="name"
-            label="Name"
+            label="Name *"
             rules={{
+              required: true,
               maxLength: {
                 value: 16,
                 message: "Name can have a maximum of 16 characters",
@@ -83,8 +84,9 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
           <Input
             control={control}
             name="lastname"
-            label="Last name"
+            label="Last name *"
             rules={{
+              required: true,
               maxLength: {
                 value: 20,
                 message: "Last name can have a maximum of 20 characters",
