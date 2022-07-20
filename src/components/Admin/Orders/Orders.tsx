@@ -2,12 +2,13 @@
 // Components
 import NavBar from "../../Navbar/Navbar";
 import Footer from "../../Footer/Footer";
+import Graphic from "./Graphic";
 
 // Style
 import style from "./Orders.module.scss";
 
 export default function Orders() {
-
+  
   return (
     <div>
       <NavBar />
@@ -21,15 +22,15 @@ export default function Orders() {
           <div className={style.orderBar}>
 
             <div className={style.firstLine}>
-              <b>Order No. 217778232</b>
-              <p>User id: 10</p>
-              <p>Quantity: <b>4 products</b></p>
-              <p>Order Total:<b>$ 157.135</b></p>
+              <b>{`Order No. ${217778232}`}</b>
+              <p>{`User id: ${10}`}</p>
+              <p>Quantity: <b>{`${`4 products`}`}</b></p>
+              <p>Order Total:<b>{` $ ${157.135}`}</b></p>
             </div>
 
             <div className={style.secondLine}>
-              <p>Made on: 04/10/21</p>
-              <button className={style.button}>hide order</button>
+              <p>{`Made on: ${`04/10/21`}`}</p>
+              {/* <button className={style.button}>hide order</button> */}
             </div>
                       
           </div>
@@ -37,8 +38,9 @@ export default function Orders() {
           <div className={style.orderStatusContainer}>
 
             <h2 className={style.textCenter}>Order delivered</h2>
-            <h2 className={style.textCenter}>delivery status graph</h2>
-            <p className={style.textCenter}>06/Mar/2022 22:22:29</p>
+            {/* <h2 className={style.textCenter}>delivery status graph</h2> */}
+            <Graphic/>
+            <p className={style.textCenter}>{`${`06/Mar/2022 22:22:29`}`}</p>
             
 
             <div className={style.orderStatusHistory}>
@@ -46,14 +48,14 @@ export default function Orders() {
                 <h3>ORDER STATUS HISTORY</h3>
               </div>
               
-              
+              {/* Mapeo */}
               <div className={style.textInRow}>
-                <p>06/Oct/2021 00:54:46</p>
-                <b>We have received your order</b>
+                <p>{`06/Oct/2021 00:54:46`}</p>
+                <b>{`We have received your order`}</b>
               </div>
 
               <div className={style.textInRow}>
-                <p>06/Oct/2021 00:54:46</p>
+                <p>{`06/Oct/2021 00:54:46`}</p>
                 <b>The payment of the order has been received correctly</b>
               </div>
               

@@ -96,7 +96,6 @@ export default function Purchase() {
                             state.shoppinglist.length === 0
                             ?   <p>$0</p>
                             :   <p>{`$${subTotal}`}</p>
-                            
                         }
                     </div>
 
