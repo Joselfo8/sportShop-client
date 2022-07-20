@@ -71,6 +71,10 @@ module.exports = (sequelize) => {
       numberPhone: {
         type: DataTypes.STRING,
       },
+      trolly:{
+        type: DataTypes.JSONB,
+        defaultValue: {},
+      }
     },
     {
       timestamps: false,
