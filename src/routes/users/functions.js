@@ -147,41 +147,43 @@ async function loginUser(req, res) {
   /// Post para iniciar sesion
   try {
     const { email, password } = req.body;
-    console.log({ email, password });
+
     if (!email || !password) {
       return res.send({
-        msg: "all information(email,password) is required",
+        msg: "Email and password are required",
         access: false,
       });
     }
+
+    // search user in db
     let user = await User.findOne({
       where: { email: email },
     });
+
+    // hash password and compare with db hash
     const acertijo = await compare(password, user.password);
     console.log(acertijo);
+
+    // create jwt token
     const token = await tokenSign(user);
+
     if (acertijo === false) {
       //redirect to postUser
       return res.send({
-        msg: `the ${user.email}is incorret or the password is incorrect or the user does not exist`,
+        msg: `the ${user.email} is incorret or the password is incorrect or the user does not exist`,
         access: false,
         redirect: "/user", //redirect a pagina de registro
       });
     }
+
+    // send all user data, except password
+    const { password: _1, ...response } = user.dataValues;
+
     return res.send({
-      msg: `welcome ${user.name}`,
+      msg: `Welcome ${user.name}`,
       access: true,
       token: token,
-      user: {
-        id: user.id,
-        role: user.role,
-        name: user.name,
-        lastname: user.lastname,
-        email: user.email,
-        genre: user.genre,
-        dateOfBirth: user.dateOfBirth,
-        direction: user.direction,
-      },
+      user: response,
     });
   } catch (error) {
     console.log(error);
