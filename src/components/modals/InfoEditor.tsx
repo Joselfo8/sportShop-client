@@ -6,6 +6,8 @@ import Input from "../Input";
 import Select from "../Select";
 // Styles
 import styles from "./AddressEditor.module.css";
+// Validations
+import validate from "helpers/validations";
 
 interface Props {
   data: {
@@ -61,10 +63,38 @@ function InfoEditor({ data, saveChange, onClose }: Props) {
     <div className={styles["container"]}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="name" label="Name" />
+          <Input
+            control={control}
+            name="name"
+            label="Name"
+            rules={{
+              maxLength: {
+                value: 16,
+                message: "Name can have a maximum of 16 characters",
+              },
+              pattern: {
+                value: validate.onlyLetters,
+                message: "Name can only include letters",
+              },
+            }}
+          />
         </div>
         <div className={styles["wrapper"]}>
-          <Input control={control} name="lastname" label="Last name" />
+          <Input
+            control={control}
+            name="lastname"
+            label="Last name"
+            rules={{
+              maxLength: {
+                value: 20,
+                message: "Last name can have a maximum of 20 characters",
+              },
+              pattern: {
+                value: validate.onlyLetters,
+                message: "Last name can only include letters",
+              },
+            }}
+          />
         </div>
         <div className={styles["wrapper"]}>
           <label className={styles["label"]}>

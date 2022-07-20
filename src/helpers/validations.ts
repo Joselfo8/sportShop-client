@@ -1,5 +1,5 @@
 // only accept letters
-const onlyLetters = /^[a-zA-Z]*$/g;
+const onlyLetters = /^[a-zA-Z\s]*$/g;
 // email
 const email = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 // password, 10 char minimum, a special char, a Uppercase, and a number
