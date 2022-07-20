@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+.grid {
+    display: flex;
+    justify-content: center;
+    font-family: $font;
+    color: whitesmoke;
+    margin: 20px;
+
+
+
+}
