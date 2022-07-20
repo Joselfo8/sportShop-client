@@ -108,6 +108,10 @@ module.exports = (sequelize) => {
         //   is: { arg: /^[0-9]{1,}$/, msg: "The rating count must be a positive number" },
         // }
       },
+      stock: {
+        type: DataTypes.JSONB,
+        defaultValue: {},
+      },
     },
     {
       timestamps: false,
