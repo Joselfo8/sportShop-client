@@ -132,7 +132,16 @@ const postProduct = async (req, res) => {
 
     return res.status(201).json({
       msg: `product ${product.title} added to the DB`,
-      product: product,
+      product: {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        category: product.category,
+        subCategory: product.sub_category,
+        product_care: product.product_care,
+        image: product.image,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -161,7 +170,7 @@ const getProductByName = async (req, res, next) => {
     //filtramos por subcategoria y omitmos mayusculas y minusculas
     if (subCategory) {
       subCategory = subCategory.toUpperCase().trim();
-      where.where.subCategory = { [Op.eq]: `${subCategory}` };
+      where.where.sub_category = { [Op.eq]: `${subCategory}` };
     }
 
     //solicitud de resultados
@@ -184,6 +193,19 @@ const getProductByName = async (req, res, next) => {
           break;
       }
     }
+    //mapeo de resultados
+    filter = filter.map((e) => {
+      return {
+        id: e.id,
+        title: e.title,
+        price: e.price,
+        description: e.description,
+        category: e.category,
+        subCategory: e.sub_category,
+        product_care: e.product_care,
+        image: e.image,
+      };
+    });
     //paginacion
     if (pag && limit) {
       filter = pagination(filter, limit, pag);
@@ -218,7 +240,20 @@ const getProductById = async (req, res, next) => {
     const product = await Product.findOne({ where: { id: id } });
     if (!product) return res.status(500).send({ msg: "Product not found" });
 
-    return res.status(200).json({ msg: "product found", product, sizes });
+    return res.status(200).json({
+      msg: "product found",
+      product: {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        category: product.category,
+        subCategory: product.sub_category,
+        product_care: product.product_care,
+        image: product.image,
+      },
+      sizes,
+    });
   } catch (error) {
     res.status(500).send({ err: error });
   }
@@ -284,7 +319,16 @@ const putProduct = async (req, res) => {
 
     return res.status(201).send({
       msg: `product ${producto.id} modified to the DB`,
-      product: producto,
+      product: {
+        id: producto.id,
+        title: producto.title,
+        price: producto.price,
+        description: producto.description,
+        category: producto.category,
+        subCategory: producto.sub_category,
+        product_care: producto.product_care,
+        image: producto.image,
+      },
     });
   } catch (err) {
     /* catch (e) {
