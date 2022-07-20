@@ -9,12 +9,13 @@ const rols = ["admin", "user"];
 async function getAllUser(req, res) {
   try {
     const { role } = req.query;
-    let where = { where: {} };
+    let where = { where: {}, include: "shippingAddresses" };
     if (role) {
       where.where.role = role;
     }
     let users = await User.findAll(where);
-    return res.send({ msg: "Users found", users });
+
+    return res.send({ msg: "Users found", users});
   } catch (error) {
     console.log(error);
     res.send({ msg: "error" });
@@ -216,7 +217,7 @@ async function deleteShippingAddress(req, res) {
     await address.destroy();
 
     res.status(200).json({
-      msg: "User deleted",
+      msg: "Shipping address deleted",
     });
   } catch (error) {
     res.status(200).json({ msg: error.message });
