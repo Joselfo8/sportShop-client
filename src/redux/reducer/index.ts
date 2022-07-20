@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 // Reducers
 import auth from "./auth";
 import message from "./message";
+import admin from "./admin";
 
 import {
   GET_PRODUCTSBYNAME,
@@ -21,6 +22,7 @@ const initialState: any = {
   favorites: [],
   allUsers: [],
   searchUser: [],
+  categories: [],
 };
 
 function rootReducer(state = initialState, action: any) {
@@ -44,15 +46,6 @@ function rootReducer(state = initialState, action: any) {
       return {
         ...state,
         productsFiltered: filter,
-      };
-
-    case "GET_USER_BY_NAME":
-      const filterUser: any = state.allUsers.filter((user: any) =>
-        user.name.toLowerCase().includes(action.payload.toLowerCase())
-      );
-      return {
-        ...state,
-        searchUser: filterUser,
       };
 
     case "GET_BY_CATEGORY":
@@ -102,12 +95,6 @@ function rootReducer(state = initialState, action: any) {
         products: state.products.concat(action.payload),
       };
 
-    case "GET_ALL_USERS":
-      return {
-        ...state,
-        allUsers: action.payload.users,
-      };
-
     case "ADD_TO_CART":
       return {
         ...state,
@@ -124,9 +111,14 @@ function rootReducer(state = initialState, action: any) {
         ...state,
         favorites: action.payload,
       };
+    case "ALL_CATEGORIES":
+      return{
+        ...state,
+        categories: action.payload,
+      }
     default:
       return state;
   }
 }
 
-export default combineReducers({ auth, message, rootReducer });
+export default combineReducers({ auth, message, rootReducer, admin });

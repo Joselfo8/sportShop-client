@@ -145,54 +145,6 @@ export function getShoppingListByUserId(UserId: any) {
   }
 }
 
-export const getUsers = () => async (dispatch: any) => {
-  try {
-    const response: any = await axios.get(
-      "https://vlixes-server.herokuapp.com/users"
-    );
-    return dispatch({
-      type: "GET_ALL_USERS",
-      payload: response.data,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const deleteProduct = (id: number) => async (dispatch: any) => {
-  try {
-    const response: any = await axios.delete(
-      `https://vlixes-server.herokuapp.com/products/${id}`
-    );
-    dispatch(getProducts());
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const deleteUser = (id: number) => async (dispatch: any) => {
-  try {
-    const response: any = await axios.delete(
-      "https://vlixes-server.herokuapp.com/users/" + id
-    );
-    dispatch(getUsers());
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getUserByName = (name: string) => {
-  try {
-    return {
-      type: "GET_USER_BY_NAME",
-      payload: name,
-    };
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const editProduct = ( payload: any) => async (dispatch: any) => {
     try {
       const json: any = await axios.put(`https://vlixes-server.herokuapp.com/products/`, payload);
@@ -249,6 +201,18 @@ export const deleteProductShop = (idUser:number, idProduct:number) => async (dis
     }
     const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/shopping_list/`, {data: payload});
     dispatch(getShoppingListByUserId(idUser))
+  }catch(error){
+    console.log(error);
+  };
+};
+
+export const allCategories = () => async (dispatch: any) => {
+  try{
+    const response = await axios.get("https://vlixes-server.herokuapp.com/products/category");
+    return dispatch({
+      type: "ALL_CATEGORIES",
+      payload: response.data,
+    })
   }catch(error){
     console.log(error);
   };

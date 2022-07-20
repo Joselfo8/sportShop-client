@@ -6,29 +6,23 @@ import styles from "./DropDown.module.scss";
 
 export default function DropDown(categoryClick:any){
     const dispatch = useDispatch();
-    const productSubCategory = useSelector((state:any) => state.rootReducer.products);
+    const productSubCategory = useSelector((state:any) => state.rootReducer.categories.categories);
 
     function productCategory(e:any, d:any){
-        console.log(e, d)
         dispatch(getProductsByCategoryAndSubcategory({
             "category": e,
             "argument": d,
         }));
     };
-    let data = productSubCategory.map((e:any) => { return [e.category, e.subCategory]});
-    let result = data.filter((item:any,index:any)=>{
-        return data.map((e:any) => e[0]).indexOf(item[0]) === index ||
-        data.map((e:any) => e[1]).indexOf(item[1]) === index
-    });
     return(
         <>
         <ul className={styles.servicesSubmenu}>
         {
-            result.map((e:any,index:any) => {
-                return( categoryClick.categoryClick === e[0] ?
-                    <li key={index}>
+            productSubCategory.map((e:any) => {
+                return( categoryClick.categoryClick === e.category ?
+                    <li key={e.sub_category}>
                         <Link to={"/products"}>
-                            <button className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e[1])}>{e[1]}</button>
+                            <button className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e.sub_category)}>{e.sub_category}</button>
                         </Link>
                     </li>
                     : <></>
