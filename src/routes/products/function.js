@@ -231,7 +231,7 @@ const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
     //vlidacion de id
-    const sizes = await getAllSize(id);
+
     if (!id) return res.send({ msg: "id is required" });
     if (Number.isNaN(parseInt(id)))
       return res.send({ msg: "id must be a number" });
@@ -251,10 +251,11 @@ const getProductById = async (req, res, next) => {
         subCategory: product.sub_category,
         product_care: product.product_care,
         image: product.image,
+        stock: product.stock,
       },
-      sizes,
     });
   } catch (error) {
+    console.log("error => ", error);
     res.status(500).send({ err: error });
   }
 };
