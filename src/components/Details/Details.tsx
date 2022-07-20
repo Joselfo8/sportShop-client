@@ -7,9 +7,10 @@ import NavBar from '../Navbar/Navbar'
 import styles from './Details.module.scss'
 import { FaStar,FaHeart } from 'react-icons/fa'
 import { FiShoppingCart,FiHeart } from "react-icons/fi";
+import { IoReturnUpBackSharp } from "react-icons/io5";
 import { TbHeartPlus } from "react-icons/tb"
 import Footer from '../Footer/Footer'
-
+import { Modal, ModalHeader, ModalBody, Button } from "reactstrap";
 
 
 interface Detail {
@@ -31,7 +32,7 @@ interface Input {
 
 
 
-let sizes:string[]=['s','m','l','xl']
+let sizes:string[]=['xs','s','m','l','xl']
   
 
 
@@ -49,6 +50,7 @@ export default function Details(){
 
     // ESTADOS: 
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
+    console.log(productDetail)
 
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
@@ -68,6 +70,8 @@ export default function Details(){
       l:'',
       xl:''
     })
+
+    const [open, setOpen] = useState(false)
 
    
     // RENDERIZADO DEL COMPONENTE: 
@@ -91,7 +95,7 @@ export default function Details(){
           }
             dispatch(addProductToFavorites(payload))
             setColor('#a70f0f')
-            setSuccessful('Added to favorites')
+            setSuccessful('¡Added to favorites!')
           } else {
             return(alert('Login first'),navigate('/login'))
           }
@@ -113,8 +117,8 @@ export default function Details(){
             user:user,  ///Para que funcione mientras tanto poner 66
             product:product
           }
+          setOpen(!open)
           dispatch(addProductToCart(payload))
-          return(alert('Product added to cart successfully'),navigate('/cart'))
         }else{
           return(alert('Login first'),navigate('/login'))
         }
@@ -144,6 +148,13 @@ export default function Details(){
             <Link to={`/:${productDetail.category}`} className={styles.link}>
               <span className={styles.pLink}>{productDetail.category}</span>
             </Link>
+            <span>/</span>
+           
+
+            <Link to={`/products?category=${productDetail.category}&subCategory=${productDetail.subCategory}`} className={styles.link}>
+              <span className={styles.pLink}>{productDetail.subCategory}</span>
+            </Link>
+            
            
 
         
@@ -163,11 +174,14 @@ export default function Details(){
             )})
           }
           <span >({productDetail['rating_count']})</span>
+          <hr></hr>
           
           <h1>{productDetail.title}</h1>
           <p className={styles.price}>${productDetail.price}</p>
           <h2>SELECT SIZE</h2>
 
+
+          {/* FORM ADD TO CART */}
           <form onSubmit={addToCart}>
             { 
               sizes.map((s,index) => 
@@ -187,7 +201,7 @@ export default function Details(){
             }
 
             {
-              errors && <span>{errors}</span>
+              errors && <span className={styles.errors}>{errors}</span>
             }
             <br></br>
             
@@ -202,9 +216,32 @@ export default function Details(){
                 <FiHeart  style = {{color: `${color}`}} className={styles.heart} />
               </button>
               {
-              successful && <span>{successful}</span>
+              successful && <span className={styles.sucessful}>{successful}</span>
               }
           </form>
+          <div className={styles.modal}>
+            <Modal backdrop= {true} isOpen={open}>
+              {/* <div className={styles.containerButtonX}> */}
+                <button className={styles.buttonNav} style={{marginLeft:"auto", width:"50px", backgroundColor:"black",color:"white"}} onClick={()=>setOpen(!open)}>X</button>
+              {/* </div> */}
+              <ModalHeader className={styles.modalHeader}>
+                <h1>Product added to cart</h1>
+              </ModalHeader> 
+              <ModalBody className={styles.modalBody}>
+                <div>
+                  <Link to='/'>
+                    <button className={styles.buttonNav}>Continue Shopping</button>
+                  </Link>
+                </div>
+                <br></br>
+                <div>
+                  <Link to='/cart'>
+                    <button  className={styles.buttonNav}>Show car</button>
+                  </Link>
+                </div>
+              </ModalBody>
+            </Modal>
+            </div>
 
           <h2 className={styles.description}>DESCRIPTION</h2>
           <p>{productDetail.description} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat dicta quae eos quaerat optio, asperiores similique tempora voluptatum reiciendis debitis expedita quam impedit id exercitationem ea accusamus nostrum nemo possimus.</p>
