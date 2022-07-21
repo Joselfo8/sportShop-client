@@ -1,15 +1,11 @@
+require("dotenv").config();
 const supertest = require("supertest");
 const app = require("../../src/app.js");
-
-require("dotenv").config();
 const server = require("../../src/app.js");
-const {
-  conn,
-  User,
-  Product,
-  Shopping_list,
-  Favorite,
-} = require("../../src/db.js");
+
+const {} = require("jest");
+
+const { conn, User, Product, Favorite } = require("../../src/db.js");
 const { PORT, NODE_ENV } = process.env;
 
 const api = supertest(app);
@@ -46,7 +42,7 @@ let productData2 = {
 };
 
 // Syncing all the models at once.
-jest.setTimeout(20000);
+jest.setTimeout(25000);
 //delete the data using in test
 beforeAll(async () => {
   await conn.sync({ alter: true });
@@ -62,7 +58,6 @@ beforeAll(async () => {
   await User.destroy({ where: { email: userData.email } });
   await Product.destroy({ where: { title: productData.title } });
   await Product.destroy({ where: { title: productData2.title } });
-  await Shopping_list.destroy({ where: { product_list: userData.email } });
   await Favorite.destroy({ where: { name: userData.email } });
 });
 
@@ -178,35 +173,43 @@ describe("should get, add  and delete shopping list", () => {
     expect(response.body.list.length).toBe(0);
   });
   it("should add product to shopping_list", async () => {
-    const response = await api
-      .post("/shopping_list")
-      .send({ product: productData.id, user: userData.id });
+    const response = await api.post("/shopping_list").send({
+      product: productData.id,
+      user: userData.id,
+      quantity: 1,
+      size: "M",
+    });
     expect(response.status).toBe(200);
-    expect(response.body.list.length).toBe(1);
+    expect(Object.keys(response.body.list).length).toBe(1);
   });
 
   it("should add product to shopping_list 2", async () => {
-    const response = await api
-      .post("/shopping_list")
-      .send({ product: productData2.id, user: userData.id });
+    const response = await api.post("/shopping_list").send({
+      product: productData2.id,
+      user: userData.id,
+      quantity: 1,
+      size: "S",
+    });
     expect(response.status).toBe(200);
-    expect(response.body.list.length).toBe(2);
+    expect(Object.keys(response.body.list).length).toBe(2);
   });
 
   it("should delete product to shopping_list", async () => {
-    const response = await api
-      .delete("/shopping_list")
-      .send({ product: productData.id, user: userData.id });
-    expect(response.status).toBe(201);
-    expect(response.body.list.length).toBe(1);
+    const response = await api.delete(
+      `/shopping_list?product=${productData.id}&user=${userData.id}`
+    );
+
+    expect(response.status).toBe(200);
+    expect(Object.keys(response.body.list).length).toBe(1);
   });
 
-  it("should delete product to shopping_list", async () => {
-    const response = await api
-      .delete("/shopping_list")
-      .send({ product: productData2.id, user: userData.id });
-    expect(response.status).toBe(201);
-    expect(response.body.list.length).toBe(0);
+  it("should delete product 2 to shopping_list ", async () => {
+    const response = await api.delete(
+      `/shopping_list?product=${productData2.id}&user=${userData.id}`
+    );
+
+    expect(response.status).toBe(200);
+    expect(Object.keys(response.body.list).length).toBe(0);
   });
 });
 

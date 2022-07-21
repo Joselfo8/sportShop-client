@@ -31,5 +31,4 @@ router.use("/buys", buys);
 router.use("/stock", stock);
 router.use("/pay", pay);
 
-
 module.exports = router;

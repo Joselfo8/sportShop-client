@@ -1,9 +1,8 @@
-const { User, Shopping_list, Product } = require("../../db");
+const { User, Product } = require("../../db");
 
 const get_item = async (req, res) => {
   try {
     const { id } = req.params;
-
     //validaciones
     if (!id) return res.send({ msg: "user is required" });
     if (Number.isNaN(id)) return res.send({ msg: "user must be a number" });
@@ -12,29 +11,36 @@ const get_item = async (req, res) => {
     const user = await User.findOne({ where: { id } });
     if (!user) return res.send({ msg: "user not found" });
 
-    const list = await user.getShopping_list();
-    const products = await list.getProducts();
-    const productos = products.map((e) => {
+    let itemsId = Object.keys(user.trolly);
+
+    let items = await Product.findAll({
+      where: { id: itemsId },
+    });
+
+    items = items.map((x) => {
       return {
-        productId: e.id,
-        title: e.title,
-        price: e.price,
-        image: e.image,
-        shoppingListId: e.user_shopping.shoppingListId,
+        sizesAmount: user.trolly[x.id],
+        title: x.title,
+        Product_id: x.id,
+        price: x.price,
+        image: x.image,
+        description: x.description,
+        category: x.category,
       };
     });
-    res.send({ msg: "lista de productos", list: productos });
+
+    res.send({ msg: "items found", list: items });
   } catch (e) {
-    res.send({ msg: "failed to get items" });
+    res.send({ msg: "failed to get items", error: e });
     console.log(e);
   }
 };
 
-// resivo id del item a borrar
+//resivo id del item a borrar
 const delete_item = async (req, res) => {
   try {
-    const { product } = req.body;
-    const { user } = req.body;
+    const { product } = req.query;
+    const { user } = req.query;
 
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
@@ -53,18 +59,17 @@ const delete_item = async (req, res) => {
     let productObj = await Product.findOne({ where: { id: product } });
     if (!productObj) return res.send({ msg: "product not found" });
 
-    const list = await userObj.getShopping_list();
+    userObj.trolly = { ...userObj.trolly, [productObj.id]: undefined };
+    await userObj.save();
 
-    await list.removeProduct(productObj);
-    const new_list = await list.getProducts();
-    res.status(201).send({ msg: "item deleted", list: new_list });
+    res.send({ msg: "item deleted", list: userObj.trolly });
   } catch (e) {
     console.log(e);
     res.send({ msg: "failed to delete item", error: e });
   }
 };
 
-const destroy_trolly = async (req, res) => {
+const empty_trolly = async (req, res) => {
   try {
     const { user } = req.query;
 
@@ -73,18 +78,17 @@ const destroy_trolly = async (req, res) => {
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
 
     const userObj = await User.findOne({ where: { id: user } });
-    const trolly = await userObj.getShopping_list();
-    await trolly.setProducts([]);
-    res.status(201).send({ msg: "the trolly has ben descarted", list: [] });
+    userObj.trolly = {};
+    await userObj.save();
+    res.send({ msg: "trolly has been emptied" });
   } catch (e) {
     res.send(e);
   }
 };
-
+//////////////////////////////////////////
 const add_item = async (req, res) => {
   try {
-    const { user } = req.body;
-    const { product } = req.body;
+    let { user, size, quantity, product } = req.body;
 
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
@@ -95,6 +99,15 @@ const add_item = async (req, res) => {
     if (Number.isNaN(product))
       return res.send({ msg: "product must be a number" });
 
+    //validaciones de size
+    if (!size) return res.send({ msg: "size is required" });
+    size = size.toUpperCase();
+
+    //validaciones de quantity
+    if (!quantity) return res.send({ msg: "quantity is required" });
+    if (Number.isNaN(quantity))
+      return res.send({ msg: "quantity must be a number" });
+
     //existencia de usuario
     const userObj = await User.findOne({ where: { id: user } });
     if (!userObj) return res.send({ msg: "user not found" });
@@ -103,23 +116,17 @@ const add_item = async (req, res) => {
     const item_to_add = await Product.findOne({ where: { id: product } });
     if (!item_to_add) return res.send({ msg: "product not found" });
 
-    const list = await userObj.getShopping_list();
-    await list.addProduct(item_to_add);
-    let new_list = await list.getProducts();
-    new_list = new_list.map((e) => {
-      return {
-        productId: e.id,
-        title: e.title,
-        price: e.price,
-        image: e.image,
-        shoppingListId: e.user_shopping.shoppingListId,
-      };
-    });
-    res.send({ msg: "item added", list: new_list });
+    let propetyItem = userObj.trolly[item_to_add.id];
+    propetyItem = { ...propetyItem, [size]: quantity };
+
+    userObj.trolly = { ...userObj.trolly, [item_to_add.id]: propetyItem };
+
+    await userObj.save();
+    res.send({ msg: "item added", list: userObj.trolly });
   } catch (err) {
     res.send({ msg: "failed to add item", error: err });
     console.log(err);
   }
 };
 
-module.exports = { get_item, delete_item, destroy_trolly, add_item };
+module.exports = { get_item, delete_item, empty_trolly, add_item };
