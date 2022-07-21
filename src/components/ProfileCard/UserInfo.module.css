@@ -52,8 +52,8 @@
 /* Address */
 
 .ship-li {
-  width: 18rem;
-  height: 8rem;
+  width: 16rem;
+  min-height: 8rem;
   border-left: 0.3rem solid var(--bg);
   padding: 0.8rem 3rem 0.8rem 1rem;
   box-shadow: var(--shadow-md);
@@ -102,4 +102,10 @@
 .address-buttons span svg {
   width: 1rem;
   height: 1rem;
+}
+
+@media only screen and (min-width: 1024px) {
+  .ship-li {
+    width: 18rem;
+  }
 }
