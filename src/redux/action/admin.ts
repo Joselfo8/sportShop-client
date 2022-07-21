@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getAllProducts = () => async (dispatch: any) => {
+export const getAllProducts = (page? : number, limit? : string) => async (dispatch: any) => {
     try{
-        const response = await axios.get("https://vlixes-server.herokuapp.com/products");
+        const response = await axios.get(`https://vlixes-server.herokuapp.com/products?pag=${page ? page : 1}&limit=${limit ? limit : 5}`);
         return dispatch({
             type: "ALL_PRODUCTS",
             payload: response.data
@@ -11,10 +11,15 @@ export const getAllProducts = () => async (dispatch: any) => {
         console.log(error);
     };
 };
-export function getProductsByName(name: any) {
-    return {
-        type: "GET_PRODUCT_BY_NAME",
-        payload: name,
+export const  getProductsByName = (name: any) => async(dispatch: any) => {
+    try{
+        const response = await axios.get("https://vlixes-server.herokuapp.com/products?title=" + name);
+        return dispatch({
+            type: "GET_PRODUCT_BY_NAME",
+            payload: response.data,
+        });
+    }catch(error){
+        console.log(error);
     };
 };
 export const deleteProduct = (id: number) => async (dispatch: any) => {

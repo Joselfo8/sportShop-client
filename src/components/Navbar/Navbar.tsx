@@ -52,6 +52,11 @@ function handleChange(event: any) {
   }
 
   const togleModal = () => setModal(!modal);
+
+  let data = state.products?.map((e:any) => e.category).filter((e : any, index : any) => {
+    return state.products.map((e:any) => e.category).indexOf(e) === index
+  });
+
   return (
     <div className={styles.navBar}>
       <Link to="/">
@@ -63,22 +68,22 @@ function handleChange(event: any) {
         }
 
       <ul className={styles.navItems}>
-        { state.products !== 0 ?
-          state.products?.map((e: any) => {
+        {
+          data?.map((e: any) => {
           return (
             <li
               className={styles.cName}
-              onMouseEnter={() => setDropDown({ [e.category]: true })}
-              onMouseLeave={() => setDropDown({ [e.category]: false })}
-              key={e.category}
+              onMouseEnter={() => setDropDown({ [e]: true })}
+              onMouseLeave={() => setDropDown({ [e]: false })}
+              key={e}
             >
-              <Link to={`/${e.category}`}>
-                <button className={styles.buttonNav}>{e.category}</button>
+              <Link to={`/${e}`}>
+                <button className={styles.buttonNav}>{e}</button>
               </Link>
-              {dropDown[e.category] && <DropDown categoryClick={e.category} />}
+              {dropDown[e] && <DropDown categoryClick={e} />}
             </li>
           );
-        }): <></>}
+        })}
       </ul>
 
       <div className={styles.orderIcons}>
