@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import {
-  cleanStore,
-  getProductsByName,
-  getProductsByCategory,
-  allCategories,
-} from "../../redux/action";
+import {allCategories} from "../../redux/action";
 import styles from "./NavBar.module.scss";
 import cart from "../../assets/cart.png";
 import user from "../../assets/user.png";
@@ -43,20 +38,18 @@ useEffect(() => {
 
 function handleChange(event: any) {
     setValue(event);
-  }
+  };
 
   function handleSubmit(event: any) {
     event.preventDefault();
-    dispatch(getProductsByName(value));
-    navigate("/products");
-  }
+    navigate(`/search/${value}`);
+  };
 
   const togleModal = () => setModal(!modal);
 
   let data = state.products?.map((e:any) => e.category).filter((e : any, index : any) => {
     return state.products.map((e:any) => e.category).indexOf(e) === index
   });
-
   return (
     <div className={styles.navBar}>
       <Link to="/">

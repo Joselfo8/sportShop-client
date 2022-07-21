@@ -2,7 +2,9 @@ import axios from "axios";
 
 export const getAllProducts = (page? : number, limit? : string) => async (dispatch: any) => {
     try{
-        const response = await axios.get(`https://vlixes-server.herokuapp.com/products?pag=${page ? page : 1}&limit=${limit ? limit : 5}`);
+        const response = await axios.get(
+            `https://vlixes-server.herokuapp.com/products?pag=${page ? page : 1}&limit=${limit ? limit : 5}`
+            );
         return dispatch({
             type: "ALL_PRODUCTS",
             payload: response.data
