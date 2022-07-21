@@ -45,12 +45,18 @@ export function filterByCategory(payload: any) {
   };
 }
 
-export function getProductsByName(name: any) {
-  return {
-    type: GET_PRODUCTSBYNAME,
-    payload: name,
+export const getProductsByName = (name: string) => async(dispatch: any) =>  {
+  try{
+    console.log(name)
+    const response = await axios.get("https://vlixes-server.herokuapp.com/products?title=" + name);
+    return dispatch({
+      type: GET_PRODUCTSBYNAME,
+      payload: response.data,
+    });
+  }catch(error){
+    console.log(error);
   };
-}
+};
 
 export function getProductsByCategory(event: any) {
   try {
