@@ -13,7 +13,7 @@ export default function Favorites(){
     const navigate = useNavigate()
     
     const favorites = useSelector((state:any) => state.rootReducer.favorites)
-    const userID = useSelector((state:any) => state.auth.auth.user.id)
+    const userID = useSelector((state:any) => state.auth.auth?.user.id)
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
     const auth: any =useSelector((state:any) => state.auth.auth)
     

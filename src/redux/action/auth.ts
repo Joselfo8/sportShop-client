@@ -85,20 +85,18 @@ export const logout = () => (dispatch: any) => {
   });
 };
 
-interface UpdateUserInfo {
+interface UpdateUserData {
   name: string;
   lastname: string;
-  email: string;
   dateOfBirth: string;
   genre: string;
 }
 
-export function updateUser(info: UpdateUserInfo) {
+export function updateUser(userId: number, data: UpdateUserData) {
   return async (dispatch: any) => {
-    const userId = 41;
-    const response = await UserService.updateUser(userId, info);
+    const response = await UserService.updateUser(userId, data);
 
-    if (!response.data.user) {
+    if (!response.data.data) {
       const message = response.data?.msg || "Login fail";
       toast(message);
 
@@ -108,6 +106,7 @@ export function updateUser(info: UpdateUserInfo) {
 
     dispatch({
       type: UPDATE_USER,
+      payload: response.data.data,
     });
 
     toast(message);

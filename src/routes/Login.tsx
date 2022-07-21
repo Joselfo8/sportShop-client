@@ -15,11 +15,8 @@ import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
 import styles from "./Login.module.css";
 import { useEffect } from "react";
 import { clearMessage } from "../redux/action/message";
-// Validate inputs
-const onlyLettersRegex = /^[a-zA-Z]*$/g;
-const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-const passwordRegex =
-  /^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).{10,16}$/;
+// Validations
+import validate from "../helpers/validations";
 
 function AuthLogin() {
   return (
@@ -109,11 +106,11 @@ function SignUp() {
           rules={{
             required: true,
             maxLength: {
-              value: 16,
-              message: "Name can have a maximum of 16 characters",
+              value: 30,
+              message: "Name can have a maximum of 30 characters",
             },
             pattern: {
-              value: onlyLettersRegex,
+              value: validate.onlyLetters,
               message: "Name can only include letters",
             },
           }}
@@ -127,13 +124,12 @@ function SignUp() {
           rules={{
             required: true,
             maxLength: {
-              value: 20,
-              message: "Last name can have a maximum of 20 characters",
+              value: 30,
+              message: "Last name can have a maximum of 30 characters",
             },
             pattern: {
-              value: onlyLettersRegex,
-              message:
-                "Username can only include letters, numbers, dash and underscore",
+              value: validate.onlyLetters,
+              message: "Last name can only include letters",
             },
           }}
         />
@@ -146,7 +142,7 @@ function SignUp() {
           rules={{
             required: true,
             pattern: {
-              value: emailRegex,
+              value: validate.email,
               message: "Introduce a valid email address",
             },
           }}
@@ -165,7 +161,7 @@ function SignUp() {
               message: "Password can have 20 characters maximum",
             },
             pattern: {
-              value: passwordRegex,
+              value: validate.password,
               message:
                 "Password should have minimum ten characters, at least one uppercase letter, one lowercase letter, one number and one special character:",
             },
@@ -233,7 +229,7 @@ function SignIn() {
           rules={{
             required: true,
             pattern: {
-              value: emailRegex,
+              value: validate.email,
               message: "Introduce a valid email address",
             },
           }}
@@ -247,6 +243,10 @@ function SignIn() {
           label="Password"
           rules={{
             required: true,
+            maxLength: {
+              value: 20,
+              message: "Password can have 20 characters maximum",
+            },
           }}
         />
         <span className={styles["subtitle"]}>Forgot your password?</span>

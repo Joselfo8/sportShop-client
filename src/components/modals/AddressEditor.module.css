@@ -7,6 +7,16 @@
   margin-bottom: 1rem;
 }
 
+.label-title {
+  font-weight: 600;
+  text-align: start;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.07rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
 .button-cont {
   margin-top: 1.5rem;
   display: flex;

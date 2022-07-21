@@ -13,7 +13,7 @@ import { ReactComponent as EditIcon } from "../../icons/edit-pen-icon.svg";
 import styles from "./UserInfo.module.css";
 
 interface AddressProps {
-  data: ShippingAddress;
+  data: AddressesProps["data"];
   edit: boolean;
   id: string;
   onEdit: (prev: boolean) => void;
@@ -24,6 +24,7 @@ function Address({ data, edit, id, onEdit, onDelete }: AddressProps) {
   return (
     <li className={`${styles["ship-li"]} primary`}>
       <span>{data.name}</span>
+      <span>{data.lastname}</span>
       <span>{data.address}</span>
       <span>{data.secondAddress}</span>
       <span>
@@ -46,30 +47,31 @@ function Address({ data, edit, id, onEdit, onDelete }: AddressProps) {
   );
 }
 
-interface ShippingAddress {
-  name: string;
-  address: string;
-  secondAddress?: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  phone: string;
+interface AddressesProps {
+  data: {
+    name: string;
+    lastname: string;
+    address: string;
+    secondAddress?: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    phone: string;
+  };
 }
 
-function Addresses({
-  name,
-  address,
-  secondAddress,
-  city,
-  state,
-  zipCode,
-  phone,
-}: ShippingAddress) {
+function Addresses({ data }: AddressesProps) {
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(false);
-  const data = { name, address, secondAddress, city, state, zipCode, phone };
 
   const handleDelete = (id: string) => console.log(id);
+
+  const onSubmit = (data: AddressesProps["data"]) => {
+    console.log(data);
+    // const { ...info } = data;
+    // const response = updateUser(id, data);
+    // dispatch(response);
+  };
 
   return (
     <div className={styles["container"]}>
@@ -92,7 +94,7 @@ function Addresses({
         <ModalContainer show={showModal} onShow={setShowModal}>
           <AddressEditor
             onClose={() => setShowModal(false)}
-            saveChange={(data) => console.log(data)}
+            saveChange={(data) => onSubmit(data)}
             data={data}
           />
         </ModalContainer>
@@ -101,13 +103,14 @@ function Addresses({
   );
 }
 
-function Info({ name, lastname, email, dateOfBirth, genre }: Data) {
+function Info({ id, data }: Data) {
   const [showModal, setShowModal] = useState(false);
   // store
   const dispatch = useDispatch();
 
-  const onSubmit = (data: Data) => {
-    const response = updateUser(data);
+  const onSubmit = (data: Data["data"]) => {
+    const { email: _, ...info } = data;
+    const response = updateUser(id, info);
     dispatch(response);
   };
 
@@ -125,31 +128,33 @@ function Info({ name, lastname, email, dateOfBirth, genre }: Data) {
       <div className={styles["info-wrapper"]}>
         <div className={styles["info"]}>
           <span>Name:</span>
-          <span>{name}</span>
+          <span>{data.name}</span>
         </div>
         <div className={styles["info"]}>
           <span>Last name:</span>
-          <span>{lastname}</span>
+          <span>{data.lastname}</span>
         </div>
         <div className={styles["info"]}>
           <span>Email:</span>
-          <span>{email}</span>
+          <span>{data.email}</span>
         </div>
         <div className={styles["info"]}>
           <span>Birthdate:</span>
-          <span>{dateOfBirth}</span>
+          <span>
+            {data.dateOfBirth !== null ? String(data.dateOfBirth) : ""}
+          </span>
         </div>
         <div className={styles["info"]}>
           <span>Genre:</span>
-          <span>{genre}</span>
+          <span>{data.genre}</span>
         </div>
       </div>
       {showModal && (
         <ModalContainer show={showModal} onShow={setShowModal}>
           <InfoEditor
             onClose={() => setShowModal(false)}
-            saveChange={(data: Data) => onSubmit(data)}
-            data={{ name, lastname, email, dateOfBirth, genre }}
+            saveChange={(data: Data["data"]) => onSubmit(data)}
+            data={data}
           />
         </ModalContainer>
       )}
@@ -158,37 +163,36 @@ function Info({ name, lastname, email, dateOfBirth, genre }: Data) {
 }
 
 interface Data {
-  name: string;
-  lastname: string;
-  email: string;
-  dateOfBirth: string;
-  genre: string;
+  id: number;
+  data: {
+    name: string;
+    lastname: string;
+    email: string;
+    dateOfBirth: string;
+    genre: string;
+  };
 }
 
 function UserInfo() {
   // store
   const auth = useSelector((state: any) => state.auth.auth);
-  const user = {
-    name: auth.user.name,
-    lastname: auth.user.lastname,
-    dateOfBirth: auth.user.dateOfBirth,
-    genre: auth.user.genre,
-    email: auth.user.email,
-  };
+  const { id, ...data } = auth.user;
   const shippingAddress = {
     name: auth.user.name,
+    lastname: auth.user.lastname,
     address: auth.user.direction,
     secondAddress: "Plaza Commerce St 172",
-    city: "Dallas",
-    state: "Texas",
+    city: auth.user.city,
+    state: auth.user.state,
+    country: auth.user.country,
     zipCode: "33172",
-    phone: "555-01023021",
+    phone: auth.user.numberPhone,
   };
 
   return (
     <>
-      <Info {...user} />
-      <Addresses {...shippingAddress} />
+      <Info id={id} data={data} />
+      <Addresses data={shippingAddress} />
     </>
   );
 }
