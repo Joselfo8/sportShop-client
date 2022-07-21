@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./List.module.scss"
 import CardList from "./CardList";
+import Paginated from "./Paginated";
 import {getProductsByName, getAllProducts } from "../../../redux/action/admin";
 
 export default function ListProduct(){
     const dispatch = useDispatch();
     const state = useSelector((state:any) => { return {
         products : state.admin.products.products,
-        search : state.admin.searchProduct
-    }
+    };
 });
-console.log(state.search)
     const [ value, setValue ] = useState('');
     const typeList = 'PRODUCT';
     useEffect(() => {
@@ -35,13 +34,9 @@ console.log(state.search)
                 onChange={(e) => handleChange(e.target.value)}
                 />
             </form>
+            <Paginated/>
             {
-                state.search.length === 0
-                ?
-                state.products?.map((e:any) => {
-                    return <CardList title={e.title} id={e.id} category={e.category} image={e.image} type={typeList}/>})
-                :
-                state.search.map((e:any) => {
+            state.products?.map((e:any) => {
                 return <CardList title={e.title} id={e.id} category={e.category} image={e.image} type={typeList}/>})
             }
 
