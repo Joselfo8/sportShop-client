@@ -28,8 +28,7 @@ router.use("/shopping_list", shopping_list);
 router.use("/favorites", favorites);
 router.use("/auth", auth);
 router.use("/buys", buys);
-//router.use("/stock", stock);
+router.use("/stock", stock);
 router.use("/pay", pay);
-
 
 module.exports = router;
