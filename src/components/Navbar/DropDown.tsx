@@ -21,7 +21,7 @@ export default function DropDown(categoryClick:any){
             productSubCategory.map((e:any) => {
                 return( categoryClick.categoryClick === e.category ?
                     <li key={e.sub_category}>
-                        <Link to={"/products"}>
+                        <Link to={`/${e.category}/${e.sub_category}`}>
                             <button className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e.sub_category)}>{e.sub_category}</button>
                         </Link>
                     </li>
