@@ -206,17 +206,19 @@ const getProductByName = async (req, res, next) => {
         image: e.image,
       };
     });
-    //paginacion
+    //paginacion y mensaje de resultados
+    let msg = "search success";
+    if (filter.length === 0) msg = "no results";
     if (pag && limit) {
       filter = pagination(filter, limit, pag);
 
       return res.status(200).json({
-        msg: "search success",
+        msg,
         ...filter,
       });
     } else {
       return res.status(200).json({
-        msg: "search success",
+        msg,
         products: filter,
       });
     }

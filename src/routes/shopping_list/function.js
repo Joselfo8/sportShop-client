@@ -1,4 +1,4 @@
-const { User, Product} = require("../../db");
+const { User, Product } = require("../../db");
 
 const get_item = async (req, res) => {
   try {
@@ -6,16 +6,17 @@ const get_item = async (req, res) => {
     //validaciones
     if (!id) return res.send({ msg: "user is required" });
     if (Number.isNaN(id)) return res.send({ msg: "user must be a number" });
+
     //existencia de usuario
     const user = await User.findOne({ where: { id } });
     if (!user) return res.send({ msg: "user not found" });
-    console.log(Object.keys(user.trolly));// traigo propiedades de objeto
-   let itemsId = Object.keys(user.trolly);
-  
-    console.log(itemsId);
+
+    let itemsId = Object.keys(user.trolly);
+
     let items = await Product.findAll({
       where: { id: itemsId },
     });
+
     items = items.map((x) => {
       return {
         sizesAmount: user.trolly[x.id],
@@ -25,12 +26,12 @@ const get_item = async (req, res) => {
         image: x.image,
         description: x.description,
         category: x.category,
-      }
+      };
     });
-    console.log(items);
-    res.send(items);
+
+    res.send({ msg: "items found", products_in_trolly: items });
   } catch (e) {
-    res.send({ msg: "failed to get items" });
+    res.send({ msg: "failed to get items", error: e });
     console.log(e);
   }
 };
@@ -57,15 +58,11 @@ const delete_item = async (req, res) => {
     //existencia de producto
     let productObj = await Product.findOne({ where: { id: product } });
     if (!productObj) return res.send({ msg: "product not found" });
-    
-    userObj.trolly = {...userObj.trolly,[productObj.id]: undefined};
+
+    userObj.trolly = { ...userObj.trolly, [productObj.id]: undefined };
     await userObj.save();
-    const inf =  userObj.trolly[productObj.id]
-    console.log(userObj.trolly)
-    //console.log(inf)
-    //console.log(productObj.id)
-    //res.send({ msg: "item deleted", user : userObj });
-   res.status(200).send(`el producto id ${JSON.stringify(productObj.id)} was deleted`)
+
+    res.send({ msg: "item deleted", list: userObj.trolly });
   } catch (e) {
     console.log(e);
     res.send({ msg: "failed to delete item", error: e });
@@ -76,14 +73,14 @@ const empty_trolly = async (req, res) => {
   try {
     const { user } = req.query;
 
-   //validaciones de user
+    //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
 
     const userObj = await User.findOne({ where: { id: user } });
-    userObj.trolly = {}
-    await userObj.save()
-    res.send("trolly has been emptied");
+    userObj.trolly = {};
+    await userObj.save();
+    res.send({ msg: "trolly has been emptied" });
   } catch (e) {
     res.send(e);
   }
@@ -91,11 +88,8 @@ const empty_trolly = async (req, res) => {
 //////////////////////////////////////////
 const add_item = async (req, res) => {
   try {
-    const { user } = req.body;
-    const { product } = req.body;
-    const{size,quantity} = req.body;
-    // get talla y cantidad producto
-      
+    let { user, size, quantity, product } = req.body;
+
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
@@ -105,6 +99,15 @@ const add_item = async (req, res) => {
     if (Number.isNaN(product))
       return res.send({ msg: "product must be a number" });
 
+    //validaciones de size
+    if (!size) return res.send({ msg: "size is required" });
+    size = size.toUpperCase();
+
+    //validaciones de quantity
+    if (!quantity) return res.send({ msg: "quantity is required" });
+    if (Number.isNaN(quantity))
+      return res.send({ msg: "quantity must be a number" });
+
     //existencia de usuario
     const userObj = await User.findOne({ where: { id: user } });
     if (!userObj) return res.send({ msg: "user not found" });
@@ -112,14 +115,14 @@ const add_item = async (req, res) => {
     //existencia de producto
     const item_to_add = await Product.findOne({ where: { id: product } });
     if (!item_to_add) return res.send({ msg: "product not found" });
-    //{ '3': 1 , "4":2}
+
     let propetyItem = userObj.trolly[item_to_add.id];
-    propetyItem = {...propetyItem,[size]:quantity}
-console.log(propetyItem)
-     userObj.trolly = {...userObj.trolly,[item_to_add.id]: propetyItem }
-    
-    await userObj.save()
-    res.send({ msg: "item added", list: userObj });
+    propetyItem = { ...propetyItem, [size]: quantity };
+
+    userObj.trolly = { ...userObj.trolly, [item_to_add.id]: propetyItem };
+
+    await userObj.save();
+    res.send({ msg: "item added", list: userObj.trolly });
   } catch (err) {
     res.send({ msg: "failed to add item", error: err });
     console.log(err);
