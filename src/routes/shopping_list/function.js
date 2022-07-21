@@ -29,7 +29,7 @@ const get_item = async (req, res) => {
       };
     });
 
-    res.send({ msg: "items found", products_in_trolly: items });
+    res.send({ msg: "items found", list: items });
   } catch (e) {
     res.send({ msg: "failed to get items", error: e });
     console.log(e);
