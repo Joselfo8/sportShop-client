@@ -5,7 +5,9 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   UPDATE_USER,
+  ADD_SHIPPING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
+  DELETE_SHIPPING_ADDRESS,
 } from "../action/types";
 // Interfaces
 import { AddressProps } from "components/ProfileCard/UserInfo";
@@ -55,14 +57,41 @@ function auth(state = initialState, action: any) {
           user: payload,
         },
       };
+    case ADD_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          user: {
+            ...state.auth.user,
+            shippingAddresses: [...state.auth.user.shippingAddresses, payload],
+          },
+        },
+      };
     case UPDATE_SHIPPING_ADDRESS:
       // replace old address with updated
-      const addresses = state.auth.user.shippingAddresses.map(
+      const addr = state.auth.user.shippingAddresses.map(
         (a: AddressProps["data"]) => {
           if (a.id === payload.id) return payload;
 
           return a;
         }
+      );
+
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          user: {
+            ...state.auth.user,
+            shippingAddresses: addr,
+          },
+        },
+      };
+    case DELETE_SHIPPING_ADDRESS:
+      // delete addr from state
+      const addresses = state.auth.user.shippingAddresses.filter(
+        (a: AddressProps["data"]) => a.id !== payload
       );
 
       return {

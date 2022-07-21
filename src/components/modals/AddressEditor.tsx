@@ -165,7 +165,9 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
             <PhoneInput
               placeholder="Your phone number..."
               value={phone}
-              onChange={(data) => setPhone(data)}
+              onChange={(_1, _2, _3, formattedValue) =>
+                setPhone(formattedValue)
+              }
               inputProps={{ required: true }}
             />
           </label>

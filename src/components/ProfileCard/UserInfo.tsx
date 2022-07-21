@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // Components
 import ModalContainer from "../modals/ModalContainer";
 import AddressEditor from "../modals/AddressEditor";
 import InfoEditor from "../modals/InfoEditor";
 // Actions
-import { updateUser, updateShippingAddress } from "../../redux/action/user";
+import {
+  updateUser,
+  addShippingAddress,
+  updateShippingAddress,
+  deleteShippingAddress,
+} from "../../redux/action/user";
 // Icons
 import { ReactComponent as ErrorIcon } from "../../icons/error-icon.svg";
 import { ReactComponent as EditIcon } from "../../icons/edit-pen-icon.svg";
@@ -57,12 +62,13 @@ function Address({ data, edit, onEdit, onDelete }: AddressProps) {
 }
 
 interface AddressesProps {
+  userId: number;
   data: Array<AddressProps["data"]>;
 }
 
-function Addresses({ data }: AddressesProps) {
+function Addresses({ userId, data }: AddressesProps) {
   const [showModal, setShowModal] = useState(false);
-  const [toEdit, setToEdit] = useState<AddressProps["data"]>({
+  const toEditDefault = {
     id: 0,
     name: "",
     lastName: "",
@@ -72,13 +78,16 @@ function Addresses({ data }: AddressesProps) {
     state: "",
     zipCode: "",
     phoneNumber: "",
-  });
+  };
+  const [toEdit, setToEdit] = useState<AddressProps["data"]>(toEditDefault);
   const [edit, setEdit] = useState(false);
   // store
   const dispatch = useDispatch();
 
-  const handleDelete = (id: number) => {
-    console.log(id);
+  const handleCreate = () => {
+    setToEdit(toEditDefault);
+    setEdit(false);
+    setShowModal(true);
   };
 
   const handleEdit = (data: AddressProps["data"]) => {
@@ -86,10 +95,32 @@ function Addresses({ data }: AddressesProps) {
     setToEdit(data);
   };
 
-  const onSubmit = (data: AddressProps["data"]) => {
-    const response = updateShippingAddress(data);
+  const handleDelete = (id: number) => {
+    const response = deleteShippingAddress(id);
     dispatch(response);
   };
+
+  const onSubmit = (data: AddressProps["data"]) => {
+    if (edit) {
+      const response = updateShippingAddress(data);
+      dispatch(response);
+      return;
+    }
+
+    // add a new address
+    const response = addShippingAddress(userId, data);
+    dispatch(response);
+  };
+
+  // reset toEdit state
+  useEffect(() => {
+    if (!edit) setToEdit(toEditDefault);
+  }, [edit]);
+
+  // if data.length === 0, edit is equal false
+  useEffect(() => {
+    if (data.length === 0) setEdit(false);
+  }, [data]);
 
   return (
     <div className={styles["container"]}>
@@ -97,15 +128,20 @@ function Addresses({ data }: AddressesProps) {
         <span className={styles["title"]}>Shipping addresses</span>
         <div className={styles["edit-button-cont"]}>
           <span
-            onClick={() => setEdit(!edit)}
+            onClick={() => handleCreate()}
             className={styles["edit-button"]}
           >
             Add
           </span>
           <span className={styles["edit-button-separator"]}>|</span>
           <span
-            onClick={() => setEdit(!edit)}
-            className={styles["edit-button"]}
+            onClick={() => {
+              if (data.length === 0) return;
+              setEdit(!edit);
+            }}
+            className={`${styles["edit-button"]} ${
+              data.length === 0 ? styles["edit-button-disabled"] : ""
+            }`}
           >
             {edit ? "Cancel" : "Edit"}
           </span>
@@ -216,7 +252,7 @@ function UserInfo() {
   return (
     <>
       <Info id={id} data={data} />
-      <Addresses data={data.shippingAddresses} />
+      <Addresses userId={id} data={data.shippingAddresses} />
     </>
   );
 }

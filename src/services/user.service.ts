@@ -11,9 +11,18 @@ async function updateUser(id: InfoProps["id"], data: InfoProps["data"]) {
   return await axios.put(`${API_URL}/users/${id}`, req);
 }
 
+async function addShippingAddress(userId: number, data: AddressProps["data"]) {
+  const { id: _, ...req } = data;
+  return await axios.post(`${API_URL}/users/${userId}/address`, req);
+}
+
 async function updateShippingAddress(data: AddressProps["data"]) {
   const { id, ...req } = data;
   return await axios.put(`${API_URL}/users/address/${id}`, req);
+}
+
+async function deleteShippingAddress(id: AddressProps["data"]["id"]) {
+  return await axios.delete(`${API_URL}/users/address/${id}`);
 }
 
 function getPublicContent() {
@@ -34,7 +43,9 @@ function getAdminBoard() {
 
 const user = {
   updateUser,
+  addShippingAddress,
   updateShippingAddress,
+  deleteShippingAddress,
   getPublicContent,
   getUserBoard,
   getModeratorBoard,
