@@ -18,7 +18,6 @@ export default function Products() {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state.rootReducer);
-
   // get products from store
   useEffect(() => {
     dispatch(getProducts(page));
@@ -46,12 +45,12 @@ export default function Products() {
       ),
 
     searchProducts:
-      state.productsFiltered.length === 0 ? (
+      !state.productsFiltered.products ? (
         <div>
           <h2>No products found!</h2>
         </div>
       ) : (
-        state.productsFiltered.map((p: any) => {
+        state.productsFiltered.products.map((p: any) => {
           return (
             <div key={p.title}>
                     <Card
@@ -68,12 +67,12 @@ export default function Products() {
       ),
   };
 
+  console.log(state.productsFiltered)
   return (
     <div>
       <NavBar />
 
       <Filter />
-
         {
           state.productsFiltered.length === 0
           ? <div>

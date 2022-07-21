@@ -26,7 +26,7 @@ export default function NavBar() {
         userDate: store.auth.isLoggedIn ? store.auth.auth.user : []
     }
 });
-const [value, setValue] = useState({});
+const [value, setValue] = useState('');
 const dispatch = useDispatch();
 const navigate = useNavigate();
 const [dropDown, setDropDown]: any = useState({
