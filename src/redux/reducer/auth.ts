@@ -9,13 +9,11 @@ import {
 } from "../action/types";
 // Interfaces
 import { AddressProps } from "components/ProfileCard/UserInfo";
-// localStorage
-const response = localStorage.getItem("auth");
-const data = response !== null && JSON.parse(response);
 
-const initialState = data
-  ? { isLoggedIn: true, auth: data }
-  : { isLoggedIn: false, auth: null };
+const initialState = {
+  isLoggedIn: false,
+  auth: { user: { shippingAddresses: [] } },
+};
 
 function auth(state = initialState, action: any) {
   const { type, payload } = action;

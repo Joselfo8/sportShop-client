@@ -21,9 +21,9 @@ async function login(email: string, password: string) {
     password,
   });
 
-  if (response.data.token) {
-    localStorage.setItem("auth", JSON.stringify(response.data));
-  }
+  // if (response.data.token) {
+  //   localStorage.setItem("auth", JSON.stringify(response.data));
+  // }
 
   return response.data;
 }
