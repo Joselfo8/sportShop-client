@@ -14,15 +14,12 @@ import {
 const initialState: any = {
   products: [],
   productsFiltered: [],
-  searchProducts: [],
   productCart: [],
-  details: {},
-  userInformation: {},
   shoppinglist: [],
   favorites: [],
-  allUsers: [],
-  searchUser: [],
   categories: [],
+  details: {},
+  userInformation: {},
 };
 
 function rootReducer(state = initialState, action: any) {
@@ -40,18 +37,15 @@ function rootReducer(state = initialState, action: any) {
       };
 
     case GET_PRODUCTSBYNAME:
-      const filter: any = state.products.filter((product: any) =>
-        product.title.toLowerCase().includes(action.payload.toLowerCase())
-      );
       return {
         ...state,
-        productsFiltered: filter,
+        productsFiltered: action.payload,
       };
 
     case "GET_BY_CATEGORY":
       return {
         ...state,
-        productsFiltered: action.payload.products,
+        productsFiltered: action.payload,
       };
 
     case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
@@ -60,7 +54,7 @@ function rootReducer(state = initialState, action: any) {
         maxPage: action.payload.maxPage,
         next: action.payload.next,
         previous: action.payload.previous,
-        productsFiltered: action.payload.products,
+        productsFiltered: action.payload,
       };
 
     case "CLEAN_STORE":

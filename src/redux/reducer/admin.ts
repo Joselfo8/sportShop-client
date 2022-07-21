@@ -1,6 +1,5 @@
 const initialState: any = {
     products : [],
-    searchProduct : [],
     users : [],
     searchUser : [],
 };
@@ -13,13 +12,9 @@ function admin(state = initialState, action : any){
                 products : action.payload
             };
         case "GET_PRODUCT_BY_NAME":
-            console.log(state.products.products)
-            const filterProduct: any = state.products.products.filter((product: any) =>
-                product.title.toLowerCase().includes(action.payload.toLowerCase())
-            );
             return {
                 ...state,
-                searchProduct: filterProduct,
+                products: action.payload,
             };
         case "GET_ALL_USERS":
             return {
@@ -36,7 +31,7 @@ function admin(state = initialState, action : any){
             };
         default:
             return state;
-    }
-}
+    };
+};
 
 export default admin;

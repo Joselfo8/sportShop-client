@@ -22,7 +22,7 @@ $weightParagraph: 300;
     .pLink{
         display: inline-flex;
         margin-right: 10px;
-        font-size: 12px;
+        font-size: 16px;
         font-family: $font;
         font-weight: 600;
         margin-left: 10px;
@@ -45,12 +45,13 @@ $weightParagraph: 300;
         display: block;
         margin: 0 auto;
         margin-top: 50px;
+        transition: 0.7s;
     }
 
-    // img:hover {
-    //     transform: scale(1.);
-    //     cursor: zoom-in;
-    // }
+    img:hover {
+        transform: scale(1.1);
+        cursor: zoom-in;
+    }
 
     h2 {
         font-family: $font;
@@ -152,6 +153,14 @@ $weightParagraph: 300;
         font-family: $font;
         font-weight: 600;
     }
+    
+    .sucessful {
+        color: #000000;
+    }
+
+    .errors {
+        color: #ff0000;
+    }
 
 }
 
@@ -160,6 +169,78 @@ $weightParagraph: 300;
     text-decoration: none;
 }
 
+// ----------------Modal--------------
+.buttonNav {
+    width: 9rem;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    font-weight: 500;
+
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+.buttonNav {
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+.buttonNav:hover {
+    background: transparent;
+    color: #000;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+.buttonNav:before,
+.buttonNav:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #000;
+    transition:400ms ease all;
+}
+.buttonNav:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+.buttonNav:hover:before,
+.buttonNav:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}
+
+  .modalHeader{
+    
+    h1 {
+        text-align: center;
+        color: #000;
+        font-family: $font;
+        font-weight: $weightTitle;
+        font-size: 25px;
+        margin: 0 auto;
+    }
+    
+  }
+  
+  .modalBody {
+  
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+}
+  
 
 // ----------------Tallas-------------
 .containerSize {
