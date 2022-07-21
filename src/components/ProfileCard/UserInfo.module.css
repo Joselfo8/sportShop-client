@@ -16,6 +16,15 @@
   font-weight: 600;
 }
 
+.edit-button-cont {
+  display: flex;
+}
+
+.edit-button-separator {
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0 0.2rem;
+}
+
 .edit-button {
   cursor: pointer;
   display: block;

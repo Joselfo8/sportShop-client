@@ -1,17 +1,19 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+// Interfaces
+import { InfoProps } from "components/ProfileCard/UserInfo";
+import { AddressProps } from "components/ProfileCard/UserInfo";
+// Env
 const API_URL = process.env.REACT_APP_API_URL;
 
-interface UpdateUserData {
-  name: string;
-  lastname: string;
-  dateOfBirth: string;
-  genre: string;
+async function updateUser(id: InfoProps["id"], data: InfoProps["data"]) {
+  const { email: _, ...req } = data;
+  return await axios.put(`${API_URL}/users/${id}`, req);
 }
 
-async function updateUser(userId: number, data: UpdateUserData) {
-  // return await axios.put(API_URL + "/users", { ...info }, { headers: authHeader() });
-  return await axios.put(`${API_URL}/users/${userId}`, data);
+async function updateShippingAddress(data: AddressProps["data"]) {
+  const { id, ...req } = data;
+  return await axios.put(`${API_URL}/users/address/${id}`, req);
 }
 
 function getPublicContent() {
@@ -32,6 +34,7 @@ function getAdminBoard() {
 
 const user = {
   updateUser,
+  updateShippingAddress,
   getPublicContent,
   getUserBoard,
   getModeratorBoard,

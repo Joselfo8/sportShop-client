@@ -18,3 +18,4 @@ export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 // user
 export const UPDATE_USER = "UPDATE_USER";
+export const UPDATE_SHIPPING_ADDRESS = "UPDATE_SHIPPING_ADDRESS";

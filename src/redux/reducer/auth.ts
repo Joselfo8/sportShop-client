@@ -5,7 +5,11 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   UPDATE_USER,
+  UPDATE_SHIPPING_ADDRESS,
 } from "../action/types";
+// Interfaces
+import { AddressProps } from "components/ProfileCard/UserInfo";
+// localStorage
 const response = localStorage.getItem("auth");
 const data = response !== null && JSON.parse(response);
 
@@ -51,6 +55,26 @@ function auth(state = initialState, action: any) {
         auth: {
           ...state.auth,
           user: payload,
+        },
+      };
+    case UPDATE_SHIPPING_ADDRESS:
+      // replace old address with updated
+      const addresses = state.auth.user.shippingAddresses.map(
+        (a: AddressProps["data"]) => {
+          if (a.id === payload.id) return payload;
+
+          return a;
+        }
+      );
+
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          user: {
+            ...state.auth.user,
+            shippingAddresses: addresses,
+          },
         },
       };
     default:
