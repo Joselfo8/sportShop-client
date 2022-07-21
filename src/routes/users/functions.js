@@ -15,7 +15,7 @@ async function getAllUser(req, res) {
     }
     let users = await User.findAll(where);
 
-    return res.send({ msg: "Users found", users});
+    return res.send({ msg: "Users found", users });
   } catch (error) {
     console.log(error);
     res.send({ msg: "error" });
@@ -121,16 +121,17 @@ async function putUser(req, res) {
     // get user by id
     const user = await User.findOne({
       where: { id: id },
+      include: "shippingAddresses",
     });
 
-    if (!user) return res.status(200).json({ msg: "User not found" });
+    if (!user) return res.status(404).json({ msg: "User not found" });
 
     // email can't be update
-    if (email) return res.status(200).json({ msg: "Email can't be update" });
+    if (email) return res.status(400).json({ msg: "Email can't be update" });
 
     // password can't be update
     if (password)
-      return res.status(200).json({ msg: "Password can't be update" });
+      return res.status(400).json({ msg: "Password can't be update" });
 
     // update user data
     user.set(data);
@@ -144,7 +145,7 @@ async function putUser(req, res) {
       data: response,
     });
   } catch (error) {
-    res.status(200).json({ msg: error.message });
+    res.status(500).json({ msg: error.message });
     // res.status(200).json({ msg: "Failed to update user" });
   }
 }
@@ -158,21 +159,18 @@ async function addShippingAddress(req, res) {
       where: { id: id },
     });
 
-    if (!user) return res.status(200).json({ msg: "User not found" });
+    if (!user) return res.status(404).json({ msg: "User not found" });
 
     // create one address, associate with user and save
     const newAddr = await ShippingAddress.create(req.body);
     await user.addShippingAddress(newAddr);
 
-    // get user shipping addresses
-    const addresses = await user.getShippingAddresses();
-
     res.status(200).json({
       msg: "Shipping address added",
-      data: addresses,
+      data: newAddr,
     });
   } catch (error) {
-    res.status(200).json({ msg: error.message });
+    res.status(500).json({ msg: error.message });
   }
 }
 
@@ -186,7 +184,7 @@ async function updateShippingAddress(req, res) {
     });
 
     if (!address)
-      return res.status(200).json({ msg: "Shipping address not found" });
+      return res.status(404).json({ msg: "Shipping address not found" });
 
     // update address
     address.set(req.body);
@@ -197,7 +195,7 @@ async function updateShippingAddress(req, res) {
       data: address,
     });
   } catch (error) {
-    res.status(200).json({ msg: error.message });
+    res.status(500).json({ msg: error.message });
   }
 }
 
@@ -211,7 +209,7 @@ async function deleteShippingAddress(req, res) {
     });
 
     if (!address)
-      return res.status(200).json({ msg: "Shipping address not found" });
+      return res.status(404).json({ msg: "Shipping address not found" });
 
     // delete from db
     await address.destroy();
@@ -220,7 +218,7 @@ async function deleteShippingAddress(req, res) {
       msg: "Shipping address deleted",
     });
   } catch (error) {
-    res.status(200).json({ msg: error.message });
+    res.status(500).json({ msg: error.message });
   }
 }
 
@@ -238,7 +236,8 @@ async function loginUser(req, res) {
 
     // search user in db
     let user = await User.findOne({
-      where: { email: email },
+      where: { email },
+      include: "shippingAddresses",
     });
 
     // hash password and compare with db hash
