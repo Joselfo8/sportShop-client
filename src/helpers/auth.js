@@ -21,12 +21,12 @@ const checkRole = async (req, res, next) => {
         req.user = tokenInfo;
         return next();
       } else {
-        res.status(409).send({ msg: "Token invalido" });
+        res.status(409).send({ msg: "Token invalid" });
       }
     }
   } catch (e) {
     res.status(409);
-    res.send({ msg: "error al verificar token" }); //por aqui no pasa
+    res.send({ msg: "error to check token" }); //por aqui no pasa
   }
 };
 
