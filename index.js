@@ -23,7 +23,7 @@ const { conn } = require("./src/db.js");
 const { PORT, NODE_ENV } = process.env;
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ alter: true }).then(() => {
   if (NODE_ENV === "development") {
     console.log("LOCAL database synced");
   } else if (NODE_ENV === "production") {
