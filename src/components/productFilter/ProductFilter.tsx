@@ -44,14 +44,16 @@ export default function(){
             }
             </div>
             { state.products && state.products.length ?
-            <Pagination
-                maxPage={state.maxPage}
-                next={state.next}
-                previous={state.previous}
-                selected={page}
-                onSelected={setPage}
-            /> :
-            <></>
+            <div className={styles.pagination}>
+                <Pagination
+                    maxPage={state.maxPage}
+                    next={state.next}
+                    previous={state.previous}
+                    selected={page}
+                    onSelected={setPage}
+                /> 
+            </div>
+            :   <></>
             }
             <Footer/>
         </div>
