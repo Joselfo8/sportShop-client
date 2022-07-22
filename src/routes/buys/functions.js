@@ -27,12 +27,12 @@ async function getBuys(req, res) {
 async function getBuyByUser(req, res) {
   try {
     const { user } = req.query;
-    console.log(user);
-    // let userObj = await User.findAOne({ where: { id: user } });
-    // if (!userObj) return res.send({ msg: "user not found" });
-    //const buys = await user.getBuys();
+    //console.log(user);
+    let userObj = await User.findOne({ where: { id: user } });
+    if (!userObj) return res.send({ msg: "user not found" });
+    const buys = await userObj.getBuys();
 
-    res.send(user);
+    res.send(buys);
   } catch (error) {
     console.log("error=>", error);
     res.send({ msg: "failed to get buys", error });
