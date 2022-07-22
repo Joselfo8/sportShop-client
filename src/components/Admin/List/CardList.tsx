@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { deleteUser } from "../../../redux/action/admin";
 import user from "../../../assets/userByAdmin.png"
 import { deleteProduct } from "../../../redux/action/admin";
+import {IoMdAddCircleOutline} from "react-icons/io"
 
 export default function CardList({title, id, category, image, name, role, type}:any){
     const dispatch = useDispatch();
@@ -39,11 +40,16 @@ export default function CardList({title, id, category, image, name, role, type}:
             <div className={styles.containerButtons}>
                 { type === "PRODUCT" ?
                     <Link to={`/editProduct/${id}`} style={{color:"black"}}>
-                        <BsFillPencilFill/>
+                        <BsFillPencilFill size={18}/>
                     </Link>
                     : <></>
                 }
-                <FaTrash onClick={() => {handleDelete(id)}} className={styles.buttonX}/>
+                <FaTrash size={18} onClick={() => {handleDelete(id)}} className={styles.buttonX}/>
+
+                <Link to={`/stock/${id}`}  style={{color:"black"}}>
+                    <IoMdAddCircleOutline size={18} className={styles.buttonStock}/>
+                </Link>
+
             </div>
 
         </div>

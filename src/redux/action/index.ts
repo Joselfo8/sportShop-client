@@ -237,3 +237,14 @@ export function postPurchase(object: any) {
     console.log(error);
   }
 }
+
+
+export const addStock = (payload:any) => async (dispatch:any) => {
+  try {
+    const json = await axios.post('https://vlixes-server.herokuapp.com/stock',payload)
+    console.log(json)
+    dispatch(getDetails(payload.product))
+  } catch(error) {
+    console.log(error)
+  }
+}
