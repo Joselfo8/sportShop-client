@@ -104,6 +104,7 @@ function handleChange(event: any) {
           }
         </div>
 
+
         <div>
         <Link to={state.userLoged ? "/favorites" : "/login"}>
           <img src={heart} className={styles.heart} />
@@ -113,6 +114,7 @@ function handleChange(event: any) {
         <Link to={state.userLoged ? "/cart" : "/login"}>
           <img src={cart} className={styles.cart} />
         </Link>
+
         </div>
 
       <Modal
