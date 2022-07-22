@@ -67,14 +67,13 @@ export default function Products() {
       ),
   };
 
-  console.log(state.productsFiltered)
   return (
     <div>
       <NavBar />
 
       <Filter />
         {
-          state.productsFiltered.length === 0
+          state.productsFiltered.msg === "no results"
           ? <div>
               <h1 style={{paddingRight:"55rem"}}>Product Not Found...</h1>
               <h2 style={{paddingLeft:"4.3rem",paddingTop:"5rem"}}>Recomended products</h2>

@@ -25,16 +25,16 @@ export default function(){
             <div className="containerButtons">
 
                 {   getState === 1 ?
-                    <button onClick={() => {handleClik(0)}} className="selected"> Products admin</button> :
-                    <button onClick={() => {handleClik(1)}}> Products admin</button>
+                    <button onClick={() => {handleClik(0)}} className="selected"> Products</button> :
+                    <button onClick={() => {handleClik(1)}}> Products</button>
                 }
                 {   getState === 2 ?
-                    <button onClick={() => {handleClik(0)}}className="selected">Users admin</button> :
-                    <button onClick={() => {handleClik(2)}}>Users admin</button>
+                    <button onClick={() => {handleClik(0)}}className="selected">Users</button> :
+                    <button onClick={() => {handleClik(2)}}>Users</button>
                 }
                 {   getState === 3 ?
-                    <button onClick={() => {handleClik(0)}} className="selected">Purchases admin</button> :
-                    <button onClick={() => {handleClik(3)}} >Purchases admin</button>
+                    <button onClick={() => {handleClik(0)}} className="selected">Purchases</button> :
+                    <button onClick={() => {handleClik(3)}} >Purchases</button>
                 }
 
             </div>

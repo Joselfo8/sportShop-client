@@ -19,6 +19,8 @@ import AddProduct from "./components/Admin/Forms/AddProduct";
 import Purchase from "./components/Purchase/Purchase";
 import EditProduct from "./components/Admin/Forms/EditProduct";
 import Order from "./components/Admin/Orders/Order"
+import ProductFilter from "components/productFilter/ProductFilter";
+
 
 function App() {
   return (
@@ -36,6 +38,10 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Details/>}/>
         <Route path="/about" element={<About />} />
+
+        {/* FILTRADO DE PRODUCTOS */}
+        <Route path="/:category/:subCaegory" element={<ProductFilter/>}/>
+
 
         {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin />} />

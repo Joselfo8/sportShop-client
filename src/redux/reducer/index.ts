@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 import auth from "./auth";
 import message from "./message";
 import admin from "./admin";
+import products from "./products";
 
 import {
   GET_PRODUCTSBYNAME,
@@ -122,4 +123,4 @@ function rootReducer(state = initialState, action: any) {
   }
 }
 
-export default combineReducers({ auth, message, rootReducer, admin });
+export default combineReducers({ auth, message, rootReducer, admin, products });
