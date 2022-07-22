@@ -25,7 +25,7 @@ export default function Footer(){
                     <h5>CONTACT US</h5>
                     <div className={styles.orderMail}>
                         <img src={email} style={{height:"15px", width:"15px"}}/>
-                        <span>vlixes@gmail.com</span>
+                        <span>vlixes.international@gmail.com</span>
                     </div>
                     <div className={styles.orderPhone}>
                         <img src={phone} style={{height:"15px", width:"15px"}}/>

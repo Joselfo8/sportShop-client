@@ -14,7 +14,7 @@ export default function ListProduct(){
     const [ value, setValue ] = useState('');
     const typeList = 'PRODUCT';
     useEffect(() => {
-        dispatch(getAllProducts());
+         dispatch(getAllProducts());
     },[]);
     function handleChange(event: any) {
         setValue(event);

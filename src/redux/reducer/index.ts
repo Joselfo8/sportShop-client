@@ -78,6 +78,7 @@ function rootReducer(state = initialState, action: any) {
       };
 
     case GET_SHOPPINGLIST_BY_USER_ID:
+      console.log("desde reducer shopinglist", action.payload)
       return {
         ...state,
         shoppinglist: action.payload,
@@ -111,6 +112,12 @@ function rootReducer(state = initialState, action: any) {
         ...state,
         categories: action.payload,
       }
+    case "POST_PURCHASE":
+      console.log("compra creada")
+      return{
+        
+      }
+
     default:
       return state;
   }

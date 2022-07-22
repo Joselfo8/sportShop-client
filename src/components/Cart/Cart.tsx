@@ -10,7 +10,7 @@ export default function Cart(){
     const dispatch = useDispatch();
     const state = useSelector((store:any) => {
         return {
-            products: store.rootReducer.shoppinglist,
+            products: store.rootReducer.shoppinglist.list,
             userId: store.auth.auth.user.id,
         };
     });

@@ -2,6 +2,8 @@ const initialState: any = {
     products : [],
     users : [],
     searchUser : [],
+    orders: [],
+    order: {},
 };
 
 function admin(state = initialState, action : any){
@@ -28,6 +30,16 @@ function admin(state = initialState, action : any){
             return {
                 ...state,
                 searchUser: filterUser,
+            };
+        case "GET_ORDERS":
+            return {
+                ...state,
+                orders : action.payload,
+            };
+        case "GET_ORDERS_BY_ID":
+            return {
+                ...state,
+                order : action.payload,
             };
         default:
             return state;

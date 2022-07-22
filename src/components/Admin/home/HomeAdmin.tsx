@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NavBar from "../../Navbar/Navbar";
 import ListProduct from "../List/ListProduct";
 import ListUser from "../List/ListUser";
-import ListBill from "../List/ListBill";
+import OrderList from "../List/OrderList";
 import "./HomeAdmin.css";
 import { useSelector } from "react-redux";
 
@@ -46,7 +46,7 @@ export default function(){
                 getState === 2 ? <ListUser/> :null
             }
             {
-                getState === 3 ? <ListBill/> :null
+                getState === 3 ? <OrderList/> :null
             }
 
         </div>
