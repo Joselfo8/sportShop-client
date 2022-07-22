@@ -21,7 +21,6 @@ export function getUser() {
         type: GET_USER,
         payload: response.data.data,
       });
-      toast(message);
 
       return Promise.resolve(message);
     } catch (err: any) {

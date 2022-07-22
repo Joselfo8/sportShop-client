@@ -11,7 +11,7 @@ async function getUser() {
 
 async function updateUser(data: InfoProps["data"]) {
   const { email: _, ...req } = data;
-  return await axios.put(`${API_URL}/users/data`, req);
+  return await axios.put(`${API_URL}/users`, req);
 }
 
 async function addShippingAddress(data: AddressProps["data"]) {
