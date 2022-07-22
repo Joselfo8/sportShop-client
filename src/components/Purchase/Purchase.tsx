@@ -30,17 +30,17 @@ export default function Purchase() {
         dispatch(getShoppingListByUserId(id));
     }, [dispatch]);
 
-    const subTotal = state.shoppinglist.length > 0 ? state.shoppinglist.map((p: any) => p.price).reduce((a: any,b: any) => a+b) : null
+    const subTotal = state.shoppinglist.list && state.shoppinglist.list.length > 0 ? state.shoppinglist.list.map((p: any) => p.price).reduce((a: any,b: any) => a+b) : 0
     const shipping = 9
     const taxes = (subTotal + shipping)*0.0625 
     const total = subTotal + shipping + taxes
 
-    const soldProducts = state.shoppinglist.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
+    const soldProducts = state.shoppinglist.list && state.shoppinglist.list.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
 
     const render = (
-        state.shoppinglist && state.shoppinglist.length > 0 
+        state.shoppinglist.list && state.shoppinglist.list.length > 0 
         ?   (
-            state.shoppinglist.map((product: any) => {
+            state.shoppinglist.list.map((product: any) => {
                 return (
                     <div className={style.product} key={product.id}>
                     
