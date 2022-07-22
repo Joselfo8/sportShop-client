@@ -164,6 +164,9 @@ describe("should update source", () => {
     expect(response.body.product).not.toBeNull();
     expect(response.body.product.description).toBe("testtestetesttestmodified");
   });
+  // it("should add size to stock",async ()=>{
+  //   const response = await api.put("/products/add_size").send({id:productData.id,size:"M"});
+  // })
 });
 
 describe("should get, add  and delete shopping list", () => {
