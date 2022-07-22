@@ -41,7 +41,7 @@ function App() {
 
         {/* FILTRADO DE PRODUCTOS */}
         <Route path="/:category/:subCaegory" element={<ProductFilter/>}/>
-
+        <Route path="/search" element={<ProductFilter/>}/>
 
         {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin />} />
