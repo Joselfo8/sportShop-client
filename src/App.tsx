@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import setAuthToken from "helpers/setAuthToken";
 // Components
 import RouteGuard from "./components/RouteGuard";
 import Home from "./components/Home/Home";
@@ -18,11 +19,13 @@ import HomeAdmin from "./components/Admin/home/HomeAdmin";
 import AddProduct from "./components/Admin/Forms/AddProduct";
 import Purchase from "./components/Purchase/Purchase";
 import EditProduct from "./components/Admin/Forms/EditProduct";
-import Order from "./components/Admin/Orders/Order"
+import Order from "./components/Admin/Orders/Order";
 import ProductFilter from "components/productFilter/ProductFilter";
 
-
 function App() {
+  // add JWT token to all request
+  setAuthToken();
+
   return (
     <BrowserRouter>
       <Routes>
@@ -36,12 +39,12 @@ function App() {
         <Route path="/purchase" element={<Purchase />} />
         <Route path="/:category" element={<Subcategory />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<Details/>}/>
+        <Route path="/products/:id" element={<Details />} />
         <Route path="/about" element={<About />} />
 
         {/* FILTRADO DE PRODUCTOS */}
-        <Route path="/:category/:subCaegory" element={<ProductFilter/>}/>
-        <Route path="/search" element={<ProductFilter/>}/>
+        <Route path="/:category/:subCaegory" element={<ProductFilter />} />
+        <Route path="/search" element={<ProductFilter />} />
 
         {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin />} />

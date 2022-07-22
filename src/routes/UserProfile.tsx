@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 // Components
 import Tabs from "../components/Tabs";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import SidebarContainer from "../components/modals/SidebarContainer";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
+// Actions
+import { getUser } from "redux/action/user";
 // Icons
 import { ReactComponent as DefaultUser } from "../icons/default-user.svg";
 // Styles
@@ -36,7 +38,13 @@ function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
 function UserProfile() {
   const [selectedTab, setSelectedTab] = useState("");
   // Store
-  const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
+  const { isLoggedIn, user } = useSelector((state: any) => state.auth);
+
+  // if user data is not in store, make a request
+  useEffect(() => {
+    if (!user) dispatch(getUser());
+  }, [user]);
 
   if (!isLoggedIn) return <Navigate to="/login" />;
 

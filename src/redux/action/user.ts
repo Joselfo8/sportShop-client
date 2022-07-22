@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import {
+  GET_USER,
   UPDATE_USER,
   ADD_SHIPPING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
@@ -10,10 +11,32 @@ import UserService from "services/user.service";
 import { InfoProps } from "components/ProfileCard/UserInfo";
 import { AddressProps } from "components/ProfileCard/UserInfo";
 
-export function updateUser(id: InfoProps["id"], data: InfoProps["data"]) {
+export function getUser() {
   return async (dispatch: any) => {
     try {
-      const response = await UserService.updateUser(id, data);
+      const response = await UserService.getUser();
+      const message = response.data?.msg || "Get user data successful";
+
+      dispatch({
+        type: GET_USER,
+        payload: response.data.data,
+      });
+      toast(message);
+
+      return Promise.resolve(message);
+    } catch (err: any) {
+      const message = err.response.data?.msg || "Get user data fail";
+      toast(message);
+
+      return Promise.reject(message);
+    }
+  };
+}
+
+export function updateUser(data: InfoProps["data"]) {
+  return async (dispatch: any) => {
+    try {
+      const response = await UserService.updateUser(data);
       const message = response.data?.msg || "Update successful";
 
       dispatch({
@@ -32,10 +55,10 @@ export function updateUser(id: InfoProps["id"], data: InfoProps["data"]) {
   };
 }
 
-export function addShippingAddress(userId: number, data: AddressProps["data"]) {
+export function addShippingAddress(data: AddressProps["data"]) {
   return async (dispatch: any) => {
     try {
-      const response = await UserService.addShippingAddress(userId, data);
+      const response = await UserService.addShippingAddress(data);
       const message = response.data?.msg || "Update successful";
 
       dispatch({

@@ -22,7 +22,7 @@ async function login(email: string, password: string) {
   });
 
   if (response.data.token) {
-    localStorage.setItem("auth", JSON.stringify(response.data));
+    localStorage.setItem("auth", JSON.stringify(response.data.token));
   }
 
   return response;

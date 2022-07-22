@@ -62,11 +62,10 @@ function Address({ data, edit, onEdit, onDelete }: AddressProps) {
 }
 
 interface AddressesProps {
-  userId: number;
   data: Array<AddressProps["data"]>;
 }
 
-function Addresses({ userId, data }: AddressesProps) {
+function Addresses({ data }: AddressesProps) {
   const [showModal, setShowModal] = useState(false);
   const toEditDefault = {
     id: 0,
@@ -108,7 +107,7 @@ function Addresses({ userId, data }: AddressesProps) {
     }
 
     // add a new address
-    const response = addShippingAddress(userId, data);
+    const response = addShippingAddress(data);
     dispatch(response);
   };
 
@@ -176,7 +175,6 @@ function Addresses({ userId, data }: AddressesProps) {
 }
 
 export interface InfoProps {
-  id: number;
   data: {
     name: string;
     lastname: string;
@@ -186,13 +184,13 @@ export interface InfoProps {
   };
 }
 
-function Info({ id, data }: InfoProps) {
+function Info({ data }: InfoProps) {
   const [showModal, setShowModal] = useState(false);
   // store
   const dispatch = useDispatch();
 
   const onSubmit = (data: InfoProps["data"]) => {
-    const response = updateUser(id, data);
+    const response = updateUser(data);
     dispatch(response);
   };
 
@@ -246,13 +244,12 @@ function Info({ id, data }: InfoProps) {
 
 function UserInfo() {
   // store
-  const auth = useSelector((state: any) => state.auth.auth);
-  const { id, ...data } = auth.user;
+  const user = useSelector((state: any) => state.user);
 
   return (
     <>
-      <Info id={id} data={data} />
-      <Addresses userId={id} data={data.shippingAddresses} />
+      <Info data={user} />
+      <Addresses data={user.shippingAddresses} />
     </>
   );
 }

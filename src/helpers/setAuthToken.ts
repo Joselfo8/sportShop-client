@@ -1,9 +1,11 @@
 import axios from "axios";
 
-function setAuthToken(token: string) {
+function setAuthToken() {
+  const data = localStorage.getItem("auth");
+  const token = data !== null && JSON.parse(data);
+
   if (!token) {
     delete axios.defaults.headers.common["Authorization"];
-
     return;
   }
 
