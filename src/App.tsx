@@ -20,6 +20,7 @@ import Purchase from "./components/Purchase/Purchase";
 import EditProduct from "./components/Admin/Forms/EditProduct";
 import Order from "./components/Admin/Orders/Order"
 import ProductFilter from "components/productFilter/ProductFilter";
+import Stock from "components/Admin/Stock/Stock";
 
 
 function App() {
@@ -47,8 +48,10 @@ function App() {
         <Route path="/admin" element={<HomeAdmin />} />
         <Route path="/admin/list" element={<List />} />
         <Route path="/admin/addProduct" element={<AddProduct />} />
+        <Route path="/stock/:id" element={<Stock/>} />
         <Route path="/admin/orders/:id" element={<Order />} />
         <Route path="/editProduct/:id" element={<EditProduct />} />
+        
       </Routes>
       {/* Notification component */}
       <ToastContainer

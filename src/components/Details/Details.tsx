@@ -199,10 +199,11 @@ export default function Details(){
                 </ul>    
               </div>) 
             }
-
+            <div className={styles.contErrors}>
             {
               errors && <span className={styles.errors}>{errors}</span>
             }
+            </div>
             <br></br>
             
             
@@ -215,9 +216,11 @@ export default function Details(){
               <button  onClick={addFavorite}  className={styles.favorite}>
                 <FiHeart  style = {{color: `${color}`}} className={styles.heart} />
               </button>
+              <div className={styles.contSucess}>
               {
               successful && <span className={styles.sucessful}>{successful}</span>
               }
+              </div>
           </form>
           <div className={styles.modal}>
             <Modal backdrop= {true} isOpen={open}>

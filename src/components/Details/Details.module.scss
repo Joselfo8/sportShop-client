@@ -154,12 +154,19 @@ $weightParagraph: 300;
         font-weight: 600;
     }
     
-    .sucessful {
-        color: #000000;
+    .contSucess {
+        .sucessful {
+            color: #000000;
+            margin-left: 0;
+        }
     }
-
-    .errors {
-        color: #ff0000;
+    .contErrors{
+       
+        .errors {
+            margin-left: 0;
+            margin-top: 0;
+            color: #ff0000;
+        } 
     }
 
 }
