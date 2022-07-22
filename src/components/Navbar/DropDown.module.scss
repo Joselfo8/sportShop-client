@@ -1,0 +1,52 @@
+.servicesSubmenu{
+    width: 9rem;
+    height: 40px;
+    position: absolute;
+    top: 60px;
+    list-style: none;
+    text-align: center;
+}
+
+
+
+.buttonNav {
+    width: 9rem;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+.buttonNav {
+    line-height: 42px;
+    padding: 0;
+    border: none;
+    background-color: #000;
+    color: white;
+}
+.buttonNav:before,
+.buttonNav:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: rgb(255, 255, 255);
+    transition:400ms ease all;
+}
+.buttonNav:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+.buttonNav:hover:before,
+.buttonNav:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}

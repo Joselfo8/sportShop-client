@@ -1,79 +1,126 @@
+import { combineReducers } from "redux";
+// Reducers
+import auth from "./auth";
+import message from "./message";
+import admin from "./admin";
+import products from "./products";
+
 import {
-    GET_PRODUCTSBYNAME,
-    GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY
-} from '../actionsTypes/actionsTypes'
+  GET_PRODUCTSBYNAME,
+  GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+  GET_USER_INFORMATION,
+  GET_SHOPPINGLIST_BY_USER_ID,
+} from "../action/types";
 
 const initialState: any = {
-    products : [],
-    productsFiltered : [],
-    searchProducts: [],
-    productCart: [],
-    details : {}
+  products: [],
+  productsFiltered: [],
+  productCart: [],
+  shoppinglist: [],
+  favorites: [],
+  categories: [],
+  details: {},
+  userInformation: {},
 };
 
-function rootReducer(state = initialState, action: any){
-    switch(action.type){
-        case "GET_PRODUCTS":
-            return{
-                ...state,
-                products: action.payload,
-                productCart: action.payload.slice(0, 3)
-            }
+function rootReducer(state = initialState, action: any) {
+  switch (action.type) {
+    case "GET_PRODUCTS":
+      return {
+        ...state,
+        ...action.payload,
+      };
 
-        case "GET_DETAILS":
-            return {
-                ...state,
-                details: action.payload
-            }
+    case "GET_DETAILS":
+      return {
+        ...state,
+        details: action.payload.product,
+      };
 
-        case GET_PRODUCTSBYNAME:
-            const filter: any = state.products.filter((product: any) => product.title.toLowerCase().includes(action.payload.toLowerCase()))
-            return {
-                ...state,
-                productsFiltered: filter
-            }
+    case GET_PRODUCTSBYNAME:
+      return {
+        ...state,
+        productsFiltered: action.payload,
+      };
 
-        case "GET_BY_CATEGORY":
-            return{
-                ...state,
-                productsFiltered:action.payload,
-            }
+    case "GET_BY_CATEGORY":
+      return {
+        ...state,
+        productsFiltered: action.payload,
+      };
 
-        case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
-            return{
-                ...state,
-                productsFiltered:action.payload,
-            }
+    case GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY:
+      return {
+        ...state,
+        maxPage: action.payload.maxPage,
+        next: action.payload.next,
+        previous: action.payload.previous,
+        productsFiltered: action.payload,
+      };
 
+    case "CLEAN_STORE":
+      console.log("desde CLEAN_STORE");
+      return {
+        ...state,
+        productsFiltered: [],
+      };
 
-        case "CLEAN_STORE":
-            console.log("desde CLEAN_STORE")
-            return{
-                ...state,
-                productsFiltered: [],
-            }
+    case "ORDER_BY_PRICE":
+      return {
+        ...state,
+        products: action.payload,
+      };
 
-        case "ORDER_BY_PRICE":
-            console.log(action.payload)
-            let byPrice = 
-            (action.payload === 'minToMax') 
-            ? state.products.sort((a:any,b:any)=>{
-                return a.price - b.price
-              })
-              : state.products.sort((a:any,b:any)=>{
-                return b.price - a.price
-              }) 
+    case GET_USER_INFORMATION:
+      return {
+        ...state,
+        userInformation: action.payload,
+      };
 
+    case GET_SHOPPINGLIST_BY_USER_ID:
+      console.log("desde reducer shopinglist", action.payload)
+      return {
+        ...state,
+        shoppinglist: action.payload,
+      };
 
-              console.log(byPrice)
-          return {
-            ...state,
-            products: byPrice
-          }
+    case "POST_PRODUCT":
+      console.log(action.payload);
+      return {
+        ...state,
+        products: state.products.concat(action.payload),
+      };
 
-        default:
-            return state;
-    };
-};
+    case "ADD_TO_CART":
+      return {
+        ...state,
+        productCart: state.productCart.concat(action.payload),
+      };
 
-export default rootReducer;
+    case "ADD_TO_FAVORITES":
+      return {
+        ...state,
+        favorites: state.favorites.concat(action.payload),
+      };
+    case "GET_FAVORITES":
+      return {
+        ...state,
+        favorites: action.payload,
+      };
+    case "ALL_CATEGORIES":
+      return{
+        ...state,
+        categories: action.payload,
+      }
+    case "POST_PURCHASE":
+      console.log("compra creada")
+      return{
+        
+      }
+
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({ auth, message, rootReducer, admin, products });

@@ -1,0 +1,31 @@
+.card {
+  background-color: rgb(120, 120, 120);
+  font-size: smaller;
+  width: 348px;
+  height: 448px;
+  padding-bottom: 1px;
+}
+
+.flag {
+  width: 348px;
+  height: 348px;
+}
+
+.textContainer {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.text {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.card:hover {
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 20px 10px;
+}/*# sourceMappingURL=Card.module.css.map */

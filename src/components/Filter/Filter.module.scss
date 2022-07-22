@@ -1,31 +1,43 @@
-$font: 'Open Sanz Extra Bold';
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
 
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
 
 .container {
-   display: flex;
-   justify-content: flex-end;
-   margin-right: 60px;
-   margin-top: 20px;
-   margin-bottom: 10px;
+    display:inline-flex;
+    margin-top: 20px;
+    margin-left: 90px;
+    margin-bottom: 10px;
+   
 
-   select {
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 800;
+   p {
     font-family: $font;
-    background-color: #111111;
-    padding: 5px;
-    padding-right: 5px;
-    border: solid 1px;
-    border-radius: 10px;
-    margin-left: 25px;
+    font-weight: 600;
+    font-size: 14px;
+   }
+
+   .select { 
+    color: #111111;
+    font-size: 12px;
+    font-family: $font;
+    font-weight: 200;
+    background-color: #ffffff;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 20px;
     cursor: pointer;
     transition: 0.5s;
+    width: 100px;
+    height: 30px;
     }
 
-    select:hover {
-        color: #ffffff;
-        background-color: #3d3d3d;
+   
 
-    }
+   
 }
+
+
+
+
+

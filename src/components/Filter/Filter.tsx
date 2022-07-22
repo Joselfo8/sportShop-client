@@ -1,30 +1,27 @@
-import React from 'react'
 import { useDispatch } from 'react-redux'
-import { orderByPrice } from '../../redux/action'
-import { useState } from 'react'
+import { allProducts } from 'redux/action/products';
+import styles from './Filter.module.scss'
 
-
-export default function Filter(){
-
+export default function Filter(where : any, page : any){
     const dispatch = useDispatch()
-    const [, setOrder] = useState<String>('')
-    
-    const handleFilterPrice = (e:any) => {
-        e.preventDefault() 
-        setOrder(e.target.value)
-        dispatch(orderByPrice(e.target.value))    
-    }
-      
+    let location = where.where;
+    let title =  location[1] === "search" ? location[2] : '';
+    const handleOrderByPrice = (order:any) => {
+      dispatch(allProducts(location[1], location[2], page.page, order, title));
+    };
   return (
-    <div>
+    <div className={styles.container}>
+      <p>Order by:</p>
+      <div  >
         <select
-        defaultValue='price'
-        onChange={(e)=>handleFilterPrice(e)}
-      >
-        <option value='price' disabled>Filter By Price</option>
-        <option value='minToMax'>Lower Price</option>
-        <option value='maxToMin'>Higher Price</option>
-      </select>
+          className={styles.select}
+          onChange={(e)=>handleOrderByPrice(e.target.value)}
+        >
+          <option value='' selected disabled>Order By Price</option>
+          <option value='cheap'>Cheap</option>
+          <option value='expensive'>Expensive</option>
+        </select>
+      </div>
     </div>
   )
 }

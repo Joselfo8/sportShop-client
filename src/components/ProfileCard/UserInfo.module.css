@@ -25,19 +25,36 @@
   margin: 1.5rem 0;
 }
 
+.info {
+  display: flex;
+}
+
+.info span {
+  margin: 1rem 0;
+  display: block;
+}
+
+.info span:first-child {
+  width: 8rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
 /* Address */
 
 .ship-li {
-  position: relative;
+  width: 18rem;
+  height: 8rem;
   border-left: 0.3rem solid var(--bg);
   padding: 0.8rem 3rem 0.8rem 1rem;
-  width: fit-content;
   box-shadow: var(--shadow-md);
   list-style: none;
   margin-top: 1.5rem;
   margin-right: 1.5rem;
+  position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .ship-li span {

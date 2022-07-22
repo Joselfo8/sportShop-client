@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJSDocTagsOfKind } from "typescript";
 import { getProducts } from "../../redux/action";
@@ -12,88 +12,93 @@ import Footer from "../Footer/Footer";
 
 // Style
 import style from "./Products.module.scss";
-import styles from '../../components/Filter/Filter.module.scss'
 
 export default function Products() {
-    // save user click pagination button
-    const [selected, setSelected] = useState(1);
-    const dispatch = useDispatch();
-    const state = useSelector((state: any) => state);
+  // save user click pagination button
+  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state.rootReducer);
+  // get products from store
+  useEffect(() => {
+    dispatch(getProducts(page));
+  }, [dispatch, page]);
 
-    // get products from store
-    useEffect(() => {
-        dispatch(getProducts());
-    }, [dispatch]);
-
-
-    const render = {
-        allProducts:
-            state.products.length === 0 ? (
-                <div>
-                    <h2>Loading products</h2>
-                </div>
-            ) : (
-                state.products.map((p: any) => {
-                    return (
-                        <Card
-                            key={p.title}
-                            id={p.id}
-                            image={p.image}
-                            title={p.title}
-                            price={p.price}
-                        />
-                    );
-                })
-            ),
-
-        searchProducts:
-            state.productsFiltered.length === 0 ? (
-                <div>
-                    <h2>No products found!</h2>
-                </div>
-            ) : (
-                state.productsFiltered.map((p: any) => {
-                    return (
-                        <Card
-                            key={p.title}
-                            id={p.id}
-                            image={p.image}
-                            title={p.title}
-                            price={p.price}
-                        />
-                    );
-                })
-            ),
-    };
-
-    return (
+  const render = {
+    allProducts:
+      state.products.length === 0 ? (
         <div>
-            <NavBar/>
-
-            <div className={styles.container}>
-                <Filter/>
-            </div>
-
-            <div className={style.cardContainer}>
-                {state.productsFiltered.length === 0
-                    ? render.allProducts
-                    : render.searchProducts}
-            </div>
-
-            <div className={style.pagination}>
-                <Pagination
-                    maxPage={state.products.length}
-                    next={{ limit: 10, page: 2 }}
-                    previous={{ limit: 10, page: 1 }}
-                    selected={selected}
-                    onSelected={setSelected}
-                />
-            </div>
-
-            <br />
-
-            <Footer/>
-
+          <h2>Loading products</h2>
         </div>
-    );
+      ) : (
+        state.products.map((p: any) => {
+          return (
+            <Card
+              key={p.title}
+              id={p.id}
+              image={p.image}
+              title={p.title}
+              category={p.category}
+              price={p.price}
+            />
+          );
+        })
+      ),
+
+    searchProducts:
+      !state.productsFiltered.products ? (
+        <div>
+          <h2>No products found!</h2>
+        </div>
+      ) : (
+        state.productsFiltered.products.map((p: any) => {
+          return (
+            <div key={p.title}>
+                    <Card
+              // key={p.title} //Al pasar una key por props a un elemento arroja un warning, por eso deb ponerse un div y pasarle como key el title
+              id={p.id}
+              image={p.image}
+              title={p.title}
+              category={p.category}
+              price={p.price}
+            />
+            </div>
+          );
+        })
+      ),
+  };
+
+  return (
+    <div>
+      <NavBar />
+
+      <Filter />
+        {
+          state.productsFiltered.msg === "no results"
+          ? <div>
+              <h1 style={{paddingRight:"55rem"}}>Product Not Found...</h1>
+              <h2 style={{paddingLeft:"4.3rem",paddingTop:"5rem"}}>Recomended products</h2>
+            </div>
+          : <></>
+        }
+      <div className={style.cardContainer}>
+        {state.productsFiltered.length === 0
+          ? render.allProducts
+          : render.searchProducts}
+      </div>
+
+      <div className={style.pagination}>
+        <Pagination
+          maxPage={state.maxPage}
+          next={state.next}
+          previous={state.previous}
+          selected={page}
+          onSelected={setPage}
+        />
+      </div>
+
+      <br />
+
+      <Footer />
+    </div>
+  );
 }

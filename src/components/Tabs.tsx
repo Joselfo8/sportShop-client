@@ -48,7 +48,7 @@ function Tabs({ tabs, getSelected }: TabsProps) {
   }, [tabs, selected, handleSelected]);
 
   return (
-    <div className={`${styles["container"]} primary`}>
+    <div className={`${styles["container"]}`}>
       {tabs &&
         tabs.map((t, i) => {
           const key = formatKey(t);

@@ -1,20 +1,17 @@
 import  { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { getDetails } from '../../redux/action'
+import { useNavigate, useParams } from 'react-router-dom'
+import { addProductToCart, addProductToFavorites, getDetails } from '../../redux/action'
 import { Link } from 'react-router-dom'
 import NavBar from '../Navbar/Navbar'
 import styles from './Details.module.scss'
-import cart from '../../assets/cart.png';
-import { FaStar } from 'react-icons/fa'
-import { FiHeart } from "react-icons/fi";
+import { FaStar,FaHeart } from 'react-icons/fa'
+import { FiShoppingCart,FiHeart } from "react-icons/fi";
+import { IoReturnUpBackSharp } from "react-icons/io5";
+import { TbHeartPlus } from "react-icons/tb"
+import Footer from '../Footer/Footer'
+import { Modal, ModalHeader, ModalBody, Button } from "reactstrap";
 
-
-
-// type Num = {
-//   rate:number;
-//   count:number;
-// }
 
 interface Detail {
   id:number;
@@ -33,36 +30,39 @@ interface Input {
 }
 
 
-function validateForm(size:Input){
 
-  let errors:any = {}
 
-  if(!size.s && !size.m && !size.l && size.xl){
-    errors.s= 'Select size first'
-  } else {
-    errors.s = ''
-  }
-
-  return errors
-}
-
-let sizes:string[]=['s','m','l','xl']
+let sizes:string[]=['xs','s','m','l','xl']
   
 
 
 export default function Details(){
   
     const dispatch = useDispatch()
-    const productDetail: any = useSelector((state:any) => state.details)
-    const params = useParams()
-   
 
-    let rate:number=productDetail?.rating
+    
+   
+    // HOOKS: 
+    const navigate = useNavigate()
+    const params = useParams()
+
     
 
-    const [errors, setErrors] = useState({
-      size:''
-    })
+    // ESTADOS: 
+    const productDetail: any = useSelector((state:any) => state.rootReducer.details)
+    console.log(productDetail)
+
+    const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
+
+    const auth: any =useSelector((state:any) => state.auth.auth)
+
+    const [color, setColor] = useState<String>()
+
+    let rate:number=productDetail?.rating
+
+    const [successful, setSuccessful] = useState<String>()
+
+    const [errors, setErrors] = useState<String>()
 
     const [size, setSize]:any = useState({
       s:'',
@@ -71,128 +71,184 @@ export default function Details(){
       xl:''
     })
 
+    const [open, setOpen] = useState(false)
+
+   
+    // RENDERIZADO DEL COMPONENTE: 
     useEffect(()=>{
         dispatch(getDetails(params.id))
-    },[dispatch, params.id])
+    },[params.id])
     
-
+    // HANDLES PARA AGREGAR AL CARRITO Y FAVORITOS:
     const addFavorite = (e:any)=>{
       e.preventDefault()
+
+      if(!isLoggedIn){
+        navigate('/login')
+      } else {
+        if(auth){ 
+          const product:number=productDetail.id
+          const user: number = auth.user.id  
+          const payload = {
+            user:user,  
+            product:product
+          }
+            dispatch(addProductToFavorites(payload))
+            setColor('#a70f0f')
+            setSuccessful('¡Added to favorites!')
+          } else {
+            return(alert('Login first'),navigate('/login'))
+          }
+        }
     }
 
     const addToCart = (e:any) => {
       e.preventDefault()
 
-      setErrors(validateForm({
-        ...size,
-        [e.target.id] : [e.target.value]
-      }))
-
-      
+      if(!isLoggedIn){
+        navigate('/login')
+      } else if(size.s === '' && size.m === '' && size.l === '' && size.xl === '') {
+        return setErrors('Select your size first')
+      } else {
+        if(auth){
+          const product:number=productDetail.id
+          const user: number = auth.user.id  
+          const payload = {
+            user:user,  ///Para que funcione mientras tanto poner 66
+            product:product
+          }
+          setOpen(!open)
+          dispatch(addProductToCart(payload))
+        }else{
+          return(alert('Login first'),navigate('/login'))
+        }
+      }  
     }
 
-    const handleSize = (e:any) => {
-    
-      setSize({
-        [e.target.id] : [e.target.value]
-      })
-      
-     
-
-      console.log(size)
-      // console.log(input.m)
-      // console.log(input.l)
-      // console.log(input.xl)
+    const onChange = (e:any) => {
+      setSize({[e.target.name]: e.target.value})
+      setErrors('')
+      setSuccessful('')
     }
+
 
   return (
     <div>
       <NavBar/> 
-      
-
 
       <div className={styles.gridLayout}>
       
-
         <div className={styles.col1}>
-          {/* <p>Inicio / Categoria / Sub Cateogria</p> */}
+          <div>
+            <Link to='/' className={styles.link}>
+              <span className={styles.pLink}>HOME</span>
+            </Link>
+            <span>/</span>
+
+            <Link to={`/:${productDetail.category}`} className={styles.link}>
+              <span className={styles.pLink}>{productDetail.category}</span>
+            </Link>
+            <span>/</span>
+           
+
+            <Link to={`/products?category=${productDetail.category}&subCategory=${productDetail.subCategory}`} className={styles.link}>
+              <span className={styles.pLink}>{productDetail.subCategory}</span>
+            </Link>
+            
+           
+
+        
+          </div>
           <img src={productDetail.image} alt='Not found'/>
-          {/* <h2>Detalle del producto</h2>
-          <p> Texto de detallle </p> */}
-          <h2 >Cuidados</h2>
-          <p> {productDetail['product_care']} </p>
+          <h2 >CUIDADOS</h2>
+          <p> {productDetail['product_care']} Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium doloribus accusantium vel. Minus eum aperiam, ducimus maiores consequatur quod distinctio fugit sit libero suscipit, harum unde eveniet cumque, corporis maxime? </p>
         </div>
 
 
 
         <div className={styles.col2}>
-
           {[...Array(5)].map((star,i) => {
             const raitingValue:number = i + 1
             return (
-              <FaStar color={raitingValue <= rate ? '#000':'#e4e5e9'}  size={15}/>
+              <FaStar color={raitingValue <= rate ? '#000':'#e4e5e9'} />
             )})
           }
-          <span>({productDetail['rating_count']})</span>
+          <span >({productDetail['rating_count']})</span>
+          <hr></hr>
           
           <h1>{productDetail.title}</h1>
           <p className={styles.price}>${productDetail.price}</p>
-          <p className={styles.selectSize}>Select Size</p>
+          <h2>SELECT SIZE</h2>
 
 
+          {/* FORM ADD TO CART */}
           <form onSubmit={addToCart}>
             { 
               sizes.map((s,index) => 
-              <div className={styles.container}>
-                <ul key={index} className= {styles.ksCboxtags}>
-                  <li>
-                    
+              <div key= {index} className={styles.containerSize}>
+                <ul  className= {styles.ksCboxtags}>
+                  <li > 
                     <input 
-                      onChange={(e)=> handleSize(e)} 
+                      onChange={(e) => onChange(e)} 
                       value={s} 
                       type='radio'
                       id={s}
                       name='radio'/>
                       <label htmlFor={s}>{s.toUpperCase()}</label>
                   </li>
-                  
-                </ul>
-                
-                
+                </ul>    
               </div>) 
             }
+
             {
-              errors.size && <span>{errors.size}</span>
+              errors && <span className={styles.errors}>{errors}</span>
             }
             <br></br>
-           
-              <button type='submit' className={styles.cart}>
-                <img src={cart} alt='' className={styles.icon}/>
+            
+            
+            <button type='submit' className={styles.cart}>
+                <FiShoppingCart/>               
                 ADD TO CART
+            </button>
+            
+          
+              <button  onClick={addFavorite}  className={styles.favorite}>
+                <FiHeart  style = {{color: `${color}`}} className={styles.heart} />
               </button>
-            
-              
-              <Link to={'/login'}>
-                <button onSubmit={addFavorite} className={styles.favorite}>
-                  <FiHeart className={styles.heart} size={25}/>
-                </button>
-              </Link>
-           
-            
+              {
+              successful && <span className={styles.sucessful}>{successful}</span>
+              }
           </form>
+          <div className={styles.modal}>
+            <Modal backdrop= {true} isOpen={open}>
+              {/* <div className={styles.containerButtonX}> */}
+                <button className={styles.buttonNav} style={{marginLeft:"auto", width:"50px", backgroundColor:"black",color:"white"}} onClick={()=>setOpen(!open)}>X</button>
+              {/* </div> */}
+              <ModalHeader className={styles.modalHeader}>
+                <h1>Product added to cart</h1>
+              </ModalHeader> 
+              <ModalBody className={styles.modalBody}>
+                <div>
+                  <Link to='/'>
+                    <button className={styles.buttonNav}>Continue Shopping</button>
+                  </Link>
+                </div>
+                <br></br>
+                <div>
+                  <Link to='/cart'>
+                    <button  className={styles.buttonNav}>Show car</button>
+                  </Link>
+                </div>
+              </ModalBody>
+            </Modal>
+            </div>
 
-          <h2 className={styles.description}>Description</h2>
-          <p className={styles.description}>{productDetail.description}</p>
-          {/* <h2>Costo de envio</h2>
-          <p>Informacion</p>
-          <h2>Entrega</h2>
-          <p>Informacion</p>
-          <h2>Valoraciones</h2>
-          <p>Informacion</p> */}
-
-        
+          <h2 className={styles.description}>DESCRIPTION</h2>
+          <p>{productDetail.description} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat dicta quae eos quaerat optio, asperiores similique tempora voluptatum reiciendis debitis expedita quam impedit id exercitationem ea accusamus nostrum nemo possimus.</p>
         </div >
+
       </div>
+      <Footer />
     </div>
     
   )

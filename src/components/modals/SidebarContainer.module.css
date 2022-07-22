@@ -1,0 +1,61 @@
+.container {
+  background-color:red;
+  width: fit-content;
+  height: 100vh;
+  transition-duration: 500ms;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  z-index: 50;
+}
+
+.show {
+  left: 0;
+}
+
+.menu-button {
+  background-color: var(--bg);
+  width: 3rem;
+  height: 3rem;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  box-shadow: var(--shadow-md);
+  transition-duration: 500ms;
+  display: block;
+  position: fixed;
+  left: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 60;
+}
+
+.menu-button:hover {
+  opacity: 0.9;
+}
+
+.menu-button:active {
+  opacity: 0.8;
+}
+
+.menu-button svg {
+  width: 100%;
+  height: 100%;
+  color: var(--bg);
+}
+
+.menu-button-close {
+  left: calc(100% - 3.5rem);
+}
+
+@media only screen and (min-width: 1024px) {
+  .container {
+    height: 100%;
+    transition-duration: 0ms;
+    position: static;
+    left: 0;
+    align-items: stretch;
+  }
+
+  .menu-button {
+    display: none;
+  }
+}

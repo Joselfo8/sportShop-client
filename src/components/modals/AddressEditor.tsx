@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import PhoneInput from "react-phone-input-2";
 // Components
 import Input from "../Input";
 // Styles
 import styles from "./AddressEditor.module.css";
+import "react-phone-input-2/lib/style.css";
+// Validations
+import validate from "helpers/validations";
 
 interface Props {
   data: {
     name: string;
+    lastname: string;
     address: string;
     secondAddress?: string;
     city: string;
@@ -19,102 +25,171 @@ interface Props {
 }
 
 function AddressEditor({ data, saveChange, onClose }: Props) {
-  const [values, setValues] = useState<Props["data"]>({
-    name: "",
-    address: "",
-    secondAddress: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    phone: "",
+  const { handleSubmit, control } = useForm<any>({
+    defaultValues: data,
+    mode: "onChange",
   });
-
-  // make a backup of data
-  useEffect(() => {
-    setValues(data);
-  }, [data]);
-
-  const handleChange = (val: string, key: string) => {
-    setValues((prev) => ({ ...prev, [key]: val }));
+  const [phone, setPhone] = useState("");
+  // send data to api
+  const onSubmit = (data: Props["data"]) => {
+    saveChange({ ...data, phone });
+    onClose();
   };
+
+  useEffect(() => {
+    if (phone.length === 0) setPhone(data.phone);
+  }, [data]);
 
   return (
     <div className={styles["container"]}>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Name"
-          id="name"
-          defaultValue={values.name}
-          getData={(v: string) => handleChange(v, "name")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Address Line"
-          id="address"
-          defaultValue={values.address}
-          getData={(v: string) => handleChange(v, "address")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Address Line 2"
-          id="second-address"
-          defaultValue={values.secondAddress}
-          getData={(v: string) => handleChange(v, "secondAddress")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="City"
-          id="city"
-          defaultValue={values.city}
-          getData={(v: string) => handleChange(v, "city")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="State"
-          id="state"
-          defaultValue={values.state}
-          getData={(v: string) => handleChange(v, "state")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Zip code"
-          id="zip-code"
-          defaultValue={values.zipCode}
-          getData={(v: string) => handleChange(v, "zipCode")}
-        />
-      </div>
-      <div className={styles["wrapper"]}>
-        <Input
-          text="Phone"
-          id="phone"
-          defaultValue={values.phone}
-          getData={(v: string) => handleChange(v, "phone")}
-        />
-      </div>
-      <div className={styles["button-cont"]}>
-        <button
-          onClick={() => {
-            saveChange(values);
-            // close modal
-            onClose();
-          }}
-          className={`${styles["submit-button"]} primary`}
-        >
-          Save changes
-        </button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="name"
+            label="Name *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 16,
+                message: "Name can have a maximum of 16 characters",
+              },
+              pattern: {
+                value: validate.onlyLetters,
+                message: "Name can only include letters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="lastname"
+            label="Last Name *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 20,
+                message: "Last name can have a maximum of 20 characters",
+              },
+              pattern: {
+                value: validate.onlyLetters,
+                message: "Last name can only include letters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="address"
+            label="Address Line *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 50,
+                message: "Address can have a maximum of 50 characters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="secondAddress"
+            label="Address Line 2"
+            rules={{
+              maxLength: {
+                value: 50,
+                message: "Address can have a maximum of 50 characters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="city"
+            label="City *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 20,
+                message: "City name can have a maximum of 20 characters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="state"
+            label="State *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 20,
+                message: "State name can have a maximum of 20 characters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="country"
+            label="Country *"
+            rules={{
+              required: true,
+              maxLength: {
+                value: 20,
+                message: "Country name can have a maximum of 20 characters",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <Input
+            control={control}
+            name="zipCode"
+            label="Zip code *"
+            rules={{
+              required: true,
+              minLength: {
+                value: 3,
+                message: "A minimum of 3 characters is required",
+              },
+              maxLength: {
+                value: 10,
+                message: "10 characters maximum",
+              },
+            }}
+          />
+        </div>
+        <div className={styles["wrapper"]}>
+          <label className={styles["label"]}>
+            <span className={styles["label-title"]}>Phone *</span>
+            <PhoneInput
+              placeholder="Your phone number..."
+              value={phone}
+              onChange={(data) => setPhone(data)}
+              inputProps={{ required: true }}
+            />
+          </label>
+        </div>
+        <div className={styles["button-cont"]}>
+          <button className={`${styles["submit-button"]} primary`}>
+            Save changes
+          </button>
 
-        <span
-          onClick={() => onClose()}
-          className={`${styles["cancel-button"]} primary`}
-        >
-          Cancel
-        </span>
-      </div>
+          <span
+            onClick={() => onClose()}
+            className={`${styles["cancel-button"]} primary`}
+          >
+            Cancel
+          </span>
+        </div>
+      </form>
     </div>
   );
 }

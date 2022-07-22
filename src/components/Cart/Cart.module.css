@@ -1,0 +1,116 @@
+.bodyCart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 40rem;
+}
+.bodyCart form {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.centralice {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
+}
+
+.half1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid black;
+  width: 40rem;
+  margin-top: 1rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.buttonDelete {
+  height: 15px;
+  width: 15px;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.buttonDelete:hover {
+  opacity: 0.4;
+}
+
+.info2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 0.2rem;
+  margin-top: 0.2rem;
+  width: 20%;
+}
+
+.half2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 20rem;
+  height: 15rem;
+  border: 1px solid black;
+  margin-top: 1rem;
+}
+
+.buttonCart {
+  width: 100%;
+  height: 40px;
+  padding: 10px 25px;
+  border: 2px solid #000;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.buttonCart {
+  line-height: 42px;
+  padding: 0;
+  border: none;
+}
+
+.buttonCart:hover {
+  background: transparent;
+  color: #000;
+  box-shadow: -7px -7px 20px 0px rgba(255, 255, 255, 0.6), -4px -4px 5px 0px rgba(255, 255, 255, 0.6), 7px 7px 20px 0px rgba(0, 0, 0, 0.1333333333), 4px 4px 5px 0px rgba(0, 0, 0, 0.0666666667);
+}
+
+.buttonCart:before,
+.buttonCart:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #000;
+  transition: 400ms ease all;
+}
+
+.buttonCart:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+
+.buttonCart:hover:before,
+.buttonCart:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}/*# sourceMappingURL=Cart.module.css.map */

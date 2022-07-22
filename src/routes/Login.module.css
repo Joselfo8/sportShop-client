@@ -11,8 +11,8 @@
   color: var(--text);
   width: 24rem;
   height: fit-content;
+  border: 1px solid var(--text);
   box-shadow: var(--shadow-md);
-  border-radius: 0.2rem;
   padding: 1.5rem;
 }
 
@@ -33,6 +33,8 @@
 }
 
 .subtitle {
+  color: var(--text);
+  text-decoration: none;
   font-size: 0.9rem;
   margin-top: 0.2rem;
   cursor: pointer;

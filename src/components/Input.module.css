@@ -1,4 +1,5 @@
 .label {
+  color: var(--text);
   display: flex;
   flex-direction: column;
 }
@@ -14,8 +15,9 @@
 
 .input {
   background-color: rgba(0, 0, 0, 0);
+  color: var(--text);
   border: none;
-  border-bottom: 0.1rem solid var(--bg);
+  border-bottom: 0.1rem solid var(--text);
   font-size: 1.1rem;
   padding-left: 0.2rem;
   outline: none;
@@ -33,4 +35,8 @@
   display: inline-block;
   font-size: 0.8rem;
   margin-top: 0.3rem;
+}
+
+.error-message {
+  color: red;
 }
