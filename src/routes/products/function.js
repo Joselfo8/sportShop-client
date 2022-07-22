@@ -174,7 +174,6 @@ const getProductByName = async (req, res, next) => {
     }
 
     //solicitud de resultados
-    console.log(where);
     let filter = await Product.findAll(where);
 
     //ordernacion por precio

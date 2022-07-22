@@ -55,7 +55,7 @@ async function postUser(req, res) {
       role,
     } = req.body;
 
-    console.log(name);
+    // console.log(name);
     if (!name || !password || !email) {
       return res
         .status(200)
@@ -242,7 +242,7 @@ async function loginUser(req, res) {
 
     // hash password and compare with db hash
     const acertijo = await compare(password, user.password);
-    console.log(acertijo);
+    // console.log(acertijo);
 
     // create jwt token
     const token = await tokenSign(user);

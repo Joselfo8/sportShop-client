@@ -6,24 +6,31 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, NODE_ENV, DEPLOY_LINK } =
   process.env;
 //conestructor for the sequelize object
 let sequelize = undefined;
-NODE_ENV === "development"
-  ? (sequelize = new Sequelize(
-      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-      {
-        logging: false, // set to console.log to see the raw SQL queries
-        native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-      }
-    ))
-  : (sequelize = new Sequelize(DEPLOY_LINK, {
+
+// connect with local db
+if (NODE_ENV === "development") {
+  sequelize = new Sequelize(
+    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+    {
       logging: false, // set to console.log to see the raw SQL queries
       native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-      dialectOptions: {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
-        },
+    }
+  );
+}
+
+// connect with production db
+if (NODE_ENV === "production") {
+  sequelize = new Sequelize(DEPLOY_LINK, {
+    logging: false, // set to console.log to see the raw SQL queries
+    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
       },
-    }));
+    },
+  });
+}
 
 const basename = path.basename(__filename);
 
@@ -55,7 +62,6 @@ const { Product, User, Shopping_list, Favorite, Buy, ShippingAddress } =
   sequelize.models;
 
 // Aca vendrian las relaciones
-
 
 //cada usuario tiene una lista de compras
 /* User.hasOne(Shopping_list);
