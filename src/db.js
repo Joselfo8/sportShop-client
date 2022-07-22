@@ -6,24 +6,31 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, NODE_ENV, DEPLOY_LINK } =
   process.env;
 //conestructor for the sequelize object
 let sequelize = undefined;
-NODE_ENV === "development"
-  ? (sequelize = new Sequelize(
-      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-      {
-        logging: false, // set to console.log to see the raw SQL queries
-        native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-      }
-    ))
-  : (sequelize = new Sequelize(DEPLOY_LINK, {
+
+// connect with local db
+if (NODE_ENV === "development") {
+  sequelize = new Sequelize(
+    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+    {
       logging: false, // set to console.log to see the raw SQL queries
       native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-      dialectOptions: {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
-        },
+    }
+  );
+}
+
+// connect with production db
+if (NODE_ENV === "production") {
+  sequelize = new Sequelize(DEPLOY_LINK, {
+    logging: false, // set to console.log to see the raw SQL queries
+    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
       },
-    }));
+    },
+  });
+}
 
 const basename = path.basename(__filename);
 
@@ -51,11 +58,10 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-
-const { Product, User, Shopping_list, Favorite, Buy } = sequelize.models;
+const { Product, User, Shopping_list, Favorite, Buy, ShippingAddress } =
+  sequelize.models;
 
 // Aca vendrian las relaciones
-
 
 //cada usuario tiene una lista de compras
 /* User.hasOne(Shopping_list);
@@ -72,6 +78,10 @@ Product.belongsToMany(Favorite, { through: "user_favorite" });
 //aqui va la relacion de los compras
 User.hasMany(Buy);
 Buy.belongsTo(User);
+
+// create one to many association between User and ShippingAddress
+User.hasMany(ShippingAddress, { as: "shippingAddresses" });
+ShippingAddress.belongsTo(User);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

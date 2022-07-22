@@ -27,7 +27,6 @@ const verifyToken = async (token) => {
 };
 
 const checkRules = (roles) => async (req, res, next) => {
-  console.log(req.user);
   try {
     if (req.user.id === 0) {
       if (roles.includes(req.user.role)) {

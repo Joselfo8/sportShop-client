@@ -7,6 +7,9 @@ const {
   loginUser,
   getAllUser,
   logOut,
+  addShippingAddress,
+  updateShippingAddress,
+  deleteShippingAddress,
 } = require("./functions");
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
@@ -14,6 +17,10 @@ const { checkRules } = require("../../helpers/Token");
 router.get("", getAllUser);
 router.post("", postUser);
 router.put("/:id", putUser);
+// create, update, and delete a shipping address
+router.post("/:id/address", addShippingAddress);
+router.put("/address/:id", updateShippingAddress);
+router.delete("/address/:id", deleteShippingAddress);
 
 router.post("/login", loginUser);
 
