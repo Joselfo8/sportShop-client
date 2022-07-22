@@ -227,16 +227,15 @@ async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.send({
+    if (!email || !password)
+      return res.status(400).json({
         msg: "Email and password are required",
-        access: false,
       });
-    }
 
     // search user in db
     let user = await User.findOne({
       where: { email },
+      attributes: ["name", "id", "role", "password"],
       include: "shippingAddresses",
     });
 
@@ -244,7 +243,7 @@ async function loginUser(req, res) {
     const acertijo = await compare(password, user.password);
     // console.log(acertijo);
 
-    // create jwt token
+    // create jwt token, needs id and role
     const token = await tokenSign(user);
 
     if (acertijo === false) {
@@ -255,19 +254,12 @@ async function loginUser(req, res) {
         redirect: "/user", //redirect a pagina de registro
       });
     }
-
-    // send all user data, except password
-    const { password: _1, ...response } = user.dataValues;
-
-    return res.send({
+    return res.status(200).json({
       msg: `Welcome ${user.name}`,
-      access: true,
       token: token,
-      user: response,
     });
   } catch (error) {
-    console.log(error);
-    res.send({ msg: "the password or email is incorrect", access: false });
+    res.status(500).json({ msg: "the password or email is incorrect" });
   }
 }
 
