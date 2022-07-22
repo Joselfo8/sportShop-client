@@ -23,12 +23,29 @@ router.get(
   checkRules(["user", "admin", "ghost"]),
   getUserData
 );
+// create a new user
 router.post("", postUser);
-router.put("/:id", putUser);
+// update user
+router.put("", checkRole, checkRules(["user", "admin", "ghost"]), putUser);
 // create, update, and delete a shipping address
-router.post("/:id/address", addShippingAddress);
-router.put("/address/:id", updateShippingAddress);
-router.delete("/address/:id", deleteShippingAddress);
+router.post(
+  "/address",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  addShippingAddress
+);
+router.put(
+  "/address/:id",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  updateShippingAddress
+);
+router.delete(
+  "/address/:id",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  deleteShippingAddress
+);
 
 router.post("/login", loginUser);
 
