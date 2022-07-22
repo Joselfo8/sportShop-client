@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
       },
       role: {
         type: DataTypes.STRING,
-       // allowNull: false,
+        // allowNull: false,
         defaultValue: "user",
         /* isIn: {
           args: [["user", "admin"]],
@@ -54,22 +54,6 @@ module.exports = (sequelize) => {
       },
       dateOfBirth: {
         type: DataTypes.DATEONLY,
-      },
-      direction: {
-        type: DataTypes.STRING,
-
-      },
-      country: {
-        type: DataTypes.STRING,
-      },
-      state: {
-        type: DataTypes.STRING,
-      },
-      city: {
-        type: DataTypes.STRING,
-      },
-      numberPhone: {
-        type: DataTypes.STRING,
       },
       trolly:{
         type: DataTypes.JSONB,
