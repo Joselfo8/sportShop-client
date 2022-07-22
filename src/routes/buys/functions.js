@@ -24,6 +24,20 @@ async function getBuys(req, res) {
     res.send({ msg: "failed to get buys", error });
   }
 }
+async function getBuyByUser(req, res) {
+  try {
+    const { user } = req.query;
+    //console.log(user);
+    let userObj = await User.findOne({ where: { id: user } });
+    if (!userObj) return res.send({ msg: "user not found" });
+    const buys = await userObj.getBuys();
+
+    res.send(buys);
+  } catch (error) {
+    console.log("error=>", error);
+    res.send({ msg: "failed to get buys", error });
+  }
+}
 async function getBuyById(req, res) {
   try {
     const { id } = req.params;
@@ -124,4 +138,5 @@ module.exports = {
   postBuy,
   putBuy,
   getBuyById,
+  getBuyByUser,
 };

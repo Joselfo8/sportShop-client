@@ -45,20 +45,28 @@ let productData2 = {
 jest.setTimeout(25000);
 //delete the data using in test
 beforeAll(async () => {
-  await conn.sync({ alter: true });
-  if (NODE_ENV === "development") {
-    console.log("LOCAL database synced");
-  } else if (NODE_ENV === "production") {
-    console.log("REMOTE database synced");
+  try {
+    await conn.sync({ alter: true });
+
+    if (NODE_ENV === "development") {
+      console.log("LOCAL database synced");
+    }
+
+    if (NODE_ENV === "production") {
+      console.log("REMOTE database synced");
+    }
+
+    server.listen(PORT, () => {
+      console.log("server up on : http://localhost:" + PORT);
+    });
+    //delete the data using in test
+    await User.destroy({ where: { email: userData.email } });
+    await Product.destroy({ where: { title: productData.title } });
+    await Product.destroy({ where: { title: productData2.title } });
+    await Favorite.destroy({ where: { name: userData.email } });
+  } catch (err) {
+    console.log(err);
   }
-  const serverUp = server.listen(PORT, () => {
-    console.log("server up on : http://localhost:" + PORT);
-  });
-  //delete the data using in test
-  await User.destroy({ where: { email: userData.email } });
-  await Product.destroy({ where: { title: productData.title } });
-  await Product.destroy({ where: { title: productData2.title } });
-  await Favorite.destroy({ where: { name: userData.email } });
 });
 
 describe("health", () => {
@@ -71,6 +79,7 @@ describe("database", () => {
     try {
       await conn.authenticate();
     } catch (error) {
+      console.log(error);
       auth = false;
     }
     expect(auth).toBe(true);
@@ -81,21 +90,18 @@ describe("create source", () => {
   it("should create user", async () => {
     const response = await api.post("/users").send(userData);
     expect(response.body.user).not.toBeNull();
-    console.log(response.body);
     userData.id = response.body.user.id;
   });
 
   it("should create product", async () => {
     const response = await api.post("/products").send(productData);
     expect(response.body.product).not.toBeNull();
-    console.log(response.body);
     productData.id = response.body.product.id;
   });
 
   it("should create product 2", async () => {
     const response = await api.post("/products").send(productData2);
     expect(response.body.product).not.toBeNull();
-    console.log(response.body);
     productData2.id = response.body.product.id;
   });
 });
@@ -160,10 +166,12 @@ describe("should update source", () => {
       .put("/products")
       .send({ id: productData.id, description: "testtestetesttestmodified" });
     expect(response.status).toBe(201);
-    console.log(response.body);
     expect(response.body.product).not.toBeNull();
     expect(response.body.product.description).toBe("testtestetesttestmodified");
   });
+  // it("should add size to stock",async ()=>{
+  //   const response = await api.put("/products/add_size").send({id:productData.id,size:"M"});
+  // })
 });
 
 describe("should get, add  and delete shopping list", () => {
@@ -281,7 +289,7 @@ describe("should delete source", () => {
 });
 
 afterAll(async () => {
-  //await conn.close();
-  //await serverUp.close();
+  // await conn.close();
+  // await serverUp.close();
   // await api.connect.close();
 });
