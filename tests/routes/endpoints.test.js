@@ -149,8 +149,8 @@ describe("get source", () => {
 describe("should update source", () => {
   it("should update user", async () => {
     const response = await api
-      .put(`/users`)
-      .send({ name: "test2", id: userData.id });
+      .put(`/users/${userData.id}`)
+      .send({ name: "test2" });
     expect(response.status).toBe(200);
     expect(response.body.data).not.toBeNull();
     expect(response.body.data.name).toBe("test2");

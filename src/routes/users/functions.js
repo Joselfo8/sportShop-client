@@ -112,7 +112,7 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
-  const { id } = req.body;
+  const { id } = req.params;
 
   try {
     const { password, email, ...data } = req.body;
