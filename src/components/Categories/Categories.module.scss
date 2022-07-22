@@ -1,14 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap');
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
 .categories {
     height: 74%; 
     width: 80%;
-    
     display: grid;
     grid-template-columns: 1fr 500px 500px 1fr;
     grid-template-rows: 60px 700px 400px 400px;
     padding: 30px;
     margin: 0 auto;
     gap: 30px;
+    font-family: $font;
+    font-weight: 600;
+    h3{
+        font-weight: 600;
 
+    }
     .manContainer {
         background-image: url('../../assets/Gender/Man_1.jpeg');
         background-size: 100%;
@@ -34,7 +43,8 @@
                     text-align:right;
                     width: 100%;
                     text-decoration: underline rgb(115, 115, 115);
-                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3)
+                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3);
+                    font-weight: 600;
                 }
             }
             
@@ -83,7 +93,8 @@
                     text-align:left;
                     width: 100%;
                     text-decoration: underline rgb(115, 115, 115);
-                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3)
+                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3);
+                    font-weight: 600;
                 }
             }
             
@@ -131,7 +142,8 @@
                     text-align:center;
                     width: 100%;
                     text-decoration: underline rgb(115, 115, 115);
-                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3)
+                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3);
+                    font-weight: 600;
                 }
             }
             
@@ -178,7 +190,8 @@
                     text-align:center;
                     width: 100%;
                     text-decoration: underline rgb(115, 115, 115);
-                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3)
+                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3);
+                    font-weight: 600;
                 }
             }
             

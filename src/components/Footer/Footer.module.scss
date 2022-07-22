@@ -1,10 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap');
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
 .footerMain{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
     border-top: 1px solid rgb(0, 0, 0);
-
+    font-family: $font;
+    font-weight: 600;
     .networks{
         display: flex;
         flex-direction: column;
@@ -23,6 +29,9 @@
 
     h1{
         cursor: pointer;
+    }
+    h5{
+        font-weight: 600;
     }
 }
 
@@ -44,5 +53,5 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 130px;
+    width: 150px;
 }
