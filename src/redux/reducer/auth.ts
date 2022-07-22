@@ -11,11 +11,17 @@ import {
 } from "../action/types";
 // Interfaces
 import { AddressProps } from "components/ProfileCard/UserInfo";
-
-const initialState = {
-  isLoggedIn: false,
-  auth: { user: { shippingAddresses: [] } },
-};
+// read JWT from localStorage
+const response = localStorage.getItem("auth");
+const initialState = response
+  ? {
+      isLoggedIn: true,
+      auth: JSON.parse(response),
+    }
+  : {
+      isLoggedIn: false,
+      auth: null,
+    };
 
 function auth(state = initialState, action: any) {
   const { type, payload } = action;

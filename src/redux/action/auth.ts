@@ -49,10 +49,19 @@ export async function register(
 
 export async function login(email: string, password: string) {
   return async (dispatch: any) => {
-    const response = await AuthService.login(email, password);
+    try {
+      const response = await AuthService.login(email, password);
+      const message = response.data?.msg || "Login successful";
 
-    if (!response.access) {
-      const message = response?.msg || "Login fail";
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: response.data,
+      });
+      toast(message);
+
+      return Promise.resolve(message);
+    } catch (err: any) {
+      const message = err.response.data?.msg || "Login fail";
 
       dispatch({
         type: LOGIN_FAIL,
@@ -62,17 +71,6 @@ export async function login(email: string, password: string) {
 
       return Promise.reject(message);
     }
-
-    const message = response?.msg || "Login successful";
-
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: response,
-    });
-
-    toast(message);
-
-    return Promise.resolve(message);
   };
 }
 
