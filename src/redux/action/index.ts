@@ -13,7 +13,6 @@ export function getProducts(page?: number) {
       let json: any = await axios.get(
         `${API_URL}/products?pag=${page ? page : 1}&limit=3`
       );
-
       return dispatch({
         type: "GET_PRODUCTS",
         payload: json.data,
@@ -138,12 +137,10 @@ export function getShoppingListByUserId(UserId: any) {
   // console.log(object)
   try {
     return async function name(dispatch: any) {
-      let json: any = await axios.get(
-        `https://vlixes-server.herokuapp.com/shopping_list/${UserId}`
-      );
+      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/${UserId}`);
       return dispatch({
         type: GET_SHOPPINGLIST_BY_USER_ID,
-        payload: json.data.list,
+        payload: json.data,
       });
     };
   } catch (error) {
@@ -224,3 +221,19 @@ export const allCategories = () => async (dispatch: any) => {
     console.log(error);
   };
 };
+
+// Compra
+export function postPurchase(object: any) {
+  console.log("postPurchase", object)
+  try {
+    return async function name(dispatch: any) {
+      let json: any = await axios.post(`https://vlixes-server.herokuapp.com/buys`, object);
+      return dispatch({
+        type: "POST_PURCHASE",
+        payload: json.data,
+      });
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}

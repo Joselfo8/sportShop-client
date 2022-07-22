@@ -62,3 +62,31 @@ export const deleteUser = (id: number) => async (dispatch: any) => {
         console.log(error);
     }
 };
+
+export function getOrders() {
+    try {
+      return async function name(dispatch: any) {
+        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys`);
+        return dispatch({
+          type: "GET_ORDERS",
+          payload: json.data,
+        });
+      };
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+export function getOrderById(id: any) {
+    try {
+      return async function name(dispatch: any) {
+        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys/${id}`);
+        return dispatch({
+          type: "GET_ORDERS_BY_ID",
+          payload: json.data,
+        });
+      };
+    } catch (error) {
+      console.log(error);
+    }
+}

@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import Swal from 'sweetalert2';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { postPurchase } from "../../redux/action/index";
+
 
 // Style
 import style from './CheckoutForm.module.scss';
 
-export default function CheckoutForm({total, soldProducts, name, email}: any) {
+export default function CheckoutForm({id_user, total, name, email, soldProducts, direction, city, state, country}: any) {
   const navigate = useNavigate()
 
   const stripe: any = useStripe();
   const elements: any = useElements();
   const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch();
 
   let jsonSoldProducts = JSON.stringify(soldProducts)
   
@@ -25,9 +29,9 @@ export default function CheckoutForm({total, soldProducts, name, email}: any) {
     })
     setLoading(true)
 
-
     if(!error) {
       const {id} = paymentMethod;
+      console.log(id_user)
 
       try {
         //generar una action y un reducer para esta accion
@@ -39,6 +43,7 @@ export default function CheckoutForm({total, soldProducts, name, email}: any) {
         });
       
         if(data === "Succesfull payment") {
+
           Swal.fire({
             title: `Order placed, thank you!`,
             text: `Confirmation will be sent you email.`,
@@ -48,6 +53,17 @@ export default function CheckoutForm({total, soldProducts, name, email}: any) {
             confirmButtonText: "Accept",
             footer: 'Remember that your order will be delivered within one to five days',
           })
+
+          dispatch(postPurchase({
+            id_user,
+            method: "Credit / debit card", 
+            receiver: name, 
+            direction, 
+            city, 
+            state, 
+            country,
+            })
+          )
           
           navigate('/')
 

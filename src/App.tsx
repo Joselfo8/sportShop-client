@@ -18,8 +18,9 @@ import HomeAdmin from "./components/Admin/home/HomeAdmin";
 import AddProduct from "./components/Admin/Forms/AddProduct";
 import Purchase from "./components/Purchase/Purchase";
 import EditProduct from "./components/Admin/Forms/EditProduct";
-import Orders from "./components/Admin/Orders/Orders"
+import Order from "./components/Admin/Orders/Order"
 import ProductFilter from "components/productFilter/ProductFilter";
+
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
         <Route path="/admin" element={<HomeAdmin />} />
         <Route path="/admin/list" element={<List />} />
         <Route path="/admin/addProduct" element={<AddProduct />} />
-        <Route path="/admin/orders" element={<Orders />} />
+        <Route path="/admin/orders/:id" element={<Order />} />
         <Route path="/editProduct/:id" element={<EditProduct />} />
       </Routes>
       {/* Notification component */}
