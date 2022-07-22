@@ -33,20 +33,20 @@ const checkRules = (roles) => async (req, res, next) => {
       if (roles.includes(req.user.role)) {
         return next();
       } else {
-        return res.status(401).send({ msg: "No tienes acceso" });
+        return res.status(401).send({ msg: "access denied" });
       }
     } else {
       const user = await User.findByPk(req.user.id);
-      if (!user) return res.status(401).send({ msg: "el usuario no existe" });
+      if (!user) return res.status(401).send({ msg: "user is not in data base" });
 
       if (roles.includes(user.role)) {
         return next();
       } else {
-        return res.status(409).send({ msg: "No tiene acceso a este recurso" });
+        return res.status(409).send({ msg: "have not access to this resource" });
       }
     }
   } catch (e) {
-    return res.status(409).send({ msg: "por aqui no pasas" }); //por aqui no pasa
+    return res.status(409).send({ msg: "it's way is block" }); //por aqui no pasa
   }
 };
 

@@ -4,22 +4,18 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
-      googleId:{
-        type: DataTypes.STRING,
-
-      },
       role: {
-        type: DataTypes.STRING,
-       // allowNull: false,
+        type: DataTypes.STRING,//DataTypes.ENUM('user', 'admin'),//,
+        allowNull: false,
         defaultValue: "user",
-        /* isIn: {
+         isIn: {
           args: [["user", "admin"]],
           msg: "Must be user or admin",
-        }, */
+        }, 
       }, //user or admin
       name: {
         type: DataTypes.STRING,
-        //allowNull: false,
+        allowNull: false,
         /*  validate: {
           notEmpty: { arg: true, msg: "the name must not be empty" },
           is: { arg: /^\S/, msg: "the name must not start with blank spaces" },
