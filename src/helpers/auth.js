@@ -6,27 +6,26 @@ const checkRole = async (req, res, next) => {
     //console.log(recovertoken)
     const Rtoken = recovertoken.authorization;
     //console.log(Rtoken);
-    if (Rtoken === undefined) {
-      req.user = {
-        id: 0,
-        role: "ghost",
-      };
+    // if (Rtoken === undefined) {
+    //   req.user = {
+    //     id: 0,
+    //     role: "ghost",
+    //   };
+    //   return next();
+    // } else {
+    const token = Rtoken.split(" ")[1];
+    //console.log(token);
+    const tokenInfo = await verifyToken(token);
+    //console.log(tokenInfo.id);
+    if (tokenInfo.id) {
+      req.user = tokenInfo;
       return next();
     } else {
-      const token = Rtoken.split(" ")[1];
-      //console.log(token);
-      const tokenInfo = await verifyToken(token);
-      //console.log(tokenInfo.id);
-      if (tokenInfo.id) {
-        req.user = tokenInfo;
-        return next();
-      } else {
-        res.status(409).send({ msg: "Token invalido" });
-      }
+      res.status(409).send({ msg: "Token invalido" });
     }
+    // }
   } catch (e) {
-    res.status(409);
-    res.send({ msg: "error al verificar token" }); //por aqui no pasa
+    res.status(500).json({ msg: "error al verificar token" }); //por aqui no pasa
   }
 };
 

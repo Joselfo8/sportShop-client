@@ -21,6 +21,7 @@ async function getAllUser(req, res) {
     res.send({ msg: "error" });
   }
 }
+
 async function getUser(req, res) {
   try {
     const { id } = req.params;
@@ -35,6 +36,33 @@ async function getUser(req, res) {
   } catch (error) {
     console.log(error);
     return res.send({ msg: error });
+  }
+}
+
+async function getUserData(req, res) {
+  try {
+    const { id } = req.user;
+    if (!id) return res.status(400).json({ msg: "ID is required" });
+
+    const user = await User.findOne({
+      where: { id },
+      attributes: [
+        "googleId",
+        "name",
+        "lastname",
+        "email",
+        "genre",
+        "dateOfBirth",
+        "trolly",
+      ],
+      include: "shippingAddresses",
+    });
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    return res.status(200).json({ msg: "User found", user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: error });
   }
 }
 
@@ -282,6 +310,7 @@ async function logOut(req, res) {
 
 module.exports = {
   getUser,
+  getUserData,
   postUser,
   deleteUser,
   putUser,

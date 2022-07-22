@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const {
   getUser,
+  getUserData,
   postUser,
   deleteUser,
   putUser,
@@ -15,6 +16,13 @@ const { checkRole } = require("../../helpers/auth"); //garantiza una secion inic
 const { checkRules } = require("../../helpers/Token");
 
 router.get("", getAllUser);
+// get user data with id from token
+router.get(
+  "/data",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  getUserData
+);
 router.post("", postUser);
 router.put("/:id", putUser);
 // create, update, and delete a shipping address
