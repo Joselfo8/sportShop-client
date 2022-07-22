@@ -14,9 +14,9 @@ export default function ListProduct(){
 console.log(state.search)
     const [ value, setValue ] = useState('');
     const typeList = 'PRODUCT';
-    useEffect(() => {
-        dispatch(getAllProducts());
-    },[]);
+    // useEffect(() => {
+    //     dispatch(getAllProducts());
+    // },[]);
     function handleChange(event: any) {
         setValue(event);
     };
