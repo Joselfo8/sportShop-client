@@ -4,21 +4,22 @@ const nodemailer = require("nodemailer");
 router.post("/send-email", (req, res) => {
     //console.log("<h1>Sended Email  </h1>")
     //res.send("<h1>Sended Email  </h1>")
-    const { email, name, lastname,subject,text } = req.body;
+    const { email, name, lastname,subject,text,html } = req.body;
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",//"smtp.ethereal.email",
         port: 465,//puerto de gmail safe
         secure: true,
         auth: {
-            user: 'hansvekoni@gmail.com',//'emily.bailey89@ethereal.email',
-            pass: 'fvvrfxdirtctikli', //'aPXw54KrJAP1nVSpz1'
+            user: 'vlixes.international@gmail.com',//'emily.bailey89@ethereal.email',
+            pass: 'vgdeuabjocmsvsjr', //'aPXw54KrJAP1nVSpz1'
         }
     });
     let  mailOptions = {
-        from:`" VLIXES Your sport Shop👻" to ${name} ${lastname}`,
+        from:`" Dear ${name} ${lastname} from VLIXES Your sport Shop 🏆" `,
         to : email,
         subject :subject,
-        text : text
+        text : text,
+        html:html
 
     }
    transporter.sendMail( mailOptions,(err, data) => {
