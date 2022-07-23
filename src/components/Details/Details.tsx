@@ -50,7 +50,7 @@ export default function Details(){
 
     // ESTADOS: 
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
-    console.log(productDetail)
+    
 
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
@@ -64,12 +64,9 @@ export default function Details(){
 
     const [errors, setErrors] = useState<String>()
 
-    const [size, setSize]:any = useState({
-      s:'',
-      m:'',
-      l:'',
-      xl:''
-    })
+    const [size, setSize]:any = useState('')
+
+    const [quantity, setQuantity]: any = useState()
 
     const [open, setOpen] = useState(false)
 
@@ -113,9 +110,12 @@ export default function Details(){
         if(auth){
           const product:number=productDetail.id
           const user: number = auth.user.id  
+          
           const payload = {
             user:user,  ///Para que funcione mientras tanto poner 66
-            product:product
+            product:product,
+            size: size,
+            quantity: quantity
           }
           setOpen(!open)
           dispatch(addProductToCart(payload))
@@ -125,11 +125,18 @@ export default function Details(){
       }  
     }
 
-    const onChange = (e:any) => {
-      setSize({[e.target.name]: e.target.value})
+    const onChangeSize = (e:any) => {
+      setSize(e.target.value)
       setErrors('')
       setSuccessful('')
     }
+
+    const onChangeQuantity = (e:any) => {
+      setQuantity(e.target.value)
+      setErrors('')
+      setSuccessful('')
+    }
+
 
 
   return (
@@ -183,13 +190,13 @@ export default function Details(){
 
           {/* FORM ADD TO CART */}
           <form onSubmit={addToCart}>
-            { 
-              sizes.map((s,index) => 
+            {
+              Object.keys(productDetail.stock).map((s,index) => 
               <div key= {index} className={styles.containerSize}>
                 <ul  className= {styles.ksCboxtags}>
                   <li > 
                     <input 
-                      onChange={(e) => onChange(e)} 
+                      onChange={(e) => onChangeSize(e)} 
                       value={s} 
                       type='radio'
                       id={s}
@@ -206,7 +213,7 @@ export default function Details(){
             </div>
             <br></br>
             
-            
+            <input onChange={(e) => onChangeQuantity(e)}  ></input>
             <button type='submit' className={styles.cart}>
                 <FiShoppingCart/>               
                 ADD TO CART

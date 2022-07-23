@@ -38,53 +38,59 @@ $weightParagraph: 300;
     margin: 0 auto;
     margin-top: 50px;
     margin-left: 50px;
+    border-bottom: 0;
 
     .containerSizes{ 
-        width: 70px;
+        width: 80px;
         display: flex;
         flex-direction: column;
         border-right: 1px solid #000;
         text-align: center;
-        margin-top: 5px;
        
-        div {
-            border-bottom: 1px solid #000;
-        }
-        p {
-            border-bottom: 1px solid #000;
-            font-family: $font;
-            font-weight: $weightTitle;
-            margin-bottom: 5px;
-        }
-
-        span {
-            font-family: $font;
-            font-weight: $weightParagraph;
-        }
-    }
-
-    .containerQuantity {
-        width: 70px;
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        margin-top: 5px;
-        margin-bottom: 5px;
+        
         
         div {
+            margin-top: 5px;
             border-bottom: 1px solid #000;
+            
         }
 
         p {
+            border-bottom: 1px solid #000;
             font-family: $font;
             font-weight: $weightTitle;
-            border-bottom: 1px solid #000;
-            margin-bottom: 5px;
-        }   
+            margin-bottom: 0;
+        }
+
         span {
             font-family: $font;
             font-weight: $weightParagraph;
             
+        }
+    }
+
+    .containerQuantity {
+        width: 80px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+       
+
+        div {
+            margin-top: 5px;
+            border-bottom: 1px solid #000;
+            
+        }
+      
+        p {
+            font-family: $font;
+            font-weight: $weightTitle;
+            border-bottom: 1px solid #000;
+            margin-bottom: 0;
+        }   
+        span {
+            font-family: $font;
+            font-weight: $weightParagraph;     
         }
     }
 

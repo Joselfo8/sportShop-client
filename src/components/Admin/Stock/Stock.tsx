@@ -29,12 +29,12 @@ const Stock = () => {
                 <NavBar/>
                 <div className={styles.gridLayout}>
 
-                
                     <div className={styles.containerStock}>
                         <img src={product.image}/>
+                        
                         <Man  id={params.id} subCategory={product.subCategory}/>
                     </div>
-                   
+                    
                     <div className={styles.containerTable}>
                         
                         <div className={styles.containerSizes}>
@@ -92,6 +92,7 @@ const Stock = () => {
                                     <div>
                                         <span>{e}</span>
                                     </div>
+                                    
                                 )) : (<div>Not Found</div>)
                             }   
                         </div>
