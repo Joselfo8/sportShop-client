@@ -66,7 +66,7 @@ export default function Details(){
 
     const [size, setSize]:any = useState('')
 
-    const [quantity, setQuantity]: any = useState()
+    const [quantity, setQuantity]: any = useState('')
 
     const [open, setOpen] = useState(false)
 
@@ -104,7 +104,7 @@ export default function Details(){
 
       if(!isLoggedIn){
         navigate('/login')
-      } else if(size.s === '' && size.m === '' && size.l === '' && size.xl === '') {
+      } else if(size === '') {
         return setErrors('Select your size first')
       } else {
         if(auth){
@@ -177,7 +177,7 @@ export default function Details(){
           {[...Array(5)].map((star,i) => {
             const raitingValue:number = i + 1
             return (
-              <FaStar color={raitingValue <= rate ? '#000':'#e4e5e9'} />
+              <FaStar key={i} color={raitingValue <= rate ? '#000':'#e4e5e9'} />
             )})
           }
           <span >({productDetail['rating_count']})</span>
@@ -190,7 +190,7 @@ export default function Details(){
 
           {/* FORM ADD TO CART */}
           <form onSubmit={addToCart}>
-            {
+            { productDetail.stock &&
               Object.keys(productDetail.stock).map((s,index) => 
               <div key= {index} className={styles.containerSize}>
                 <ul  className= {styles.ksCboxtags}>
