@@ -8,11 +8,13 @@
   color: var(--text);
   padding: 0.6rem 1rem;
   border-left: 0.25rem solid rgba(0, 0, 0, 0);
+  text-decoration: none;
   cursor: pointer;
   display: inline-block;
 }
 
 .tab:hover {
+  color: var(--text);
   border-left: 0.25rem solid rgba(var(--text-rgb), 0.8);
 }
 

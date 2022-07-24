@@ -1,8 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 // Helpers
 import formatKey from "../helpers/formatKey";
 // Styles
 import styles from "./Tabs.module.css";
+
+interface TabLinkProps {
+  label: string;
+  to: string;
+}
+
+function TabLink({ label, to }: TabLinkProps) {
+  return (
+    <Link {...{ to }} className={styles["tab"]}>
+      {label}
+    </Link>
+  );
+}
 
 interface TabProps {
   text: string;
@@ -26,10 +40,11 @@ function Tab({ text, id, selected, onSelected }: TabProps) {
 
 interface TabsProps {
   tabs: Array<string>;
+  links: Array<{ label: string; to: string }>;
   getSelected: (selected: string) => void;
 }
 
-function Tabs({ tabs, getSelected }: TabsProps) {
+function Tabs({ tabs, links, getSelected }: TabsProps) {
   const [selected, setSelected] = useState("");
 
   // if one tab is clicked, update selected
@@ -50,7 +65,7 @@ function Tabs({ tabs, getSelected }: TabsProps) {
   return (
     <div className={`${styles["container"]}`}>
       {tabs &&
-        tabs.map((t, i) => {
+        tabs.map((t) => {
           const key = formatKey(t);
 
           return (
@@ -62,6 +77,12 @@ function Tabs({ tabs, getSelected }: TabsProps) {
               onSelected={() => handleSelected(key)}
             />
           );
+        })}
+      {links &&
+        links.map((l) => {
+          const key = formatKey(l.label);
+
+          return <TabLink key={key} label={l.label} to={l.to} />;
         })}
     </div>
   );

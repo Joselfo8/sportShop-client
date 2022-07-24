@@ -27,7 +27,8 @@ function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
       </div>
       <div className={styles["sidebar-body"]}>
         <Tabs
-          tabs={["User information", "My orders", "My favorites"]}
+          tabs={["User information", "My orders"]}
+          links={[{ label: "My favorites", to: "/favorites" }]}
           getSelected={getSelected}
         />
       </div>
@@ -47,7 +48,7 @@ function UserProfile() {
     if (!user.name) {
       dispatch(getUser());
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   if (!isLoggedIn) return <Navigate to="/login" />;
 
