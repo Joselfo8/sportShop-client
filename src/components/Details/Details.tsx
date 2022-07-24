@@ -50,7 +50,7 @@ export default function Details(){
 
     // ESTADOS: 
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
-    console.log(productDetail)
+    
 
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
@@ -64,12 +64,9 @@ export default function Details(){
 
     const [errors, setErrors] = useState<String>()
 
-    const [size, setSize]:any = useState({
-      s:'',
-      m:'',
-      l:'',
-      xl:''
-    })
+    const [size, setSize]:any = useState('')
+
+    const [quantity, setQuantity]: any = useState('')
 
     const [open, setOpen] = useState(false)
 
@@ -107,15 +104,18 @@ export default function Details(){
 
       if(!isLoggedIn){
         navigate('/login')
-      } else if(size.s === '' && size.m === '' && size.l === '' && size.xl === '') {
+      } else if(size === '') {
         return setErrors('Select your size first')
       } else {
         if(auth){
           const product:number=productDetail.id
           const user: number = auth.user.id  
+          
           const payload = {
             user:user,  ///Para que funcione mientras tanto poner 66
-            product:product
+            product:product,
+            size: size,
+            quantity: quantity
           }
           setOpen(!open)
           dispatch(addProductToCart(payload))
@@ -125,11 +125,18 @@ export default function Details(){
       }  
     }
 
-    const onChange = (e:any) => {
-      setSize({[e.target.name]: e.target.value})
+    const onChangeSize = (e:any) => {
+      setSize(e.target.value)
       setErrors('')
       setSuccessful('')
     }
+
+    const onChangeQuantity = (e:any) => {
+      setQuantity(e.target.value)
+      setErrors('')
+      setSuccessful('')
+    }
+
 
 
   return (
@@ -170,7 +177,7 @@ export default function Details(){
           {[...Array(5)].map((star,i) => {
             const raitingValue:number = i + 1
             return (
-              <FaStar color={raitingValue <= rate ? '#000':'#e4e5e9'} />
+              <FaStar key={i} color={raitingValue <= rate ? '#000':'#e4e5e9'} />
             )})
           }
           <span >({productDetail['rating_count']})</span>
@@ -183,13 +190,13 @@ export default function Details(){
 
           {/* FORM ADD TO CART */}
           <form onSubmit={addToCart}>
-            { 
-              sizes.map((s,index) => 
+            { productDetail.stock &&
+              Object.keys(productDetail.stock).map((s,index) => 
               <div key= {index} className={styles.containerSize}>
                 <ul  className= {styles.ksCboxtags}>
                   <li > 
                     <input 
-                      onChange={(e) => onChange(e)} 
+                      onChange={(e) => onChangeSize(e)} 
                       value={s} 
                       type='radio'
                       id={s}
@@ -199,13 +206,14 @@ export default function Details(){
                 </ul>    
               </div>) 
             }
-
+            <div className={styles.contErrors}>
             {
               errors && <span className={styles.errors}>{errors}</span>
             }
+            </div>
             <br></br>
             
-            
+            <input onChange={(e) => onChangeQuantity(e)}  ></input>
             <button type='submit' className={styles.cart}>
                 <FiShoppingCart/>               
                 ADD TO CART
@@ -215,9 +223,11 @@ export default function Details(){
               <button  onClick={addFavorite}  className={styles.favorite}>
                 <FiHeart  style = {{color: `${color}`}} className={styles.heart} />
               </button>
+              <div className={styles.contSucess}>
               {
               successful && <span className={styles.sucessful}>{successful}</span>
               }
+              </div>
           </form>
           <div className={styles.modal}>
             <Modal backdrop= {true} isOpen={open}>

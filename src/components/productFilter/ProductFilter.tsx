@@ -19,7 +19,7 @@ export default function(){
     useEffect(() => {
         dispatch(allProducts(where[1], where[2], page, '', title));
     },[page, location]);
-    console.log(state.products)
+    
     return(
         <div>
             <NavBar />
