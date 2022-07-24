@@ -73,7 +73,7 @@ function handleChange(event: any) {
               <Link to={`/${e}`}>
                 <button className={styles.buttonNav}>{e}</button>
               </Link>
-              {dropDown[e] && <DropDown categoryClick={e} />}
+              {dropDown[e] && <DropDown  categoryClick={e} />}
             </li>
           );
         })}

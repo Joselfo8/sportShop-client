@@ -13,12 +13,14 @@ const Kid = ({subCategory,id}:any) => {
 
     const [size, setSize]:any = useState({
         footwear:'',
-        clothes: ''
+        clothes: '',
+        accessories: ''
     })
 
     const [quantity, setQuantity]:any = useState({
         clothes: '',
-        footwear: ''
+        footwear: '',
+        accessories: ''
     })
 
     const handleChangeQuantity = (e:any) => {
@@ -33,11 +35,15 @@ const Kid = ({subCategory,id}:any) => {
             setSize({
                 clothes: e.target.value
             })
-       } else {
+       } else if(subCategory === 'FOOTWEAR') {
             setSize({
                 footwear:  e.target.value
             })
-       }
+       } else {
+            setSize({
+                [e.target.name]: e.target.value
+            })
+        }
 
    
     }
@@ -51,14 +57,22 @@ const Kid = ({subCategory,id}:any) => {
                 product: id
             }    
             dispatch(addStock(payload))
-        } else {
+        } else if(subCategory === 'FOOTWEAR'){
             let payload= {
                 quantity: quantity.footwear, 
                 size: size.footwear,
                 product: id
             }
             dispatch(addStock(payload))
-        }      
+        } else {
+            let payload = {
+                size: size.accessories,
+                quantity: quantity.accessories, 
+                product: id
+            }
+            dispatch(addStock(payload))
+           
+        }     
     }
 
 
@@ -106,6 +120,20 @@ const Kid = ({subCategory,id}:any) => {
                 </form>
             </div>
         )
+    } else if (subCategory === 'ACCESSORIES'){
+        return (
+            <div className={styles.container}>
+                <form onSubmit={onSubmit}>
+                    <div className={styles.containerForm}>
+                        <label>Enter size</label>
+                        <input type='text' placeholder='Enter size for accessorie...'  onChange={handleChangeSizes} name='accessories'></input>
+
+                        <label>Enter quantity</label>
+                        <input type='text' placeholder='Enter quantity...'  onChange={handleChangeQuantity} name='accessories' value={quantity.accessories}></input>
+                        <button type='submit'>ADD STOCK</button>
+                    </div>
+                </form>
+            </div>)
     } else {
         return( <div>THIS PRODUCT DOES NOT HAVE SIZES TO ADD</div>)
     }

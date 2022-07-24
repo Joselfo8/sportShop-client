@@ -6,7 +6,7 @@ import style from './Categories.module.scss';
 
 export default function Categories(){
     const state = useSelector((state: any) => state);
-    console.log(state)
+    
 
     return(
         <div className={style.categories}>

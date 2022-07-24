@@ -163,7 +163,7 @@ export const addProductToCart = (payload:any) => async (dispatch:any) => {
     console.log(payload)
     const json:any = await axios.post('https://vlixes-server.herokuapp.com/shopping_list', payload)
     console.log(json.data)
-    dispatch({type: "ADD_TO_CART", payload:json.data}) 
+    // dispatch({type: "ADD_TO_CART", payload:json.data}) 
   } catch (error) {
     console.log(error)
   }
