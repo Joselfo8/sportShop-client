@@ -5,12 +5,11 @@ import { addProductToCart, addProductToFavorites, getDetails } from '../../redux
 import { Link } from 'react-router-dom'
 import NavBar from '../Navbar/Navbar'
 import styles from './Details.module.scss'
-import { FaStar,FaHeart } from 'react-icons/fa'
-import { FiShoppingCart,FiHeart } from "react-icons/fi";
-import { IoReturnUpBackSharp } from "react-icons/io5";
-import { TbHeartPlus } from "react-icons/tb"
+import { FaStar } from 'react-icons/fa'
+import { FiShoppingCart } from "react-icons/fi";
+import { AiFillHeart } from "react-icons/ai";
 import Footer from '../Footer/Footer'
-import { Modal, ModalHeader, ModalBody, Button } from "reactstrap";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 
 interface Detail {
@@ -51,7 +50,6 @@ export default function Details(){
     // ESTADOS: 
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
     
-
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
     const auth: any =useSelector((state:any) => state.auth.auth)
@@ -62,7 +60,10 @@ export default function Details(){
 
     const [successful, setSuccessful] = useState<String>()
 
-    const [errors, setErrors] = useState<String>()
+    const [errors, setErrors]:any = useState({
+      size: '',
+      quantity:''
+    })
 
     const [size, setSize]:any = useState('')
 
@@ -74,7 +75,7 @@ export default function Details(){
     // RENDERIZADO DEL COMPONENTE: 
     useEffect(()=>{
         dispatch(getDetails(params.id))
-    },[params.id])
+    },[dispatch,params.id])
     
     // HANDLES PARA AGREGAR AL CARRITO Y FAVORITOS:
     const addFavorite = (e:any)=>{
@@ -93,6 +94,7 @@ export default function Details(){
             dispatch(addProductToFavorites(payload))
             setColor('#a70f0f')
             setSuccessful('¡Added to favorites!')
+            setTimeout(() => setSuccessful(''),1000)
           } else {
             return(alert('Login first'),navigate('/login'))
           }
@@ -103,14 +105,15 @@ export default function Details(){
       e.preventDefault()
 
       if(!isLoggedIn){
-        navigate('/login')
+        return(alert('Login first'),navigate('/login'))
       } else if(size === '') {
-        return setErrors('Select your size first')
+        return setErrors({size:'Select your size first'})
+      } else if(quantity === ''){
+        return setErrors({quantity: 'Enter quantity'})
       } else {
         if(auth){
-          const product:number=productDetail.id
-          const user: number = auth.user.id  
-          
+          const product:number = productDetail.id
+          const user:number = auth.user.id  
           const payload = {
             user:user,  ///Para que funcione mientras tanto poner 66
             product:product,
@@ -119,6 +122,7 @@ export default function Details(){
           }
           setOpen(!open)
           dispatch(addProductToCart(payload))
+          setSize('')
         }else{
           return(alert('Login first'),navigate('/login'))
         }
@@ -145,116 +149,139 @@ export default function Details(){
 
       <div className={styles.gridLayout}>
       
+
         <div className={styles.col1}>
-          <div>
+
+          <div className={styles.containerNavegacion}>
             <Link to='/' className={styles.link}>
-              <span className={styles.pLink}>HOME</span>
+              <span className={styles.Navegacion}> HOME </span>
             </Link>
             <span>/</span>
 
             <Link to={`/:${productDetail.category}`} className={styles.link}>
-              <span className={styles.pLink}>{productDetail.category}</span>
+              <span className={styles.Navegacion}> {productDetail.category} </span>
             </Link>
             <span>/</span>
            
 
-            <Link to={`/products?category=${productDetail.category}&subCategory=${productDetail.subCategory}`} className={styles.link}>
-              <span className={styles.pLink}>{productDetail.subCategory}</span>
+            <Link to={`/${productDetail.category}/${productDetail.subCategory}`} className={styles.link}>
+              <span className={styles.Navegacion}> {productDetail.subCategory} </span>
             </Link>
-            
-           
-
-        
           </div>
-          <img src={productDetail.image} alt='Not found'/>
-          <h2 >CUIDADOS</h2>
-          <p> {productDetail['product_care']} Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium doloribus accusantium vel. Minus eum aperiam, ducimus maiores consequatur quod distinctio fugit sit libero suscipit, harum unde eveniet cumque, corporis maxime? </p>
+
+          <div className={styles.containerImage}>
+            <img src={productDetail.image} alt='Not found'/>
+          </div>
+          
+          <div className={styles.containerCuidados}>
+            <h2 >CUIDADOS</h2>
+            <p> {productDetail['product_care']?.length < 50 ? ('Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium doloribus accusantium vel. Minus eum aperiam, ducimus maiores consequatur quod distinctio fugit sit libero suscipit, harum unde eveniet cumque, corporis maxime?') :  productDetail['product_care']} </p>
+          </div>
+          
         </div>
 
 
 
         <div className={styles.col2}>
-          {[...Array(5)].map((star,i) => {
-            const raitingValue:number = i + 1
-            return (
-              <FaStar key={i} color={raitingValue <= rate ? '#000':'#e4e5e9'} />
-            )})
-          }
-          <span >({productDetail['rating_count']})</span>
+
+          <div className={styles.containerStars}>
+            {[...Array(5)].map((star,i) => {
+              const raitingValue:number = i + 1
+              return (
+                <FaStar key={i} color={raitingValue <= rate ? '#000':'#e4e5e9'} />
+              )})
+            }
+            <span >({productDetail['rating_count']})</span>
+          </div>
           <hr></hr>
-          
-          <h1>{productDetail.title}</h1>
-          <p className={styles.price}>${productDetail.price}</p>
+
+          <div className={styles.containerTittle}>
+            <h1>{productDetail.title}</h1>
+            <span>{productDetail.category} • {productDetail.subCategory}</span>
+          </div>
+
+          <h3 className={styles.price}>${productDetail.price}</h3>
+
           <h2>SELECT SIZE</h2>
-
-
-          {/* FORM ADD TO CART */}
+          
           <form onSubmit={addToCart}>
             { productDetail.stock &&
-              Object.keys(productDetail.stock).map((s,index) => 
+              Object.keys(productDetail.stock).map((s:any,index) => 
               <div key= {index} className={styles.containerSize}>
                 <ul  className= {styles.ksCboxtags}>
-                  <li > 
+                  <li> 
                     <input 
                       onChange={(e) => onChangeSize(e)} 
                       value={s} 
                       type='radio'
                       id={s}
                       name='radio'/>
-                      <label htmlFor={s}>{s.toUpperCase()}</label>
+                      <label htmlFor={s}>{isNaN(s) ? (s.toUpperCase()): `US ${s}`}</label>
                   </li>
                 </ul>    
               </div>) 
             }
             <div className={styles.contErrors}>
             {
-              errors && <span className={styles.errors}>{errors}</span>
+              errors.size && <span className={styles.errors}>{errors.size}</span>
             }
             </div>
             <br></br>
-            
-            <input onChange={(e) => onChangeQuantity(e)}  ></input>
-            <button type='submit' className={styles.cart}>
-                <FiShoppingCart/>               
-                ADD TO CART
-            </button>
-            
-          
-              <button  onClick={addFavorite}  className={styles.favorite}>
-                <FiHeart  style = {{color: `${color}`}} className={styles.heart} />
-              </button>
-              <div className={styles.contSucess}>
-              {
-              successful && <span className={styles.sucessful}>{successful}</span>
-              }
-              </div>
-          </form>
-          <div className={styles.modal}>
-            <Modal backdrop= {true} isOpen={open}>
-              {/* <div className={styles.containerButtonX}> */}
-                <button className={styles.buttonNav} style={{marginLeft:"auto", width:"50px", backgroundColor:"black",color:"white"}} onClick={()=>setOpen(!open)}>X</button>
-              {/* </div> */}
-              <ModalHeader className={styles.modalHeader}>
-                <h1>Product added to cart</h1>
-              </ModalHeader> 
-              <ModalBody className={styles.modalBody}>
-                <div>
-                  <Link to='/'>
-                    <button className={styles.buttonNav}>Continue Shopping</button>
-                  </Link>
-                </div>
-                <br></br>
-                <div>
-                  <Link to='/cart'>
-                    <button  className={styles.buttonNav}>Show car</button>
-                  </Link>
-                </div>
-              </ModalBody>
-            </Modal>
-            </div>
 
-          <h2 className={styles.description}>DESCRIPTION</h2>
-          <p>{productDetail.description} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat dicta quae eos quaerat optio, asperiores similique tempora voluptatum reiciendis debitis expedita quam impedit id exercitationem ea accusamus nostrum nemo possimus.</p>
+            <div className={styles.containerButtons}>
+              <input defaultValue={'1'} onChange={(e) => onChangeQuantity(e)}></input>
+              <button type='submit' className={styles.buttonCart}>
+                  <FiShoppingCart/>               
+                  ADD TO CART
+              </button>
+           
+            
+                <button  onClick={addFavorite}  className={styles.buttonFavorite}>
+                  <AiFillHeart  style = {{color: `${color}` }} className={styles.heart} size={25}/>
+                </button>
+        
+            </div>
+            <div className={styles.contSucess}>
+              {
+                successful && <span className={styles.sucessful}>{successful}</span>
+              }
+            </div>
+            <div className={styles.contErrors}>  
+              {
+                errors.quantity && <span className={styles.errors}>{errors.quantity}</span>
+              }
+            </div> 
+          
+          </form>
+
+          
+          <Modal isOpen={open}>
+              
+            <button className={styles.buttonModal} style={{marginLeft:"auto", width:"50px",   backgroundColor:"black",color:"white"}} onClick={()=>setOpen(!open)}>X</button>
+              
+            <ModalHeader className={styles.modalHeader}>
+              <h1>Product added to cart</h1>
+            </ModalHeader> 
+
+            <ModalBody className={styles.modalBody}>
+              <div>
+                  <Link to='/'>
+                    <button className={styles.buttonModal}>Continue Shopping</button>
+                  </Link>
+              </div>
+              <br></br>
+              <div>
+                <Link to='/cart'>
+                  <button  className={styles.buttonModal}>Show car</button>
+                </Link>
+              </div>
+            </ModalBody>
+          </Modal>
+            
+          <div className={styles.containerDescription}>
+            <h2 className={styles.description}>DESCRIPTION</h2>
+            <p>{productDetail.description?.length < 50 ? ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat dicta quae eos quaerat optio, asperiores similique tempora voluptatum reiciendis debitis expedita quam impedit id exercitationem ea accusamus nostrum nemo possimus.'): productDetail.description} </p>
+          </div>
         </div >
 
       </div>
