@@ -39,11 +39,14 @@ function UserProfile() {
   const [selectedTab, setSelectedTab] = useState("");
   // Store
   const dispatch = useDispatch();
-  const { isLoggedIn, user } = useSelector((state: any) => state.auth);
+  const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: any) => state);
 
   // if user data is not in store, make a request
   useEffect(() => {
-    if (!user) dispatch(getUser());
+    if (!user.name) {
+      dispatch(getUser());
+    }
   }, [user]);
 
   if (!isLoggedIn) return <Navigate to="/login" />;
