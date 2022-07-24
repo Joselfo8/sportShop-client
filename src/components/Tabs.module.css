@@ -21,10 +21,12 @@
 .tab-active {
   border-left: 0.25rem solid var(--text);
   position: relative;
-  background-image: linear-gradient(
+  background: linear-gradient(
     to right,
-    rgba(var(--text-rgb), 0.12),
-    rgba(var(--text-rgb), 0.08)
+    rgba(var(--text-rgb), 0.25),
+    rgba(var(--text-rgb), 0.2),
+    rgba(var(--text-rgb), 0.15),
+    rgba(var(--text-rgb), 0.1)
   );
 }
 

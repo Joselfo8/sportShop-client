@@ -5,26 +5,18 @@ import { useSelector, useDispatch } from "react-redux";
 import Tabs from "../components/Tabs";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import SidebarContainer from "../components/modals/SidebarContainer";
+import UserImage from "components/UserImage";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 // Actions
 import { getUser } from "redux/action/user";
-// Icons
-import { ReactComponent as DefaultUser } from "../icons/default-user.svg";
 // Styles
 import styles from "./UserProfile.module.css";
 
 function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
   return (
     <div className={`${styles["sidebar"]} secondary`}>
-      <div className={styles["user-image-cont"]}>
-        <DefaultUser className={styles["user-image"]} />
-        {/* <img */}
-        {/*   className={styles["user-image"]} */}
-        {/*   src={} */}
-        {/*   alt="user-image" */}
-        {/* /> */}
-      </div>
+      <UserImage />
       <div className={styles["sidebar-body"]}>
         <Tabs
           tabs={["User information", "My orders"]}
