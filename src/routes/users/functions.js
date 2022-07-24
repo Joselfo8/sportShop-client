@@ -47,7 +47,6 @@ async function getUserData(req, res) {
     const user = await User.findOne({
       where: { id },
       attributes: [
-        "googleId",
         "name",
         "lastname",
         "email",
