@@ -55,7 +55,7 @@ export async function login(email: string, password: string) {
 
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: response.data,
+        payload: response.data.token,
       });
       toast(message);
 
