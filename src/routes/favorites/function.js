@@ -57,12 +57,12 @@ const addToFavorites = async (req, res) => {
 
 const deleteById = async (req, res) => {
   try {
-    console.log({
-      msg: "deleteById",
-      body: req.body,
-      query: req.query,
-      params: req.params,
-    });
+    // console.log({
+    //   msg: "deleteById",
+    //   body: req.body,
+    //   query: req.query,
+    //   params: req.params,
+    // });
     const { user, product } = req.query;
 
     //validar user

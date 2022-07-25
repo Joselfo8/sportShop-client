@@ -1,4 +1,4 @@
-const { User } = require("../../db");
+const { User, ShippingAddress } = require("../../db");
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
 const { tokenSign } = require("../../helpers/Token");
@@ -9,11 +9,12 @@ const rols = ["admin", "user"];
 async function getAllUser(req, res) {
   try {
     const { role } = req.query;
-    let where = { where: {} };
+    let where = { where: {}, include: "shippingAddresses" };
     if (role) {
       where.where.role = role;
     }
     let users = await User.findAll(where);
+
     return res.send({ msg: "Users found", users });
   } catch (error) {
     console.log(error);
@@ -54,7 +55,7 @@ async function postUser(req, res) {
       role,
     } = req.body;
 
-    console.log(name);
+    // console.log(name);
     if (!name || !password || !email) {
       return res
         .status(200)
@@ -85,7 +86,7 @@ async function postUser(req, res) {
       numberPhone: numberPhone,
       role: role,
     });
-    //await user.createShopping_list({ product_list: user.email });
+
     await user.createFavorite({ name: user.email });
     return res.status(200).json({ msg: "User created", user: user });
   } catch (error) {
@@ -112,34 +113,112 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
-  const id = req.params.id;
+  const { id } = req.params;
 
   try {
     const { password, email, ...data } = req.body;
 
     // get user by id
-    let user = await User.findOne({ where: { id: id } });
+    const user = await User.findOne({
+      where: { id: id },
+      include: "shippingAddresses",
+    });
 
-    if (!user) return res.status(200).json({ msg: "User not found" });
+    if (!user) return res.status(404).json({ msg: "User not found" });
 
     // email can't be update
-    if (email) return res.status(200).json({ msg: "Email can't be update" });
+    if (email) return res.status(400).json({ msg: "Email can't be update" });
 
     // password can't be update
     if (password)
-      return res.status(200).json({ msg: "Password can't be update" });
+      return res.status(400).json({ msg: "Password can't be update" });
 
+    // update user data
     user.set(data);
-
     await user.save();
 
     // send all values, less password
     const { password: _1, ...response } = user.dataValues;
 
-    res.status(200).json({ msg: "User updated", data: response });
+    res.status(200).json({
+      msg: "User updated",
+      data: response,
+    });
   } catch (error) {
-    res.status(200).json({ msg: error.message });
+    res.status(500).json({ msg: error.message });
     // res.status(200).json({ msg: "Failed to update user" });
+  }
+}
+
+async function addShippingAddress(req, res) {
+  const id = req.params.id;
+
+  try {
+    // get user by id
+    const user = await User.findOne({
+      where: { id: id },
+    });
+
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    // create one address, associate with user and save
+    const newAddr = await ShippingAddress.create(req.body);
+    await user.addShippingAddress(newAddr);
+
+    res.status(200).json({
+      msg: "Shipping address added",
+      data: newAddr,
+    });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+}
+
+async function updateShippingAddress(req, res) {
+  const id = req.params.id;
+
+  try {
+    // get address by id
+    const address = await ShippingAddress.findOne({
+      where: { id },
+    });
+
+    if (!address)
+      return res.status(404).json({ msg: "Shipping address not found" });
+
+    // update address
+    address.set(req.body);
+    await address.save();
+
+    res.status(200).json({
+      msg: "Shipping address updated",
+      data: address,
+    });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+}
+
+async function deleteShippingAddress(req, res) {
+  const id = req.params.id;
+
+  try {
+    // get user by id
+    const address = await ShippingAddress.findOne({
+      where: { id },
+    });
+
+    if (!address)
+      return res.status(404).json({ msg: "Shipping address not found" });
+
+    // delete from db
+    await address.destroy();
+
+    res.status(200).json({
+      msg: "Shipping address deleted",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
   }
 }
 
@@ -157,12 +236,13 @@ async function loginUser(req, res) {
 
     // search user in db
     let user = await User.findOne({
-      where: { email: email },
+      where: { email },
+      include: "shippingAddresses",
     });
 
     // hash password and compare with db hash
     const acertijo = await compare(password, user.password);
-    console.log(acertijo);
+    // console.log(acertijo);
 
     // create jwt token
     const token = await tokenSign(user);
@@ -216,4 +296,7 @@ module.exports = {
   loginUser,
   getAllUser,
   logOut,
+  addShippingAddress,
+  updateShippingAddress,
+  deleteShippingAddress,
 };
