@@ -53,14 +53,14 @@ router.use('/google', passport.authenticate('google', { scope: ['profile', 'emai
           success: true,
           user_Email: req.user._json.email,
           token: token,
-          role: user.role
+          role: user.role,
         })
       }
     }
+    //redirect('https://sport-shop-client.vercel.app/');
     //console.log(req.user);
-    //redirect('/google');
   });
-  
+
 // logout de google
 
 /*  router.use('/logout', function (req, res) {

@@ -1,5 +1,6 @@
 const express = require('express');
-const router = express.Router();
+const router = require("express").Router();
+const passport = require("passport");
 
 const {registerCtrl} = require('./functions');
 //login!
@@ -8,11 +9,11 @@ const {registerCtrl} = require('./functions');
 router.post('/',registerCtrl)
 //
 //google auth
-/*
-const { tokenSign } = require("../../helpers/Token");
-const { User } = require("../../db");
-require("../../midleware.js");
-const passport = require("passport");
+
+//const { tokenSign } = require("../../helpers/Token");
+//const { User } = require("../../db");
+//require("../../midleware.js");
+//const passport = require("passport");
 
 const CLIENT_URL = "http://localhost:4040/"//"https://sport-shop-client.vercel.app/"//"http://localhost:4040/";
 
@@ -44,14 +45,14 @@ router.get("/logout", (req, res) => {
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 router.get(
-  "/google",
+  "/google/cb",
   passport.authenticate("google", {
     successRedirect: CLIENT_URL,
     failureRedirect: "/login/failed",
   })
 )
 ;//google auth
-*/
+
 
 
 module.exports = {auth:router};

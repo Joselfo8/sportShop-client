@@ -1,4 +1,7 @@
  const router = require("express").Router();
+ const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
+const { checkRules } = require("../../helpers/Token");
+
 
 const {
   get_item,
@@ -7,11 +10,11 @@ empty_trolly,
   add_item,
 } = require("./function");
 
-router.post("", add_item);
+router.post("",checkRole,checkRules(["user", "admin"]), add_item);
 
-router.delete("", delete_item);
+router.delete("",checkRole,checkRules(["user", "admin"]),delete_item);
 
-router.delete("/all",empty_trolly);
+router.delete("/all",checkRole,checkRules(["user", "admin"]),empty_trolly);
 
 router.get("/:id", get_item);
 
