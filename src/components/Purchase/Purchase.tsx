@@ -23,7 +23,8 @@ export default function Purchase() {
     const user = useSelector((state: any) => state.auth.auth.user);
     
     const {id} = user
-    console.log(user)
+    console.log("user", user)
+    console.log("state", state)
  
     useEffect(() => {
         dispatch(getUserInformation(id));

@@ -20,6 +20,7 @@ import Purchase from "./components/Purchase/Purchase";
 import EditProduct from "./components/Admin/Forms/EditProduct";
 import Order from "./components/Admin/Orders/Order"
 import ProductFilter from "components/productFilter/ProductFilter";
+import OrderProgress from "components/Admin/Orders/OrderProgress";
 import Stock from "components/Admin/Stock/Stock";
 
 
@@ -48,8 +49,9 @@ function App() {
         <Route path="/admin" element={<HomeAdmin />} />
         <Route path="/admin/list" element={<List />} />
         <Route path="/admin/addProduct" element={<AddProduct />} />
+        <Route path="/admin/order-detail/:id" element={<Order />} />
+        <Route path="/admin/order-progress/:orderId" element={<OrderProgress />} />
         <Route path="/stock/:id" element={<Stock/>} />
-        <Route path="/admin/orders/:id" element={<Order />} />
         <Route path="/editProduct/:id" element={<EditProduct />} />
         
       </Routes>
