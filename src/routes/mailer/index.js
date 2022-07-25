@@ -1,5 +1,54 @@
 const router = require("express").Router();
+
+
 const nodemailer = require("nodemailer");
+const { User } = require("../../db");
+const { encrypt } = require("../../helpers/handleBcrypt");
+
+router.post("/password-recovery",async (req, res) => {
+  const{email}=req.body;
+  let user =await User.findOne({where:{email}})
+  !User? res.send("the email is wrong or is not registered") :
+  User.update({
+    password: await encrypt(user.email)
+  },{where:{email}})
+  .then(()=>res.send("the password has been changed and sent to your email"))
+  user = await User.findOne({where:{email}})  //actualizo informacion de usuario
+  //console.log(user.password)
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",//"smtp.ethereal.email",
+    port: 465,//puerto de gmail safe
+    secure: true,
+    auth: {
+        user: 'hansvekoni@gmail.com',//'vlixes.international@gmail.com',//'hansvekoni@gmail.com',
+        pass: 'fvvrfxdirtctikli',//'vgdeuabjocmsvsjr', //'fvvrfxdirtctikli'
+    }
+});
+let  mailOptions = {
+  from:`"VLIXES Your sport Shop 🏆" `,
+  to : email,
+  subject :"Your password has been changed",
+  text : `"remember change your password o keep it in a safe place" ${user.password}`,
+  html:`<h2><b> Your new password is: ${user.password}  </b></h2> </br> <h3> <b> remember change your password or keep it in a safe place </b> </h3>`
+}
+transporter.sendMail( mailOptions,(err, data) => {
+  if (err) {
+      res.status(500).send(err.message);    
+  }
+  else {
+      console.log('Email sent');
+      res.status(200).json(req.body);
+  }
+})
+  // verify connection configuration
+  transporter.verify(function (error, success) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Server is ready to take our messages");
+    }
+  });
+});
 
 router.post("/send-email", (req, res) => {
     //console.log("<h1>Sended Email  </h1>")
