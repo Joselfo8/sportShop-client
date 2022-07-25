@@ -8,9 +8,16 @@ import styles from "./OrderList.module.scss"
 export default function OrderList(){
     const dispatch = useDispatch();
     const orders = useSelector((state:any) => state.admin.orders);
+
     useEffect(() => {
         dispatch(getOrders());
     },[]);
+
+    function filterByState(event: any) {
+        console.log("desde function orders", event.target.value)
+        // dispatch(orderCountries(event.target.value))
+        // document.getElementById(event.target.id).selectedIndex = 0
+    }
 
     const render = (
         orders.length === 0
@@ -24,8 +31,8 @@ export default function OrderList(){
                                     <b>{`Order No. ${order.id}`}</b>
                                     <p>{`Creation date: ${order.status_history[order.status_history.length-1].date}`}</p>
                                     <p>{`State: `} <b>{`${order.status_history[order.status_history.length-1].status}`}</b> </p>
-                                    <Link to={`/admin/orders/${order.id}`} style={{textDecoration:"none"}}>
-                                        <button className={styles.button}>View detail</button>
+                                    <Link to={`/admin/order-progress/${order.id}`} style={{textDecoration:"none"}}>
+                                        <button className={styles.button}>Work in</button>
                                     </Link>
                                 </div>
                                 )
@@ -38,6 +45,18 @@ export default function OrderList(){
         <div className={styles.container}>
 
             <div>
+                {
+                <div className={styles.selectState}>
+                    <label htmlFor="">Filter by state</label>
+                    <select name="orderType" id="orderType" onChange={(e) => {filterByState(e)}}>
+                      <option> </option>
+                      <option value="Preparing">Preparing order</option>
+                      <option value="OrderReady">Order ready</option>
+                      <option value="OrderIsOnItsWay">Order is on its way</option>
+                      <option value="OrderDelivered">Order delivered</option>
+                    </select>
+                </div>
+                }
                 {/* <input/>
                 {   allProducts &&
                     allProducts.map((e:any) => {

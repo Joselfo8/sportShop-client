@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { getOrderById } from "../../../redux/action/admin"
 
 // Components
@@ -16,7 +17,10 @@ export default function Order() {
   const order = useSelector((state:any) => state.admin.order);
 
   const state = useSelector((state:any) => state);
-  console.log("state", state)
+  // console.log("state", state)
+
+  // console.log("ORDER", order)
+  // console.log("PRUEBA", (Number(Object.values(order.products[2].sizesAmount))))
 
   let {id} = useParams();
 
@@ -25,8 +29,8 @@ export default function Order() {
   },[]);
 
   let total: number = !order.id ? 0 : (order.sub_total + order.taxes + order.send_cost)
-  let quantityOfProducts: number = !order.id ? 0 : order.products.reduce((a: any, b: any) => (Number(Object.values(a.sizesAmount))) + (Number(Object.values(b.sizesAmount))))
-
+  let quantityOfProducts: number = !order.id ? 0 : order.products.map((product: any) => (Number(Object.values(product.sizesAmount)))).reduce((a: any, b: any) => a + b)
+  
   const renderOrder = (
     !order.id
               ?   <div>
@@ -244,6 +248,14 @@ export default function Order() {
     <div>
       <NavBar />
 
+      <div className={style.linkContainer}>
+        <div className={style.textArea}>
+          <Link to="/admin/" className={style.link}>
+            <p>{`> Back to admin menu`}</p>
+          </Link>
+        </div>
+      </div>
+
       {renderOrder}
 
       <br />
@@ -266,20 +278,23 @@ export default function Order() {
     
     <div className={style.textInRow}>
       <p>06/Oct/2021 00:54:46</p>
-      <b>We are preparing your order</b>
+      <b>We are preparing your order</b>  // preparing order
     </div>
     
     <div className={style.textInRow}>
       <p>06/Oct/2021 00:54:46</p>
-      <b>The order is ready</b>
+      <b>The order is ready</b>           // order ready
     </div>
 
     <div className={style.textInRow}>
       <p>07/Oct/2021 01:01:11</p>
-      <b>Your order is on its way</b>
+      <b>Your order is on its way</b>     // order is on its way
     </div>
 
     <div className={style.textInRow}>
       <p>07/Oct/2021 09:21:36</p>
       <b>Your order is about to arrive at the destination</b>
     </div> */}
+
+
+                                          // order delivered

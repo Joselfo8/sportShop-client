@@ -1,4 +1,7 @@
 import axios from "axios";
+import {
+    PUT_STATE_TO_ORDER,
+} from './types'
 
 export const getAllProducts = (page? : number, limit? : string) => async (dispatch: any) => {
     try{
@@ -90,3 +93,15 @@ export function getOrderById(id: any) {
       console.log(error);
     }
 }
+// POST_STATE_TO_ORDER
+export function putStateToOrder(object: any) {
+    console.log("postStateToOrder", object)
+    try {
+      return async function state(dispatch: any) {
+        let json: any = await axios.put(`https://vlixes-server.herokuapp.com/buys`, object);
+        dispatch(getOrderById(object.id));
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }

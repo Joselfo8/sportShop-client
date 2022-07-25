@@ -69,7 +69,6 @@ $weightParagraph: 100;
     }
 
 
-
     .orderStatusContainer {
         // background-color:chocolate;
         // margin: 15px;    
@@ -107,8 +106,7 @@ $weightParagraph: 100;
     }
 
 
-
-    .purchaseContainer {
+    .productsPrepareContainer {
         background-color:rgb(145, 52, 52);
         color: black;
 
@@ -180,29 +178,43 @@ $weightParagraph: 100;
                     
 
                     .detail {
-                        // background-color: burlywood;
+                        display: flex;
+                        flex-direction: column;
+                        // align-items: center;
+                        justify-content: space-between;
                     }
 
                 }
                 
                 .productPrice {
-                    // background-color: aquamarine;
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
 
-                    .cost {
-                        // background-color: darkgoldenrod;
-                    }
-
                     .amount {
-                        // background-color: darkolivegreen;
+                        width: 10%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center
                     }
 
-                    .Subtotal {
-                        // background-color: darkgrey;
+                    .checkbox {
+                        background-color: rgb(230, 230, 230);
+                        width: 10%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                 }
+            }
+
+            .checkedPacked {
+                background-color: gray;
+                padding: 10px;
+                display: flex;
+                flex-direction: row;
+                align-items:flex-start;
+                justify-content: space-between;
             }
 
             .resume {
@@ -305,4 +317,82 @@ $weightParagraph: 100;
         }
     }
 
+
+    .deliveryContainer {
+        background-color:rgb(145, 52, 52);
+        color: black;
+
+        .subtitle {
+            
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            color: whitesmoke;
+        }
+
+        .shippingContainer {
+            background-color: white;   
+            display: grid;
+            grid-template-columns: 50% 50%;
+            gap: 1px;
+
+            .shipmentInformation {
+                // background-color: burlywood;
+                grid-area: 2/1/3/2;
+                border-bottom: solid 1px rgb(209, 209, 209);
+    
+                .subSubTitle {
+                    background-color:rgb(187, 52, 52);
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
+                    color: whitesmoke;
+                }
+    
+                .textSymple {
+                    margin-top: 10px;
+                    margin-left: 10px;
+                }
+            }
+
+            .deliveryInformation {
+                grid-area: 2/2/3/3;
+                border-left: solid 1px rgb(209, 209, 209);
+    
+                .subSubTitle {
+                    background-color:rgb(187, 52, 52);
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
+                    color: whitesmoke;
+                }
+    
+                .textSymple {
+                    margin-top: 10px;
+                    margin-left: 10px;
+                }
+
+                .proofContainer {
+                    //upload
+                    margin-top: 10px;
+                    margin-left: 10px;
+
+                }
+            }
+         
+        }
+
+
+        .checkedPacked {
+            background-color: white;
+            border-top: solid 1px rgb(209, 209, 209);
+            padding: 10px;
+            display: flex;
+            flex-direction: row;
+            align-items:flex-start;
+            justify-content: space-between;
+        }
+
+    }
 }
+
