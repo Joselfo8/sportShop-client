@@ -1,9 +1,14 @@
+import {
+    PUT_STATE_TO_ORDER,
+} from '../action/types'
+
 const initialState: any = {
     products : [],
     users : [],
     searchUser : [],
     orders: [],
     order: {},
+    orderState: {},
 };
 
 function admin(state = initialState, action : any){
@@ -37,10 +42,12 @@ function admin(state = initialState, action : any){
                 orders : action.payload,
             };
         case "GET_ORDERS_BY_ID":
+            // console.log("desde reducers getOrderById")
             return {
                 ...state,
                 order : action.payload,
             };
+
         default:
             return state;
     };
