@@ -87,3 +87,21 @@
   height: 100%;
   vertical-align: top;
 }
+
+/* UploadFile */
+
+.upload-file-cont {
+  width: fit-content;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-file-cont img {
+  margin-top: 1rem;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+}

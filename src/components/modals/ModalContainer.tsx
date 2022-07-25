@@ -21,10 +21,16 @@ function CloseButton({ onShow }: { onShow: (prev: boolean) => void }) {
 interface Props {
   show: boolean;
   onShow: (prev: boolean) => void;
+  closeWhenClickOutside?: boolean;
   children: React.ReactNode;
 }
 
-function ModalContainer({ show, onShow, children }: Props) {
+function ModalContainer({
+  show,
+  onShow,
+  closeWhenClickOutside = true,
+  children,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Hide body scrollbar
@@ -45,7 +51,8 @@ function ModalContainer({ show, onShow, children }: Props) {
 
   // Manage outside module click
   useEffect(() => {
-    window.addEventListener("click", handleOutsideClick);
+    if (closeWhenClickOutside)
+      window.addEventListener("click", handleOutsideClick);
 
     // Unmount listener
     return () => {
