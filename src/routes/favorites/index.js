@@ -1,4 +1,7 @@
 const router = require("express").Router();
+const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
+const { checkRules } = require("../../helpers/Token");
+
 const {
   getFavoritesById,
   addToFavorites,

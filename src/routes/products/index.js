@@ -1,4 +1,7 @@
 const router = require("express").Router();
+const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
+const { checkRules } = require("../../helpers/Token");
+
 const {
   postProduct,
   getProductByName,
@@ -22,14 +25,14 @@ router.get("", getProductByName);
 router.get("/:id", getProductById);
 
 //put/products body:id,name,price,description,product_category,product_subCategory
-router.put("/", putProduct);
+router.put("/",checkRole,checkRules(["admin"]), putProduct);
 
 //postAllatOnce/products/all
-router.post("/all", bulk);
+router.post("/all",checkRole,checkRules(["admin"]), bulk);
 //post/products body:name,price,description,product_category,product_subCategory
-router.post("", postProduct);
+router.post("",checkRole,checkRules([ "admin"]),postProduct);
 
 //delete/products/:id
-router.delete("/:id", deleteProduct);
+router.delete("/:id",checkRole,checkRules([ "admin"]), deleteProduct);
 
 module.exports = { products: router };

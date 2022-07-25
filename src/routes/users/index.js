@@ -23,10 +23,10 @@ router.get(
   checkRules(["user", "admin", "ghost"]),
   getUserData
 );
+// update user
+router.put("/:id",checkRole,   checkRules(["user", "admin"]),putUser);
 // create a new user
 router.post("", postUser);
-// update user
-router.put("", checkRole, checkRules(["user", "admin", "ghost"]), putUser);
 // create, update, and delete a shipping address
 router.post(
   "/address",
@@ -49,7 +49,9 @@ router.delete(
 
 router.post("/login", loginUser);
 
-router.get("/:id", checkRole, checkRules(["user", "admin", "ghost"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
-router.delete("/:id", deleteUser);
+router.get("/:id",  checkRole,   checkRules(["user", "admin", "ghost"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
+router.delete("/:id",checkRole,checkRules(["user", "admin"]), deleteUser);
+
+
 router.post("/logout", logOut);
 module.exports = { users: router };
