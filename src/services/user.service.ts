@@ -27,12 +27,17 @@ async function deleteShippingAddress(id: AddressProps["data"]["id"]) {
   return await axios.delete(`${API_URL}/users/address/${id}`);
 }
 
+async function getUserOrders() {
+  return await axios.get(`${API_URL}/users/orders`);
+}
+
 const user = {
   getUser,
   updateUser,
   addShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,
+  getUserOrders,
 };
 
 export default user;

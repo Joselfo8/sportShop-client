@@ -4,10 +4,16 @@ import {
   ADD_SHIPPING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
   DELETE_SHIPPING_ADDRESS,
+  GET_USER_ORDERS,
 } from "../action/types";
 // Interfaces
 import { AddressProps } from "components/ProfileCard/UserInfo";
-const initialState = { name: null, lastname: null, shippingAddresses: [] };
+const initialState = {
+  name: null,
+  lastname: null,
+  shippingAddresses: [],
+  orders: [],
+};
 
 function user(state = initialState, action: any) {
   const { type, payload } = action;
@@ -49,6 +55,11 @@ function user(state = initialState, action: any) {
       return {
         ...state,
         shippingAddresses: addresses,
+      };
+    case GET_USER_ORDERS:
+      return {
+        ...state,
+        orders: payload,
       };
     default:
       return state;

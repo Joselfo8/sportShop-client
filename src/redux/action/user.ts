@@ -5,6 +5,7 @@ import {
   ADD_SHIPPING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
   DELETE_SHIPPING_ADDRESS,
+  GET_USER_ORDERS,
 } from "redux/action/types";
 import UserService from "services/user.service";
 // Interfaces
@@ -114,6 +115,27 @@ export function deleteShippingAddress(id: number) {
       return Promise.resolve(message);
     } catch (err: any) {
       const message = err.response.data?.msg || "Delete fail";
+      toast(message);
+
+      return Promise.reject(message);
+    }
+  };
+}
+
+export function getUserOrders() {
+  return async (dispatch: any) => {
+    try {
+      const response = await UserService.getUserOrders();
+      const message = response.data?.msg || "Get user data successful";
+
+      dispatch({
+        type: GET_USER_ORDERS,
+        payload: response.data.data,
+      });
+
+      return Promise.resolve(message);
+    } catch (err: any) {
+      const message = err.response.data?.msg || "Get user data fail";
       toast(message);
 
       return Promise.reject(message);
