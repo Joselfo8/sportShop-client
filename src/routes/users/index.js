@@ -17,12 +17,31 @@ const {
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
 
-router.get("", checkRole, checkRules(["admin"]), getAllUser);
+//funciones globales
+router.post(
+  "/login",
+  checkRole,
+  checkRules(["user", "admin", "guest"]),
+  loginUser
+);
+router.get(
+  "/isAdmin",
+  checkRole,
+  checkRules(["user", "admin", "guest"]),
+  getCheckAdmin
+);
+
+router.get("/all", checkRole, checkRules(["admin"]), getAllUser);
 
 // get user data with id from token
-router.get("/data", checkRole, checkRules(["user", "admin"]), getUserData);
-// update user
-router.put("/:id", checkRole, checkRules(["user", "admin"]), putUser);
+router.get("", checkRole, checkRules(["user", "admin"]), getUserData);
+router.get("/:id", checkRole, checkRules(["admin"]), getUserData);
+// update self-user data
+router.put("", checkRole, checkRules(["user", "admin"]), putUser);
+router.put("/:id", checkRole, checkRules(["admin"]), putUser);
+// delete user
+router.delete("", checkRole, checkRules(["user", "admin"]), deleteUser);
+router.delete("/:id", checkRole, checkRules(["admin"]), deleteUser);
 // create a new user
 router.post("", postUser);
 // create, update, and delete a shipping address
@@ -44,12 +63,5 @@ router.delete(
   checkRules(["user", "admin"]),
   deleteShippingAddress
 );
-
-//funciones globales
-router.post("/login", loginUser);
-router.get("/isAdmin", getCheckAdmin);
-
-router.get("/:id", checkRole, checkRules(["user", "admin"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
-router.delete("/:id", checkRole, checkRules(["user", "admin"]), deleteUser);
 
 module.exports = { users: router };

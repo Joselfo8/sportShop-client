@@ -87,13 +87,16 @@ async function getUser(req, res) {
 }
 
 async function getUserData(req, res) {
-  const { id } = req.user;
+  let { id } = req.params; //solo token de admin permite enviar params
+  if (!id) id = req.user.id;
+
   if (!id) return res.status(400).json({ msg: "ID is required" });
 
   try {
     const user = await User.findOne({
       where: { id },
       attributes: [
+        "id",
         "name",
         "lastname",
         "email",
@@ -154,7 +157,9 @@ async function postUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    let { id } = req.params;
+    let { id } = req.params; //solo token de admin permite enviar params
+    if (!id) id = req.user.id;
+
     //validate id
     if (!id) {
       return res.send({ msg: "id is required" });
@@ -163,10 +168,6 @@ async function deleteUser(req, res) {
       return res.send({ msg: "id isn´t number" });
     }
     id = parseInt(id);
-    //validate authenritation
-    if (req.user.role !== "admin" && req.user.id !== id) {
-      return res.send({ msg: "You can´t delete other users" });
-    }
 
     await User.destroy({ where: { id: id } });
     return res.json({ msg: "User deleted" });
@@ -178,7 +179,8 @@ async function deleteUser(req, res) {
 //PUT
 async function putUser(req, res) {
   try {
-    let { id } = req.params;
+    let { id } = req.params; //solo token de admin permite enviar params
+    if (!id) id = req.user.id;
     const { password, email, role, name, lastname, genre, dateOfBirth } =
       req.body;
 
@@ -190,11 +192,6 @@ async function putUser(req, res) {
       return res.send({ msg: "id isn´t number" });
     }
     id = parseInt(id);
-
-    //validate authenritation
-    if (req.user.role === "user" && req.user.id !== id) {
-      return res.send({ msg: "You can´t update other users" });
-    }
 
     // get user by id
     const user = await User.findOne({
