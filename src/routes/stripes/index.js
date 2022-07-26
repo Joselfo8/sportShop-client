@@ -6,8 +6,8 @@ const stripe = new Stripe("sk_test_51LKaEAATR7GdGLkc4i6xnMNGGjPnm6QnSt4NiLCJFWM3
 router.post('/pay', async (req, res) => {
     try{
         const { id,jsonSoldProducts, amount } = req.body
-        console.log(id)
-        res.send('ok')
+        console.log({id:id,jsonSoldProducts:jsonSoldProducts,amount:amount})
+        //res.send('ok')
         const payment = await stripe.paymentIntents.create({
             amount,
             currency: "USD",
