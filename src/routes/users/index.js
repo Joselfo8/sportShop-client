@@ -17,7 +17,7 @@ const {
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
 
-router.get("", getAllUser);
+router.get("", checkRole, checkRules(["admin"]), getAllUser);
 
 // get user data with id from token
 router.get("/data", checkRole, checkRules(["user", "admin"]), getUserData);
