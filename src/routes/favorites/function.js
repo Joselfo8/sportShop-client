@@ -4,6 +4,8 @@ const getFavoritesById = async (req, res) => {
   try {
     const { id } = req.params;
 
+    if(req.user.id !== id && req.user.role === "user")
+      return res.send({ msg: "you are not authorized" });
     //validar id
     if (!id) return res.send({ msg: "user is required" });
     if (Number.isNaN(id)) return es.send({ msg: "user must be a number" });
@@ -24,8 +26,10 @@ const getFavoritesById = async (req, res) => {
 
 const addToFavorites = async (req, res) => {
   try {
-    const { user, product } = req.body;
-
+    let { user, product } = req.body;
+  user = parseInt(user);
+    if(req.user.id !== user && req.user.role === "user")
+      return res.send({ msg: "you are not authorized" });
     //validar user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
@@ -63,8 +67,10 @@ const deleteById = async (req, res) => {
     //   query: req.query,
     //   params: req.params,
     // });
-    const { user, product } = req.query;
-
+    let { user, product } = req.query;
+    user = parseInt(user)
+    if(req.user.id !== user && req.user.role === "user")
+      return res.send({ msg: "you are not authorized" });
     //validar user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
@@ -96,8 +102,10 @@ const deleteById = async (req, res) => {
 
 const deleteAllById = async (req, res) => {
   try {
-    const { user } = req.body;
-
+    let { user } = req.body;
+    user = parseInt(user)
+    if(req.user.id !== user && req.user.role === "user")
+    return res.send({ msg: "you are not authorized" });
     //validar user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });

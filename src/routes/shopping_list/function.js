@@ -1,11 +1,17 @@
 const { User, Product } = require("../../db");
 
+
 const get_item = async (req, res) => {
   try {
-    const { id } = req.params;
+    let { id } = req.params;
     //validaciones
+    id = parseInt(id);
     if (!id) return res.send({ msg: "user is required" });
     if (Number.isNaN(id)) return res.send({ msg: "user must be a number" });
+   
+    if (req.user.id !== id && req.user.role === "user"){
+      return res.send({ msg: "you don't have access to this resource" });
+    }
 
     //existencia de usuario
     const user = await User.findOne({ where: { id } });
@@ -45,7 +51,11 @@ const delete_item = async (req, res) => {
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
-
+    
+    if(req.user.id !== user && req.user.role === "user"){
+      return res.send({ msg: "you don't have access to this resource" });
+    }
+    
     //validaciones de product
     if (!product) return res.send({ msg: "product is required" });
     if (Number.isNaN(product))
@@ -71,7 +81,12 @@ const delete_item = async (req, res) => {
 
 const empty_trolly = async (req, res) => {
   try {
-    const { user } = req.query;
+    let { user } = req.query;
+    user = parseInt(user);
+
+if (req.user.id !== user && req.user.role === "user"){
+      return res.send({ msg: "you don't have access to this resource" });
+    }
 
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
@@ -89,6 +104,10 @@ const empty_trolly = async (req, res) => {
 const add_item = async (req, res) => {
   try {
     let { user, size, quantity, product } = req.body;
+
+    if (req.user.id !== user && req.user.role === "user"){
+      return res.send({ msg: "you don't have access to this resource" });
+    }
 
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });

@@ -10,11 +10,11 @@ const {
 } = require("./function");
 
 //reciben por body
-router.post("/", addToFavorites);
-router.delete("/", deleteById);
-router.delete("/all", deleteAllById);
+router.post("/", checkRole,   checkRules(["user", "admin"]), addToFavorites);
+router.delete("/", checkRole,   checkRules(["user", "admin"]), deleteById);
+router.delete("/all", checkRole,   checkRules(["user", "admin"]), deleteAllById);
 
 //recivbe por params
-router.get("/:id", getFavoritesById);
+router.get("/:id", checkRole,   checkRules(["user", "admin"]), getFavoritesById);
 
 module.exports = { favorites: router };

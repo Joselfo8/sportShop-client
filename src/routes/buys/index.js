@@ -10,18 +10,15 @@ const {
   getBuyById,
   getBuyByUser,
 } = require("./functions");
-
-router.get("", getBuys);
-// router.get("/user", getBuyByUser);
-// get user orders with id from token
+router.get("", checkRole, checkRules(["admin"]), getBuys);
 router.get(
   "/user",
   checkRole,
-  checkRules(["user", "admin", "ghost"]),
+  checkRules(["user", "admin"]),
   getBuyByUser
 );
-router.get("/:id", getBuyById);
-router.post("", postBuy);
+router.get("/:id", checkRole, checkRules(["user", "admin"]), getBuyById);
+router.post("", checkRole, checkRules(["user", "admin"]), postBuy);
 
-router.put("", putBuy);
+router.put("", checkRole, checkRules(["admin"]), putBuy);
 module.exports = { buys: router };

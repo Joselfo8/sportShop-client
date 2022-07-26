@@ -14,8 +14,8 @@ router.post("",checkRole,checkRules(["user", "admin"]), add_item);
 
 router.delete("",checkRole,checkRules(["user", "admin"]),delete_item);
 
-router.delete("/all",checkRole,checkRules(["user", "admin"]),empty_trolly);
+router.delete("/all",checkRole,checkRules(["user",'admin']),empty_trolly);
 
-router.get("/:id", get_item);
+router.get("/:id",checkRole,checkRules(["user", "admin"]), get_item);
 
 module.exports = { shopping_list: router }; 
