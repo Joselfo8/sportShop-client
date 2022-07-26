@@ -22,6 +22,7 @@ const initialState: any = {
   categories: [],
   details: {},
   userInformation: {},
+  cart: {}
 };
 
 function rootReducer(state = initialState, action: any) {
@@ -118,6 +119,8 @@ function rootReducer(state = initialState, action: any) {
       return{
         
       }
+
+   
 
     default:
       return state;

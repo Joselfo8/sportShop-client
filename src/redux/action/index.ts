@@ -162,8 +162,7 @@ export const addProductToCart = (payload:any) => async (dispatch:any) => {
   try {
     console.log(payload)
     const json:any = await axios.post('https://vlixes-server.herokuapp.com/shopping_list', payload)
-    console.log(json.data)
-    // dispatch({type: "ADD_TO_CART", payload:json.data}) 
+    
   } catch (error) {
     console.log(error)
   }
@@ -178,9 +177,9 @@ export const addProductToFavorites = (payload:any) => async(dispatch:any) => {
   }
 }
 
-export const getFavorites = (userID:any) => async(dispatch:any,) => {
+export const getFavorites = () => async(dispatch:any,) => {
   try {
-    const json: any = await axios.get(`https://vlixes-server.herokuapp.com/favorites/${userID}`)
+    const json: any = await axios.get(`https://vlixes-server.herokuapp.com/favorites`)
     dispatch({type: "GET_FAVORITES", payload: json.data.list})
   } catch (error) {
     console.log(error)
@@ -190,8 +189,8 @@ export const getFavorites = (userID:any) => async(dispatch:any,) => {
 export const deleteFavorite = (payload:any) => async (dispatch: any) => {
   try {
     console.log(payload)
-    const json = await axios.delete(`https://vlixes-server.herokuapp.com/favorites?user=${payload.user}&product=${payload.product}`);
-    dispatch(getFavorites(payload.user))
+    const json = await axios.delete(`https://vlixes-server.herokuapp.com/favorites?product=${payload.product}`);
+    dispatch(getFavorites())
   } catch (error) {
     console.log(error);
   }
