@@ -1,41 +1,43 @@
 import axios from "axios";
-import authHeader from "./auth-header";
+// Interfaces
+import { InfoProps } from "components/ProfileCard/UserInfo";
+import { AddressProps } from "components/ProfileCard/UserInfo";
+// Env
 const API_URL = process.env.REACT_APP_API_URL;
 
-interface UpdateUserData {
-  name: string;
-  lastname: string;
-  dateOfBirth: string;
-  genre: string;
+async function getUser() {
+  return await axios.get(`${API_URL}/users/data`);
 }
 
-async function updateUser(userId: number, data: UpdateUserData) {
-  // return await axios.put(API_URL + "/users", { ...info }, { headers: authHeader() });
-  return await axios.put(`${API_URL}/users/${userId}`, data);
+async function updateUser(data: InfoProps["data"]) {
+  const { email: _, ...req } = data;
+  return await axios.put(`${API_URL}/users`, req);
 }
 
-function getPublicContent() {
-  return axios.get(API_URL + "all");
+async function addShippingAddress(data: AddressProps["data"]) {
+  return await axios.post(`${API_URL}/users/address`, data);
 }
 
-function getUserBoard() {
-  return axios.get(API_URL + "user", { headers: authHeader() });
+async function updateShippingAddress(data: AddressProps["data"]) {
+  const { id, ...req } = data;
+  return await axios.put(`${API_URL}/users/address/${id}`, req);
 }
 
-function getModeratorBoard() {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
+async function deleteShippingAddress(id: AddressProps["data"]["id"]) {
+  return await axios.delete(`${API_URL}/users/address/${id}`);
 }
 
-function getAdminBoard() {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
+async function getUserOrders() {
+  return await axios.get(`${API_URL}/users/orders`);
 }
 
 const user = {
+  getUser,
   updateUser,
-  getPublicContent,
-  getUserBoard,
-  getModeratorBoard,
-  getAdminBoard,
+  addShippingAddress,
+  updateShippingAddress,
+  deleteShippingAddress,
+  getUserOrders,
 };
 
 export default user;

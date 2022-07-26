@@ -2,21 +2,8 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-//BOT
-
-import Chatbot from 'react-chatbot-kit';
-import 'react-chatbot-kit/build/main.css';
-import styles from "./scss/app.module.scss"
-
-import config from './components/Bot/config';
-import MessageParser from './components/Bot/MessageParser';
-import ActionProvider from './components/Bot/ActionProvider';
-
-import { FaRobot } from "react-icons/fa";
-
+import setAuthToken from "helpers/setAuthToken";
 // Components
-
 import Home from "./components/Home/Home";
 import Login from "./routes/Login";
 import Details from "./components/Details/Details";
@@ -30,10 +17,19 @@ import HomeAdmin from "./components/Admin/home/HomeAdmin";
 import AddProduct from "./components/Admin/Forms/AddProduct";
 import Purchase from "./components/Purchase/Purchase";
 import EditProduct from "./components/Admin/Forms/EditProduct";
-import Order from "./components/Admin/Orders/Order"
+import Order from "./components/Admin/Orders/Order";
 import ProductFilter from "components/productFilter/ProductFilter";
 import OrderProgress from "components/Admin/Orders/OrderProgress";
 import Stock from "components/Admin/Stock/Stock";
+
+//BOT
+import Chatbot from 'react-chatbot-kit';
+import 'react-chatbot-kit/build/main.css';
+import styles from "./scss/app.module.scss"
+import config from './components/Bot/config';
+import MessageParser from './components/Bot/MessageParser';
+import ActionProvider from './components/Bot/ActionProvider';
+import { FaRobot } from "react-icons/fa";
 
 function App() {
   const [chatBot, setChatBot] = useState(false);
@@ -42,6 +38,9 @@ function App() {
       !chatBot
     );
   };
+  // add JWT token to all request
+  setAuthToken();
+
   return (
     <BrowserRouter>
       <Routes>
@@ -58,8 +57,8 @@ function App() {
         <Route path="/about" element={<About />} />
 
         {/* FILTRADO DE PRODUCTOS */}
-        <Route path="/:category/:subCaegory" element={<ProductFilter/>}/>
-        <Route path="/search" element={<ProductFilter/>}/>
+        <Route path="/:category/:subCaegory" element={<ProductFilter />} />
+        <Route path="/search" element={<ProductFilter />} />
 
         {/* ADMIN */}
         <Route path="/admin" element={<HomeAdmin />} />

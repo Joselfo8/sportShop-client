@@ -8,18 +8,11 @@ import styles from "./AddressEditor.module.css";
 import "react-phone-input-2/lib/style.css";
 // Validations
 import validate from "helpers/validations";
+// Interfaces
+import { AddressProps } from "components/ProfileCard/UserInfo";
 
 interface Props {
-  data: {
-    name: string;
-    lastname: string;
-    address: string;
-    secondAddress?: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    phone: string;
-  };
+  data: AddressProps["data"];
   saveChange: (data: Props["data"]) => void;
   onClose: () => void;
 }
@@ -32,12 +25,12 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
   const [phone, setPhone] = useState("");
   // send data to api
   const onSubmit = (data: Props["data"]) => {
-    saveChange({ ...data, phone });
+    saveChange({ ...data, phoneNumber: phone });
     onClose();
   };
 
   useEffect(() => {
-    if (phone.length === 0) setPhone(data.phone);
+    if (phone.length === 0) setPhone(data.phoneNumber);
   }, [data]);
 
   return (
@@ -64,7 +57,7 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
         <div className={styles["wrapper"]}>
           <Input
             control={control}
-            name="lastname"
+            name="lastName"
             label="Last Name *"
             rules={{
               required: true,
@@ -82,7 +75,7 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
         <div className={styles["wrapper"]}>
           <Input
             control={control}
-            name="address"
+            name="firstAddress"
             label="Address Line *"
             rules={{
               required: true,
@@ -172,7 +165,9 @@ function AddressEditor({ data, saveChange, onClose }: Props) {
             <PhoneInput
               placeholder="Your phone number..."
               value={phone}
-              onChange={(data) => setPhone(data)}
+              onChange={(_1, _2, _3, formattedValue) =>
+                setPhone(formattedValue)
+              }
               inputProps={{ required: true }}
             />
           </label>

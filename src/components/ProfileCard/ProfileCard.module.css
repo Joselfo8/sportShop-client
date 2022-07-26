@@ -7,11 +7,11 @@
 
 .wrapper {
   width: 100%;
-  max-width: 46rem;
+  max-width: 50rem;
 }
 
-@media only screen and (min-width: 1024px) {
-  .container {
-    width: calc(100% - 18rem);
-  }
-}
+/* @media only screen and (min-width: 1024px) { */
+/*   .container { */
+/*     /1* width: calc(100% - 18rem); *1/ */
+/*   } */
+/* } */

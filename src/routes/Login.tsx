@@ -271,7 +271,7 @@ function Login() {
     if (register === "logout") {
       dispatch(logout());
     }
-  }, [register]);
+  }, [register, dispatch]);
 
   if (isLoggedIn) return <Navigate to="/" />;
 

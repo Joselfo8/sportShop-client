@@ -4,6 +4,7 @@ import auth from "./auth";
 import message from "./message";
 import admin from "./admin";
 import products from "./products";
+import user from "./user";
 
 import {
   GET_PRODUCTSBYNAME,
@@ -123,4 +124,4 @@ function rootReducer(state = initialState, action: any) {
   }
 }
 
-export default combineReducers({ auth, message, rootReducer, admin, products });
+export default combineReducers({ auth, message, rootReducer, admin, products, user });
