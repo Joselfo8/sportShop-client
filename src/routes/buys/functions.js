@@ -25,17 +25,17 @@ async function getBuys(req, res) {
   }
 }
 async function getBuyByUser(req, res) {
-  try {
-    const { user } = req.query;
-    //console.log(user);
-    let userObj = await User.findOne({ where: { id: user } });
-    if (!userObj) return res.send({ msg: "user not found" });
-    const buys = await userObj.getBuys();
+  const { id } = req.user;
+  if (!id) return res.status(400).json({ msg: "ID is required" });
 
-    res.send(buys);
+  try {
+    const user = await User.findOne({ where: { id }, include: "buys" });
+    if (!user) return res.status(404).json({ msg: "user not found" });
+
+    res.status(200).json({ msg: "", data: user });
   } catch (error) {
     console.log("error=>", error);
-    res.send({ msg: "failed to get buys", error });
+    res.send(error);
   }
 }
 async function getBuyById(req, res) {

@@ -60,8 +60,7 @@ async function getUserData(req, res) {
 
     return res.status(200).json({ msg: "User found", data: user });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ msg: error });
+    return res.send(error);
   }
 }
 
@@ -134,8 +133,7 @@ async function deleteUser(req, res) {
     await User.destroy({ where: { id: id } });
     return res.json({ msg: "User deleted" });
   } catch (error) {
-    console.log(error);
-    res.json(error);
+    res.send(error);
   }
 }
 //PUT
@@ -173,8 +171,7 @@ async function putUser(req, res) {
       data: response,
     });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
-    // res.status(200).json({ msg: "Failed to update user" });
+    res.send(error);
   }
 }
 
@@ -204,7 +201,7 @@ async function addShippingAddress(req, res) {
       data: findedAddr,
     });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
+    res.send(error);
   }
 }
 
@@ -224,7 +221,6 @@ async function updateShippingAddress(req, res) {
 
     if (!address)
       return res.status(404).json({ msg: "Shipping address not found" });
-    console.log(address);
 
     // check that address.userId is equal to userId
     if (address.userId !== userId)
@@ -241,7 +237,7 @@ async function updateShippingAddress(req, res) {
       data: address,
     });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
+    res.send(error);
   }
 }
 
@@ -275,7 +271,7 @@ async function deleteShippingAddress(req, res) {
       msg: "Shipping address deleted",
     });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
+    res.send(error);
   }
 }
 
