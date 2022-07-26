@@ -105,3 +105,15 @@ export function putStateToOrder(object: any) {
       console.log(error);
     }
   }
+
+export const isAdmin = (token : string) => async(dispatch : any) => {
+    try{
+        const response = await axios.get(`https://vlixes-server.herokuapp.com/users/isAdmin?token=` + token);
+        return dispatch({
+            type: "IS_ADMIN",
+            payload: response.data.admin
+        });
+    }catch(error){
+        console.log(error);
+    };
+};

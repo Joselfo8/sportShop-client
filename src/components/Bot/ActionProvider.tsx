@@ -2,11 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const ActionProvider = ({ createChatBotMessage, setState, children } : any) => {
-  const name = useSelector((state : any) => state.auth.isLoggedIn);
+  const name = useSelector((state : any) => state.user.name);
   const name1 = name
-
+  console.log(name)
   const handleHello = () => {
-    const botMessage = createChatBotMessage(`Hello${name1 ? name1 : ''}. Nice to meet you.`);
+    const botMessage = createChatBotMessage(`Hello ${name1 ? name1 : 'User'}. Nice to meet you.`);
     setState((prev : any) => ({
       ...prev,
       messages: [...prev.messages, botMessage],
@@ -49,6 +49,24 @@ const ActionProvider = ({ createChatBotMessage, setState, children } : any) => {
     }));
   };
 
+  const handleFine = () => {
+    const botMessage = createChatBotMessage('Im glad! What do you need?');
+    setState((prev : any) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
+
+  const handleCart = () => {
+    const botMessage = createChatBotMessage('You need go to Cart?', {
+      widget: "Cart",
+    });
+    setState((prev : any) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
+
   const handleAbout = () => {
     const botMessage = createChatBotMessage('We are a team of eight people who ventured into a group project which is to create an e-commerce page for the Henry Academy.');
     setState((prev : any) => ({
@@ -67,7 +85,9 @@ const ActionProvider = ({ createChatBotMessage, setState, children } : any) => {
             handleSome,
             hendleSettings,
             hanldeLogin,
-            handleAbout
+            handleAbout,
+            handleFine,
+            handleCart
           },
         });
       })}

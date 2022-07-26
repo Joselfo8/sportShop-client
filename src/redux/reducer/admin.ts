@@ -9,6 +9,7 @@ const initialState: any = {
     orders: [],
     order: {},
     orderState: {},
+    isAdmin: false,
 };
 
 function admin(state = initialState, action : any){
@@ -47,6 +48,11 @@ function admin(state = initialState, action : any){
                 ...state,
                 order : action.payload,
             };
+        case "IS_ADMIN":
+            return{
+                ...state,
+                isAdmin : action.payload
+            }
 
         default:
             return state;

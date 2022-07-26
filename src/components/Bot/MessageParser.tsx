@@ -17,6 +17,12 @@ const MessageParser = ({ children, actions } : any) => {
     if(messageLower.includes('about us')){
       return actions.handleAbout();
     };
+    if(messageLower.includes('fine') || messageLower.includes('well') || messageLower.includes('good')){
+      return actions.handleFine();
+    };
+    if(messageLower.includes('cart') && state){
+      return actions.handleCart();
+    };
     if(messageLower && !state){
       return actions.hanldeLogin();
     }else{
