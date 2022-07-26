@@ -1,7 +1,8 @@
-// in MessageParser.js
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const MessageParser = ({ children, actions } : any) => {
+  const state = useSelector((state : any) => state.auth.isLoggedIn);
   const parse = (message : any) => {
     let messageLower = message.toLowerCase()
     if (messageLower.includes('hello') || messageLower.includes('hi')) {
@@ -10,8 +11,14 @@ const MessageParser = ({ children, actions } : any) => {
     if(messageLower.includes('help')){
       return actions.handleHelp();
     };
-    if(messageLower.includes('settings')){
+    if(messageLower.includes('settings') && state){
       return actions.hendleSettings();
+    };
+    if(messageLower.includes('about us')){
+      return actions.handleAbout();
+    };
+    if(messageLower && !state){
+      return actions.hanldeLogin();
     }else{
       return actions.handleSome();
     };

@@ -10,7 +10,7 @@ export default function(){
     const isAdmin = useSelector((state:any) => state.auth.auth.user.role);
     if(isAdmin !== "admin"){
         alert(`You are not a Admin`);
-        return (<></>)
+        return (<></>);
     };
     const [getState, setState] = useState<Number>(0);
 
