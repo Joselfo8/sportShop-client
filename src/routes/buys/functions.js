@@ -30,14 +30,17 @@ async function getBuys(req, res) {
 async function getBuyByUser(req, res) {
   try {
     const { user } = req.query;
-    //console.log(user);
-    let userObj = await User.findOne({ where: { id: user } });
+    //validations
+    if (!user) return res.send({ msg: "user is required" });
+
+    let userObj = await User.findOne({ where: { name: user } });
     if (!userObj) return res.send({ msg: "user not found" });
+
     const buys = await userObj.getBuys();
 
     res.send(buys);
   } catch (error) {
-    console.log("error=>", error);
+    console.log("error ==> ", error);
     res.send({ msg: "failed to get buys", error });
   }
 }
@@ -45,7 +48,14 @@ async function getBuyById(req, res) {
   try {
     const { id } = req.params;
 
+    //validations id
     if (!id) return res.send({ msg: "id is required" });
+    if (Number.isNaN(Number(id)))
+      return res.send({ msg: "id is not a number" });
+
+    //validation authorization
+    if (req.user.role === "user" && req.user.id !== id)
+      return res.send({ msg: "you can´t see buys of other users" });
 
     const buy = await Buy.findOne({ where: { id }, include: [User] });
     if (!buy) return res.send({ msg: "buy not found" });
@@ -59,17 +69,26 @@ async function getBuyById(req, res) {
 
 async function postBuy(req, res) {
   try {
-    const { id_user, method, receiver, direction, city, state, country } =
+    let { id_user, method, receiver, direction, city, state, country } =
       req.body;
 
     //validaciones
-    if (!id_user) return res.send({ msg: "please, id_user is required" });
     if (!method) return res.send({ msg: "please, method is required" });
     if (!receiver) return res.send({ msg: "please, receiver is required" });
     if (!direction) return res.send({ msg: "please, direction is required" });
     if (!city) return res.send({ msg: "please, city is required" });
     if (!state) return res.send({ msg: "please, state is required" });
     if (!country) return res.send({ msg: "please, country is required" });
+
+    //validaciones de id
+    if (!id_user) return res.send({ msg: "please, id_user is required" });
+    if (Number.isNaN(Number(id_user)))
+      return res.send({ msg: "id_user is not a number" });
+    id_user = Number(id_user);
+
+    //validation authorization
+    if (req.user.role === "user" && req.user.id !== id_user)
+      return res.send({ msg: "you can´t buy for other users" });
 
     const user = await User.findOne({ where: { id: id_user } });
     if (!user) return res.send({ msg: "user not found" });
