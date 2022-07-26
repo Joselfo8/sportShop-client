@@ -44,10 +44,22 @@ async function getAllUser(req, res) {
 
 async function getUser(req, res) {
   try {
-    const { id } = req.params;
+    let { id } = req.params;
+
+    //validate id
     if (!id) {
       return res.send({ msg: "id_user is required" });
     }
+    if (isNaN(Number(id))) {
+      return res.send({ msg: "id_user must be a number" });
+    }
+    id = parseInt(id);
+
+    //validate authenritation
+    if (req.user.role === "user" && req.user.id !== id) {
+      return res.send({ msg: "You don't have permission" });
+    }
+
     let user = await User.findOne({ where: { id } });
     if (!user) {
       return res.send({ msg: "User not found" });
@@ -117,27 +129,47 @@ async function postUser(req, res) {
 }
 
 async function deleteUser(req, res) {
-  const { id } = req.params;
   try {
+    let { id } = req.params;
+    //validate id
     if (!id) {
       return res.send({ msg: "id is required" });
     }
     if (Number.isNaN(parseInt(id))) {
       return res.send({ msg: "id isn´t number" });
     }
+    id = parseInt(id);
+    //validate authenritation
+    if (req.user.role === "user" && req.user.id !== id) {
+      return res.send({ msg: "You can´t delete other users" });
+    }
+
     await User.destroy({ where: { id: id } });
     return res.json({ msg: "User deleted" });
   } catch (error) {
     console.log(error);
-    res.json(error);
+    res.json({ msg: "Failed to delete user", error });
   }
 }
 //PUT
 async function putUser(req, res) {
-  const { id } = req.params;
-
   try {
-    const { password, email, ...data } = req.body;
+    let { id } = req.params;
+    const { password, email, role, ...data } = req.body;
+
+    //validate id
+    if (!id) {
+      return res.send({ msg: "id is required" });
+    }
+    if (Number.isNaN(parseInt(id))) {
+      return res.send({ msg: "id isn´t number" });
+    }
+    id = parseInt(id);
+
+    //validate authenritation
+    if (req.user.role === "user" && req.user.id !== id) {
+      return res.send({ msg: "You can´t update other users" });
+    }
 
     // get user by id
     const user = await User.findOne({
@@ -154,8 +186,17 @@ async function putUser(req, res) {
     if (password)
       return res.status(400).json({ msg: "Password can't be update" });
 
+    //only admin can update role
+    if (role && req.user.role !== "admin") {
+      return res.status(400).json({ msg: "Only admin can update role" });
+    }
+
     // update user data
-    user.set(data);
+    if (req.user.role === "admin") {
+      user.set({ role });
+    } else {
+      user.set({ ...data, role });
+    }
     await user.save();
 
     // send all values, less password

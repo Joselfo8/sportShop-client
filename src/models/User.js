@@ -5,14 +5,14 @@ module.exports = (sequelize) => {
     "user",
     {
       role: {
-        type: DataTypes.STRING,//DataTypes.ENUM('user', 'admin'),//,
+        type: DataTypes.STRING, //DataTypes.ENUM('user', 'admin'),//,
         allowNull: false,
 
         defaultValue: "user",
-         isIn: {
+        isIn: {
           args: [["user", "admin"]],
           msg: "Must be user or admin",
-        }, 
+        },
       }, //user or admin
       name: {
         type: DataTypes.STRING,
@@ -52,10 +52,11 @@ module.exports = (sequelize) => {
       dateOfBirth: {
         type: DataTypes.DATEONLY,
       },
-      trolly:{
+
+      trolly: {
         type: DataTypes.JSONB,
         defaultValue: {},
-      }
+      },
     },
     {
       timestamps: false,

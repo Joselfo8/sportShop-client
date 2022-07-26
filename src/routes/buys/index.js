@@ -3,7 +3,6 @@ const router = require("express").Router();
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
 
-
 const {
   getBuys,
   postBuy,
@@ -12,11 +11,10 @@ const {
   getBuyByUser,
 } = require("./functions");
 
-
-router.get("", getBuys);
-router.get("/user", getBuyByUser);
-router.get("/:id", getBuyById);
-router.post("", postBuy);
+router.get("", checkRole, checkRules(["admin"]), getBuys);
+router.get("/user", checkRole, checkRules(["admin"]), getBuyByUser);
+router.get("/:id", checkRole, checkRules(["user", "admin"]), getBuyById);
+router.post("", checkRole, checkRules(["user", "admin"]), postBuy);
 
 router.put("", putBuy);
 module.exports = { buys: router };

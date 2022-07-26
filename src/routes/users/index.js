@@ -12,21 +12,20 @@ const {
   updateShippingAddress,
   deleteShippingAddress,
 } = require("./functions");
+
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
 
+router.get("", checkRole, checkRules(["admin"]), getAllUser);
 
-//router.get("", getAllUser);
+//funciones globales
 router.post("", postUser);
-router.get("/token",checkRole,checkRules(["admin"]), getCheckAdmin);
 router.post("/login", loginUser);
 
-router.put("/:id",checkRole,   checkRules(["user", "admin"]),putUser);
-router.get("",checkRole, checkRules(["user", "admin"]), getAllUser);
+router.put("/:id", checkRole, checkRules(["user", "admin"]), putUser);
+router.delete("/:id", checkRole, checkRules(["user", "admin"]), deleteUser);
 
-router.get("/:id",  checkRole,   checkRules(["user", "admin", "ghost"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
-router.delete("/:id",checkRole,checkRules(["user", "admin"]), deleteUser);
-
+router.get("/:id", checkRole, checkRules(["user", "admin"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
 
 router.post("/:logout", logOut);
 
