@@ -1,0 +1,15 @@
+.chatbot1{
+    width: 0;
+    position: sticky;
+    bottom: 0.5rem;
+    left: 60rem;
+    .show{
+        position: absolute;
+        bottom: 0;
+        left: 20rem;
+        border-radius: 1rem;
+        height: 40px;
+        width: 40px;
+        cursor: pointer;
+    }
+};
