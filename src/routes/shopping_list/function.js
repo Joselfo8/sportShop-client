@@ -3,20 +3,20 @@ const { User, Product } = require("../../db");
 
 const get_item = async (req, res) => {
   try {
-    let { id } = req.params;
+    let { id } = req.user;
     //validaciones
     id = parseInt(id);
     if (!id) return res.send({ msg: "user is required" });
     if (Number.isNaN(id)) return res.send({ msg: "user must be a number" });
    
-    if (req.user.id !== id && req.user.role === "user"){
-      return res.send({ msg: "you don't have access to this resource" });
-    }
-
+    
     //existencia de usuario
     const user = await User.findOne({ where: { id } });
-    if (!user) return res.send({ msg: "user not found" });
-
+    if (!user) return res.status(404).send({ msg: "user not found" });
+    
+    if (user.id !== id && req.user.role !== "admin"){
+      return res.send({ msg: "you don't have access to this resource" });
+    }
     let itemsId = Object.keys(user.trolly);
 
     let items = await Product.findAll({
@@ -103,7 +103,8 @@ if (req.user.id !== user && req.user.role === "user"){
 //////////////////////////////////////////
 const add_item = async (req, res) => {
   try {
-    let { user, size, quantity, product } = req.body;
+    let {  size, quantity, product } = req.body;
+    let { user } = req.user;
 
     if (req.user.id !== user && req.user.role === "user"){
       return res.send({ msg: "you don't have access to this resource" });
