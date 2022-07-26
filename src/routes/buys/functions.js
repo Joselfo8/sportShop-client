@@ -21,7 +21,7 @@ async function getBuys(req, res) {
         user: x.user.name,
       };
     });
-    res.send(buys);
+    res.send({buys, pageInf:{ registerPerPage:maxPpage, total:buys.length, showFrom:dsd }});
   } catch (error) {
     console.log("error=>", error);
     res.send({ msg: "failed to get buys", error });
