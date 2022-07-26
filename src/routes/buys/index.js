@@ -16,5 +16,5 @@ router.get("/user", checkRole, checkRules(["admin"]), getBuyByUser);
 router.get("/:id", checkRole, checkRules(["user", "admin"]), getBuyById);
 router.post("", checkRole, checkRules(["user", "admin"]), postBuy);
 
-router.put("", putBuy);
+router.put("", checkRole, checkRules(["admin"]), putBuy);
 module.exports = { buys: router };

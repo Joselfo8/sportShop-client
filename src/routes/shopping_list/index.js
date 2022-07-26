@@ -1,21 +1,27 @@
- const router = require("express").Router();
- const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
+const router = require("express").Router();
+const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
 
+const { get_item, delete_item, empty_trolly, add_item } = require("./function");
 
-const {
-  get_item,
-delete_item,
-empty_trolly,
-  add_item,
-} = require("./function");
+router.post("", checkRole, checkRules(["user", "admin", "ghost"]), add_item);
 
-router.post("",checkRole,checkRules(["user", "admin"]), add_item);
+router.delete(
+  "",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  delete_item
+);
 
-router.delete("",checkRole,checkRules(["user", "admin"]),delete_item);
 
-router.delete("/all",checkRole,checkRules(["user",'admin']),empty_trolly);
+router.delete(
+  "/all",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  empty_trolly
+);
+
 
 router.get("/:id",checkRole,checkRules(["user", "admin"]), get_item);
 
-module.exports = { shopping_list: router }; 
+module.exports = { shopping_list: router };
