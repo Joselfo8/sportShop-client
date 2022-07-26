@@ -16,6 +16,8 @@ const { pay } = require("./pay");
 
 const { mailer } = require("./mailer");
 
+const { stripe } = require("./stripes");
+
 const router = Router();
 
 //healthckeck para el rollaback heroku
@@ -83,5 +85,6 @@ router.use("/buys", buys);
 router.use("/stock", stock);
 router.use("/pay", pay);
 router.use("/mailer", mailer);
+router.use("/stripe", stripe);
 
 module.exports = router;
