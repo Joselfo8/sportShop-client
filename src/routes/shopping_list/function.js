@@ -46,15 +46,12 @@ const get_item = async (req, res) => {
 const delete_item = async (req, res) => {
   try {
     const { product } = req.query;
-    const { user } = req.query;
+    const user = req.user.id;
+    console.log(user)
 
     //validaciones de user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
-    
-    if(req.user.id !== user && req.user.role === "user"){
-      return res.send({ msg: "you don't have access to this resource" });
-    }
     
     //validaciones de product
     if (!product) return res.send({ msg: "product is required" });
