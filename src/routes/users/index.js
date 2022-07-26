@@ -20,12 +20,7 @@ const { checkRules } = require("../../helpers/Token");
 router.get("", getAllUser);
 
 // get user data with id from token
-router.get(
-  "/data",
-  checkRole,
-  checkRules(["user", "admin", "ghost"]),
-  getUserData
-);
+router.get("/data", checkRole, checkRules(["user", "admin"]), getUserData);
 // update user
 router.put("/:id", checkRole, checkRules(["user", "admin"]), putUser);
 // create a new user
@@ -34,33 +29,27 @@ router.post("", postUser);
 router.post(
   "/address",
   checkRole,
-  checkRules(["user", "admin", "ghost"]),
+  checkRules(["user", "admin"]),
   addShippingAddress
 );
 router.put(
   "/address/:id",
   checkRole,
-  checkRules(["user", "admin", "ghost"]),
+  checkRules(["user", "admin"]),
   updateShippingAddress
 );
 router.delete(
   "/address/:id",
   checkRole,
-  checkRules(["user", "admin", "ghost"]),
+  checkRules(["user", "admin"]),
   deleteShippingAddress
 );
 
 //funciones globales
-router.post("", postUser);
 router.post("/login", loginUser);
 router.get("/isAdmin", getCheckAdmin);
 
-router.get("/:id", checkRole, checkRules(["user", "admin", "ghost"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
-router.delete(
-  "/:id",
-  checkRole,
-  checkRules(["user", "admin", "ghost"]),
-  deleteUser
-);
+router.get("/:id", checkRole, checkRules(["user", "admin"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
+router.delete("/:id", checkRole, checkRules(["user", "admin"]), deleteUser);
 
 module.exports = { users: router };

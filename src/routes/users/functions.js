@@ -74,8 +74,10 @@ async function getUser(req, res) {
     id = parseInt(id);
 
     //validate authenritation
-    if (req.user.role === "user" && req.user.id !== id) {
-      return res.send({ msg: "You don't have permission" });
+    if (req.user.role !== "admin" && req.user.id !== id) {
+      return res
+        .status(409)
+        .send({ msg: "You don't have permission to see other users" });
     }
 
     let user = await User.findOne({ where: { id } });
@@ -117,26 +119,14 @@ async function getUserData(req, res) {
 
 async function postUser(req, res) {
   try {
-    const {
-      name,
-      lastname,
-      password,
-      email,
-      genre,
-      dateOfBirth,
-      direction,
-      country,
-      state,
-      city,
-      numberPhone,
-      role,
-    } = req.body;
+    const { name, lastname, password, email, genre, dateOfBirth, role } =
+      req.body;
 
     // console.log(name);
     if (!name || !password || !email) {
       return res
         .status(200)
-        .json({ msg: "fields (name, password and email) are required" });
+        .json({ msg: "fields name, password and email are required" });
     }
     let userExists = await User.findOne({ where: { email: email } });
     if (userExists) {
@@ -156,11 +146,6 @@ async function postUser(req, res) {
       email: email,
       genre: genre,
       dateOfBirth: dateOfBirth,
-      direction: direction,
-      country: country,
-      city: city,
-      state: state,
-      numberPhone: numberPhone,
       role: role,
     });
 
@@ -184,7 +169,7 @@ async function deleteUser(req, res) {
     }
     id = parseInt(id);
     //validate authenritation
-    if (req.user.role === "user" && req.user.id !== id) {
+    if (req.user.role !== "admin" && req.user.id !== id) {
       return res.send({ msg: "You can´t delete other users" });
     }
 
@@ -197,9 +182,6 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
-  const { id } = req.user;
-  if (!id) return res.status(400).json({ msg: "ID is required" });
-
   try {
     let { id } = req.params;
     const { password, email, role, name, lastname, genre, dateOfBirth } =
@@ -264,7 +246,15 @@ async function putUser(req, res) {
 async function addShippingAddress(req, res) {
   const { id } = req.user;
   if (!id) return res.status(400).json({ msg: "ID is required" });
+  if (isNaN(parseInt(id)))
+    return res.status(400).json({ msg: "ID isn´t number" });
+  id = parseInt(id);
 
+  if (req.user.role !== "admin" && req.user.id !== id) {
+    return res
+      .status(400)
+      .json({ msg: "You can´t add shipping address on other users" });
+  }
   try {
     // get user by id
     const user = await User.findOne({
@@ -296,6 +286,10 @@ async function updateShippingAddress(req, res) {
   const addressId = req.params.id;
 
   if (!userId) return res.status(400).json({ msg: "User id is required" });
+  if (isNaN(parseInt(userId)))
+    return res.status(400).json({ msg: "id is a number" });
+  userId = parseInt(userId);
+
   if (!addressId)
     return res.status(400).json({ msg: "Address id is required" });
 
@@ -333,8 +327,16 @@ async function deleteShippingAddress(req, res) {
   const addressId = req.params.id;
 
   if (!userId) return res.status(400).json({ msg: "User id is required" });
+  if (isNaN(parseInt(userId)))
+    return res.status(400).json({ msg: "id is a number" });
+  userId = parseInt(userId);
   if (!addressId)
     return res.status(400).json({ msg: "Address id is required" });
+
+  //other user can't delete address
+  if (req.user.role !== "admin" && req.user.id !== userId) {
+    return res.send({ msg: "You can´t delete other users" });
+  }
 
   try {
     // get user by id
