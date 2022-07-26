@@ -1,7 +1,9 @@
 const { User, ShippingAddress } = require("../../db");
-const { Op } = require("sequelize");
+
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
 const { tokenSign, verifyToken } = require("../../helpers/Token");
+
+const pagination = require("../../helpers/pagination");
 
 const rols = ["admin", "user"];
 
@@ -29,35 +31,28 @@ async function getCheckAdmin(req, res) {
 //get all users by user_name
 async function getAllUser(req, res) {
   try {
-    const from = req.query.from;
-    console.log(from); //desde donde voy a mostrar valores(offset)
-    from ? parseInt(from) : 0;
-    const numPerPage = req.query.numPerPage;
-
-    const { role } = req.query;
-    let where = {
-      where: {},
-      include: "shippingAddresses",
-      limit: numPerPage,
-      offset: from,
-    };
+    const { role, pag = 0, limit = 4 } = req.query;
+    let where = {};
     if (role) {
-      where.where.role = role;
+      where = { role };
     }
-    let users = await User.findAll(where);
-    const total = await User.count();
+    let users = await User.findAll({
+      where,
+      include: "shippingAddresses",
+    });
+
+    //pagination
+    users = pagination(users, limit, pag);
+
     return res.send({
       msg: "Users found",
-      page: {
-        total_data: total,
-        fromValue: from,
-        numPerPage: numPerPage,
-      },
-      users,
+      ...users,
+      products: undefined,
+      users: users.products,
     });
   } catch (error) {
     console.log(error);
-    res.send({ msg: "error" });
+    res.status(500).send({ msg: "error" });
   }
 }
 
@@ -75,8 +70,10 @@ async function getUser(req, res) {
     id = parseInt(id);
 
     //validate authenritation
-    if (req.user.role === "user" && req.user.id !== id) {
-      return res.send({ msg: "You don't have permission" });
+    if (req.user.role !== "admin" && req.user.id !== id) {
+      return res
+        .status(409)
+        .send({ msg: "You don't have permission to see other users" });
     }
 
     let user = await User.findOne({ where: { id } });
@@ -91,13 +88,16 @@ async function getUser(req, res) {
 }
 
 async function getUserData(req, res) {
-  const { id } = req.user;
+  let { id } = req.params; //solo token de admin permite enviar params
+  if (!id) id = req.user.id;
+
   if (!id) return res.status(400).json({ msg: "ID is required" });
 
   try {
     const user = await User.findOne({
       where: { id },
       attributes: [
+        "id",
         "name",
         "lastname",
         "email",
@@ -117,26 +117,14 @@ async function getUserData(req, res) {
 
 async function postUser(req, res) {
   try {
-    const {
-      name,
-      lastname,
-      password,
-      email,
-      genre,
-      dateOfBirth,
-      direction,
-      country,
-      state,
-      city,
-      numberPhone,
-      role,
-    } = req.body;
+    const { name, lastname, password, email, genre, dateOfBirth, role } =
+      req.body;
 
     // console.log(name);
     if (!name || !password || !email) {
       return res
         .status(200)
-        .json({ msg: "fields (name, password and email) are required" });
+        .json({ msg: "fields name, password and email are required" });
     }
     let userExists = await User.findOne({ where: { email: email } });
     if (userExists) {
@@ -156,11 +144,6 @@ async function postUser(req, res) {
       email: email,
       genre: genre,
       dateOfBirth: dateOfBirth,
-      direction: direction,
-      country: country,
-      city: city,
-      state: state,
-      numberPhone: numberPhone,
       role: role,
     });
 
@@ -174,7 +157,9 @@ async function postUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    let { id } = req.params;
+    let { id } = req.params; //solo token de admin permite enviar params
+    if (!id) id = req.user.id;
+
     //validate id
     if (!id) {
       return res.send({ msg: "id is required" });
@@ -183,10 +168,6 @@ async function deleteUser(req, res) {
       return res.send({ msg: "id isn´t number" });
     }
     id = parseInt(id);
-    //validate authenritation
-    if (req.user.role === "user" && req.user.id !== id) {
-      return res.send({ msg: "You can´t delete other users" });
-    }
 
     await User.destroy({ where: { id: id } });
     return res.json({ msg: "User deleted" });
@@ -197,14 +178,22 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
-  const { id, role } = req.user;
-  if (!id) return res.status(400).json({ msg: "ID is required" });
 
   try {
-    const { password, email } = req.body;
+    let { id } = req.params; //solo token de admin permite enviar params
+    if (!id) id = req.user.id;
+    const { password, email, role, name, lastname, genre, dateOfBirth } =
+      req.body;
 
-    // email can't be update
-    if (email) return res.status(400).json({ msg: "Email can't be update" });
+    //validate id
+    if (!id) {
+      return res.send({ msg: "id is required" });
+    }
+    if (Number.isNaN(parseInt(id))) {
+      return res.send({ msg: "id isn´t number" });
+    }
+    id = parseInt(id);
+
 
     // get user by id
     const user = await User.findOne({
@@ -246,7 +235,15 @@ async function putUser(req, res) {
 async function addShippingAddress(req, res) {
   const { id } = req.user;
   if (!id) return res.status(400).json({ msg: "ID is required" });
+  if (isNaN(parseInt(id)))
+    return res.status(400).json({ msg: "ID isn´t number" });
+  id = parseInt(id);
 
+  if (req.user.role !== "admin" && req.user.id !== id) {
+    return res
+      .status(400)
+      .json({ msg: "You can´t add shipping address on other users" });
+  }
   try {
     // get user by id
     const user = await User.findOne({
@@ -278,6 +275,10 @@ async function updateShippingAddress(req, res) {
   const addressId = req.params.id;
 
   if (!userId) return res.status(400).json({ msg: "User id is required" });
+  if (isNaN(parseInt(userId)))
+    return res.status(400).json({ msg: "id is a number" });
+  userId = parseInt(userId);
+
   if (!addressId)
     return res.status(400).json({ msg: "Address id is required" });
 
@@ -314,8 +315,16 @@ async function deleteShippingAddress(req, res) {
   const addressId = req.params.id;
 
   if (!userId) return res.status(400).json({ msg: "User id is required" });
+  if (isNaN(parseInt(userId)))
+    return res.status(400).json({ msg: "id is a number" });
+  userId = parseInt(userId);
   if (!addressId)
     return res.status(400).json({ msg: "Address id is required" });
+
+  //other user can't delete address
+  if (req.user.role !== "admin" && req.user.id !== userId) {
+    return res.send({ msg: "You can´t delete other users" });
+  }
 
   try {
     // get user by id
