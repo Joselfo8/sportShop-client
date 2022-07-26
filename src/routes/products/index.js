@@ -25,14 +25,14 @@ router.get("", getProductByName);
 router.get("/:id", getProductById);
 
 //put/products body:id,name,price,description,product_category,product_subCategory
-router.put("/",checkRole,checkRules(["admin"]), putProduct);
+router.put("/", putProduct);
 
 //postAllatOnce/products/all
-router.post("/all",checkRole,checkRules(["admin"]), bulk);
+router.post("/all", bulk);
 //post/products body:name,price,description,product_category,product_subCategory
-router.post("",checkRole,checkRules([ "admin"]),postProduct);
+router.post("", postProduct);
 
 //delete/products/:id
-router.delete("/:id",checkRole,checkRules([ "admin"]), deleteProduct);
+router.delete("/:id", deleteProduct);
 
 module.exports = { products: router };
