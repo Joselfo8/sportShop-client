@@ -35,8 +35,7 @@ export default function CheckoutForm({id_user, total, name, email, soldProducts,
 
       try {
         //generar una action y un reducer para esta accion
-        const {data} = await axios.post('http://localhost:3001/api/checkout', {
-        // const {data} = await axios.post('http://vlixes-server.herokuapp.com/pay', {
+        const {data} = await axios.post('https://vlixes-server.herokuapp.com/stripes/pay/', {
           id,
           jsonSoldProducts,
           amount: total*100, 
@@ -74,9 +73,6 @@ export default function CheckoutForm({id_user, total, name, email, soldProducts,
             icon: "error",
             width: '40%',
             confirmButtonText: "Accept",
-            // customClass: {
-            //   confirmButtonText: 'example-class' //insert class here
-            // }
           })
         }
         

@@ -15,7 +15,7 @@ export default function Cart(){
         };
     });
     useEffect(() => {
-        dispatch(getShoppingListByUserId(state.userId));
+        dispatch(getShoppingListByUserId());
     },[]);
     let price: number = 0;
     let priceTotal:any = state.products ? state.products.map((e: any) => price = price + e.price) : 0;
