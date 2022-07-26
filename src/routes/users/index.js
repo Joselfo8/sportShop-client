@@ -25,7 +25,7 @@ router.get(
   getUserData
 );
 // update user
-router.put("/:id", checkRole, checkRules(["user", "admin"]), putUser);
+router.put("", checkRole, checkRules(["user", "admin"]), putUser);
 // create a new user
 router.post("", postUser);
 // create, update, and delete a shipping address
@@ -50,7 +50,6 @@ router.delete(
 router.get("", checkRole, checkRules(["admin"]), getAllUser);
 
 //funciones globales
-router.post("", postUser);
 router.post("/login", loginUser);
 router.get("/isAdmin", getCheckAdmin);
 

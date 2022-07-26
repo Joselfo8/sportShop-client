@@ -197,55 +197,39 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
-  const { id } = req.user;
+  const { id, role } = req.user;
   if (!id) return res.status(400).json({ msg: "ID is required" });
 
   try {
-    const { password, email, role, name, lastname, genre, dateOfBirth } =
-      req.body;
+    const { password, email } = req.body;
 
-    //validate id
-    if (!id) {
-      return res.send({ msg: "id is required" });
-    }
-    if (Number.isNaN(parseInt(id))) {
-      return res.send({ msg: "id isn´t number" });
-    }
-    id = parseInt(id);
-
-    //validate authenritation
-    if (req.user.role === "user" && req.user.id !== id) {
-      return res.send({ msg: "You can´t update other users" });
-    }
+    // email can't be update
+    if (email) return res.status(400).json({ msg: "Email can't be update" });
 
     // get user by id
     const user = await User.findOne({
       where: { id },
       include: "shippingAddresses",
     });
-
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    // email can't be update
-    if (email) return res.status(400).json({ msg: "Email can't be update" });
+    // check if user have authorization
+    if (role !== "admin" && id !== user.id) {
+      return res.status(403).json({ msg: "You can´t update other users" });
+    }
 
     // por que no puede cambiar su contraseña????
     if (password) {
       user.password = await encrypt(password);
     }
-    if (name) user.name = name;
-    if (lastname) user.lastname = lastname;
-    if (genre) user.genre = genre;
-    if (dateOfBirth) user.dateOfBirth = dateOfBirth;
 
-    //only admin can update role
-    if (role && req.user.role !== "admin") {
+    // only admin can update role
+    if (req.body.role && role !== "admin") {
       return res.status(400).json({ msg: "Only admin can update role" });
     }
 
-    if (role) user.role = role;
-
-    await user.save();
+    // save all changes
+    user.set(req.body);
 
     // send all values, less password
     const { password: _1, ...response } = user.dataValues;
@@ -255,7 +239,7 @@ async function putUser(req, res) {
       data: response,
     });
   } catch (error) {
-    res.send(error);
+    res.status(500).json({ msg: "Update failed", error });
   }
 }
 
