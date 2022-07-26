@@ -13,7 +13,7 @@ router.post('/pay', async (req, res) => {
             currency: "USD",
             description: `Sold products: ${jsonSoldProducts}`,
             payment_method: id,
-            //cuantity: 1,
+            //cuantity: 1, //xxx
             // receipt_email: 'aurot122@gmail.com',
             confirm: true
         })
