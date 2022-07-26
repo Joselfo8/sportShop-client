@@ -134,7 +134,8 @@ async function deleteUser(req, res) {
 async function putUser(req, res) {
   try {
     let { id } = req.params;
-    const { password, email, role, ...data } = req.body;
+    const { password, email, role, name, lastname, genre, dateOfBirth } =
+      req.body;
 
     //validate id
     if (!id) {
@@ -161,27 +162,28 @@ async function putUser(req, res) {
     // email can't be update
     if (email) return res.status(400).json({ msg: "Email can't be update" });
 
-    // password can't be update
-    if (password)
-      return res.status(400).json({ msg: "Password can't be update" });
+    // por que no puede cambiar su contraseña????
+    if (password) {
+      user.password = await encrypt(password);
+    }
+    if (name) user.name = name;
+    if (lastname) user.lastname = lastname;
+    if (genre) user.genre = genre;
+    if (dateOfBirth) user.dateOfBirth = dateOfBirth;
 
     //only admin can update role
     if (role && req.user.role !== "admin") {
       return res.status(400).json({ msg: "Only admin can update role" });
     }
 
-    // update user data
-    if (req.user.role === "admin") {
-      user.set({ role });
-    } else {
-      user.set({ ...data, role });
-    }
+    if (role) user.role = role;
+
     await user.save();
 
     // send all values, less password
     const { password: _1, ...response } = user.dataValues;
 
-    res.status(200).json({
+    return res.status(200).json({
       msg: "User updated",
       data: response,
     });
