@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const {
+  getCheckAdmin,
   getUser,
   postUser,
   deleteUser,
@@ -26,5 +27,6 @@ router.delete("/:id", checkRole, checkRules(["user", "admin"]), deleteUser);
 
 router.get("/:id", checkRole, checkRules(["user", "admin"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
 
-router.post("/logout", logOut);
+router.post("/:logout", logOut);
+
 module.exports = { users: router };
