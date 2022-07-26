@@ -1,9 +1,12 @@
 const { Buy, User, Product } = require("../../db");
 
 async function getBuys(req, res) {
+  //paginado de 10 en 10
   try {
     const { status } = req.query;
-    let buys = await Buy.findAll({ include: [User] });
+    const { maxPpage } = req.query;//maximo de registros por pagina
+    const { dsd } = req.query; //desde
+    let buys = await Buy.findAll({limit:maxPpage, include: [User],offset:dsd });
     if (status) {
       buys = buys.filter(
         (x) => x.status_history[x.status_history.length - 1].status === status
