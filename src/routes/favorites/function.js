@@ -2,11 +2,9 @@ const { User, Product } = require("../../db");
 
 const getFavoritesById = async (req, res) => {
   try {
-    const { id } = req.params;
+    let { id } = req.params; //solo los token de admin pueden enviar params
+    if (!id) id = req.user.id;
 
-    if(req.user.id !== id && req.user.role === "user")
-      return res.send({ msg: "you are not authorized" });
-    //validar id
     if (!id) return res.send({ msg: "user is required" });
     if (Number.isNaN(id)) return es.send({ msg: "user must be a number" });
 
@@ -26,13 +24,14 @@ const getFavoritesById = async (req, res) => {
 
 const addToFavorites = async (req, res) => {
   try {
-    let { user, product } = req.body;
-  user = parseInt(user);
-    if(req.user.id !== user && req.user.role === "user")
+    const { product } = req.body;
+    let user = req.user.id;
+    if (req.user.id !== user && req.user.role === "user")
       return res.send({ msg: "you are not authorized" });
     //validar user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
+    user = parseInt(user);
 
     //validar product
     if (!product) return res.send({ msg: "product is required" });
@@ -67,16 +66,15 @@ const deleteById = async (req, res) => {
     //   query: req.query,
     //   params: req.params,
     // });
-    let { user, product } = req.query;
-    user = parseInt(user)
-    if(req.user.id !== user && req.user.role === "user")
-      return res.send({ msg: "you are not authorized" });
+    const { product } = req.query;
+    let user = req.user.id;
     //validar user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
+    user = parseInt(user);
 
     //validar product
-    if (!product) return res.send({ msg: "user is required" });
+    if (!product) return res.send({ msg: "product is required" });
     if (Number.isNaN(product))
       return res.send({ msg: "product must be a number" });
 
@@ -102,13 +100,13 @@ const deleteById = async (req, res) => {
 
 const deleteAllById = async (req, res) => {
   try {
-    let { user } = req.body;
-    user = parseInt(user)
-    if(req.user.id !== user && req.user.role === "user")
-    return res.send({ msg: "you are not authorized" });
+    let { user } = req.user.id;
+    if (req.user.id !== user && req.user.role === "user")
+      return res.send({ msg: "you are not authorized" });
     //validar user
     if (!user) return res.send({ msg: "user is required" });
     if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
+    user = parseInt(user);
 
     //existencia del usuario
     const userObj = await User.findOne({ where: { id: user } });

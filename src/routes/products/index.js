@@ -15,14 +15,34 @@ const {
 } = require("./function");
 
 //get categories
-router.get("/category", getCategory);
+router.get(
+  "/category",
+  checkRole,
+  checkRules(["admin", "users", "guest"]),
+  getCategory
+);
 //get/products
-router.get("/getall", getProducts);
+router.get(
+  "/getall",
+  checkRole,
+  checkRules(["admin", "users", "guest"]),
+  getProducts
+);
 //get/products?name&category&subCategory
-router.get("", getProductByName);
+router.get(
+  "",
+  checkRole,
+  checkRules(["admin", "users", "guest"]),
+  getProductByName
+);
 
 //get/products/:id
-router.get("/:id", getProductById);
+router.get(
+  "/:id",
+  checkRole,
+  checkRules(["admin", "users", "guest"]),
+  getProductById
+);
 
 //put/products body:id,name,price,description,product_category,product_subCategory
 router.put("/", checkRole, checkRules(["admin"]), putProduct);
