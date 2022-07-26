@@ -22,6 +22,6 @@ router.delete(
 );
 
 
-router.get("/:id",checkRole,checkRules(["user", "admin"]), get_item);
+router.get("",checkRole,checkRules(["user", "admin"]), get_item);
 
 module.exports = { shopping_list: router };
