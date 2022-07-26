@@ -28,14 +28,23 @@ async function getCheckAdmin(req, res) {
 //get all users by user_name
 async function getAllUser(req, res) {
   try {
+    const from = req.query.from;
+    console.log(from);//desde donde voy a mostrar valores(offset)
+    from? parseInt(from) : 0;
+    const numPerPage = req.query.numPerPage;
+
     const { role } = req.query;
-    let where = { where: {}, include: "shippingAddresses" };
+    let where = { where: {}, include: "shippingAddresses",limit:numPerPage,offset:from };
     if (role) {
       where.where.role = role;
     }
-    let users = await User.findAll(where);
-
-    return res.send({ msg: "Users found", users });
+    let users = await User.findAll(where)
+    const total = await User.count();
+    return res.send({ msg: "Users found", page:{
+      total_data:total,
+      fromValue:from,
+      numPerPage:numPerPage
+    },users });
   } catch (error) {
     console.log(error);
     res.send({ msg: "error" });
