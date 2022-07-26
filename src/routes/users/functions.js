@@ -1,7 +1,9 @@
 const { User, ShippingAddress } = require("../../db");
-const { Op } = require("sequelize");
+
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
 const { tokenSign, verifyToken } = require("../../helpers/Token");
+
+const pagination = require("../../helpers/pagination");
 
 const rols = ["admin", "user"];
 
@@ -28,35 +30,28 @@ async function getCheckAdmin(req, res) {
 //get all users by user_name
 async function getAllUser(req, res) {
   try {
-    const from = req.query.from;
-    console.log(from); //desde donde voy a mostrar valores(offset)
-    from ? parseInt(from) : 0;
-    const numPerPage = req.query.numPerPage;
-
-    const { role } = req.query;
-    let where = {
-      where: {},
-      include: "shippingAddresses",
-      limit: numPerPage,
-      offset: from,
-    };
+    const { role, pag = 0, limit = 4 } = req.query;
+    let where = {};
     if (role) {
-      where.where.role = role;
+      where = { role };
     }
-    let users = await User.findAll(where);
-    const total = await User.count();
+    let users = await User.findAll({
+      where,
+      include: "shippingAddresses",
+    });
+
+    //pagination
+    users = pagination(users, limit, pag);
+
     return res.send({
       msg: "Users found",
-      page: {
-        total_data: total,
-        fromValue: from,
-        numPerPage: numPerPage,
-      },
-      users,
+      ...users,
+      products: undefined,
+      users: users.products,
     });
   } catch (error) {
     console.log(error);
-    res.send({ msg: "error" });
+    res.status(500).send({ msg: "error" });
   }
 }
 
