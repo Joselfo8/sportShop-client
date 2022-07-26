@@ -9,7 +9,6 @@ import Login from "./routes/Login";
 import Details from "./components/Details/Details";
 import Cart from "./components/Cart/Cart";
 import Subcategory from "./components/Subcategory/Subcategory";
-import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
@@ -37,7 +36,6 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/purchase" element={<Purchase />} />
         <Route path="/:category" element={<Subcategory />} />
-        <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Details/>}/>
         <Route path="/about" element={<About />} />
 
