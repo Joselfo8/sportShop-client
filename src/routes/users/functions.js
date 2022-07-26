@@ -1,11 +1,11 @@
 const { User, ShippingAddress } = require("../../db");
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
-const { tokenSign,verifyToken } = require("../../helpers/Token");
+const { tokenSign, verifyToken } = require("../../helpers/Token");
 
 const rols = ["admin", "user"];
 
-// Get admin confirm roles by token answer true or false 
+// Get admin confirm roles by token answer true or false
 
 async function getCheckAdmin(req, res) {
   try {
@@ -14,10 +14,10 @@ async function getCheckAdmin(req, res) {
     const thumb = await verifyToken(token);
     if (!thumb) return res.status(401).json({ msg: "Token invalid" });
     //console.log(thumb.role)//admin
-     if (thumb.role === "admin"){
-      return res.send( true );
+    if (thumb.role === "admin") {
+      return res.send({ admin: true });
     }
-      return res.send(false);
+    return res.send({ admin: false });
   } catch (error) {
     console.log(error);
     res.status(200).json({ msg: "Failed to check admin" });
@@ -29,22 +29,31 @@ async function getCheckAdmin(req, res) {
 async function getAllUser(req, res) {
   try {
     const from = req.query.from;
-    console.log(from);//desde donde voy a mostrar valores(offset)
-    from? parseInt(from) : 0;
+    console.log(from); //desde donde voy a mostrar valores(offset)
+    from ? parseInt(from) : 0;
     const numPerPage = req.query.numPerPage;
 
     const { role } = req.query;
-    let where = { where: {}, include: "shippingAddresses",limit:numPerPage,offset:from };
+    let where = {
+      where: {},
+      include: "shippingAddresses",
+      limit: numPerPage,
+      offset: from,
+    };
     if (role) {
       where.where.role = role;
     }
-    let users = await User.findAll(where)
+    let users = await User.findAll(where);
     const total = await User.count();
-    return res.send({ msg: "Users found", page:{
-      total_data:total,
-      fromValue:from,
-      numPerPage:numPerPage
-    },users });
+    return res.send({
+      msg: "Users found",
+      page: {
+        total_data: total,
+        fromValue: from,
+        numPerPage: numPerPage,
+      },
+      users,
+    });
   } catch (error) {
     console.log(error);
     res.send({ msg: "error" });
@@ -188,10 +197,8 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
-
   const { id } = req.user;
   if (!id) return res.status(400).json({ msg: "ID is required" });
-
 
   try {
     let { id } = req.params;
@@ -426,5 +433,4 @@ module.exports = {
   updateShippingAddress,
   deleteShippingAddress,
   getCheckAdmin,
-
 };
