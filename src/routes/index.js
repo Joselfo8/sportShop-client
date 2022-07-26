@@ -88,8 +88,10 @@ router.use("/buys", buys);
 router.use("/stock", stock);
 router.use("/pay", pay);
 
-router.use("/mailer", mailer);
+/////router.use("/mailer", mailer);
+
 router.use("/stripes", stripes);
+
 
 
 
