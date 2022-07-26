@@ -1,5 +1,5 @@
 const router = require("express").Router();
-
+const{EMAILER1,EKEY1,EKEY2,EMAILERMIO,EKEYMIO} = process.env;
 
 const nodemailer = require("nodemailer");
 const { User } = require("../../db");
@@ -8,7 +8,7 @@ const { encrypt } = require("../../helpers/handleBcrypt");
 router.post("/password-recovery",async (req, res) => {
   const{email}=req.body;
   let user =await User.findOne({where:{email}})
-  !User? res.send("the email is wrong or is not registered") :
+  if(!user)return res.send("the email is wrong or is not registered");
   User.update({
     password: await encrypt(user.email)
   },{where:{email}})
@@ -20,8 +20,8 @@ router.post("/password-recovery",async (req, res) => {
     port: 465,//puerto de gmail safe
     secure: true,
     auth: {
-        user: 'hansvekoni@gmail.com',//'vlixes.international@gmail.com',//'hansvekoni@gmail.com',
-        pass: 'fvvrfxdirtctikli',//'vgdeuabjocmsvsjr', //'fvvrfxdirtctikli'
+        user: EMAILERMIO,//'vlixes.international@gmail.com',//'hansvekoni@gmail.com',
+        pass: EKEYMIO,//'vgdeuabjocmsvsjr', //'fvvrfxdirtctikli'
     }
 });
 let  mailOptions = {
@@ -59,8 +59,8 @@ router.post("/send-email", (req, res) => {
         port: 465,//puerto de gmail safe
         secure: true,
         auth: {
-            user: 'vlixes.international@gmail.com',//'emily.bailey89@ethereal.email',
-            pass: 'vgdeuabjocmsvsjr', //'aPXw54KrJAP1nVSpz1'
+            user: EMAILER1,//'emily.bailey89@ethereal.email',
+            pass: EKEY1, //'aPXw54KrJAP1nVSpz1'
         }
     });
     let  mailOptions = {

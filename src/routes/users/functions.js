@@ -1,11 +1,31 @@
 const { User, ShippingAddress } = require("../../db");
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
-const { tokenSign } = require("../../helpers/Token");
+const { tokenSign,verifyToken } = require("../../helpers/Token");
 
 const rols = ["admin", "user"];
 
+// Get admin confirm roles by token answer true or false 
+
+async function getCheckAdmin(req, res) {
+  try {
+    const { token } = req.query;
+    //console.log(token);
+    const thumb = await verifyToken(token);
+    if (!thumb) return res.status(401).json({ msg: "Token invalid" });
+    //console.log(thumb.role)//admin
+     if (thumb.role === "admin"){
+      return res.send( true );
+    }
+      return res.send(false);
+  } catch (error) {
+    console.log(error);
+    res.status(200).json({ msg: "Failed to check admin" });
+  }
+}
+
 //recordar user_name
+//get all users by user_name
 async function getAllUser(req, res) {
   try {
     const { role } = req.query;
@@ -21,6 +41,7 @@ async function getAllUser(req, res) {
     res.send({ msg: "error" });
   }
 }
+
 async function getUser(req, res) {
   try {
     const { id } = req.params;
@@ -299,4 +320,6 @@ module.exports = {
   addShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,
+  getCheckAdmin,
+
 };
