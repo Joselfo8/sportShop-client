@@ -6,7 +6,6 @@ import { getUserInformation, getShoppingListByUserId } from "../../redux/action/
 import { AiFillWarning } from "react-icons/ai";
 
 
-
 // Components
 import NavBar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
@@ -50,17 +49,14 @@ export default function Purchase() {
                         </div>
 
                         <div className={style.detail}>
-                            <p>{product.title || `Red shirt`}</p>
-                            {/* no esta llegando marca */}
-                            <p>{`Adidas`}</p>
-                            {/* no esta llegando talla */}
-                            <p>{`Size M`}</p>
-                            <p>{`Units 1`}</p>
+                            <p>{product.title}</p>
+                            <p>{`Size ${Object.keys(product.sizesAmount)[0]}`}</p>
+                            <p>{`Units ${Object.values(product.sizesAmount)[0]}`}</p>
                         </div>
                         
                         <div className={style.price}>
                             <p>Unit value:</p>
-                            <p>{`$${product.price}` || `$19`}</p>
+                            <p>{`$${product.price}`}</p>
                         </div>
 
                     </div>
