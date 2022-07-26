@@ -5,10 +5,10 @@ const stripe = new Stripe("sk_test_51LKaEAATR7GdGLkc4i6xnMNGGjPnm6QnSt4NiLCJFWM3
 
 router.post('/pay', async (req, res) => {
     try{
-        const { id, /* jsonSoldProducts, amount  */} = req.body
+        const { id,jsonSoldProducts, amount } = req.body
         console.log(id)
         res.send('ok')
-        /* const payment = await stripe.paymentIntents.create({
+        const payment = await stripe.paymentIntents.create({
             amount,
             currency: "USD",
             description: `Sold products: ${jsonSoldProducts}`,
@@ -17,12 +17,12 @@ router.post('/pay', async (req, res) => {
             // receipt_email: 'aurot122@gmail.com',
             confirm: true
         })
-        //console.log(payment)
-        res.send('Succesfull payment') */
+        console.log(payment)
+        res.send('Succesfull payment')
 
     } catch(error) {
         res.json({message: error.raw.message})
     }
 })
 
-module.exports = { stripe: router };
+module.exports = { stripes: router };

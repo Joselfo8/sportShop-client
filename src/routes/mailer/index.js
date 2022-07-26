@@ -148,6 +148,7 @@ router.post("/send-email", (req, res) => {
     }
   });
 
+
 router.post('/pay', async (req, res) => {
   try{
       const { id, jsonSoldProducts, amount  } = req.body
@@ -159,6 +160,7 @@ router.post('/pay', async (req, res) => {
       console.log(err)
   }
 })
+
 
 
 module.exports = { mailer: router };
