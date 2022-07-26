@@ -1,5 +1,6 @@
 // in config.js
 import { createChatBotMessage } from 'react-chatbot-kit';
+import CartB from './CartButton';
 import Login from './login';
 import Options from './Options';
 const botName = 'Bot';
@@ -15,6 +16,10 @@ const config : any = {
     {
       widgetName: "Login",
       widgetFunc: () => <Login/>
+    },
+    {
+      widgetName: "Cart",
+      widgetFunc: () => <CartB/>
     }
   ],
   state: {

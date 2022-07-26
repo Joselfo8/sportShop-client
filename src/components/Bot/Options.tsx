@@ -5,7 +5,7 @@ const Options = () => {
     const options = [
         {
             text: "Settings",
-            link: "/user/settings",
+            link: "/user/profile",
             id: 1
         }
     ];
