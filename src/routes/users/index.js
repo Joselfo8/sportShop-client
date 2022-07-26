@@ -17,6 +17,7 @@ const {
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
 
+
 //funciones globales
 router.post(
   "/login",
@@ -24,12 +25,14 @@ router.post(
   checkRules(["user", "admin", "guest"]),
   loginUser
 );
+
 router.get(
   "/isAdmin",
   checkRole,
   checkRules(["user", "admin", "guest"]),
   getCheckAdmin
 );
+
 
 router.get("/all", checkRole, checkRules(["admin"]), getAllUser);
 
@@ -42,6 +45,7 @@ router.put("/:id", checkRole, checkRules(["admin"]), putUser);
 // delete user
 router.delete("", checkRole, checkRules(["user", "admin"]), deleteUser);
 router.delete("/:id", checkRole, checkRules(["admin"]), deleteUser);
+
 // create a new user
 router.post("", postUser);
 // create, update, and delete a shipping address
@@ -63,5 +67,7 @@ router.delete(
   checkRules(["user", "admin"]),
   deleteShippingAddress
 );
+router.get("", checkRole, checkRules(["admin"]), getAllUser);
+
 
 module.exports = { users: router };

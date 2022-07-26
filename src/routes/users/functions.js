@@ -19,10 +19,11 @@ async function getCheckAdmin(req, res) {
     if (thumb.role === "admin") {
       return res.send({ admin: true });
     }
+
     return res.send({ admin: false });
   } catch (error) {
     console.log(error);
-    res.status(200).json({ msg: "Failed to check admin" });
+    res.status(500).json({ msg: "Failed to check admin" });
   }
 }
 
@@ -110,8 +111,7 @@ async function getUserData(req, res) {
 
     return res.status(200).json({ msg: "User found", data: user });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ msg: error });
+    return res.send(error);
   }
 }
 
@@ -173,11 +173,12 @@ async function deleteUser(req, res) {
     return res.json({ msg: "User deleted" });
   } catch (error) {
     console.log(error);
-    res.json({ msg: "Failed to delete user", error });
+    res.status(500).json({ msg: "Failed to delete user", error });
   }
 }
 //PUT
 async function putUser(req, res) {
+
   try {
     let { id } = req.params; //solo token de admin permite enviar params
     if (!id) id = req.user.id;
@@ -193,34 +194,31 @@ async function putUser(req, res) {
     }
     id = parseInt(id);
 
+
     // get user by id
     const user = await User.findOne({
       where: { id },
       include: "shippingAddresses",
     });
-
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    // email can't be update
-    if (email) return res.status(400).json({ msg: "Email can't be update" });
+    // check if user have authorization
+    if (role !== "admin" && id !== user.id) {
+      return res.status(403).json({ msg: "You can´t update other users" });
+    }
 
     // por que no puede cambiar su contraseña????
     if (password) {
       user.password = await encrypt(password);
     }
-    if (name) user.name = name;
-    if (lastname) user.lastname = lastname;
-    if (genre) user.genre = genre;
-    if (dateOfBirth) user.dateOfBirth = dateOfBirth;
 
-    //only admin can update role
-    if (role && req.user.role !== "admin") {
+    // only admin can update role
+    if (req.body.role && role !== "admin") {
       return res.status(400).json({ msg: "Only admin can update role" });
     }
 
-    if (role) user.role = role;
-
-    await user.save();
+    // save all changes
+    user.set(req.body);
 
     // send all values, less password
     const { password: _1, ...response } = user.dataValues;
@@ -230,8 +228,7 @@ async function putUser(req, res) {
       data: response,
     });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
-    // res.status(200).json({ msg: "Failed to update user" });
+    res.status(500).json({ msg: "Update failed", error });
   }
 }
 
@@ -269,7 +266,7 @@ async function addShippingAddress(req, res) {
       data: findedAddr,
     });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
+    res.send(error);
   }
 }
 
@@ -293,7 +290,6 @@ async function updateShippingAddress(req, res) {
 
     if (!address)
       return res.status(404).json({ msg: "Shipping address not found" });
-    console.log(address);
 
     // check that address.userId is equal to userId
     if (address.userId !== userId)
@@ -310,7 +306,7 @@ async function updateShippingAddress(req, res) {
       data: address,
     });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
+    res.send(error);
   }
 }
 
@@ -352,7 +348,7 @@ async function deleteShippingAddress(req, res) {
       msg: "Shipping address deleted",
     });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
+    res.send(error);
   }
 }
 
