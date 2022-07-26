@@ -8,7 +8,7 @@ $weightParagraph: 100;
     width: 80%;
     display: grid;
     grid-template-columns: 1fr 500px 500px 1fr;
-    grid-template-rows: 60px 700px 400px 400px;
+    grid-template-rows: 5px 700px 400px;
     padding: 30px;
     margin: 0 auto;
     gap: 30px;
@@ -162,55 +162,6 @@ $weightParagraph: 100;
             }
         }
     }
-    
-    .sportContainer {
-        background-image: url('../../assets/Sport/Sport_1.jpg');
-        background-size: 100%;
-        display: grid;
-        grid-area: 4 / 2 / 5 / 4;
-        justify-content:center;
-
-        .components {
-            // background-color: antiquewhite;
-            display: flex;
-            flex-direction: column;
-            // align-items: center;
-            justify-content:space-between;
-            margin-bottom: 50px;
-            height: 100%;
-            width: 500px;
-
-            .textContainer {
-                margin-top: 15px;
-
-                h1 {
-                    display: block;
-                    margin: 0;
-                    color: rgb(55, 55, 55);
-                    text-align:center;
-                    width: 100%;
-                    text-decoration: underline rgb(115, 115, 115);
-                    text-shadow: -2px 2px 0 rgba(255, 255, 255, 0.3);
-                    font-weight: 600;
-                }
-            }
-            
-            .button {
-                background-color: rgb(55, 55, 55);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 5px;
-                height: 50px;
-                width: 150px;
-                color: white;
-                margin: 0 auto;
-                margin-bottom: 30px;
-            
-            }
-        }
-    }
-
-
+   
 }
 

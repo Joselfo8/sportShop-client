@@ -67,24 +67,6 @@ export default function Categories(){
                 
             </div>
 
-            <div className={style.sportContainer}>
-
-                <div className={style.components}>
-
-                    <div className={style.textContainer}>
-                        <h1>SPORT</h1>
-                    </div>
-                    
-                        <div className={style.button}>
-                    <Link to='/SPORT' style={{textDecoration:"none", color:"white"}}>
-                            <h3>See more</h3>
-                    </Link>
-                        </div>
-
-                </div>
-
-            </div>
-
 
         </div>
             

@@ -335,10 +335,10 @@ export default function OrderProgress() {
                                   </form>
                                 </div>
 
-                                <div className={style.proofContainer}>
+                                {/* <div className={style.proofContainer}>
                                   <p>Proof of delivery</p>
                                   <button>Upload</button>
-                                </div>
+                                </div> */}
 
                               </div>
 
@@ -360,8 +360,6 @@ export default function OrderProgress() {
                           </div>
 
                         </div>
-
-
 
                         
 
