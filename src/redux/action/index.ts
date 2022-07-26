@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   GET_PRODUCTSBYNAME,
   GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+  POST_PURCHASE,
   GET_USER_INFORMATION,
   GET_SHOPPINGLIST_BY_USER_ID,
 } from "./types";
@@ -117,15 +118,14 @@ export const addProduct = (payload:any) => async (dispatch: any) => {
   }
 };
 
-export function getUserInformation(UserId: any) {
+export function getUserInformation() {
   try {
-    return async function name(dispatch: any) {
-      let json: any = await axios.get(
-        `https://vlixes-server.herokuapp.com/users/${UserId}`
-      );
+    return async function user(dispatch: any) {
+      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/users/`);
+      console.log("getUserInformation",json.data.data)
       return dispatch({
         type: GET_USER_INFORMATION,
-        payload: json.data.user,
+        payload: json.data.data,
       });
     };
   } catch (error) {
@@ -136,7 +136,7 @@ export function getUserInformation(UserId: any) {
 export function getShoppingListByUserId() {
   // console.log(object)
   try {
-    return async function name(dispatch: any) {
+    return async function shoppinglist(dispatch: any) {
       let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/`);
       return dispatch({
         type: GET_SHOPPINGLIST_BY_USER_ID,
@@ -225,10 +225,10 @@ export const allCategories = () => async (dispatch: any) => {
 export function postPurchase(object: any) {
   console.log("postPurchase", object)
   try {
-    return async function name(dispatch: any) {
+    return async function purchase(dispatch: any) {
       let json: any = await axios.post(`https://vlixes-server.herokuapp.com/buys`, object);
       return dispatch({
-        type: "POST_PURCHASE",
+        type: POST_PURCHASE,
         payload: json.data,
       });
     };
