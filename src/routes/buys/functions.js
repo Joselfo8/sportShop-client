@@ -27,6 +27,7 @@ async function getBuys(req, res) {
 async function getBuyByUser(req, res) {
   try {
     const { user } = req.query;
+    //validations
     if (!user) return res.send({ msg: "user is required" });
 
     let userObj = await User.findOne({ where: { name: user } });
