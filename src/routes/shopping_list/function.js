@@ -103,9 +103,9 @@ if (req.user.id !== user && req.user.role === "user"){
 //////////////////////////////////////////
 const add_item = async (req, res) => {
   try {
-    let {  size, quantity, product } = req.body;
-    let { user } = req.user;
-
+    let { /* user, */ size, quantity, product } = req.body;
+    let user = req.user.id;
+    console.log(user)
     if (req.user.id !== user && req.user.role === "user"){
       return res.send({ msg: "you don't have access to this resource" });
     }

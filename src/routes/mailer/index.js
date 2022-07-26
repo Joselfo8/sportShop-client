@@ -89,16 +89,6 @@ transporter.verify(function (error, success) {
     }
   });
 })
-router.post('/pay', async (req, res) => {
-  try{
-      const { id, jsonSoldProducts, amount  } = req.body
-      //console.log(id)
-      //res.send('ok')
-      
-  }
-  catch(err){
-      console.log(err)
-  }
-})
+
 
 module.exports = { mailer: router };
