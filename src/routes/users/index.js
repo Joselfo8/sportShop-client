@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const {
+  getCheckAdmin,
   getUser,
   getUserData,
   postUser,
@@ -12,8 +13,10 @@ const {
   updateShippingAddress,
   deleteShippingAddress,
 } = require("./functions");
+
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
+
 
 router.get("", getAllUser);
 // get user data with id from token
@@ -47,11 +50,16 @@ router.delete(
   deleteShippingAddress
 );
 
+
+//funciones globales
+router.post("", postUser);
 router.post("/login", loginUser);
 
-router.get("/:id",  checkRole,   checkRules(["user", "admin", "ghost"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
-router.delete("/:id",checkRole,checkRules(["user", "admin"]), deleteUser);
+router.put("/:id", checkRole, checkRules(["user", "admin"]), putUser);
+router.delete("/:id", checkRole, checkRules(["user", "admin"]), deleteUser);
 
+router.get("/:id", checkRole, checkRules(["user", "admin"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
 
-router.post("/logout", logOut);
+router.post("/:logout", logOut);
+
 module.exports = { users: router };
