@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../db");
+const { JWT_SECRET } = process.env;
 
 const tokenSign = async (user) => {
   //Genera el Token
@@ -8,7 +9,7 @@ const tokenSign = async (user) => {
       id: user.id,
       role: user.role,
     },
-    process.env.JWT_SECRET, //Secreto de la aplicacion
+    JWT_SECRET, //Secreto de la aplicacion
     {
       expiresIn: "2h", //Tiempo de expiracion
     }
@@ -19,12 +20,13 @@ const verifyToken = async (token) => {
   //Verifica el Token
   try {
     const thumb = jwt.verify(token, process.env.JWT_SECRET);
-    // console.log(thumb)
+    //console.log(thumb)
     return thumb;
   } catch (e) {
     return { msg: "ha fallado la verificacion del token", error: e };
   }
 };
+
 
 const checkRules = (roles) => async (req, res, next) => {
   try {

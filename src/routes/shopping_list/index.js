@@ -13,6 +13,7 @@ router.delete(
   delete_item
 );
 
+
 router.delete(
   "/all",
   checkRole,
@@ -20,6 +21,7 @@ router.delete(
   empty_trolly
 );
 
-router.get("/:id", get_item);
+
+router.get("/:id",checkRole,checkRules(["user", "admin"]), get_item);
 
 module.exports = { shopping_list: router };

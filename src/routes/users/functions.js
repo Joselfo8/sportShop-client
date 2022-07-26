@@ -1,11 +1,31 @@
 const { User, ShippingAddress } = require("../../db");
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
-const { tokenSign } = require("../../helpers/Token");
+const { tokenSign,verifyToken } = require("../../helpers/Token");
 
 const rols = ["admin", "user"];
 
+// Get admin confirm roles by token answer true or false 
+
+async function getCheckAdmin(req, res) {
+  try {
+    const { token } = req.query;
+    //console.log(token);
+    const thumb = await verifyToken(token);
+    if (!thumb) return res.status(401).json({ msg: "Token invalid" });
+    //console.log(thumb.role)//admin
+     if (thumb.role === "admin"){
+      return res.send( true );
+    }
+      return res.send(false);
+  } catch (error) {
+    console.log(error);
+    res.status(200).json({ msg: "Failed to check admin" });
+  }
+}
+
 //recordar user_name
+//get all users by user_name
 async function getAllUser(req, res) {
   try {
     const { role } = req.query;
@@ -21,12 +41,25 @@ async function getAllUser(req, res) {
     res.send({ msg: "error" });
   }
 }
+
 async function getUser(req, res) {
   try {
-    const { id } = req.params;
+    let { id } = req.params;
+
+    //validate id
     if (!id) {
       return res.send({ msg: "id_user is required" });
     }
+    if (isNaN(Number(id))) {
+      return res.send({ msg: "id_user must be a number" });
+    }
+    id = parseInt(id);
+
+    //validate authenritation
+    if (req.user.role === "user" && req.user.id !== id) {
+      return res.send({ msg: "You don't have permission" });
+    }
+
     let user = await User.findOne({ where: { id } });
     if (!user) {
       return res.send({ msg: "User not found" });
@@ -96,27 +129,48 @@ async function postUser(req, res) {
 }
 
 async function deleteUser(req, res) {
-  const { id } = req.params;
   try {
+    let { id } = req.params;
+    //validate id
     if (!id) {
       return res.send({ msg: "id is required" });
     }
     if (Number.isNaN(parseInt(id))) {
       return res.send({ msg: "id isn´t number" });
     }
+    id = parseInt(id);
+    //validate authenritation
+    if (req.user.role === "user" && req.user.id !== id) {
+      return res.send({ msg: "You can´t delete other users" });
+    }
+
     await User.destroy({ where: { id: id } });
     return res.json({ msg: "User deleted" });
   } catch (error) {
     console.log(error);
-    res.json(error);
+    res.json({ msg: "Failed to delete user", error });
   }
 }
 //PUT
 async function putUser(req, res) {
-  const { id } = req.params;
-
   try {
-    const { password, email, ...data } = req.body;
+    let { id } = req.params;
+    const { password, email, role, name, lastname, genre, dateOfBirth } =
+      req.body;
+
+    //validate id
+    if (!id) {
+      return res.send({ msg: "id is required" });
+    }
+    if (Number.isNaN(parseInt(id))) {
+      return res.send({ msg: "id isn´t number" });
+    }
+    id = parseInt(id);
+
+    //validate authenritation
+    if (req.user.role === "user" && req.user.id !== id) {
+      return res.send({ msg: "You can´t update other users" });
+    }
 
     // get user by id
     const user = await User.findOne({
@@ -129,18 +183,28 @@ async function putUser(req, res) {
     // email can't be update
     if (email) return res.status(400).json({ msg: "Email can't be update" });
 
-    // password can't be update
-    if (password)
-      return res.status(400).json({ msg: "Password can't be update" });
+    // por que no puede cambiar su contraseña????
+    if (password) {
+      user.password = await encrypt(password);
+    }
+    if (name) user.name = name;
+    if (lastname) user.lastname = lastname;
+    if (genre) user.genre = genre;
+    if (dateOfBirth) user.dateOfBirth = dateOfBirth;
 
-    // update user data
-    user.set(data);
+    //only admin can update role
+    if (role && req.user.role !== "admin") {
+      return res.status(400).json({ msg: "Only admin can update role" });
+    }
+
+    if (role) user.role = role;
+
     await user.save();
 
     // send all values, less password
     const { password: _1, ...response } = user.dataValues;
 
-    res.status(200).json({
+    return res.status(200).json({
       msg: "User updated",
       data: response,
     });
@@ -299,4 +363,6 @@ module.exports = {
   addShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,
+  getCheckAdmin,
+
 };
