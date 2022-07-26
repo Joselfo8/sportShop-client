@@ -133,11 +133,11 @@ export function getUserInformation(UserId: any) {
   }
 }
 
-export function getShoppingListByUserId(UserId: any) {
+export function getShoppingListByUserId() {
   // console.log(object)
   try {
     return async function name(dispatch: any) {
-      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/${UserId}`);
+      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/`);
       return dispatch({
         type: GET_SHOPPINGLIST_BY_USER_ID,
         payload: json.data,
@@ -204,7 +204,7 @@ export const deleteProductShop = (idUser:number, idProduct:number) => async (dis
       "user": idUser
     }
     const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/shopping_list/`, {data: payload});
-    dispatch(getShoppingListByUserId(idUser))
+    dispatch(getShoppingListByUserId())
   }catch(error){
     console.log(error);
   };

@@ -27,7 +27,7 @@ export default function Purchase() {
  
     useEffect(() => {
         dispatch(getUserInformation(id));
-        dispatch(getShoppingListByUserId(id));
+        dispatch(getShoppingListByUserId());
     }, [dispatch]);
 
     const subTotal = state.shoppinglist.list && state.shoppinglist.list.length > 0 ? state.shoppinglist.list.map((p: any) => p.price).reduce((a: any,b: any) => a+b) : 0
