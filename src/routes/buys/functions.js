@@ -1,9 +1,16 @@
 const { Buy, User, Product } = require("../../db");
 
 async function getBuys(req, res) {
+  //paginado de 10 en 10
   try {
     const { status } = req.query;
-    let buys = await Buy.findAll({ include: [User] });
+    const { maxPpage } = req.query; //maximo de registros por pagina
+    const { dsd } = req.query; //desde
+    let buys = await Buy.findAll({
+      limit: maxPpage,
+      include: [User],
+      offset: dsd,
+    });
     if (status) {
       buys = buys.filter(
         (x) => x.status_history[x.status_history.length - 1].status === status
@@ -18,7 +25,10 @@ async function getBuys(req, res) {
         user: x.user.name,
       };
     });
-    res.send(buys);
+    res.send({
+      buys,
+      pageInf: { registerPerPage: maxPpage, total: buys.length, showFrom: dsd },
+    });
   } catch (error) {
     console.log("error=>", error);
     res.send({ msg: "failed to get buys", error });
@@ -32,11 +42,11 @@ async function getBuyByUser(req, res) {
     const user = await User.findOne({ where: { id } });
     if (!user) return res.status(404).json({ msg: "user not found" });
 
-    const buys = await userObj.getBuys();
+    const buys = await user.getBuys();
     res.status(200).json({ msg: "Get user buys successfully", data: buys });
   } catch (error) {
     console.log("error ==> ", error);
-    res.send({ msg: "failed to get buys", error });
+    res.status(500).json({ msg: "failed to get buys", error });
   }
 }
 async function getBuyById(req, res) {

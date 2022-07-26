@@ -52,12 +52,14 @@ router.get("", checkRole, checkRules(["admin"]), getAllUser);
 //funciones globales
 router.post("", postUser);
 router.post("/login", loginUser);
+router.get("/isAdmin", getCheckAdmin);
 
-router.put("/:id", checkRole, checkRules(["user", "admin"]), putUser);
-router.delete("/:id", checkRole, checkRules(["user", "admin"]), deleteUser);
-
-router.get("/:id", checkRole, checkRules(["user", "admin"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
-
-router.post("/:logout", logOut);
+router.get("/:id", checkRole, checkRules(["user", "admin", "ghost"]), getUser); // con checkRoleUser(['user']) ademas de tenee acceso a una secion tenga ahora el role de usuario
+router.delete(
+  "/:id",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  deleteUser
+);
 
 module.exports = { users: router };
