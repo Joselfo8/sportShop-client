@@ -16,8 +16,9 @@ export default function Filter(where : any, page : any){
         <select
           className={styles.select}
           onChange={(e)=>handleOrderByPrice(e.target.value)}
+          defaultValue={'Order by price'}
         >
-          <option value='' selected disabled>Order By Price</option>
+          <option value={'Order by price'} disabled>Order By Price</option>
           <option value='cheap'>Cheap</option>
           <option value='expensive'>Expensive</option>
         </select>

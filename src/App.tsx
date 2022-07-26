@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+//BOT
+
+import Chatbot from 'react-chatbot-kit';
+import 'react-chatbot-kit/build/main.css';
+import styles from "./scss/app.module.scss"
+
+import config from './components/Bot/config';
+import MessageParser from './components/Bot/MessageParser';
+import ActionProvider from './components/Bot/ActionProvider';
+
+import { FaRobot } from "react-icons/fa";
+
 // Components
-import RouteGuard from "./components/RouteGuard";
+
 import Home from "./components/Home/Home";
 import Login from "./routes/Login";
 import Details from "./components/Details/Details";
 import Cart from "./components/Cart/Cart";
 import Subcategory from "./components/Subcategory/Subcategory";
-import Products from "./components/Products/Products";
 import UserProfile from "./routes/UserProfile";
 import About from "./components/About/About";
 import Favorites from "./components/Favorites/Favorites";
@@ -20,9 +32,16 @@ import Purchase from "./components/Purchase/Purchase";
 import EditProduct from "./components/Admin/Forms/EditProduct";
 import Order from "./components/Admin/Orders/Order"
 import ProductFilter from "components/productFilter/ProductFilter";
-
+import OrderProgress from "components/Admin/Orders/OrderProgress";
+import Stock from "components/Admin/Stock/Stock";
 
 function App() {
+  const [chatBot, setChatBot] = useState(false);
+  const handleShow = () => {
+    setChatBot(
+      !chatBot
+    );
+  };
   return (
     <BrowserRouter>
       <Routes>
@@ -35,7 +54,6 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/purchase" element={<Purchase />} />
         <Route path="/:category" element={<Subcategory />} />
-        <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Details/>}/>
         <Route path="/about" element={<About />} />
 
@@ -47,9 +65,12 @@ function App() {
         <Route path="/admin" element={<HomeAdmin />} />
         <Route path="/admin/list" element={<List />} />
         <Route path="/admin/addProduct" element={<AddProduct />} />
-        <Route path="/admin/orders/:id" element={<Order />} />
+        <Route path="/admin/order-detail/:id" element={<Order />} />
+        <Route path="/admin/order-progress/:orderId" element={<OrderProgress />} />
+        <Route path="/stock/:id" element={<Stock/>} />
         <Route path="/editProduct/:id" element={<EditProduct />} />
       </Routes>
+
       {/* Notification component */}
       <ToastContainer
         position="top-right"
@@ -62,8 +83,22 @@ function App() {
         draggable
         pauseOnHover
       />
+
+      {/* ChatBot */}
+    <div className={styles.chatbot1}>
+      { chatBot ?
+      <Chatbot
+        config={config}
+        messageParser={MessageParser}
+        actionProvider={ActionProvider}
+        /> :
+        <></>
+      }
+        <FaRobot className={styles.show} onClick={handleShow}>BOT</FaRobot>
+    </div>
+
     </BrowserRouter>
   );
-}
+};
 
 export default App;

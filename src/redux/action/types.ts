@@ -1,3 +1,6 @@
+// admin_progress
+export const PUT_STATE_TO_ORDER = "PUT_STATE_TO_ORDER";
+
 // Products
 export const GET_PRODUCTSBYNAME = "GET_PRODUCTSBYNAME";
 export const GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY =
