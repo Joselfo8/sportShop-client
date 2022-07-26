@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   getCheckAdmin,
   getUser,
+  getUserData,
   postUser,
   deleteUser,
   putUser,
@@ -18,9 +19,38 @@ const { checkRules } = require("../../helpers/Token");
 
 
 router.get("", getAllUser);
-router.post("", postUser);
 
-router.put("/:id", checkRole, checkRules(["user", "admin", "ghost"]), putUser);
+// get user data with id from token
+router.get(
+  "/data",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  getUserData
+);
+// update user
+router.put("/:id",checkRole,   checkRules(["user", "admin"]),putUser);
+// create a new user
+router.post("", postUser);
+// create, update, and delete a shipping address
+router.post(
+  "/address",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  addShippingAddress
+);
+router.put(
+  "/address/:id",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  updateShippingAddress
+);
+router.delete(
+  "/address/:id",
+  checkRole,
+  checkRules(["user", "admin", "ghost"]),
+  deleteShippingAddress
+);
+
 
 
 //funciones globales

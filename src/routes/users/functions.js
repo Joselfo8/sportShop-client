@@ -71,6 +71,32 @@ async function getUser(req, res) {
   }
 }
 
+async function getUserData(req, res) {
+  const { id } = req.user;
+  if (!id) return res.status(400).json({ msg: "ID is required" });
+
+  try {
+    const user = await User.findOne({
+      where: { id },
+      attributes: [
+        "name",
+        "lastname",
+        "email",
+        "genre",
+        "dateOfBirth",
+        "trolly",
+      ],
+      include: "shippingAddresses",
+    });
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    return res.status(200).json({ msg: "User found", data: user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: error });
+  }
+}
+
 async function postUser(req, res) {
   try {
     const {
@@ -153,6 +179,11 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
+
+  const { id } = req.user;
+  if (!id) return res.status(400).json({ msg: "ID is required" });
+
+
   try {
     let { id } = req.params;
     const { password, email, role, name, lastname, genre, dateOfBirth } =
@@ -174,7 +205,7 @@ async function putUser(req, res) {
 
     // get user by id
     const user = await User.findOne({
-      where: { id: id },
+      where: { id },
       include: "shippingAddresses",
     });
 
@@ -215,12 +246,13 @@ async function putUser(req, res) {
 }
 
 async function addShippingAddress(req, res) {
-  const id = req.params.id;
+  const { id } = req.user;
+  if (!id) return res.status(400).json({ msg: "ID is required" });
 
   try {
     // get user by id
     const user = await User.findOne({
-      where: { id: id },
+      where: { id },
     });
 
     if (!user) return res.status(404).json({ msg: "User not found" });
@@ -229,9 +261,14 @@ async function addShippingAddress(req, res) {
     const newAddr = await ShippingAddress.create(req.body);
     await user.addShippingAddress(newAddr);
 
+    // find new address
+    const findedAddr = await ShippingAddress.findOne({
+      where: { id: newAddr.id },
+    });
+
     res.status(200).json({
       msg: "Shipping address added",
-      data: newAddr,
+      data: findedAddr,
     });
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -239,16 +276,28 @@ async function addShippingAddress(req, res) {
 }
 
 async function updateShippingAddress(req, res) {
-  const id = req.params.id;
+  const { id: userId } = req.user;
+  const addressId = req.params.id;
+
+  if (!userId) return res.status(400).json({ msg: "User id is required" });
+  if (!addressId)
+    return res.status(400).json({ msg: "Address id is required" });
 
   try {
     // get address by id
     const address = await ShippingAddress.findOne({
-      where: { id },
+      where: { id: addressId },
     });
 
     if (!address)
       return res.status(404).json({ msg: "Shipping address not found" });
+    console.log(address);
+
+    // check that address.userId is equal to userId
+    if (address.userId !== userId)
+      return res
+        .status(401)
+        .json("You don't have authorization to update this address");
 
     // update address
     address.set(req.body);
@@ -264,16 +313,27 @@ async function updateShippingAddress(req, res) {
 }
 
 async function deleteShippingAddress(req, res) {
-  const id = req.params.id;
+  const { id: userId } = req.user;
+  const addressId = req.params.id;
+
+  if (!userId) return res.status(400).json({ msg: "User id is required" });
+  if (!addressId)
+    return res.status(400).json({ msg: "Address id is required" });
 
   try {
     // get user by id
     const address = await ShippingAddress.findOne({
-      where: { id },
+      where: { id: addressId },
     });
 
     if (!address)
       return res.status(404).json({ msg: "Shipping address not found" });
+
+    // check that address.userId is equal to userId
+    if (address.userId !== userId)
+      return res
+        .status(401)
+        .json("You don't have authorization to delete this address");
 
     // delete from db
     await address.destroy();
@@ -291,16 +351,15 @@ async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.send({
+    if (!email || !password)
+      return res.status(400).json({
         msg: "Email and password are required",
-        access: false,
       });
-    }
 
     // search user in db
     let user = await User.findOne({
       where: { email },
+      attributes: ["name", "id", "role", "password"],
       include: "shippingAddresses",
     });
 
@@ -308,7 +367,7 @@ async function loginUser(req, res) {
     const acertijo = await compare(password, user.password);
     // console.log(acertijo);
 
-    // create jwt token
+    // create jwt token, needs id and role
     const token = await tokenSign(user);
 
     if (acertijo === false) {
@@ -319,19 +378,12 @@ async function loginUser(req, res) {
         redirect: "/user", //redirect a pagina de registro
       });
     }
-
-    // send all user data, except password
-    const { password: _1, ...response } = user.dataValues;
-
-    return res.send({
+    return res.status(200).json({
       msg: `Welcome ${user.name}`,
-      access: true,
       token: token,
-      user: response,
     });
   } catch (error) {
-    console.log(error);
-    res.send({ msg: "the password or email is incorrect", access: false });
+    res.status(500).json({ msg: "the password or email is incorrect" });
   }
 }
 
@@ -354,6 +406,7 @@ async function logOut(req, res) {
 
 module.exports = {
   getUser,
+  getUserData,
   postUser,
   deleteUser,
   putUser,
