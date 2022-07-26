@@ -1,66 +1,76 @@
 const { Buy, User, Product } = require("../../db");
+const pagination = require("../../helpers/pagination");
 
 async function getBuys(req, res) {
-  //paginado de 10 en 10
+  const { name, status, pag = 1, limit = 4 } = req.query;
   try {
-    const { status } = req.query;
-    const { maxPpage } = req.query;//maximo de registros por pagina
-    const { dsd } = req.query; //desde
-    let buys = await Buy.findAll({limit:maxPpage, include: [User],offset:dsd });
-    if (status) {
-      buys = buys.filter(
-        (x) => x.status_history[x.status_history.length - 1].status === status
-      );
-    }
+    let buys = await Buy.findAll({
+      include: [User],
+    });
+
     buys = buys.map((x) => {
       return {
-        id: x.id,
-        status_history: x.status_history,
+        buy_id: x.id,
+        status_actual: x.status_history[x.status_history.length - 1],
         sub_total: x.sub_total,
         user_id: x.user_id,
-        user: x.user.name,
+        user_name: x.user.name,
       };
     });
-    res.send({buys, pageInf:{ registerPerPage:maxPpage, total:buys.length, showFrom:dsd }});
+    if (name) {
+      buys = buys.filter((x) =>
+        x.user_name.toLowerCase().includes(name.toLowerCase())
+      );
+    }
+    if (status) {
+      buys = buys.filter((x) => x.status_actual.status === status);
+    }
+
+    buys = pagination(buys, limit, pag);
+
+    res.send({
+      ...buys,
+      products: undefined,
+      buys: buys.products,
+    });
   } catch (error) {
     console.log("error=>", error);
-    res.send({ msg: "failed to get buys", error });
-  }
-}
-async function getBuyByUser(req, res) {
-  try {
-    const { user } = req.query;
-    //validations
-    if (!user) return res.send({ msg: "user is required" });
-
-    let userObj = await User.findOne({ where: { name: user } });
-    if (!userObj) return res.send({ msg: "user not found" });
-
-    const buys = await userObj.getBuys();
-
-    res.send(buys);
-  } catch (error) {
-    console.log("error ==> ", error);
     res.send({ msg: "failed to get buys", error });
   }
 }
 async function getBuyById(req, res) {
   try {
     const { id } = req.params;
+    //validations
+    if (!id) return res.send({ msg: "user is required" });
+    if (isNaN(Number(id))) return res.send({ msg: "user is not a number" });
+
+    let buyObj = await Buy.findOne({ where: { id }, include: [User] });
+    if (!buyObj) return res.send({ msg: "buy not found" });
+
+    if (buyObj.user.id !== req.user.id && req.user.role !== "admin") {
+      return res.send({ msg: "you can´t see this buy" });
+    }
+
+    res.send(buyObj);
+  } catch (error) {
+    console.log("error ==> ", error);
+    res.send({ msg: "failed to get buys", error });
+  }
+}
+async function getBuysByIdUser(req, res) {
+  try {
+    const id = req.user.id;
 
     //validations id
     if (!id) return res.send({ msg: "id is required" });
     if (Number.isNaN(Number(id)))
       return res.send({ msg: "id is not a number" });
 
-    //validation authorization
-    if (req.user.role === "user" && req.user.id !== id)
-      return res.send({ msg: "you can´t see buys of other users" });
+    const user = await User.findOne({ where: { id }, include: [Buy] });
+    if (!user) return res.send({ msg: "user not found" });
 
-    const buy = await Buy.findOne({ where: { id }, include: [User] });
-    if (!buy) return res.send({ msg: "buy not found" });
-
-    res.send(buy);
+    res.send(user.buys);
   } catch (error) {
     console.log("error=>", error);
     return res.send({ msg: "failed to get buy", error });
@@ -69,8 +79,8 @@ async function getBuyById(req, res) {
 
 async function postBuy(req, res) {
   try {
-    let { id_user, method, receiver, direction, city, state, country } =
-      req.body;
+    let { method, receiver, direction, city, state, country } = req.body;
+    let id_user = req.user.id;
 
     //validaciones
     if (!method) return res.send({ msg: "please, method is required" });
@@ -159,6 +169,6 @@ module.exports = {
   getBuys,
   postBuy,
   putBuy,
+  getBuysByIdUser,
   getBuyById,
-  getBuyByUser,
 };

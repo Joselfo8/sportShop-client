@@ -18,21 +18,21 @@ const {
 router.get(
   "/category",
   checkRole,
-  checkRules(["admin", "users", "guest"]),
+  checkRules(["admin", "user", "guest"]),
   getCategory
 );
 //get/products
 router.get(
   "/getall",
   checkRole,
-  checkRules(["admin", "users", "guest"]),
+  checkRules(["admin", "user", "guest"]),
   getProducts
 );
 //get/products?name&category&subCategory
 router.get(
   "",
   checkRole,
-  checkRules(["admin", "users", "guest"]),
+  checkRules(["admin", "user", "guest"]),
   getProductByName
 );
 
@@ -40,7 +40,7 @@ router.get(
 router.get(
   "/:id",
   checkRole,
-  checkRules(["admin", "users", "guest"]),
+  checkRules(["admin", "user", "guest"]),
   getProductById
 );
 
