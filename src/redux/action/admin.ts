@@ -1,6 +1,8 @@
 import axios from "axios";
 import {
     GET_ORDERS,
+    GET_ORDERS_BY_ID,
+    GET_ORDERS_BY_STATE,
     PUT_STATE_TO_ORDER,
 } from './types'
 
@@ -67,9 +69,11 @@ export const deleteUser = (id: number) => async (dispatch: any) => {
     }
 };
 
+// Order(s)
+
 export function getOrders(pagination: string) {
     try {
-      return async function name(dispatch: any) {
+      return async function order(dispatch: any) {
         let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys${pagination}`);
         return dispatch({
           type: GET_ORDERS,
@@ -83,10 +87,10 @@ export function getOrders(pagination: string) {
 
 export function getOrderById(id: any) {
     try {
-      return async function name(dispatch: any) {
+      return async function order(dispatch: any) {
         let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys/${id}`);
         return dispatch({
-          type: "GET_ORDERS_BY_ID",
+          type: GET_ORDERS_BY_ID,
           payload: json.data,
         });
       };
@@ -94,7 +98,22 @@ export function getOrderById(id: any) {
       console.log(error);
     }
 }
-// POST_STATE_TO_ORDER
+
+export function getOrdersByState(state: any) {
+    try {
+      return async function orders(dispatch: any) {
+        // vlixes-server.herokuapp.com/buys?status=Preparing order
+        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys?status=${state}`);
+        return dispatch({
+          type: GET_ORDERS_BY_STATE,
+          payload: json.data,
+        });
+      };
+    } catch (error) {
+      console.log(error);
+    }
+}
+
 export function putStateToOrder(object: any) {
     console.log("postStateToOrder", object)
     try {
@@ -105,7 +124,9 @@ export function putStateToOrder(object: any) {
     } catch (error) {
       console.log(error);
     }
-  }
+}
+
+// Role
 
 export const isAdmin = (token : string) => async(dispatch : any) => {
     try{
