@@ -236,7 +236,7 @@ async function putUser(req, res) {
 }
 
 async function addShippingAddress(req, res) {
-  const { id } = req.user;
+  let { id } = req.user;
   if (!id) return res.status(400).json({ msg: "ID is required" });
   if (isNaN(parseInt(id)))
     return res.status(400).json({ msg: "ID isn´t number" });
