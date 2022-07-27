@@ -11,7 +11,6 @@ const initialState = response
   ? {
       isLoggedIn: true,
       token: JSON.parse(response),
-      auth: { user: {} },
     }
   : {
       isLoggedIn: false,
