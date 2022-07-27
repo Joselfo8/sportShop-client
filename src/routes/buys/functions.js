@@ -4,9 +4,11 @@ const pagination = require("../../helpers/pagination");
 async function getBuys(req, res) {
   const { name, status, pag = 1, limit = 4 } = req.query;
   try {
+
     let buys = await Buy.findAll({
       include: [User],
     });
+
 
     buys = buys.map((x) => {
       return {
@@ -17,6 +19,7 @@ async function getBuys(req, res) {
         user_name: x.user.name,
       };
     });
+
     if (name) {
       buys = buys.filter((x) =>
         x.user_name.toLowerCase().includes(name.toLowerCase())
@@ -32,12 +35,14 @@ async function getBuys(req, res) {
       ...buys,
       products: undefined,
       buys: buys.products,
+
     });
   } catch (error) {
     console.log("error=>", error);
     res.send({ msg: "failed to get buys", error });
   }
 }
+
 async function getBuyById(req, res) {
   try {
     const { id } = req.params;
@@ -53,9 +58,10 @@ async function getBuyById(req, res) {
     }
 
     res.send(buyObj);
+
   } catch (error) {
     console.log("error ==> ", error);
-    res.send({ msg: "failed to get buys", error });
+    res.status(500).json({ msg: "failed to get buys", error });
   }
 }
 async function getBuysByIdUser(req, res) {

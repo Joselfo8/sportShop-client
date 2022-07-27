@@ -6,14 +6,14 @@ const stripe = new Stripe("sk_test_51LKaEAATR7GdGLkc4i6xnMNGGjPnm6QnSt4NiLCJFWM3
 router.post('/pay', async (req, res) => {
     try{
         const { id,jsonSoldProducts, amount } = req.body
-        console.log(id)
-        res.send('ok')
+        console.log({id:id,jsonSoldProducts:jsonSoldProducts,amount:amount})
+        //res.send('ok')
         const payment = await stripe.paymentIntents.create({
             amount,
             currency: "USD",
             description: `Sold products: ${jsonSoldProducts}`,
             payment_method: id,
-            cuantity: 1,
+            //cuantity: 1, //  xxx
             // receipt_email: 'aurot122@gmail.com',
             confirm: true
         })
@@ -22,6 +22,7 @@ router.post('/pay', async (req, res) => {
 
     } catch(error) {
         res.json({message: error.raw.message})
+        console.log(error)
     }
 })
 
