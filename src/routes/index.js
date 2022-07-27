@@ -14,7 +14,7 @@ const { buys } = require("./buys");
 
 const { pay } = require("./pay");
 
-//const { mailer } = require("./mailer");
+const { mailer } = require("./mailer");
 
 const { stripes } = require("./stripes");
 
@@ -88,11 +88,8 @@ router.use("/buys", buys);
 router.use("/stock", stock);
 router.use("/pay", pay);
 
-/////router.use("/mailer", mailer);
+router.use("/mailer", mailer);
 
 router.use("/stripes", stripes);
-
-
-
 
 module.exports = router;
