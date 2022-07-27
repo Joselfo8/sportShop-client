@@ -6,6 +6,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
 } from "./types";
+import setAuthToken from "helpers/setAuthToken";
 import { setMessage } from "./message";
 import AuthService from "../../services/auth.service";
 
@@ -52,6 +53,9 @@ export async function login(email: string, password: string) {
     try {
       const response = await AuthService.login(email, password);
       const message = response.data?.msg || "Login successful";
+
+      // add JWT token to all request
+      setAuthToken();
 
       dispatch({
         type: LOGIN_SUCCESS,

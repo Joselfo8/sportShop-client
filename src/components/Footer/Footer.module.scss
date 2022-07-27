@@ -8,9 +8,10 @@ $weightParagraph: 100;
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
-    border-top: 1px solid rgb(0, 0, 0);
+    border-top: 0.4rem solid rgb(0, 0, 0);
     font-family: $font;
     font-weight: 600;
+    height: 5rem;
     .networks{
         display: flex;
         flex-direction: column;
@@ -19,7 +20,7 @@ $weightParagraph: 100;
 
     .iconsOrder{
         display: grid;
-        grid-template-rows: 30px 30px 30px;
+        grid-template-columns: 30px 30px 30px;
     }
 
     .icons{

@@ -6,12 +6,20 @@ import { AddressProps } from "components/ProfileCard/UserInfo";
 const API_URL = process.env.REACT_APP_API_URL;
 
 async function getUser() {
-  return await axios.get(`${API_URL}/users/data`);
+  return await axios.get(`${API_URL}/users`);
 }
 
 async function updateUser(data: InfoProps["data"]) {
   const { email: _, ...req } = data;
   return await axios.put(`${API_URL}/users`, req);
+}
+
+async function updateAvatar(data: { avatar: string }) {
+  return await axios.put(`${API_URL}/users/avatar`, data);
+}
+
+async function deleteAvatar() {
+  return await axios.delete(`${API_URL}/users/avatar`);
 }
 
 async function addShippingAddress(data: AddressProps["data"]) {
@@ -34,6 +42,8 @@ async function getUserOrders() {
 const user = {
   getUser,
   updateUser,
+  updateAvatar,
+  deleteAvatar,
   addShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,

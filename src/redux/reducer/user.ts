@@ -1,6 +1,8 @@
 import {
   GET_USER,
   UPDATE_USER,
+  UPDATE_AVATAR,
+  DELETE_AVATAR,
   ADD_SHIPPING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
   DELETE_SHIPPING_ADDRESS,
@@ -13,6 +15,10 @@ const initialState = {
   lastname: null,
   shippingAddresses: [],
   orders: [],
+  email: null,
+  genre: null,
+  dateOfBirth: null,
+  avatar: null,
 };
 
 function user(state = initialState, action: any) {
@@ -28,6 +34,16 @@ function user(state = initialState, action: any) {
       return {
         ...state,
         ...payload,
+      };
+    case UPDATE_AVATAR:
+      return {
+        ...state,
+        avatar: payload,
+      };
+    case DELETE_AVATAR:
+      return {
+        ...state,
+        avatar: null,
       };
     case ADD_SHIPPING_ADDRESS:
       return {
@@ -59,7 +75,7 @@ function user(state = initialState, action: any) {
     case GET_USER_ORDERS:
       return {
         ...state,
-        orders: payload,
+        orders: [...payload],
       };
     default:
       return state;

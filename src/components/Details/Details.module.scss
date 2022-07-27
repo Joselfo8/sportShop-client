@@ -140,15 +140,16 @@ $weightParagraph: 300;
         color: #000;
     }
 
+    
+
     .containerButtons{
         display: flex;
         flex-direction: row;
-        
         height: fit-content;
 
         input {
-            width: 25px;
-            height: 100%;
+            width: 40px;
+            height: 40px;
             border-radius: 2px;
             border: 1px solid;
             text-align: center;
@@ -183,6 +184,8 @@ $weightParagraph: 300;
             cursor: pointer;
             display: flex;
             justify-content: center;
+            padding-top: 8px;
+            
             
             .heart {
                 color: #777777;
@@ -320,7 +323,10 @@ $weightParagraph: 300;
     display: inline-flex;
     margin-right: 10px;
     height: auto;
+    margin-top: 5px;
 }
+
+
 ul{
     justify-content: flex-start;
     padding-inline-start: 1px;
@@ -345,16 +351,24 @@ ul.ksCboxtags li label{
     transition: all .2s;
 }
 ul.ksCboxtags li label {
-    width: 40px;
+    width: 50px;
     text-align: center;
-    padding: 9px 11px;
-   
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
     cursor: pointer;
     font: $font;
     font-weight: $weightTitle;
     border: 1px solid;
     color: #000;
     transition: 0.2s;
+}
+
+ul.ksCboxtags li label:hover {
+    background-color: #000;
+    color: #fff;
 }
 
 ul.ksCboxtags li label::before {

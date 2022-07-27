@@ -1,6 +1,6 @@
 import  { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { isAdmin } from "redux/action/admin";
 import { editProduct, getDetails} from "../../../redux/action";
 import NavBar from "../../Navbar/Navbar";
@@ -201,7 +201,13 @@ export default function EditProduct(){
             </div>
         )
     } else{
-       return (<div></div>)
+       return (
+       <div className={styles.notAdmin}>
+        <h1>You are not admin</h1>
+        <Link to='/'>
+            <button>« Back home</button>
+        </Link>
+       </div>)
     }
 
     

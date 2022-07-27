@@ -1,23 +1,28 @@
 import { useEffect, useState, useRef } from "react";
 import Avatar from "react-avatar-edit";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 // Components
 import ModalContainer from "./modals/ModalContainer";
+// Actions
+import { updateAvatar, deleteAvatar } from "redux/action/user";
 // Icons
-import { ReactComponent as DefaultUser } from "icons/default-user.svg";
+import { ReactComponent as PhotoIcon } from "icons/photo-icon.svg";
 import { ReactComponent as OptionsIcon } from "icons/menu-icon.svg";
 import { ReactComponent as UploadIcon } from "icons/upload-icon.svg";
-import { ReactComponent as EditIcon } from "icons/edit-pen-icon.svg";
 import { ReactComponent as DeleteIcon } from "icons/trash-icon.svg";
 // Styles
 import styles from "./UserImage.module.css";
+const defaultImage = "https://static.thenounproject.com/png/17840-200.png";
 
-function UploadFile() {
-  const [preview, setPreview] = useState("");
-  const [file, setFile] = useState("");
+function UploadFile({ onShow }: { onShow: (prev: boolean) => void }) {
+  const [preview, setPreview] = useState(defaultImage);
   const maxFileSize = 2097152;
+  // store
+  const dispatch = useDispatch();
 
   const onClose = () => {
-    setPreview("");
+    setPreview(defaultImage);
   };
 
   const onCrop = (preview: string) => {
@@ -31,6 +36,13 @@ function UploadFile() {
     }
   };
 
+  const handleUpload = () => {
+    if (preview === defaultImage) return toast("Choose an image file");
+
+    dispatch(updateAvatar({ avatar: preview }));
+    onShow(false);
+  };
+
   return (
     <div className={styles["upload-file-cont"]}>
       <span>File max size: 2MB</span>
@@ -41,24 +53,41 @@ function UploadFile() {
         onCrop={onCrop}
         onClose={onClose}
         onBeforeFileLoad={onBeforeFileLoad}
-        src={file}
       />
       <img src={preview} alt="Preview" />
+      <div className={styles["button-cont"]}>
+        <button
+          onClick={handleUpload}
+          className={`${styles["submit-button"]} primary`}
+        >
+          Save changes
+        </button>
+
+        <span
+          onClick={() => onShow(false)}
+          className={`${styles["cancel-button"]} primary`}
+        >
+          Cancel
+        </span>
+      </div>
     </div>
   );
 }
-
-// interface Props {
-//   tabs: Array<string>;
-//   links: Array<{ label: string; to: string }>;
-//   getSelected: (selected: string) => void;
-// }
 
 function UserImage() {
   // open and close options menu
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleModal, setToggleModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  // store
+  const dispatch = useDispatch();
+  const { avatar } = useSelector((state: any) => state.user);
+
+  const handleDelete = () => {
+    if (!avatar) return;
+
+    dispatch(deleteAvatar());
+  };
 
   // Hide menu if user click outside
   const handleOutsideClick = (e: MouseEvent) => {
@@ -76,8 +105,16 @@ function UserImage() {
   }, []);
 
   return (
-    <div className={`${styles["user-image-cont"]} primary`}>
-      <DefaultUser className={styles["user-image"]} />
+    <div className={`${styles["container"]} primary`}>
+      {avatar && avatar.length > 0 ? (
+        <span className={styles["user-image"]}>
+          <img src={avatar} alt="Avatar" />
+        </span>
+      ) : (
+        <span className={styles["default-image"]}>
+          <PhotoIcon />
+        </span>
+      )}
       <OptionsIcon
         onClick={() => setToggleMenu((prev) => !prev)}
         className={styles["open-menu-button"]}
@@ -88,7 +125,10 @@ function UserImage() {
         }`}
       >
         <span
-          onClick={() => setToggleModal(true)}
+          onClick={() => {
+            setToggleModal(true);
+            setToggleMenu(false);
+          }}
           className={styles["options-button"]}
         >
           <span className={styles["icon-wrapper"]}>
@@ -96,13 +136,15 @@ function UserImage() {
           </span>
           Upload
         </span>
-        <span className={styles["options-button"]}>
-          <span className={styles["icon-wrapper"]}>
-            <EditIcon />
-          </span>
-          Edit
-        </span>
-        <span className={styles["options-button"]}>
+        <span
+          onClick={() => {
+            handleDelete();
+            setToggleMenu(false);
+          }}
+          className={`${styles["options-button"]} ${
+            !avatar ? styles["options-button-disabled"] : ""
+          }`}
+        >
           <span className={styles["icon-wrapper"]}>
             <DeleteIcon />
           </span>
@@ -122,7 +164,7 @@ function UserImage() {
           onShow={setToggleModal}
           closeWhenClickOutside={false}
         >
-          <UploadFile />
+          <UploadFile onShow={setToggleModal} />
         </ModalContainer>
       )}
     </div>
