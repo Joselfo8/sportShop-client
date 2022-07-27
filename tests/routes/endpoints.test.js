@@ -199,6 +199,8 @@ describe("update users", () => {
       .put("/users")
       .set("Authorization", "Bearer " + tokenUser)
       .send({ name: "testtesttesttestmodified" });
+
+    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.data.name).toBe("testtesttesttestmodified");
   });
@@ -581,7 +583,6 @@ describe("should get stock", () => {
       .get("/products/" + productData.id)
       .set("Authorization", "Bearer " + tokenAdmin);
     expect(response.status).toBe(200);
-    console.log(response.body);
     expect(response.body.product.stock).not.toBe(undefined);
   });
 });

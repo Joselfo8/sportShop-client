@@ -296,11 +296,18 @@ async function putUser(req, res) {
     await user.save();
 
     // send all values, less password
-    const { password: _1, role: _2, ...response } = user.get();
+    const { password: _1, role: updatedRole, ...response } = user.get();
+
+    // if role is updated return updatedRole
+    if (role)
+      return res.status(200).json({
+        msg: "User updated",
+        data: { ...response, role: updatedRole },
+      });
 
     return res.status(200).json({
       msg: "User updated",
-      data: { ...response, avatar: response.avatar.url || null },
+      data: { ...response, avatar: response.avatar?.url || null },
     });
   } catch (error) {
     res.status(500).json({ msg: error.message });
