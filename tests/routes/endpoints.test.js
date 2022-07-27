@@ -199,6 +199,8 @@ describe("update users", () => {
       .put("/users")
       .set("Authorization", "Bearer " + tokenUser)
       .send({ name: "testtesttesttestmodified" });
+
+    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.data.name).toBe("testtesttesttestmodified");
   });

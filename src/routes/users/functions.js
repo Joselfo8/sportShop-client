@@ -296,11 +296,18 @@ async function putUser(req, res) {
     await user.save();
 
     // send all values, less password
-    const { password: _1, ...response } = user.get();
+    const { password: _1, role: updatedRole, ...response } = user.get();
+
+    // if role is updated return updatedRole
+    if (role)
+      return res.status(200).json({
+        msg: "User updated",
+        data: { ...response, role: updatedRole },
+      });
 
     return res.status(200).json({
       msg: "User updated",
-      data: response,
+      data: { ...response, avatar: response.avatar?.url || null },
     });
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -350,9 +357,6 @@ async function updateShippingAddress(req, res) {
   const addressId = req.params.id;
 
   if (!userId) return res.status(400).json({ msg: "User id is required" });
-  if (isNaN(parseInt(userId)))
-    return res.status(400).json({ msg: "id is a number" });
-  userId = parseInt(userId);
 
   if (!addressId)
     return res.status(400).json({ msg: "Address id is required" });
