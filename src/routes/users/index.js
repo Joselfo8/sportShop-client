@@ -19,7 +19,6 @@ const {
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 const { checkRules } = require("../../helpers/Token");
 
-
 //funciones globales
 router.post("/login", loginUser);
 
@@ -29,7 +28,6 @@ router.get(
   checkRules(["user", "admin", "guest"]),
   getCheckAdmin
 );
-
 
 router.get("/all", checkRole, checkRules(["admin"]), getAllUser);
 
