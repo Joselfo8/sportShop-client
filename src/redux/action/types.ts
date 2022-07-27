@@ -1,5 +1,7 @@
 // admin_progress
 export const GET_ORDERS = "GET_ORDERS";
+export const GET_ORDERS_BY_ID = "GET_ORDERS_BY_ID"; 
+export const GET_ORDERS_BY_STATE = "GET_ORDERS_BY_STATE"; 
 export const PUT_STATE_TO_ORDER = "PUT_STATE_TO_ORDER";
 
 // Products
