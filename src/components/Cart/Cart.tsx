@@ -16,7 +16,7 @@ export default function Cart(){
     useEffect(() => {
         dispatch(getShoppingListByUserId());
     },[]);
-    let amountProduct : any = state.products
+    let amountProduct : any = state.products && state.products.length
     ?
     state.products.map((e : any) => (Object.values(e.sizesAmount).map((e) => Number(e)).reduce((e : any, d : any) => e + d) * e.price)).reduce((z : number, y : number) => z + y)
     : 0;

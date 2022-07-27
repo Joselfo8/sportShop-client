@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import {allCategories} from "../../redux/action";
+import {allCategories, getUserInformation} from "../../redux/action";
 import styles from "./NavBar.module.scss";
 import cart from "../../assets/cart.png";
 import user from "../../assets/user.png";
@@ -19,12 +19,13 @@ export default function NavBar() {
   const state = useSelector((store: any) => {
     return {
         products: store.rootReducer.categories.categories,
-        userInfo: store.user,
+        userInfo: store.rootReducer.userInformation,
         userLoged: store.auth.isLoggedIn,
         token: store.auth.isLoggedIn ? store.auth.token : [],
         isAdmin: store.admin.isAdmin
     };
 });
+console.log(state.userInfo);
 const [value, setValue] = useState('');
 const dispatch = useDispatch();
 const navigate = useNavigate();
@@ -39,6 +40,7 @@ const [modal, setModal] = useState(false);
 useEffect(() => {
   dispatch(allCategories());
   dispatch(isAdmin(state.token));
+  dispatch(getUserInformation());
 }, [dispatch]);
 
 
