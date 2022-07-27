@@ -11,7 +11,7 @@ import styles from "./Orders.module.css";
 function Item() {
   // Store
   const dispatch = useDispatch();
-  const orders = useSelector((state: any) => state.user.orders);
+  const orders = useSelector((state: any) => state.user?.orders);
 
   useEffect(() => {
     if (orders.length === 0) dispatch(getUserOrders());
