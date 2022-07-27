@@ -37,7 +37,7 @@ export const deleteProduct = (id: number) => async (dispatch: any) => {
 };
 export const getAllUsers = () => async (dispatch: any) => {
     try {
-        const response: any = await axios.get("https://vlixes-server.herokuapp.com/users");
+        const response: any = await axios.get("https://vlixes-server.herokuapp.com/users/all");
         return dispatch({
             type: "GET_ALL_USERS",
             payload: response.data,

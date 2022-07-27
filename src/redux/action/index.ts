@@ -196,13 +196,9 @@ export const deleteFavorite = (payload:any) => async (dispatch: any) => {
   }
 };
 
-export const deleteProductShop = (idUser:number, idProduct:number) => async (dispatch: any) => {
+export const deleteProductShop = (pId : number) => async (dispatch: any) => {
   try{
-    let payload = {
-      "product": idProduct,
-      "user": idUser
-    }
-    const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/shopping_list/`, {data: payload});
+    const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/shopping_list/?product=` + pId);
     dispatch(getShoppingListByUserId())
   }catch(error){
     console.log(error);
