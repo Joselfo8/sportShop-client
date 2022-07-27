@@ -203,6 +203,7 @@ export default function Details(){
           <h2>SELECT SIZE</h2>
           
           <form onSubmit={addToCart}>
+            
             { productDetail.stock &&
               Object.keys(productDetail.stock).map((s:any,index) => 
               <div key= {index} className={styles.containerSize}>
@@ -219,6 +220,7 @@ export default function Details(){
                 </ul>    
               </div>) 
             }
+            
             <div className={styles.contErrors}>
             {
               errors.size && <span className={styles.errors}>{errors.size}</span>
@@ -226,7 +228,7 @@ export default function Details(){
             </div>
             <br></br>
 
-            <div className={styles.containerButtons}>
+            <div className={styles.containerButtons}> 
               <input defaultValue={'1'} onChange={(e) => onChangeQuantity(e)}></input>
               <button type='submit' className={styles.buttonCart}>
                   <FiShoppingCart/>               
