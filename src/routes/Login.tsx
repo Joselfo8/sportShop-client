@@ -18,16 +18,16 @@ import { clearMessage } from "../redux/action/message";
 // Validations
 import validate from "../helpers/validations";
 
-function AuthLogin() {
-  return (
-    <div className={styles["social-media"]}>
-      <span className={styles["or-subtitle"]}>Or login with</span>
-      <FacebookIcon className={styles["social-media-icon"]} />
-      <GoogleIcon className={styles["social-media-icon"]} />
-      <LinkedinIcon className={styles["social-media-icon"]} />
-    </div>
-  );
-}
+// function AuthLogin() {
+//   return (
+//     <div className={styles["social-media"]}>
+//       <span className={styles["or-subtitle"]}>Or login with</span>
+//       <FacebookIcon className={styles["social-media-icon"]} />
+//       <GoogleIcon className={styles["social-media-icon"]} />
+//       <LinkedinIcon className={styles["social-media-icon"]} />
+//     </div>
+//   );
+// }
 
 function SubmitButton({
   text,
@@ -279,7 +279,6 @@ function Login() {
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
         {register === "r" ? <SignUp /> : <SignIn />}
-        <AuthLogin />
       </div>
     </div>
   );
