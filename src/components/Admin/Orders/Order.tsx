@@ -7,7 +7,6 @@ import { getOrderById } from "../../../redux/action/admin"
 // Components
 import NavBar from "../../Navbar/Navbar";
 import Footer from "../../Footer/Footer";
-import Graphic from "./Graphic";
 
 // Style
 import style from "./Order.module.scss";

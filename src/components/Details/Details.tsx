@@ -54,7 +54,7 @@ export default function Details(){
 
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
-    const auth: any =useSelector((state:any) => state.auth.auth)
+    const auth: any =useSelector((state:any) => state.auth)
 
     const [color, setColor] = useState<String>()
 

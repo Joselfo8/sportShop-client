@@ -1,13 +1,12 @@
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 import { allProducts } from 'redux/action/products';
 import styles from './Filter.module.scss'
 
-export default function Filter(where : any, page : any){
-    const dispatch = useDispatch()
-    let location = where.where;
-    let title =  location[1] === "search" ? location[2] : '';
+export default function Filter(){
+    const navigate = useNavigate()
     const handleOrderByPrice = (order:any) => {
-      dispatch(allProducts(location[1], location[2], page.page, order, title));
+      navigate(`?order=${order}`)
     };
   return (
     <div className={styles.container}>
