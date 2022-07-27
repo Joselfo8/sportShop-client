@@ -10,9 +10,10 @@ const {
   getBuysByIdUser,
   getBuyById,
 } = require("./functions");
-
 router.get("", checkRole, checkRules(["admin"]), getBuys);
+
 router.get("/user", checkRole, checkRules(["user", "admin"]), getBuysByIdUser);
+
 router.post("", checkRole, checkRules(["user", "admin"]), postBuy);
 
 router.get("/:id", checkRole, checkRules(["user", "admin"]), getBuyById);

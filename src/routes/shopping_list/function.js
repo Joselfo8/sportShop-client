@@ -46,6 +46,7 @@ const delete_item = async (req, res) => {
     const { product } = req.query;
     const user = req.user.id;
 
+
     //validaciones de user
     if (!user) return res.status(400).send({ msg: "user is required" });
     if (Number.isNaN(user))
@@ -56,6 +57,7 @@ const delete_item = async (req, res) => {
         .status(400)
         .send({ msg: "you don't have access to this resource" });
     }
+
 
     //validaciones de product
     if (!product) return res.status(400).send({ msg: "product is required" });
