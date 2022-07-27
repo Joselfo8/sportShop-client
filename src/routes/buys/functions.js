@@ -117,13 +117,6 @@ async function postBuy(req, res) {
     products = await Product.findAll({ where: { id: products } });
     if (products.length === 0) return res.send({ msg: "list is empty" });
   
-   /*  products.forEach((e) => {
-
-      //e.stock = e.stock - list[e.id];
-      await e.save();
-    }); */
-   // console.log("prouct_after= ", products)
-    // create buy
     products = products.map(async(x) => {
       const newStock = list[x.id]
       let sizes = Object.keys(newStock)
@@ -136,9 +129,6 @@ async function postBuy(req, res) {
         if (x.stock[e] < 0){  x.stock[e] = 0 ;
         return res.send('no mas productos en stock')}
       })
-      x.stock = {...x.stock}
-      console.log(x.stock)
-      x.save();
       await Product.update({stock : x.stock},{where : {id : x.id}} )
       console.log("cosas :" ,x.stock)
 
