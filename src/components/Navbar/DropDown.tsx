@@ -16,13 +16,13 @@ export default function DropDown(categoryClick:any){
     };
     return(
         <>
-        <ul className={styles.servicesSubmenu}>
+        <ul key={categoryClick} className={styles.servicesSubmenu}>
         {
             productSubCategory.map((e:any) => {
                 return( categoryClick.categoryClick === e.category ?
                     <li key={e.sub_category}>
-                        <Link to={`/${e.category}/${e.sub_category}`}>
-                            <button className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e.sub_category)}>{e.sub_category}</button>
+                        <Link key={e.sub_category} to={`/${e.category}/${e.sub_category}`}>
+                            <button key={e.sub_category} className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e.sub_category)}>{e.sub_category}</button>
                         </Link>
                     </li>
                     : <></>

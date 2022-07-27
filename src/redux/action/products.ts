@@ -10,17 +10,16 @@ export const allProducts =
     title?: any
   ) =>
   async (dispatch: any) => {
-    console.log(order);
     try {
       const response = title
         ? await axios.get(
             `${API_URL}/products?pag=${
               page ? page : 1
-            }&limit=${3}&title=${title}&order=${order ? order : ""}`
+            }&limit=${3}&title=${title}&${order ? order : "order="}`
           )
         : await axios.get(
-            `${API_URL}/products?pag=${page ? page : 1}&limit=${3}&order=${
-              order ? order : ""
+            `${API_URL}/products?pag=${page ? page : 1}&limit=${3}&${
+              order ? order : "order="
             }&category=${category}&subCategory=${subCategory}`
           );
       return dispatch({

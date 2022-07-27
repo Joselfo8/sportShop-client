@@ -24,8 +24,8 @@ export default function NavBar() {
         token: store.auth.isLoggedIn ? store.auth.token : [],
         isAdmin: store.admin.isAdmin
     };
-});
-// console.log(state.userInfo);
+  });
+
 const [value, setValue] = useState('');
 const dispatch = useDispatch();
 const navigate = useNavigate();
@@ -70,18 +70,18 @@ function handleChange(event: any) {
 
       <ul className={styles.navItems}>
         {
-          data?.map((e: any) => {
+          data?.map((e: any, index : any) => {
           return (
             <li
+              key={index}
               className={styles.cName}
               onMouseEnter={() => setDropDown({ [e]: true })}
               onMouseLeave={() => setDropDown({ [e]: false })}
-              key={e}
             >
-              <Link to={`/${e}`}>
-                <button className={styles.buttonNav}>{e}</button>
+              <Link key={e} to={`/${e}`} >
+                <button className={styles.buttonNav} key={index}>{e}</button>
               </Link>
-              {dropDown[e] && <DropDown  categoryClick={e} />}
+              {dropDown[e] && <DropDown key={index} categoryClick={e} />}
             </li>
           );
         })}
