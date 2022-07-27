@@ -223,10 +223,11 @@ export const allCategories = () => async (dispatch: any) => {
 
 // Compra
 export function postPurchase(object: any) {
-  console.log("postPurchase", object)
+  // console.log("postPurchase", object)
   try {
     return async function purchase(dispatch: any) {
       let json: any = await axios.post(`https://vlixes-server.herokuapp.com/buys`, object);
+      console.log("json", json)
       return dispatch({
         type: POST_PURCHASE,
         payload: json.data,

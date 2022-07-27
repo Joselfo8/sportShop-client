@@ -33,7 +33,8 @@ export default function OrderProgress() {
     dispatch(getOrderById(orderId));
   },[]);
 
-  let quantityOfProducts: number = !order.id ? 0 : order.products.map((product: any) => (Number(Object.values(product.sizesAmount)))).reduce((a: any, b: any) => a + b)
+  // let quantityOfProducts: number = !order.id ? 0 : order.products.map((product: any) => (Number(Object.values(product.sizesAmount)))).reduce((a: any, b: any) => a + b)
+  let quantityOfProducts: number = !order.id ? 0 : order.products.length
 
   function validate(data: any) {
     let errors: any = {}
@@ -44,15 +45,16 @@ export default function OrderProgress() {
         errors.trackingNumber = 'Tracking number must not contain symbols or special characters';
     }
     
-    if(!data.checked) {
+    if(data.checked.length === 0) {
       errors.checked = 'Missing check or pack products according to request!'
     }
     if(data.checked && data.checked.length !== quantityOfProducts) {
-      errors.checked = 'Missing check or pack products according to request!'
+      errors.checked = 'Missing check or pack products according to request!++'
     }
   
     return errors;
   }
+  
 
   const handleImputsChange = (event: any) => {
     setInput((inputState: any) => {
@@ -64,7 +66,7 @@ export default function OrderProgress() {
 
     let errorsResult: any = validate({
       ...input,
-      ...checked,
+      checked: [...checked],
       [event.target.name]: event.target.value
     })
     setErrors(errorsResult)
@@ -91,12 +93,16 @@ export default function OrderProgress() {
     setErrors(errorsResult)
   }
 
+  // console.log("input", input, "checked", checked)
 
   // ------------------------------ Submit ------------------------------ //
 
 
   const handleOnSubmit: any = (event: any) => {
     event.preventDefault()
+    if(input.selectState === "") {
+      return alert('Choose a valid state!')
+    }
 
     if(input.selectState === "Order ready" && unduplicatedStates.includes("Preparing order")) {
       return alert('First you should assign state "Preparing order"')
@@ -121,6 +127,13 @@ export default function OrderProgress() {
         id: orderId,
         status: input.selectState
       }))
+
+      setInput((inputState: any) => {
+        return {
+          ...inputState,
+          selectState: ""
+        }
+      })
     }
     
   }
@@ -323,16 +336,17 @@ export default function OrderProgress() {
 
                                 <div className={style.textSymple}>
                                   <p>{`Carrier tracking number: ${input.trackingNumber}`}</p>
-                                  <form action="">
-                                    <input 
-                                      name="trackingNumber"
-                                      placeholder='Enter tracking number...'
-                                      // disabled={ unduplicatedStates.includes("Order ready") ? false : true}
-                                      disabled={true}
-                                      onChange={(e) => handleImputsChange(e)} 
-                                    />
+                                  <div className={style.flexForm}>
+                                    <form action="">
+                                      <input 
+                                        name="trackingNumber"
+                                        placeholder='Enter tracking number...'
+                                        // disabled={ unduplicatedStates.includes("Order ready") ? false : true}
+                                        onChange={(e) => handleImputsChange(e)} 
+                                      />
+                                    </form>
                                     <button>Add</button>
-                                  </form>
+                                  </div>
                                 </div>
 
                                 {/* <div className={style.proofContainer}>

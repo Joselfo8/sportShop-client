@@ -261,7 +261,7 @@ $weightParagraph: 100;
                     .textSymple {
                         margin-left: 10px;
                     }
-
+                    
 
                 }
 
@@ -370,6 +370,10 @@ $weightParagraph: 100;
                 .textSymple {
                     margin-top: 10px;
                     margin-left: 10px;
+
+                    .flexForm{
+                        display: flex;
+                    }
                 }
 
                 .proofContainer {

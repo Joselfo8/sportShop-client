@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+    GET_ORDERS,
     PUT_STATE_TO_ORDER,
 } from './types'
 
@@ -66,12 +67,12 @@ export const deleteUser = (id: number) => async (dispatch: any) => {
     }
 };
 
-export function getOrders() {
+export function getOrders(pagination: string) {
     try {
       return async function name(dispatch: any) {
-        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys`);
+        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys${pagination}`);
         return dispatch({
-          type: "GET_ORDERS",
+          type: GET_ORDERS,
           payload: json.data,
         });
       };
