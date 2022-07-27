@@ -99,9 +99,7 @@ export default function EditProduct(){
                     price: misProductos.price,
                     description:misProductos.description,
                     product_care:misProductos.product_care,
-                    // image:input.image
                 }
-                console.log(edit)
                 dispatch(editProduct(edit))
                 e.target.reset()
                 navigate('/admin')
@@ -117,11 +115,11 @@ export default function EditProduct(){
         return(
             <div >
                 <NavBar/>
-                <h1>EDIT PRODUCT</h1>
+                
                 
                     {misProductos ?
                             <form onSubmit={handleSubmit}  className={styles.containerForm}>
-    
+                                <h1>EDIT PRODUCT</h1>
                                 <label>TITLE</label>
                                 <input
                                     className={styles.inputGeneral}

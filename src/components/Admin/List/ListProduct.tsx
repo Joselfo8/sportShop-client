@@ -36,8 +36,8 @@ export default function ListProduct(){
             </form>
             <Paginated/>
             {
-            state.products?.map((e:any) => {
-                return <CardList title={e.title} id={e.id} category={e.category} image={e.image} type={typeList}/>})
+            state.products?.map((e:any,index:any) => {
+                return <CardList key={index} title={e.title} id={e.id} category={e.category} image={e.image} type={typeList}/>})
             }
 
         </div>

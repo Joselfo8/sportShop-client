@@ -20,6 +20,7 @@ function validate(input: any) {
 export default function OrderList(){
     const dispatch = useDispatch();
     const orders = useSelector((state:any) => state.admin.orders.buys);
+
     
     const [input, setInput] = useState({})
     const [errors, setErrors] = useState("")
@@ -29,6 +30,8 @@ export default function OrderList(){
     },[]);
 
     function filterByState(event: any) {
+
+
         dispatch(getOrdersByState(event.target.value))
     }
 

@@ -53,10 +53,10 @@ export default function Cart(){
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    {Object.keys(e.sizesAmount).map((key: any) => <Div>{key}</Div>)}
+                                                    {Object.keys(e.sizesAmount).map((key: any,index:any) => <Div key={index}>{key}</Div>)}
                                                 </td>
                                                 <td>
-                                                    {Object.values(e.sizesAmount).map((key: any) => <Div>{key}</Div>)}
+                                                    {Object.values(e.sizesAmount).map((key: any,index) => <Div key={index}>{key}</Div>)}
                                                 </td>
                                             </tr>
                                         </tbody>
