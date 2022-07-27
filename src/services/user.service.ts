@@ -14,6 +14,14 @@ async function updateUser(data: InfoProps["data"]) {
   return await axios.put(`${API_URL}/users`, req);
 }
 
+async function updateAvatar(data: { avatar: string }) {
+  return await axios.put(`${API_URL}/users/avatar`, data);
+}
+
+async function deleteAvatar() {
+  return await axios.delete(`${API_URL}/users/avatar`);
+}
+
 async function addShippingAddress(data: AddressProps["data"]) {
   return await axios.post(`${API_URL}/users/address`, data);
 }
@@ -34,6 +42,8 @@ async function getUserOrders() {
 const user = {
   getUser,
   updateUser,
+  updateAvatar,
+  deleteAvatar,
   addShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,

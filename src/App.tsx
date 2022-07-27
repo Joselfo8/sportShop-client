@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import setAuthToken from "helpers/setAuthToken";
 // Components
 import Home from "./components/Home/Home";
 import Login from "./routes/Login";
@@ -21,6 +20,8 @@ import Order from "./components/Admin/Orders/Order";
 import ProductFilter from "components/productFilter/ProductFilter";
 import OrderProgress from "components/Admin/Orders/OrderProgress";
 import Stock from "components/Admin/Stock/Stock";
+// Helpers
+import setAuthToken from "helpers/setAuthToken";
 
 //BOT
 import Chatbot from 'react-chatbot-kit';
@@ -38,7 +39,8 @@ function App() {
       !chatBot
     );
   };
-  // add JWT token to all request
+  
+  // set JWT token in all request
   setAuthToken();
 
   return (
