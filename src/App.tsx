@@ -69,7 +69,7 @@ function App() {
         <Route path="/admin/order-detail/:id" element={<Order />} />
         <Route path="/admin/order-progress/:orderId" element={<OrderProgress />} />
         <Route path="/stock/:id" element={<Stock/>} />
-        <Route path="/editProduct/:id" element={<EditProduct />} />
+        <Route path="admin/editProduct/:id" element={<EditProduct />} />
       </Routes>
 
       {/* Notification component */}

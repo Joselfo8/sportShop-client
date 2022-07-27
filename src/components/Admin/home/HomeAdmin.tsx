@@ -3,9 +3,10 @@ import NavBar from "../../Navbar/Navbar";
 import ListProduct from "../List/ListProduct";
 import ListUser from "../List/ListUser";
 import OrderList from "../List/OrderList";
-import "./HomeAdmin.css";
+import styles from './HomeAdmin.module.scss'
 import { useDispatch, useSelector } from "react-redux";
 import { isAdmin } from "redux/action/admin";
+import { Link } from "react-router-dom";
 
 export default function(){
     const dispatch = useDispatch();
@@ -22,10 +23,10 @@ export default function(){
     };
     if(admin){
         return(
-            <div className="HomeAdmin">
+            <div className={styles.HomeAdmin}>
                 <NavBar />
 
-                <div className="containerButtons">
+                <div className={styles.containerButtons}>
 
                     {   getState === 1 ?
                         <button onClick={() => {handleClik(0)}} className="selected"> Products</button> :
@@ -54,6 +55,12 @@ export default function(){
             </div>
         );
     }else{
-        return <></>
+        return (
+            <div className={styles.notAdmin}>
+              <h1>You are not admin</h1>
+              <Link to='/'>
+                  <button>« Back home</button>
+              </Link>
+             </div>)
     }
 };

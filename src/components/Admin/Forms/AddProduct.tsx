@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { isAdmin } from 'redux/action/admin'
 import { addProduct, getProducts } from '../../../redux/action'
 import NavBar from '../../Navbar/Navbar'
@@ -242,7 +242,13 @@ const FormProducts = () => {
       </div>
     )
   } else {
-    return (<></>)
+    return (
+    <div className={styles.notAdmin}>
+      <h1>You are not admin</h1>
+      <Link to='/'>
+          <button>« Back home</button>
+      </Link>
+     </div>)
   }
   
 }

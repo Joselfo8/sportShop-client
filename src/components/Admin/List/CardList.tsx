@@ -39,7 +39,7 @@ export default function CardList({title, id, category, image, name, role, type}:
 
             <div className={styles.containerButtons}>
                 { type === "PRODUCT" ?
-                    <Link to={`/editProduct/${id}`} style={{color:"black"}}>
+                    <Link to={`/admin/editProduct/${id}`} style={{color:"black"}}>
                         <BsFillPencilFill size={18}/>
                     </Link>
                     : <></>
