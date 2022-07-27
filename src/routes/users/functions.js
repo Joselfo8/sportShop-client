@@ -120,19 +120,19 @@ async function postUser(req, res) {
     const { name, lastname, password, email, genre, dateOfBirth, role } =
       req.body;
 
-    // console.log(name);
+    //vefirify if all fields are filled
     if (!name || !password || !email) {
       return res
-        .status(200)
+        .status(400)
         .json({ msg: "fields name, password and email are required" });
     }
     let userExists = await User.findOne({ where: { email: email } });
     if (userExists) {
-      return res.status(200).json({ msg: "email already is  register" });
+      return res.status(400).json({ msg: "email already is  register" });
     }
 
     if (role && !rols.includes(role)) {
-      return res.status(200).json({ msg: "role not valid" });
+      return res.status(400).json({ msg: "role not valid" });
     }
 
     hashPass = await encrypt(password);
@@ -148,10 +148,10 @@ async function postUser(req, res) {
     });
 
     await user.createFavorite({ name: user.email });
-    return res.status(200).json({ msg: "User created", user: user });
+    return res.status(201).json({ msg: "User created", user: user });
   } catch (error) {
     console.log("error", error);
-    res.status(200).json({ msg: "Failed to create user", error });
+    res.status(500).json({ msg: "Failed to create user", error });
   }
 }
 
@@ -215,7 +215,7 @@ async function putUser(req, res) {
 
     //only admin can update role
     if (role && req.user.role !== "admin") {
-      return res.status(400).json({ msg: "Only admin can update role" });
+      return res.status(401).json({ msg: "Only admin can update role" });
     }
 
     if (role) user.role = role;
@@ -364,32 +364,34 @@ async function loginUser(req, res) {
     if (!email || !password)
       return res.status(400).json({
         msg: "Email and password are required",
+        access: false,
       });
 
     // search user in db
     let user = await User.findOne({
       where: { email },
-      attributes: ["name", "id", "role", "password"],
-      include: "shippingAddresses",
+      attributes: ["id", "role", "name", "password"], //se necesita id y role para crear token
     });
 
     // hash password and compare with db hash
     const acertijo = await compare(password, user.password);
-    // console.log(acertijo);
-
-    // create jwt token, needs id and role
-    const token = await tokenSign(user);
 
     if (acertijo === false) {
       //redirect to postUser
-      return res.send({
+      return res.status(401).send({
         msg: `the ${user.email} is incorret or the password is incorrect or the user does not exist`,
         access: false,
         redirect: "/user", //redirect a pagina de registro
       });
     }
+
+    // create jwt token, needs id and role
+    const token = await tokenSign({ id: user.id, role: user.role });
+
+    //result
     return res.status(200).json({
       msg: `Welcome ${user.name}`,
+      access: true,
       token: token,
     });
   } catch (error) {
