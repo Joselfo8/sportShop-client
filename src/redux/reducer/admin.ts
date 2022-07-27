@@ -1,4 +1,5 @@
 import {
+    GET_ORDERS,
     PUT_STATE_TO_ORDER,
 } from '../action/types'
 
@@ -9,6 +10,7 @@ const initialState: any = {
     orders: [],
     order: {},
     orderState: {},
+    isAdmin: false,
 };
 
 function admin(state = initialState, action : any){
@@ -36,7 +38,7 @@ function admin(state = initialState, action : any){
                 ...state,
                 searchUser: filterUser,
             };
-        case "GET_ORDERS":
+        case GET_ORDERS:
             return {
                 ...state,
                 orders : action.payload,
@@ -47,6 +49,11 @@ function admin(state = initialState, action : any){
                 ...state,
                 order : action.payload,
             };
+        case "IS_ADMIN":
+            return{
+                ...state,
+                isAdmin : action.payload
+            }
 
         default:
             return state;

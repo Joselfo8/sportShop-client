@@ -5,22 +5,23 @@ import styles from "./Cart.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteProductShop, getShoppingListByUserId } from "../../redux/action";
-
+import styled from 'styled-components'
 export default function Cart(){
     const dispatch = useDispatch();
     const state = useSelector((store:any) => {
         return {
             products: store.rootReducer.shoppinglist.list,
-            userId: store.auth.auth.user.id,
         };
     });
     useEffect(() => {
-        dispatch(getShoppingListByUserId(state.userId));
+        dispatch(getShoppingListByUserId());
     },[]);
-    let price: number = 0;
-    let priceTotal:any = state.products ? state.products.map((e: any) => price = price + e.price) : 0;
-    const deleteProduct = (idUser:number, idProduct:number) =>{
-        dispatch(deleteProductShop(idUser, idProduct));
+    let amountProduct : any = state.products && state.products.length
+    ?
+    state.products.map((e : any) => (Object.values(e.sizesAmount).map((e) => Number(e)).reduce((e : any, d : any) => e + d) * e.price)).reduce((z : number, y : number) => z + y)
+    : 0;
+    const deleteProduct = (pId : number) =>{
+        dispatch(deleteProductShop(pId));
     };
     return (
         <div className={styles.bodyCart}>
@@ -37,16 +38,33 @@ export default function Cart(){
                             <div key={index} className={styles.half1}>
                                 <img src={e.image} alt="Not found" style={{width:"100px", height:"100px"}}/>
                                 <div className={styles.info}>
-                                    <div>BRAND: none</div>
                                     <div>TITLE: {e.title}</div>
-                                    <div>SIZE: none</div>
-                                    <select style={{width:"5rem"}}>
-                                        <option>1</option>
-                                    </select>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <Th>
+                                                    SIZE
+                                                </Th>
+                                                <Th>
+                                                    AMOUNT
+                                                </Th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    {Object.keys(e.sizesAmount).map((key: any) => <Div>{key}</Div>)}
+                                                </td>
+                                                <td>
+                                                    {Object.values(e.sizesAmount).map((key: any) => <Div>{key}</Div>)}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div className={styles.info2}>
                                     <div>PRICE:{e.price}</div>
-                                    <img src={deleteB} className={styles.buttonDelete} onClick={() => {deleteProduct(state.userId, e.productId) } }/>
+                                    <img src={deleteB} className={styles.buttonDelete} onClick={() => {deleteProduct(e.Product_id) } }/>
                                 </div>
                             </div>
                         )
@@ -57,7 +75,7 @@ export default function Cart(){
 
                 <div className={styles.half2}>
                     <div>PRICE:</div>
-                    <div>TOTAL: {price}</div>
+                    <div>TOTAL: {amountProduct}</div>
                     <Link to="/" style={{width:"100%"}}>
                         <button className={styles.buttonCart}>CONTINUE SHOPPING</button>
                     </Link>
@@ -72,3 +90,13 @@ export default function Cart(){
         </div>
     );
 };
+
+const Div = styled.div`
+text-align: center;
+border: 1px solid lightgrey;
+`
+
+const Th = styled.th`
+text-align: center;
+
+`

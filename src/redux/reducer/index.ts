@@ -22,6 +22,7 @@ const initialState: any = {
   categories: [],
   details: {},
   userInformation: {},
+  cart: {}
 };
 
 function rootReducer(state = initialState, action: any) {
@@ -73,13 +74,13 @@ function rootReducer(state = initialState, action: any) {
       };
 
     case GET_USER_INFORMATION:
+      console.log("GET_USER_INFORMATION",action.payload)
       return {
         ...state,
         userInformation: action.payload,
       };
 
     case GET_SHOPPINGLIST_BY_USER_ID:
-      console.log("desde reducer shopinglist", action.payload)
       return {
         ...state,
         shoppinglist: action.payload,
@@ -118,7 +119,6 @@ function rootReducer(state = initialState, action: any) {
       return{
         
       }
-
     default:
       return state;
   }

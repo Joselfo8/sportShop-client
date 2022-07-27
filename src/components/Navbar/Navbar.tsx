@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import {allCategories} from "../../redux/action";
+import {allCategories, getUserInformation} from "../../redux/action";
 import styles from "./NavBar.module.scss";
 import cart from "../../assets/cart.png";
 import user from "../../assets/user.png";
@@ -11,16 +11,21 @@ import heart from "../../assets/corazonVacio.png";
 import DropDown from "./DropDown";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.css';
+import { isAdmin } from "redux/action/admin";
+import { getUser, updateUser } from "redux/action/user";
 
 export default function NavBar() {
   const location = useLocation();
   const state = useSelector((store: any) => {
     return {
         products: store.rootReducer.categories.categories,
+        userInfo: store.rootReducer.userInformation,
         userLoged: store.auth.isLoggedIn,
-        userDate: store.auth.isLoggedIn ? store.auth.auth.user : []
-    }
+        token: store.auth.isLoggedIn ? store.auth.token : [],
+        isAdmin: store.admin.isAdmin
+    };
 });
+console.log(state.userInfo);
 const [value, setValue] = useState('');
 const dispatch = useDispatch();
 const navigate = useNavigate();
@@ -34,7 +39,10 @@ const [modal, setModal] = useState(false);
 
 useEffect(() => {
   dispatch(allCategories());
-}, []);
+  dispatch(isAdmin(state.token));
+  dispatch(getUserInformation());
+}, [dispatch]);
+
 
 function handleChange(event: any) {
     setValue(event);
@@ -48,7 +56,7 @@ function handleChange(event: any) {
   const togleModal = () => setModal(!modal);
 
   let data = state.products?.map((e:any) => e.category).filter((e : any, index : any) => {
-    return state.products.map((e:any) => e.category).indexOf(e) === index
+    return state.products.map((e:any) => e.category).indexOf(e) === index;
   });
   return (
     <div className={styles.navBar}>
@@ -124,11 +132,11 @@ function handleChange(event: any) {
       >
         <button onClick={togleModal} className={styles.buttonNav} style={{marginLeft:"auto", width:"3rem", backgroundColor:"black",color:"white"}}>X</button>
         <ModalHeader>
-          <span style={{cursor:"pointer",paddingLeft:"1.5rem"}} className={styles.modalPop}>Hi {state.userDate.name}!</span>
+          <span style={{cursor:"pointer",paddingLeft:"1.5rem"}} className={styles.modalPop}>Hi {state.userInfo.name}!</span>
         </ModalHeader>
         <ModalBody style={{display:"flex", justifyContent:"center"}}>
           <Link to="/user/profile"><button className={styles.buttonNav}>Go to settings</button></Link>
-          { state.userDate.role === "admin" ?
+          { state.isAdmin ?
             <Link to="/admin" onClick={togleModal} className={styles.buttonNav}><button className={styles.buttonNav}>Admin</button></Link>
             : <></>
           }

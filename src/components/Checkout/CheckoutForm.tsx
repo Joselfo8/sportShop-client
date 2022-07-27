@@ -10,8 +10,9 @@ import { postPurchase } from "../../redux/action/index";
 // Style
 import style from './CheckoutForm.module.scss';
 
-export default function CheckoutForm({id_user, total, name, email, soldProducts, direction, city, state, country}: any) {
+export default function CheckoutForm({total, name, email, soldProducts, direction, city, state, country}: any) {
   const navigate = useNavigate()
+  console.log("total", total, "name", name, "email", email, "soldProducts",soldProducts, "direction",direction, "city",city, "state",state, "country",country)
 
   const stripe: any = useStripe();
   const elements: any = useElements();
@@ -31,19 +32,26 @@ export default function CheckoutForm({id_user, total, name, email, soldProducts,
 
     if(!error) {
       const {id} = paymentMethod;
-      console.log(id_user)
 
       try {
         //generar una action y un reducer para esta accion
-        const {data} = await axios.post('http://localhost:3001/api/checkout', {
-        // const {data} = await axios.post('http://vlixes-server.herokuapp.com/pay', {
+        const {data} = await axios.post('https://vlixes-server.herokuapp.com/stripes/pay/', {
           id,
           jsonSoldProducts,
           amount: total*100, 
         });
       
         if(data === "Succesfull payment") {
-
+          dispatch(postPurchase({
+            method: "Credit / debit card", 
+            receiver: name, 
+            direction, 
+            city, 
+            state, 
+            country,
+            })
+          )
+          
           Swal.fire({
             title: `Order placed, thank you!`,
             text: `Confirmation will be sent you email.`,
@@ -54,16 +62,6 @@ export default function CheckoutForm({id_user, total, name, email, soldProducts,
             footer: 'Remember that your order will be delivered within one to five days',
           })
 
-          dispatch(postPurchase({
-            id_user,
-            method: "Credit / debit card", 
-            receiver: name, 
-            direction, 
-            city, 
-            state, 
-            country,
-            })
-          )
           
           navigate('/')
 
@@ -74,9 +72,6 @@ export default function CheckoutForm({id_user, total, name, email, soldProducts,
             icon: "error",
             width: '40%',
             confirmButtonText: "Accept",
-            // customClass: {
-            //   confirmButtonText: 'example-class' //insert class here
-            // }
           })
         }
         
