@@ -21,12 +21,7 @@ const { checkRules } = require("../../helpers/Token");
 
 
 //funciones globales
-router.post(
-  "/login",
-  checkRole,
-  checkRules(["user", "admin", "guest"]),
-  loginUser
-);
+router.post("/login", loginUser);
 
 router.get(
   "/isAdmin",
