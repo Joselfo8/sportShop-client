@@ -153,12 +153,11 @@ const FormProducts = () => {
   if(admin){
     return (
       <div >
-        <NavBar/>
-          <h1>ADD PRODUCT</h1>
-          
+        <NavBar/>  
           <div >
+          
               <form onSubmit={handleSubmit} className={styles.containerForm}>
-  
+                  <h1>ADD PRODUCT</h1>
                   <label>TITLE</label>
                   <input
                       className={styles.inputGeneral}
@@ -237,27 +236,13 @@ const FormProducts = () => {
                   >
                  </input>
                  {errors.image && (<span>{errors.image}</span>)}
-  
-  
-                  {/* Stock? */}
-                  {/* <label>SIZES</label>
-                  <input
-                      onChange={(e)=>handleChange(e)}
-                      value={input.sizes}
-                      type= 'text'
-                      name= 'sizes'
-                  >
-                  </input> */}
-                
                  <button type='submit'>ADD PRODUCT</button>
               </form>         
           </div>    
       </div>
     )
   } else {
-    return (<div>
-      <h1>You are not admin</h1>
-    </div>)
+    return (<></>)
   }
   
 }
