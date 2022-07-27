@@ -6,7 +6,7 @@ import { AddressProps } from "components/ProfileCard/UserInfo";
 const API_URL = process.env.REACT_APP_API_URL;
 
 async function getUser() {
-  return await axios.get(`${API_URL}/users/data`);
+  return await axios.get(`${API_URL}/users`);
 }
 
 async function updateUser(data: InfoProps["data"]) {
