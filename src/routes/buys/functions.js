@@ -1,11 +1,14 @@
 const { Buy, User, Product } = require("../../db");
 const pagination = require("../../helpers/pagination");
+const { Op } = require("sequelize");
+const e = require("express");
 
 async function getBuys(req, res) {
   const { name, status, pag = 1, limit = 4 } = req.query;
   try {
     let buys = await Buy.findAll({
       include: [User],
+      order: [["id", "ASC"]],
     });
 
     buys = buys.map((x) => {
@@ -35,7 +38,7 @@ async function getBuys(req, res) {
       buys: buys.products,
     });
   } catch (error) {
-    console.log("error=>", error);
+    //console.log("error=>", error);
     res.send({ msg: "failed to get buys", error });
   }
 }
@@ -56,7 +59,7 @@ async function getBuyById(req, res) {
 
     res.send(buyObj);
   } catch (error) {
-    console.log("error ==> ", error);
+    //console.log("error ==> ", error);
     res.status(500).json({ msg: "failed to get buys", error });
   }
 }
@@ -74,7 +77,7 @@ async function getBuysByIdUser(req, res) {
 
     res.send(user.buys);
   } catch (error) {
-    console.log("error=>", error);
+    //console.log("error=>", error);
     return res.send({ msg: "failed to get buy", error });
   }
 }
@@ -102,30 +105,51 @@ async function postBuy(req, res) {
     if (!user) return res.send({ msg: "user not found" });
 
     const list = user.trolly;
+    console.log("LISTA: ",list)
     let products = Object.keys(list);
     products = await Product.findAll({ where: { id: products } });
 
     if (products.length === 0) return res.send({ msg: "list is empty" });
 
-    for (const producto of products) {
-      producto.buys += 1;
-      await producto.save();
-    }
-
-    products = products.map((x) => {
+for (const producto of products) {
+  producto.buys += 1;
+  await producto.save();
+}
+let error = false;
+    products = products.map(async(x) => {
+      let quantity = Object.values(list[x.id]);
+      quantity = quantity.reduce((a, b) => a + parseInt(b), 0);
+      const newStock = list[x.id]
+      let sizes = Object.keys(newStock)
+      //console.log(x.id)
+      sizes.map((e)=>{
+        //console.log(newStock[e], e)
+        //console.log(x.stock[e])
+        //console.log(newStock[e])
+        x.stock[e] = x.stock[e] - newStock[e]
+        if (x.stock[e] < 0){  x.stock[e] = 0 ;
+        return error = true;}
+      })
+      await Product.update({stock : x.stock},{where : {id : x.id}} )
+      console.log("cosas :" ,x.stock)
+      //console.log("newStock :", newStock);
       return {
         id: x.id,
         title: x.title,
         price: x.price,
         image: x.image,
         sizesAmount: list[x.id],
+        quantity: quantity,
       };
     });
-
-    const suma = products.reduce((acc, cur) => acc + cur.price, 0);
+if (error) return res.send({ msg: "not enough stock" });
+    const suma = products.reduce(
+      (acc, cur) => acc + cur.price * cur.quantity,
+      0
+    );
 
     let buy = await Buy.create({
-      status_history: [{ status: "create order", date: new Date() }],
+      status_history: [{ status: "created order", date: new Date() }],
       products: [...products],
       sub_total: suma,
       taxes: suma * 0.026,
@@ -138,7 +162,7 @@ async function postBuy(req, res) {
     });
     await user.addBuy(buy);
     buy = await Buy.findOne({ where: { id: buy.id }, include: [User] });
-
+    // update stock after buy
     res.send({ msg: "buy created", buy });
   } catch (error) {
     console.log("error=>", error);
@@ -164,7 +188,7 @@ async function putBuy(req, res) {
     await buy.reload();
     res.send({ msg: "buy updated", status: buy.status_history });
   } catch (error) {
-    console.log("error=>", error);
+    //console.log("error=>", error);
     return res.send({ msg: "failed to update buy", error });
   }
 }

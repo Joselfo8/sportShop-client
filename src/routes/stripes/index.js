@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Stripe = require('stripe') // Comunicarme con stripe
 
 const stripe = new Stripe("sk_test_51LKaEAATR7GdGLkc4i6xnMNGGjPnm6QnSt4NiLCJFWM3aQLUXPHVJNqOADyPjAmXr05o0pVIGVsckeotfJu9yxSr00awCEcsYt")
+const client_secret = "sk_test_51LMEEfF0EVRAGrurur4sJLK9rN6PfALbk7TH2iUaiqXBTW2KHKIaTiN8GKAGyw2HpEMcMwmAQM50EySNc3KXOi0C008qzaRa85";
 
 router.post('/pay', async (req, res) => {
     try{
@@ -9,8 +10,8 @@ router.post('/pay', async (req, res) => {
         console.log({id:id,jsonSoldProducts:jsonSoldProducts,amount:amount})
         //res.send('ok')
         const payment = await stripe.paymentIntents.create({
-            amount,
             currency: "USD",
+            amount: amount,
             description: `Sold products: ${jsonSoldProducts}`,
             payment_method: id,
             //cuantity: 1, //  xxx
@@ -18,7 +19,8 @@ router.post('/pay', async (req, res) => {
             confirm: true
         })
         console.log(payment)
-        res.send('Succesfull payment')
+        // Send publishable key and PaymentIntent details to client
+        res.send('Succesfull payment',payment.client_secret)
 
     } catch(error) {
         res.json({message: error.raw.message})
