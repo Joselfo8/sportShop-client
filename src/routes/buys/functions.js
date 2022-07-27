@@ -8,7 +8,7 @@ async function getBuys(req, res) {
   try {
     let buys = await Buy.findAll({
       include: [User],
-      order: [["id", "ASC"]],
+      order: [["id", "DESC"]],
     });
 
     buys = buys.map((x) => {
