@@ -110,9 +110,15 @@ async function postBuy(req, res) {
     products = await Product.findAll({ where: { id: products } });
 
     if (products.length === 0) return res.send({ msg: "list is empty" });
-<<<<<<< HEAD
-  
+
+for (const producto of products) {
+  producto.buys += 1;
+  await producto.save();
+}
+let error = false;
     products = products.map(async(x) => {
+      let quantity = Object.values(list[x.id]);
+      quantity = quantity.reduce((a, b) => a + parseInt(b), 0);
       const newStock = list[x.id]
       let sizes = Object.keys(newStock)
       //console.log(x.id)
@@ -122,24 +128,11 @@ async function postBuy(req, res) {
         //console.log(newStock[e])
         x.stock[e] = x.stock[e] - newStock[e]
         if (x.stock[e] < 0){  x.stock[e] = 0 ;
-        return res.send('no mas productos en stock')}
+        return error = true;}
       })
       await Product.update({stock : x.stock},{where : {id : x.id}} )
       console.log("cosas :" ,x.stock)
-
       //console.log("newStock :", newStock);
-=======
-
-    for (const producto of products) {
-      producto.buys += 1;
-      await producto.save();
-    }
-
-    products = products.map((x) => {
-      let quantity = Object.values(list[x.id]);
-      quantity = quantity.reduce((a, b) => a + parseInt(b), 0);
-
->>>>>>> 158f7d71857f0e30949f3f1628fe601e41ed93a9
       return {
         id: x.id,
         title: x.title,
@@ -149,7 +142,7 @@ async function postBuy(req, res) {
         quantity: quantity,
       };
     });
-
+if (error) return res.send({ msg: "not enough stock" });
     const suma = products.reduce(
       (acc, cur) => acc + cur.price * cur.quantity,
       0
