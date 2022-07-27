@@ -9,7 +9,7 @@ const checkRole = async (req, res, next) => {
         role: "guest",
         id: 0,
       };
-      // console.log("TokenRole => guest");
+      console.log("TokenRole => guest");
       return next();
     }
     const token = Rtoken.split(" ")[1];
@@ -17,7 +17,7 @@ const checkRole = async (req, res, next) => {
 
     if (tokenInfo.id) {
       req.user = tokenInfo;
-      // console.log("TokenRole => " + tokenInfo.role);
+      console.log("TokenRole => " + tokenInfo.role);
       return next();
     } else {
       res.status(401).send({ msg: "Token invalid" });
