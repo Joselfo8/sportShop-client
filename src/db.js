@@ -62,7 +62,6 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { Product, User, Shopping_list, Favorite, Buy, ShippingAddress } =
   sequelize.models;
 
-
 // Aca vendrian las relaciones
 
 //cada usuario tiene una lista de compras
