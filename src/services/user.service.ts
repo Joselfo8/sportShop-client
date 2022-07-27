@@ -10,7 +10,7 @@ async function getUser() {
 }
 
 async function updateUser(data: InfoProps["data"]) {
-  const { email: _, ...req } = data;
+  const { email: _1, avatar: _2, ...req } = data;
   return await axios.put(`${API_URL}/users`, req);
 }
 

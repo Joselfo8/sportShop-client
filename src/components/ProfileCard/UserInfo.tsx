@@ -181,6 +181,7 @@ export interface InfoProps {
     email: string;
     dateOfBirth: string;
     genre: string;
+    avatar?: string;
   };
 }
 
