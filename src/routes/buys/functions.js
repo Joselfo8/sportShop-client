@@ -4,11 +4,9 @@ const pagination = require("../../helpers/pagination");
 async function getBuys(req, res) {
   const { name, status, pag = 1, limit = 4 } = req.query;
   try {
-
     let buys = await Buy.findAll({
       include: [User],
     });
-
 
     buys = buys.map((x) => {
       return {
@@ -35,7 +33,6 @@ async function getBuys(req, res) {
       ...buys,
       products: undefined,
       buys: buys.products,
-
     });
   } catch (error) {
     console.log("error=>", error);
@@ -58,7 +55,6 @@ async function getBuyById(req, res) {
     }
 
     res.send(buyObj);
-
   } catch (error) {
     console.log("error ==> ", error);
     res.status(500).json({ msg: "failed to get buys", error });
@@ -102,17 +98,19 @@ async function postBuy(req, res) {
       return res.send({ msg: "id_user is not a number" });
     id_user = Number(id_user);
 
-    //validation authorization
-    if (req.user.role === "user" && req.user.id !== id_user)
-      return res.send({ msg: "you can´t buy for other users" });
-
     const user = await User.findOne({ where: { id: id_user } });
     if (!user) return res.send({ msg: "user not found" });
 
     const list = user.trolly;
     let products = Object.keys(list);
     products = await Product.findAll({ where: { id: products } });
+
     if (products.length === 0) return res.send({ msg: "list is empty" });
+
+    for (const producto of products) {
+      producto.buys += 1;
+      await producto.save();
+    }
 
     products = products.map((x) => {
       return {
