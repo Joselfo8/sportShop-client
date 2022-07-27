@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   GET_PRODUCTSBYNAME,
   GET_PRODUCTS_BY_CATEGORY_AND_SUBCATEGORY,
+  POST_PURCHASE,
   GET_USER_INFORMATION,
   GET_SHOPPINGLIST_BY_USER_ID,
 } from "./types";
@@ -117,15 +118,14 @@ export const addProduct = (payload:any) => async (dispatch: any) => {
   }
 };
 
-export function getUserInformation(UserId: any) {
+export function getUserInformation() {
   try {
-    return async function name(dispatch: any) {
-      let json: any = await axios.get(
-        `https://vlixes-server.herokuapp.com/users/${UserId}`
-      );
+    return async function user(dispatch: any) {
+      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/users/`);
+      console.log("getUserInformation",json.data.data)
       return dispatch({
         type: GET_USER_INFORMATION,
-        payload: json.data.user,
+        payload: json.data.data,
       });
     };
   } catch (error) {
@@ -133,11 +133,11 @@ export function getUserInformation(UserId: any) {
   }
 }
 
-export function getShoppingListByUserId(UserId: any) {
+export function getShoppingListByUserId() {
   // console.log(object)
   try {
-    return async function name(dispatch: any) {
-      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/${UserId}`);
+    return async function shoppinglist(dispatch: any) {
+      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/`);
       return dispatch({
         type: GET_SHOPPINGLIST_BY_USER_ID,
         payload: json.data,
@@ -162,8 +162,7 @@ export const addProductToCart = (payload:any) => async (dispatch:any) => {
   try {
     console.log(payload)
     const json:any = await axios.post('https://vlixes-server.herokuapp.com/shopping_list', payload)
-    console.log(json.data)
-    // dispatch({type: "ADD_TO_CART", payload:json.data}) 
+    
   } catch (error) {
     console.log(error)
   }
@@ -178,9 +177,9 @@ export const addProductToFavorites = (payload:any) => async(dispatch:any) => {
   }
 }
 
-export const getFavorites = (userID:any) => async(dispatch:any,) => {
+export const getFavorites = () => async(dispatch:any,) => {
   try {
-    const json: any = await axios.get(`https://vlixes-server.herokuapp.com/favorites/${userID}`)
+    const json: any = await axios.get(`https://vlixes-server.herokuapp.com/favorites`)
     dispatch({type: "GET_FAVORITES", payload: json.data.list})
   } catch (error) {
     console.log(error)
@@ -190,21 +189,17 @@ export const getFavorites = (userID:any) => async(dispatch:any,) => {
 export const deleteFavorite = (payload:any) => async (dispatch: any) => {
   try {
     console.log(payload)
-    const json = await axios.delete(`https://vlixes-server.herokuapp.com/favorites?user=${payload.user}&product=${payload.product}`);
-    dispatch(getFavorites(payload.user))
+    const json = await axios.delete(`https://vlixes-server.herokuapp.com/favorites?product=${payload.product}`);
+    dispatch(getFavorites())
   } catch (error) {
     console.log(error);
   }
 };
 
-export const deleteProductShop = (idUser:number, idProduct:number) => async (dispatch: any) => {
+export const deleteProductShop = (pId : number) => async (dispatch: any) => {
   try{
-    let payload = {
-      "product": idProduct,
-      "user": idUser
-    }
-    const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/shopping_list/`, {data: payload});
-    dispatch(getShoppingListByUserId(idUser))
+    const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/shopping_list/?product=` + pId);
+    dispatch(getShoppingListByUserId())
   }catch(error){
     console.log(error);
   };
@@ -224,12 +219,13 @@ export const allCategories = () => async (dispatch: any) => {
 
 // Compra
 export function postPurchase(object: any) {
-  console.log("postPurchase", object)
+  // console.log("postPurchase", object)
   try {
-    return async function name(dispatch: any) {
+    return async function purchase(dispatch: any) {
       let json: any = await axios.post(`https://vlixes-server.herokuapp.com/buys`, object);
+      console.log("json", json)
       return dispatch({
-        type: "POST_PURCHASE",
+        type: POST_PURCHASE,
         payload: json.data,
       });
     };

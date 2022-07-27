@@ -1,11 +1,22 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import defaultImage from "../../assets/default-item-image.jpg";
+// Store
+import { getUserOrders } from "redux/action/user";
 // Components
 import Select from "../Select";
 // Styles
 import styles from "./Orders.module.css";
 
 function Item() {
+  // Store
+  const dispatch = useDispatch();
+  const orders = useSelector((state: any) => state.user.orders);
+
+  useEffect(() => {
+    if (orders.length === 0) dispatch(getUserOrders());
+  }, [orders, dispatch]);
+
   return (
     <div className={styles["item"]}>
       <dl className={`${styles["item-descrip"]} secondary`}>

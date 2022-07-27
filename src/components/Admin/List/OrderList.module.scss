@@ -13,13 +13,25 @@ $weightParagraph: 100;
     .order {
         width: 770px;
         height: 55px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        // display: flex;
+        // flex-direction: row;
+        // justify-content: space-between;
+        display:grid;
+        grid-template-columns: 15% 45% 30% 10%;
 
         border: solid 1px rgb(209, 209, 209);
         padding: 10px;
         margin: 20px;
+
+        .orderNumber {
+            // background-color: aqua;
+        }
+        .orderDate {
+            // background-color: beige;
+        }
+        .orderStatus {
+            // background-color: burlywood;
+        }
         
         .button {
             border: solid 3px rgb(100, 29, 29);

@@ -1,31 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 // Components
 import Tabs from "../components/Tabs";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import SidebarContainer from "../components/modals/SidebarContainer";
+import UserImage from "components/UserImage";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
-// Icons
-import { ReactComponent as DefaultUser } from "../icons/default-user.svg";
+// Actions
+import { getUser } from "redux/action/user";
 // Styles
 import styles from "./UserProfile.module.css";
 
 function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
   return (
     <div className={`${styles["sidebar"]} secondary`}>
-      <div className={styles["user-image-cont"]}>
-        <DefaultUser className={styles["user-image"]} />
-        {/* <img */}
-        {/*   className={styles["user-image"]} */}
-        {/*   src={} */}
-        {/*   alt="user-image" */}
-        {/* /> */}
-      </div>
+      <UserImage />
       <div className={styles["sidebar-body"]}>
         <Tabs
-          tabs={["User information", "My orders", "My favorites"]}
+          tabs={["User information", "My orders"]}
+          links={[{ label: "My favorites", to: "/favorites" }]}
           getSelected={getSelected}
         />
       </div>
@@ -36,7 +31,16 @@ function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
 function UserProfile() {
   const [selectedTab, setSelectedTab] = useState("");
   // Store
+  const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: any) => state);
+
+  // if user data is not in store, make a request
+  useEffect(() => {
+    if (!user.name) {
+      dispatch(getUser());
+    }
+  }, [user, dispatch]);
 
   if (!isLoggedIn) return <Navigate to="/login" />;
 

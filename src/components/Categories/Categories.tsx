@@ -20,11 +20,11 @@ export default function Categories(){
                         <h1>MAN</h1>
                     </div>
 
-                        <div className={style.button}>
-                    <Link to='/MAN' style={{textDecoration:"none", color:"white"}}>
-                            <h3>See more</h3>
-                    </Link>
-                        </div>
+                    <div className={style.button}>
+                        <Link to='/MAN' style={{textDecoration:"none", color:"white"}}>
+                                <h3>See more</h3>
+                        </Link>
+                    </div>
                     
                 </div>
                 
@@ -38,11 +38,11 @@ export default function Categories(){
                         <h1>WOMAN</h1>
                     </div>
                     
-                        <div className={style.button}>
-                    <Link to='/WOMAN' style={{textDecoration:"none", color:"white"}}>
-                            <h3>See more</h3>
-                    </Link>
-                        </div>
+                    <div className={style.button}>
+                        <Link to='/WOMAN' style={{textDecoration:"none", color:"white"}}>
+                                <h3>See more</h3>
+                        </Link>
+                    </div>
 
                 </div>
                 
@@ -57,11 +57,11 @@ export default function Categories(){
                         <h1>KID</h1>
                     </div>
                     
-                        <div className={style.button}>
-                            <Link to='/KID' style={{textDecoration:"none", color:"white"}}>
-                                <h3>See more</h3>
-                            </Link>
-                        </div>
+                    <div className={style.button}>
+                        <Link to='/KID' style={{textDecoration:"none", color:"white"}}>
+                            <h3>See more</h3>
+                        </Link>
+                    </div>
 
                 </div>
                 

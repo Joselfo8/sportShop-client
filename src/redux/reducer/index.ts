@@ -4,6 +4,7 @@ import auth from "./auth";
 import message from "./message";
 import admin from "./admin";
 import products from "./products";
+import user from "./user";
 
 import {
   GET_PRODUCTSBYNAME,
@@ -21,6 +22,7 @@ const initialState: any = {
   categories: [],
   details: {},
   userInformation: {},
+  cart: {}
 };
 
 function rootReducer(state = initialState, action: any) {
@@ -72,13 +74,13 @@ function rootReducer(state = initialState, action: any) {
       };
 
     case GET_USER_INFORMATION:
+      console.log("GET_USER_INFORMATION",action.payload)
       return {
         ...state,
         userInformation: action.payload,
       };
 
     case GET_SHOPPINGLIST_BY_USER_ID:
-      console.log("desde reducer shopinglist", action.payload)
       return {
         ...state,
         shoppinglist: action.payload,
@@ -117,10 +119,9 @@ function rootReducer(state = initialState, action: any) {
       return{
         
       }
-
     default:
       return state;
   }
 }
 
-export default combineReducers({ auth, message, rootReducer, admin, products });
+export default combineReducers({ auth, message, rootReducer, admin, products, user });

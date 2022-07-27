@@ -19,20 +19,17 @@ const stripePromise = loadStripe("pk_test_51LKaEAATR7GdGLkc7mu5mssziGvjyttaMQtfX
 export default function Purchase() {
     const dispatch = useDispatch();
     const state = useSelector((state: any) => state.rootReducer);
-    const user = useSelector((state: any) => state.auth.auth.user);
-    
-    const {id} = user
-    console.log("user", user)
-    console.log("state", state)
+    const user = useSelector((state: any) => state.rootReducer.userInformation);
+    console.log(user)
  
     useEffect(() => {
-        dispatch(getUserInformation(id));
-        dispatch(getShoppingListByUserId(id));
+        dispatch(getUserInformation());
+        dispatch(getShoppingListByUserId());
     }, [dispatch]);
 
-    const subTotal = state.shoppinglist.list && state.shoppinglist.list.length > 0 ? state.shoppinglist.list.map((p: any) => p.price).reduce((a: any,b: any) => a+b) : 0
+    const subTotal = state.shoppinglist.list && state.shoppinglist.list.length > 0 ? state.shoppinglist.list.map((p: any) => p.price*(Number(Object.values(p.sizesAmount)[0]))).reduce((a: any,b: any) => a+b) : 0
     const shipping = 9
-    const taxes = (subTotal + shipping)*0.0625 
+    const taxes = (subTotal)*0.0625 
     const total = subTotal + shipping + taxes
 
     const soldProducts = state.shoppinglist.list && state.shoppinglist.list.map((p: any, index: number) => `${index+1}- ${p.title} $${p.price}`)
@@ -42,6 +39,7 @@ export default function Purchase() {
         ?   (
             state.shoppinglist.list.map((product: any) => {
                 return (
+                    
                     <div className={style.product} key={product.id}>
                     
                         <div className={style.image}>
@@ -55,8 +53,13 @@ export default function Purchase() {
                         </div>
                         
                         <div className={style.price}>
-                            <p>Unit value:</p>
-                            <p>{`$${product.price}`}</p>
+                            <div className={style.unitPrice}>
+                                <p>{`$${product.price}`}</p>
+                            </div>
+
+                            <div className={style.subtotalPrice}>
+                                <p>{`$${ product.price*(Number(Object.values(product.sizesAmount)[0])) }`}</p>
+                            </div>
                         </div>
 
                     </div>
@@ -81,6 +84,17 @@ export default function Purchase() {
                 <div className={style.productsToBuy}>
                     <h3 className={style.title}>Abstract</h3>
                     <h4 className={style.subtitle}>Products</h4>
+
+                    <div className={style.header}>
+                        <div className={style.fristHeader}>
+                            <b>Product</b>
+                        </div>
+                        <div className={style.secondHeader}>
+                            <b>Unit value</b>
+                            <b>Subtotal</b>
+                        </div>
+                    </div>
+
                     {render}
                 </div>
 
@@ -114,17 +128,25 @@ export default function Purchase() {
 
                 <div className={style.shoppingBox}>
                     <h4 className={style.subtitle}>Payment method & purchase confirmation</h4>
-
-                    <Elements stripe={stripePromise} >
-                        <div className='formContainer'>
-                            <CheckoutForm 
-                                total={total.toFixed(2)}
-                                name={state.userInformation.name}
-                                email={state.userInformation.email}
-                                soldProducts={soldProducts}
-                            />
-                        </div>
-                    </Elements>
+                    {
+                        state.userInformation && !state.userInformation.name 
+                            ?   <></>
+                            :
+                            <Elements stripe={stripePromise} >
+                                <div className='formContainer'>
+                                    <CheckoutForm 
+                                        total={total.toFixed(2)}
+                                        name={user.name}
+                                        email={user.email}
+                                        soldProducts={soldProducts}
+                                        direction={state.userInformation.shippingAddresses[0].firstAddress}
+                                        city={state.userInformation.shippingAddresses[0].city}
+                                        state={user.shippingAddresses[0].state}
+                                        country={state.userInformation.shippingAddresses[0].country}
+                                    />
+                                </div>
+                            </Elements>
+                    }
                 </div>
 
                 <div className={style.customerInformation}>
@@ -138,10 +160,10 @@ export default function Purchase() {
                         state.userInformation && !state.userInformation.name 
                             ?   <></>
                             :   <div>
-                                    <p>{`Direction: ${state.userInformation.direction}`}</p>
-                                    <p>{`City: ${state.userInformation.city}, ${state.userInformation.state}`}</p>
-                                    <p>{`Country: ${state.userInformation.country}`}</p>
-                                    <p>{`Phone number: +${state.userInformation.numberPhone}`}</p>
+                                    <p>{`Direction: ${state.userInformation.shippingAddresses[0].firstAddress}`}</p>
+                                    <p>{`City: ${state.userInformation.shippingAddresses[0].city}, ${user.shippingAddresses[0].state}`}</p>
+                                    <p>{`Country: ${state.userInformation.shippingAddresses[0].country}`}</p>
+                                    <p>{`Phone number: ${state.userInformation.shippingAddresses[0].phoneNumber}`}</p>
                                 </div>
                         }
                         </div>

@@ -1,6 +1,7 @@
 import  { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { isAdmin } from "redux/action/admin";
 import { editProduct, getDetails} from "../../../redux/action";
 import NavBar from "../../Navbar/Navbar";
 import styles from './FormProduct.module.scss'
@@ -51,6 +52,11 @@ export default function EditProduct(){
         rating_count: ''
     });
 
+    const token = useSelector((state:any) => state.auth.token);
+
+  
+    const admin : boolean = useSelector((state : any) => state.admin.isAdmin);
+
     // USE EFFECT 
     useEffect(() =>{
         dispatch(getDetails(params.id))
@@ -59,6 +65,11 @@ export default function EditProduct(){
     useEffect(() =>{
         setMisProductos(product)
     }, [product]);
+
+    
+    useEffect(() => {
+        dispatch(isAdmin(token))
+      }, [token]);
 
     //HANDLES
     const handleChange = (e:any) => {
@@ -102,90 +113,96 @@ export default function EditProduct(){
     }
 
 
-    return(
-        <div >
-            <NavBar/>
-            <h1>EDIT PRODUCT</h1>
-            
-                {misProductos ?
-                        <form onSubmit={handleSubmit}  className={styles.containerForm}>
-
-                            <label>TITLE</label>
-                            <input
-                                className={styles.inputGeneral}
-                                onChange={(e)=>handleChange(e)}
-                                type= 'text'
-                                name= 'title'
-                                placeholder='Insert name of product'
-                                value={misProductos.title}
-                            >
-                            </input>
-                            {errors.title && (<span>{errors.title}</span>)}
-            
-                            <label>CATEGORY</label>
-                            <input
-                                className={styles.inputGeneral}
-                                onChange={(e)=>handleChange(e)}
-                                type= 'text'
-                                name= 'category'
-                                placeholder='Insert category of product'
-                                value={misProductos.category}
-                            >
-                            </input>
-                            {errors.category && (<span>{errors.category}</span>)}
-                        
-                            <label>SUB-CATEGORY</label>
-                            <input
-                                className={styles.inputGeneral}
-                                onChange={(e)=>handleChange(e)}
-                                type= 'text'
-                                name= 'subCategory'
-                                placeholder='Insert Sub category of product'
-                                value={misProductos.subCategory}
-                            >
-                            </input>
-                            {errors.subCategory && (<span>{errors.subCategory}</span>)}
-
-                            <label>PRICE</label>
-                            <input
-                                className={styles.inputGeneral}
-                                onChange={(e)=>handleChange(e)}
-                                type= 'text'
-                                name= 'price'
-                                placeholder='Insert price of product'
-                                value={misProductos.price}
-                            >
-
-                            </input>
-                            {errors.price && (<span>{errors.price}</span>)}
-
-                            <label>DESCRIPTION</label>
-                            <input
-                                    className={styles.inputDescription}
-                                    onChange={(e)=>handleChange(e)}
-                                    type= 'text'
-                                    name= 'description'
-                                    placeholder='Insert description of product'
-                                    value={misProductos.description}
-                                >   
-                            </input>
-                            {errors.description && (<span>{errors.description}</span>)}
-
-                            <label>PRODUCT CARE</label>
-                            <input
+    if(admin){
+        return(
+            <div >
+                <NavBar/>
+                <h1>EDIT PRODUCT</h1>
+                
+                    {misProductos ?
+                            <form onSubmit={handleSubmit}  className={styles.containerForm}>
+    
+                                <label>TITLE</label>
+                                <input
                                     className={styles.inputGeneral}
                                     onChange={(e)=>handleChange(e)}
                                     type= 'text'
-                                    name= 'product_care'
-                                    placeholder='Insert product care'
-                                    value={misProductos.product_care}
-                                >                    
-                            </input>
-                            {errors.product_care && (<span>{errors.product_care}</span>)}
-                            <button type='submit'>EDIT PRODUCT</button>
-                </form>  
-                    : null
-                }
-        </div>
-    )
+                                    name= 'title'
+                                    placeholder='Insert name of product'
+                                    value={misProductos.title}
+                                >
+                                </input>
+                                {errors.title && (<span>{errors.title}</span>)}
+                
+                                <label>CATEGORY</label>
+                                <input
+                                    className={styles.inputGeneral}
+                                    onChange={(e)=>handleChange(e)}
+                                    type= 'text'
+                                    name= 'category'
+                                    placeholder='Insert category of product'
+                                    value={misProductos.category}
+                                >
+                                </input>
+                                {errors.category && (<span>{errors.category}</span>)}
+                            
+                                <label>SUB-CATEGORY</label>
+                                <input
+                                    className={styles.inputGeneral}
+                                    onChange={(e)=>handleChange(e)}
+                                    type= 'text'
+                                    name= 'subCategory'
+                                    placeholder='Insert Sub category of product'
+                                    value={misProductos.subCategory}
+                                >
+                                </input>
+                                {errors.subCategory && (<span>{errors.subCategory}</span>)}
+    
+                                <label>PRICE</label>
+                                <input
+                                    className={styles.inputGeneral}
+                                    onChange={(e)=>handleChange(e)}
+                                    type= 'text'
+                                    name= 'price'
+                                    placeholder='Insert price of product'
+                                    value={misProductos.price}
+                                >
+    
+                                </input>
+                                {errors.price && (<span>{errors.price}</span>)}
+    
+                                <label>DESCRIPTION</label>
+                                <input
+                                        className={styles.inputDescription}
+                                        onChange={(e)=>handleChange(e)}
+                                        type= 'text'
+                                        name= 'description'
+                                        placeholder='Insert description of product'
+                                        value={misProductos.description}
+                                    >   
+                                </input>
+                                {errors.description && (<span>{errors.description}</span>)}
+    
+                                <label>PRODUCT CARE</label>
+                                <input
+                                        className={styles.inputGeneral}
+                                        onChange={(e)=>handleChange(e)}
+                                        type= 'text'
+                                        name= 'product_care'
+                                        placeholder='Insert product care'
+                                        value={misProductos.product_care}
+                                    >                    
+                                </input>
+                                {errors.product_care && (<span>{errors.product_care}</span>)}
+                                <button type='submit'>EDIT PRODUCT</button>
+                    </form>  
+                        : null
+                    }
+            </div>
+        )
+    } else{
+       return (<div></div>)
+    }
+
+    
 }

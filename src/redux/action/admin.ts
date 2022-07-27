@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+    GET_ORDERS,
     PUT_STATE_TO_ORDER,
 } from './types'
 
@@ -37,7 +38,7 @@ export const deleteProduct = (id: number) => async (dispatch: any) => {
 };
 export const getAllUsers = () => async (dispatch: any) => {
     try {
-        const response: any = await axios.get("https://vlixes-server.herokuapp.com/users");
+        const response: any = await axios.get("https://vlixes-server.herokuapp.com/users/all");
         return dispatch({
             type: "GET_ALL_USERS",
             payload: response.data,
@@ -66,12 +67,12 @@ export const deleteUser = (id: number) => async (dispatch: any) => {
     }
 };
 
-export function getOrders() {
+export function getOrders(pagination: string) {
     try {
       return async function name(dispatch: any) {
-        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys`);
+        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys${pagination}`);
         return dispatch({
-          type: "GET_ORDERS",
+          type: GET_ORDERS,
           payload: json.data,
         });
       };
@@ -105,3 +106,15 @@ export function putStateToOrder(object: any) {
       console.log(error);
     }
   }
+
+export const isAdmin = (token : string) => async(dispatch : any) => {
+    try{
+        const response = await axios.get(`https://vlixes-server.herokuapp.com/users/isAdmin?token=` + token);
+        return dispatch({
+            type: "IS_ADMIN",
+            payload: response.data.admin
+        });
+    }catch(error){
+        console.log(error);
+    };
+};

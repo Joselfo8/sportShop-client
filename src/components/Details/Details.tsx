@@ -1,7 +1,7 @@
 import  { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { addProductToCart, addProductToFavorites, getDetails } from '../../redux/action'
+import { addProductToCart, addProductToFavorites,getDetails } from '../../redux/action'
 import { Link } from 'react-router-dom'
 import NavBar from '../Navbar/Navbar'
 import styles from './Details.module.scss'
@@ -50,6 +50,7 @@ export default function Details(){
     // ESTADOS: 
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
     
+    
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
     const auth: any =useSelector((state:any) => state.auth.auth)
@@ -86,9 +87,7 @@ export default function Details(){
       } else {
         if(auth){ 
           const product:number=productDetail.id
-          const user: number = auth.user.id  
           const payload = {
-            user:user,  
             product:product
           }
             dispatch(addProductToFavorites(payload))
@@ -113,14 +112,13 @@ export default function Details(){
       } else {
         if(auth){
           const product:number = productDetail.id
-          const user:number = auth.user.id  
-          const payload = {
-            user:user,  ///Para que funcione mientras tanto poner 66
+          const payload = { 
             product:product,
             size: size,
             quantity: quantity
           }
           setOpen(!open)
+          
           dispatch(addProductToCart(payload))
           setSize('')
         }else{

@@ -4,14 +4,19 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  UPDATE_USER,
 } from "../action/types";
+// read JWT from localStorage
 const response = localStorage.getItem("auth");
-const data = response !== null && JSON.parse(response);
-
-const initialState = data
-  ? { isLoggedIn: true, auth: data }
-  : { isLoggedIn: false, auth: null };
+const initialState = response
+  ? {
+      isLoggedIn: true,
+      token: JSON.parse(response),
+      auth: { user: {} },
+    }
+  : {
+      isLoggedIn: false,
+      token: null,
+    };
 
 function auth(state = initialState, action: any) {
   const { type, payload } = action;
@@ -31,27 +36,19 @@ function auth(state = initialState, action: any) {
       return {
         ...state,
         isLoggedIn: true,
-        auth: payload,
+        token: payload,
       };
     case LOGIN_FAIL:
       return {
         ...state,
         isLoggedIn: false,
-        auth: null,
+        token: null,
       };
     case LOGOUT:
       return {
         ...state,
         isLoggedIn: false,
-        auth: null,
-      };
-    case UPDATE_USER:
-      return {
-        ...state,
-        auth: {
-          ...state.auth,
-          user: payload,
-        },
+        token: null,
       };
     default:
       return state;

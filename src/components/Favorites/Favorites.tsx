@@ -13,6 +13,8 @@ export default function Favorites(){
     const navigate = useNavigate()
     
     const favorites = useSelector((state:any) => state.rootReducer.favorites)
+    const cartInfo = useSelector((state:any) => state.rootReducer.cart)
+    console.log(cartInfo)
     const userID = useSelector((state:any) => state.auth.auth?.user.id)
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
     const auth: any =useSelector((state:any) => state.auth.auth)
@@ -31,9 +33,7 @@ export default function Favorites(){
         } else {
           if(auth){
             const product:number=e.target.value
-            const user: number = userID
-            const payload = {
-              user:user,  ///Para que funcione mientras tanto poner 66
+            const payload = { 
               product:product
             }
             dispatch(addProductToCart(payload))
@@ -45,7 +45,7 @@ export default function Favorites(){
       }
 
     useEffect(() => {
-        dispatch(getFavorites(userID))
+        dispatch(getFavorites())
     },[])
     
   return (
