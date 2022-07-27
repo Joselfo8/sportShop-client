@@ -45,8 +45,8 @@ function admin(state = initialState, action : any){
                 ...state,
                 orders : action.payload,
             };
-        case GET_ORDERS_BY_ID:
-            // console.log("desde reducers getOrderById")
+        case "GET_ORDERS_BY_ID":
+
             return {
                 ...state,
                 order : action.payload,

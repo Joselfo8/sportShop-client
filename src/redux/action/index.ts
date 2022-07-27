@@ -45,9 +45,10 @@ export function filterByCategory(payload: any) {
   };
 }
 
+
+
 export const getProductsByName = (name: string) => async (dispatch: any) => {
   try {
-    console.log(name);
     const response = await axios.get(`${API_URL}/products?title=${name}`);
     return dispatch({
       type: GET_PRODUCTSBYNAME,
@@ -73,7 +74,6 @@ export function getProductsByCategory(event: any) {
 }
 
 export function getProductsByCategoryAndSubcategory(object: any) {
-  console.log(object);
   try {
     return async function name(dispatch: any) {
       let json: any = await axios.get(
@@ -107,6 +107,7 @@ export const orderByPrice = (order: any) => async (dispatch: any) => {
 
 export const addProduct = (payload: any) => async (dispatch: any) => {
   try {
+
     const json: any = await axios.post(`${API_URL}/products`, payload);
     console.log(json.data);
     return dispatch({ type: "POST_PRODUCT", payload: json.data });
@@ -118,8 +119,8 @@ export const addProduct = (payload: any) => async (dispatch: any) => {
 export function getUserInformation() {
   try {
     return async function user(dispatch: any) {
+
       let json: any = await axios.get(`${API_URL}/users`);
-      console.log("getUserInformation", json.data.data);
       return dispatch({
         type: GET_USER_INFORMATION,
         payload: json.data.data,
@@ -131,7 +132,6 @@ export function getUserInformation() {
 }
 
 export function getShoppingListByUserId() {
-  // console.log(object)
   try {
     return async function shoppinglist(dispatch: any) {
       let json: any = await axios.get(`${API_URL}/shopping_list/`);
@@ -145,11 +145,10 @@ export function getShoppingListByUserId() {
   }
 }
 
+
 export const editProduct = (payload: any) => async (dispatch: any) => {
   try {
     const json: any = await axios.put(`${API_URL}/products`, payload);
-    console.log(json);
-    // dispatch(getProducts());
   } catch (error) {
     console.log(error);
   }
@@ -157,7 +156,6 @@ export const editProduct = (payload: any) => async (dispatch: any) => {
 
 export const addProductToCart = (payload: any) => async (dispatch: any) => {
   try {
-    console.log(payload);
     const json: any = await axios.post(`${API_URL}/shopping_list`, payload);
   } catch (error) {
     console.log(error);
@@ -220,11 +218,9 @@ export const allCategories = () => async (dispatch: any) => {
 
 // Compra
 export function postPurchase(object: any) {
-  // console.log("postPurchase", object)
   try {
     return async function purchase(dispatch: any) {
       let json: any = await axios.post(`${API_URL}/buys`, object);
-      console.log("json", json);
       return dispatch({
         type: POST_PURCHASE,
         payload: json.data,
@@ -242,5 +238,6 @@ export const addStock = (payload: any) => async (dispatch: any) => {
     dispatch(getDetails(payload.product));
   } catch (error) {
     console.log(error);
+
   }
 };

@@ -1,6 +1,7 @@
 import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL;
 
+
 export const allProducts =
   (
     category: string,
@@ -12,6 +13,7 @@ export const allProducts =
   async (dispatch: any) => {
     try {
       const response = title
+
         ? await axios.get(
             `${API_URL}/products?pag=${
               page ? page : 1

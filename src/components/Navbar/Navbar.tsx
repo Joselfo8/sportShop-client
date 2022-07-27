@@ -24,7 +24,9 @@ export default function NavBar() {
         token: store.auth.isLoggedIn ? store.auth.token : [],
         isAdmin: store.admin.isAdmin
     };
-  });
+});
+
+
 
 const [value, setValue] = useState('');
 const dispatch = useDispatch();

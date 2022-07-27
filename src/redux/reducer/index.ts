@@ -61,7 +61,6 @@ function rootReducer(state = initialState, action: any) {
       };
 
     case "CLEAN_STORE":
-      console.log("desde CLEAN_STORE");
       return {
         ...state,
         productsFiltered: [],
@@ -74,7 +73,6 @@ function rootReducer(state = initialState, action: any) {
       };
 
     case GET_USER_INFORMATION:
-      console.log("GET_USER_INFORMATION",action.payload)
       return {
         ...state,
         userInformation: action.payload,
@@ -87,7 +85,6 @@ function rootReducer(state = initialState, action: any) {
       };
 
     case "POST_PRODUCT":
-      console.log(action.payload);
       return {
         ...state,
         products: state.products.concat(action.payload),
@@ -115,7 +112,6 @@ function rootReducer(state = initialState, action: any) {
         categories: action.payload,
       }
     case "POST_PURCHASE":
-      console.log("compra creada")
       return{
         
       }
