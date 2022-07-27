@@ -15,15 +15,15 @@ export default function(){
     const state = useSelector((state : any) => state.products.products);
     const [page, setPage] = useState(1);
     let where = location.pathname.split("/");
+    let order = location.search.slice(1)
     let title = where[1] === "search" ? where[2] : '';
     useEffect(() => {
-        dispatch(allProducts(where[1], where[2], page, '', title));
+        dispatch(allProducts(where[1], where[2], page, order, title));
     },[page, location]);
-    
     return(
         <div>
             <NavBar />
-            <Filter where={where} page={page}/>
+            <Filter/>
             <div className={styles.container}>
 
             { state.products && state.products.length ?
@@ -51,7 +51,7 @@ export default function(){
                     previous={state.previous}
                     selected={page}
                     onSelected={setPage}
-                /> 
+                />
             </div>
             :   <></>
             }
