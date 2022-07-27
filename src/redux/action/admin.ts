@@ -96,7 +96,6 @@ export function getOrderById(id: any) {
 }
 // POST_STATE_TO_ORDER
 export function putStateToOrder(object: any) {
-    console.log("postStateToOrder", object)
     try {
       return async function state(dispatch: any) {
         let json: any = await axios.put(`https://vlixes-server.herokuapp.com/buys`, object);

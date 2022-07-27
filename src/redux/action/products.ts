@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const allProducts = (category : string,  subCategory : string, page : number, order? : string, title? : any) => async(dispatch: any) => {
-    console.log(order)
     try{
         const response = title
         ? await axios.get(

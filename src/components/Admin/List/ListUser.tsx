@@ -24,7 +24,7 @@ export default function ListUsers(){
         event.preventDefault();
         dispatch(getUserByName(value));
     };
-    console.log(state.search)
+    
     return(
         <div className={styles.container}>
             <form onSubmit={(e) => handleSubmit(e)}>
@@ -38,12 +38,12 @@ export default function ListUsers(){
             </form>
             {   state.search.length === 0
                 ?
-                state.users.map((e:any) => {
-                    return <CardList name={e.name} id={e.id} role={e.role} image={e.image} type={typeList}/>
+                state.users.map((e:any,index:any) => {
+                    return <CardList key={index} name={e.name} id={e.id} role={e.role} image={e.image} type={typeList}/>
                 })
                 :
-                state.search.map((e:any) => {
-                    return <CardList name={e.name} id={e.id} role={e.role} image={e.image} type={typeList}/>
+                state.search.map((e:any,index:any) => {
+                    return <CardList key={index} name={e.name} id={e.id} role={e.role} image={e.image} type={typeList}/>
                 })
             }
         </div>

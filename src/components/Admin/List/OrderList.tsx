@@ -8,14 +8,13 @@ import style from "./OrderList.module.scss"
 export default function OrderList(){
     const dispatch = useDispatch();
     const orders = useSelector((state:any) => state.admin.orders.buys);
-    console.log(orders)
 
     useEffect(() => {
         dispatch(getOrders("?page=1&limit=30"));
     },[]);
 
     function filterByState(event: any) {
-        console.log("desde function orders", event.target.value)
+        
         // dispatch(orderCountries(event.target.value))
         // document.getElementById(event.target.id).selectedIndex = 0
     }

@@ -8,18 +8,6 @@ import NavBar from '../../Navbar/Navbar'
 import styles from './FormProduct.module.scss'
 import validateProducts from './validateForms'
 
-// //INTERFACES
-// interface Errors{
-//     title: string,
-//     category:string,
-//     subCategory:string,
-//     price: string,
-//     description:string,
-//     product_care:string,
-//     sizes:string,
-//     // image:string
-// }
-
 
 const FormProducts = () => {
 
@@ -119,7 +107,6 @@ const FormProducts = () => {
                 product_care:input.product_care,
                 image: btoa(preview)
             }
-            console.log(newProduct)
             dispatch(addProduct(newProduct))
             e.target.reset()
             navigate('/admin/addProduct')

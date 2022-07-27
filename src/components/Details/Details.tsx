@@ -40,17 +40,18 @@ export default function Details(){
     const dispatch = useDispatch()
 
     
+    
    
     // HOOKS: 
     const navigate = useNavigate()
     const params = useParams()
 
+
     
 
     // ESTADOS: 
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
-    
-    
+
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
     const auth: any =useSelector((state:any) => state.auth.auth)
@@ -68,11 +69,17 @@ export default function Details(){
 
     const [size, setSize]:any = useState('')
 
-    const [quantity, setQuantity]: any = useState('')
+    const [quantity, setQuantity]: any = useState(1)
 
     const [open, setOpen] = useState(false)
 
-   
+    
+    const StoreKeys: any =  productDetail && productDetail.stock? Object.keys(productDetail.stock)  : [0]
+  
+    const filterSize = StoreKeys.filter((f:any) => f === size)
+    
+    
+ 
     // RENDERIZADO DEL COMPONENTE: 
     useEffect(()=>{
         dispatch(getDetails(params.id))
@@ -107,8 +114,8 @@ export default function Details(){
         return(alert('Login first'),navigate('/login'))
       } else if(size === '') {
         return setErrors({size:'Select your size first'})
-      } else if(quantity === ''){
-        return setErrors({quantity: 'Enter quantity'})
+      }else if (quantity > productDetail.stock[filterSize]){
+        return setErrors({quantity: 'There are not enough products'})
       } else {
         if(auth){
           const product:number = productDetail.id
@@ -139,6 +146,8 @@ export default function Details(){
       setSuccessful('')
     }
 
+
+    
 
 
   return (
@@ -182,7 +191,7 @@ export default function Details(){
 
         <div className={styles.col2}>
 
-          <div className={styles.containerStars}>
+          {/* <div className={styles.containerStars}>
             {[...Array(5)].map((star,i) => {
               const raitingValue:number = i + 1
               return (
@@ -190,7 +199,8 @@ export default function Details(){
               )})
             }
             <span >({productDetail['rating_count']})</span>
-          </div>
+          </div> */}
+          <span>Bought {productDetail.buys} times</span>
           <hr></hr>
 
           <div className={styles.containerTittle}>
@@ -260,7 +270,7 @@ export default function Details(){
             <button className={styles.buttonModal} style={{marginLeft:"auto", width:"50px",   backgroundColor:"black",color:"white"}} onClick={()=>setOpen(!open)}>X</button>
               
             <ModalHeader className={styles.modalHeader}>
-              <h1>Product added to cart</h1>
+              <header>Product added to cart</header>
             </ModalHeader> 
 
             <ModalBody className={styles.modalBody}>
@@ -279,7 +289,7 @@ export default function Details(){
           </Modal>
             
           <div className={styles.containerDescription}>
-            <h2 className={styles.description}>DESCRIPTION</h2>
+            <h3 className={styles.description}>DESCRIPTION</h3>
             <p>{productDetail.description?.length < 50 ? ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat dicta quae eos quaerat optio, asperiores similique tempora voluptatum reiciendis debitis expedita quam impedit id exercitationem ea accusamus nostrum nemo possimus.'): productDetail.description} </p>
           </div>
         </div >

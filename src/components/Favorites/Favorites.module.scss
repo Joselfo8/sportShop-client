@@ -4,10 +4,16 @@ $font: 'Kanit', sans-serif;
 $weightTitle:600;
 $weightParagraph: 300;
 
-h1{ 
-    margin-left: 115px;
-    justify-content: flex-start;
+.title{ 
+    width: fit-content;
+    margin-left: 60px;
+    margin-top: 50px;
+     h1 {
+    font-family: $font;
+    font-weight: $weightTitle;
     color: #000;
+    
+    }
 }
 
 .container {
@@ -15,7 +21,7 @@ h1{
     grid-template-columns: auto auto auto auto;
     
     margin-bottom: 50px;
-    margin-top: 50px;
+    margin-top: 15px;
 }
 
 .favorites {
@@ -57,7 +63,8 @@ h1{
                 font-size: 15px;
                 font-weight: bolder;
                 font-family: $font;
-                background-color: #666666;
+                border: 0;
+                background-color: #999999;
                 padding: 2px;
                 padding-right: 5px;
                 border-radius: 3px;
