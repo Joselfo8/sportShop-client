@@ -4,6 +4,8 @@ const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
 const { tokenSign, verifyToken } = require("../../helpers/Token");
 
+const pagination = require("../../helpers/pagination");
+
 const rols = ["admin", "user"];
 
 // Get admin confirm roles by token answer true or false
@@ -30,35 +32,28 @@ async function getCheckAdmin(req, res) {
 //get all users by user_name
 async function getAllUser(req, res) {
   try {
-    const from = req.query.from;
-    console.log(from); //desde donde voy a mostrar valores(offset)
-    from ? parseInt(from) : 0;
-    const numPerPage = req.query.numPerPage;
-
-    const { role } = req.query;
-    let where = {
-      where: {},
-      include: "shippingAddresses",
-      limit: numPerPage,
-      offset: from,
-    };
+    const { role, pag = 0, limit = 4 } = req.query;
+    let where = {};
     if (role) {
-      where.where.role = role;
+      where = { role };
     }
-    let users = await User.findAll(where);
-    const total = await User.count();
+    let users = await User.findAll({
+      where,
+      include: "shippingAddresses",
+    });
+
+    //pagination
+    users = pagination(users, limit, pag);
+
     return res.send({
       msg: "Users found",
-      page: {
-        total_data: total,
-        fromValue: from,
-        numPerPage: numPerPage,
-      },
-      users,
+      ...users,
+      products: undefined,
+      users: users.products,
     });
   } catch (error) {
     console.log(error);
-    res.send({ msg: "error" });
+    res.status(500).send({ msg: "error" });
   }
 }
 
@@ -76,8 +71,10 @@ async function getUser(req, res) {
     id = parseInt(id);
 
     //validate authenritation
-    if (req.user.role === "user" && req.user.id !== id) {
-      return res.send({ msg: "You don't have permission" });
+    if (req.user.role !== "admin" && req.user.id !== id) {
+      return res
+        .status(409)
+        .send({ msg: "You don't have permission to see other users" });
     }
 
     let user = await User.findOne({ where: { id } });
@@ -92,13 +89,17 @@ async function getUser(req, res) {
 }
 
 async function getUserData(req, res) {
-  const { id } = req.user;
+  // solo token de admin permite enviar params
+  const id =
+    req.params.id && req.user.role === "admin" ? req.params.id : req.user.id;
+
   if (!id) return res.status(400).json({ msg: "ID is required" });
 
   try {
     const user = await User.findOne({
       where: { id },
       attributes: [
+        "id",
         "name",
         "lastname",
         "email",
@@ -113,7 +114,7 @@ async function getUserData(req, res) {
 
     return res.status(200).json({
       msg: "User found",
-      data: { ...user.get(), avatar: user.avatar.url },
+      data: { ...user.get(), avatar: user.avatar?.url || null },
     });
   } catch (error) {
     return res.status(500).json({ msg: error.message });
@@ -193,34 +194,22 @@ async function deleteAvatar(req, res) {
 
 async function postUser(req, res) {
   try {
-    const {
-      name,
-      lastname,
-      password,
-      email,
-      genre,
-      dateOfBirth,
-      direction,
-      country,
-      state,
-      city,
-      numberPhone,
-      role,
-    } = req.body;
+    const { name, lastname, password, email, genre, dateOfBirth, role } =
+      req.body;
 
-    // console.log(name);
+    //vefirify if all fields are filled
     if (!name || !password || !email) {
       return res
-        .status(200)
-        .json({ msg: "fields (name, password and email) are required" });
+        .status(400)
+        .json({ msg: "fields name, password and email are required" });
     }
     let userExists = await User.findOne({ where: { email: email } });
     if (userExists) {
-      return res.status(200).json({ msg: "email already is  register" });
+      return res.status(400).json({ msg: "email already is  register" });
     }
 
     if (role && !rols.includes(role)) {
-      return res.status(200).json({ msg: "role not valid" });
+      return res.status(400).json({ msg: "role not valid" });
     }
 
     hashPass = await encrypt(password);
@@ -232,25 +221,22 @@ async function postUser(req, res) {
       email: email,
       genre: genre,
       dateOfBirth: dateOfBirth,
-      direction: direction,
-      country: country,
-      city: city,
-      state: state,
-      numberPhone: numberPhone,
       role: role,
     });
 
     await user.createFavorite({ name: user.email });
-    return res.status(200).json({ msg: "User created", user: user });
+    return res.status(201).json({ msg: "User created", user: user });
   } catch (error) {
     console.log("error", error);
-    res.status(200).json({ msg: "Failed to create user", error });
+    res.status(500).json({ msg: "Failed to create user", error });
   }
 }
 
 async function deleteUser(req, res) {
   try {
-    let { id } = req.params;
+    let { id } = req.params; //solo token de admin permite enviar params
+    if (!id) id = req.user.id;
+
     //validate id
     if (!id) {
       return res.send({ msg: "id is required" });
@@ -259,10 +245,6 @@ async function deleteUser(req, res) {
       return res.send({ msg: "id isn´t number" });
     }
     id = parseInt(id);
-    //validate authenritation
-    if (req.user.role === "user" && req.user.id !== id) {
-      return res.send({ msg: "You can´t delete other users" });
-    }
 
     await User.destroy({ where: { id: id } });
     return res.json({ msg: "User deleted" });
@@ -273,15 +255,14 @@ async function deleteUser(req, res) {
 }
 //PUT
 async function putUser(req, res) {
-  const { id, role } = req.user;
-  if (!id) return res.status(400).json({ msg: "ID is required" });
+  // solo token de admin permite enviar params
+  const id =
+    req.params.id && req.user.role === "admin" ? req.params.id : req.user.id;
+  if (!id) return res.status(400).json({ msg: "id is required" });
+
+  const { password, role } = req.body;
 
   try {
-    const { password, email } = req.body;
-
-    // email can't be update
-    if (email) return res.status(400).json({ msg: "Email can't be update" });
-
     // get user by id
     const user = await User.findOne({
       where: { id },
@@ -290,7 +271,7 @@ async function putUser(req, res) {
     if (!user) return res.status(404).json({ msg: "User not found" });
 
     // check if user have authorization
-    if (role !== "admin" && id !== user.id) {
+    if (req.user.role !== "admin" && id !== user.id) {
       return res.status(403).json({ msg: "You can´t update other users" });
     }
 
@@ -300,8 +281,8 @@ async function putUser(req, res) {
     }
 
     // only admin can update role
-    if (req.body.role && role !== "admin") {
-      return res.status(400).json({ msg: "Only admin can update role" });
+    if (role && req.user.role !== "admin") {
+      return res.status(401).json({ msg: "Only admin can update role" });
     }
 
     // save all changes
@@ -309,7 +290,7 @@ async function putUser(req, res) {
     await user.save();
 
     // send all values, less password
-    const { password: _1, ...response } = user.dataValues;
+    const { password: _1, ...response } = user.get();
 
     return res.status(200).json({
       msg: "User updated",
@@ -321,9 +302,17 @@ async function putUser(req, res) {
 }
 
 async function addShippingAddress(req, res) {
-  const { id } = req.user;
+  let { id } = req.user;
   if (!id) return res.status(400).json({ msg: "ID is required" });
+  if (isNaN(parseInt(id)))
+    return res.status(400).json({ msg: "ID isn´t number" });
+  id = parseInt(id);
 
+  if (req.user.role !== "admin" && req.user.id !== id) {
+    return res
+      .status(400)
+      .json({ msg: "You can´t add shipping address on other users" });
+  }
   try {
     // get user by id
     const user = await User.findOne({
@@ -355,6 +344,10 @@ async function updateShippingAddress(req, res) {
   const addressId = req.params.id;
 
   if (!userId) return res.status(400).json({ msg: "User id is required" });
+  if (isNaN(parseInt(userId)))
+    return res.status(400).json({ msg: "id is a number" });
+  userId = parseInt(userId);
+
   if (!addressId)
     return res.status(400).json({ msg: "Address id is required" });
 
@@ -391,8 +384,16 @@ async function deleteShippingAddress(req, res) {
   const addressId = req.params.id;
 
   if (!userId) return res.status(400).json({ msg: "User id is required" });
+  if (isNaN(parseInt(userId)))
+    return res.status(400).json({ msg: "id is a number" });
+  userId = parseInt(userId);
   if (!addressId)
     return res.status(400).json({ msg: "Address id is required" });
+
+  //other user can't delete address
+  if (req.user.role !== "admin" && req.user.id !== userId) {
+    return res.send({ msg: "You can´t delete other users" });
+  }
 
   try {
     // get user by id
@@ -428,32 +429,34 @@ async function loginUser(req, res) {
     if (!email || !password)
       return res.status(400).json({
         msg: "Email and password are required",
+        access: false,
       });
 
     // search user in db
     let user = await User.findOne({
       where: { email },
-      attributes: ["name", "id", "role", "password"],
-      include: "shippingAddresses",
+      attributes: ["id", "role", "name", "password"], //se necesita id y role para crear token
     });
 
     // hash password and compare with db hash
     const acertijo = await compare(password, user.password);
-    // console.log(acertijo);
-
-    // create jwt token, needs id and role
-    const token = await tokenSign(user);
 
     if (acertijo === false) {
       //redirect to postUser
-      return res.send({
+      return res.status(401).send({
         msg: `the ${user.email} is incorret or the password is incorrect or the user does not exist`,
         access: false,
         redirect: "/user", //redirect a pagina de registro
       });
     }
+
+    // create jwt token, needs id and role
+    const token = await tokenSign({ id: user.id, role: user.role });
+
+    //result
     return res.status(200).json({
       msg: `Welcome ${user.name}`,
+      access: true,
       token: token,
     });
   } catch (error) {
