@@ -268,10 +268,10 @@ function Login() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (register === "logout") {
+    if (register === "logout" && isLoggedIn) {
       dispatch(logout());
     }
-  }, [register, dispatch]);
+  }, [register, isLoggedIn, dispatch]);
 
   if (isLoggedIn) return <Navigate to="/" />;
 
