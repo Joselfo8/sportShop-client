@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { isAdmin } from 'redux/action/admin'
 import { addProduct, getProducts } from '../../../redux/action'
 import NavBar from '../../Navbar/Navbar'
 
@@ -52,6 +53,14 @@ const FormProducts = () => {
     sizes: '',
     // image: null
   })  
+
+  const token = useSelector((state:any) => state.auth.token);
+
+  useEffect(() => {
+    dispatch(isAdmin(token))
+  }, [token]);
+
+  const admin : boolean = useSelector((state : any) => state.admin.isAdmin);
 
   const allProducts = useSelector((state:any) => state.rootReducer.products)
   
@@ -141,110 +150,116 @@ const FormProducts = () => {
     dispatch(getProducts())  
   }, [dispatch])
 
-
-  return (
-    <div >
-      <NavBar/>
-        <h1>ADD PRODUCT</h1>
-        
-        <div >
-            <form onSubmit={handleSubmit} className={styles.containerForm}>
-
-                <label>TITLE</label>
-                <input
-                    className={styles.inputGeneral}
-                    onChange={(e)=>handleChange(e)}
-                    type= 'text'
-                    name= 'title'
-                    placeholder='Insert name of product'
-                >
-                </input>
-                {errors.title && (<span>{errors.title}</span>)}
+  if(admin){
+    return (
+      <div >
+        <NavBar/>
+          <h1>ADD PRODUCT</h1>
+          
+          <div >
+              <form onSubmit={handleSubmit} className={styles.containerForm}>
   
-                <label>CATEGORY</label>
-                <input
-                    className={styles.inputGeneral}
-                    onChange={(e)=>handleChange(e)}
-                    type= 'text'
-                    name= 'category'
-                    placeholder='Insert category of product'
-                >
-                </input>
-                {errors.category && (<span>{errors.category}</span>)}
-               
-               <label>SUB-CATEGORY</label>
-               <input
-                    className={styles.inputGeneral}
-                    onChange={(e)=>handleChange(e)}
-                    type= 'text'
-                    name= 'subCategory'
-                    placeholder='Insert Sub category of product'
-                >
-               </input>
-               {errors.subCategory && (<span>{errors.subCategory}</span>)}
-
-               <label>PRICE</label>
-               <input
-                    className={styles.inputGeneral}
-                    onChange={(e)=>handleChange(e)}
-                    type= 'text'
-                    name= 'price'
-                    placeholder='Insert price of product'
-                >
-
-               </input>
-               {errors.price && (<span>{errors.price}</span>)}
-
-               <label>DESCRIPTION</label>
-               <input
-                    className={styles.inputDescription}
-                    onChange={(e)=>handleChange(e)}
-                    type= 'text'
-                    name= 'description'
-                    placeholder='Insert description of product'
-                    
-                >   
-               </input>
-               {errors.description && (<span>{errors.description}</span>)}
-
-               <label>PRODUCT CARE</label>
-               <input
-                    className={styles.inputGeneral}
-                    onChange={(e)=>handleChange(e)}
-                    type= 'text'
-                    name= 'product_care'
-                    placeholder='Insert product care'
-                >                    
-               </input>
-               {errors.product_care && (<span>{errors.product_care}</span>)}
-
-               <label>IMAGE</label>
-               <input
-                    className={styles.inputGeneral}
-                    onChange={handleChangeImage}
-                    name='image'
-                    type='file'
-                    accept='image/*'
-                >
-               </input>
-               {errors.image && (<span>{errors.image}</span>)}
-
-
-                {/* Stock? */}
-                {/* <label>SIZES</label>
-                <input
-                    onChange={(e)=>handleChange(e)}
-                    value={input.sizes}
-                    type= 'text'
-                    name= 'sizes'
-                >
-                </input> */}
-              
-               <button type='submit'>ADD PRODUCT</button>
-            </form>         
-        </div>    
-    </div>
-  )
+                  <label>TITLE</label>
+                  <input
+                      className={styles.inputGeneral}
+                      onChange={(e)=>handleChange(e)}
+                      type= 'text'
+                      name= 'title'
+                      placeholder='Insert name of product'
+                  >
+                  </input>
+                  {errors.title && (<span>{errors.title}</span>)}
+    
+                  <label>CATEGORY</label>
+                  <input
+                      className={styles.inputGeneral}
+                      onChange={(e)=>handleChange(e)}
+                      type= 'text'
+                      name= 'category'
+                      placeholder='Insert category of product'
+                  >
+                  </input>
+                  {errors.category && (<span>{errors.category}</span>)}
+                 
+                 <label>SUB-CATEGORY</label>
+                 <input
+                      className={styles.inputGeneral}
+                      onChange={(e)=>handleChange(e)}
+                      type= 'text'
+                      name= 'subCategory'
+                      placeholder='Insert Sub category of product'
+                  >
+                 </input>
+                 {errors.subCategory && (<span>{errors.subCategory}</span>)}
+  
+                 <label>PRICE</label>
+                 <input
+                      className={styles.inputGeneral}
+                      onChange={(e)=>handleChange(e)}
+                      type= 'text'
+                      name= 'price'
+                      placeholder='Insert price of product'
+                  >
+  
+                 </input>
+                 {errors.price && (<span>{errors.price}</span>)}
+  
+                 <label>DESCRIPTION</label>
+                 <input
+                      className={styles.inputDescription}
+                      onChange={(e)=>handleChange(e)}
+                      type= 'text'
+                      name= 'description'
+                      placeholder='Insert description of product'
+                      
+                  >   
+                 </input>
+                 {errors.description && (<span>{errors.description}</span>)}
+  
+                 <label>PRODUCT CARE</label>
+                 <input
+                      className={styles.inputGeneral}
+                      onChange={(e)=>handleChange(e)}
+                      type= 'text'
+                      name= 'product_care'
+                      placeholder='Insert product care'
+                  >                    
+                 </input>
+                 {errors.product_care && (<span>{errors.product_care}</span>)}
+  
+                 <label>IMAGE</label>
+                 <input
+                      className={styles.inputGeneral}
+                      onChange={handleChangeImage}
+                      name='image'
+                      type='file'
+                      accept='image/*'
+                  >
+                 </input>
+                 {errors.image && (<span>{errors.image}</span>)}
+  
+  
+                  {/* Stock? */}
+                  {/* <label>SIZES</label>
+                  <input
+                      onChange={(e)=>handleChange(e)}
+                      value={input.sizes}
+                      type= 'text'
+                      name= 'sizes'
+                  >
+                  </input> */}
+                
+                 <button type='submit'>ADD PRODUCT</button>
+              </form>         
+          </div>    
+      </div>
+    )
+  } else {
+    return (<div>
+      <h1>You are not admin</h1>
+    </div>)
+  }
+  
 }
 
 export default FormProducts
