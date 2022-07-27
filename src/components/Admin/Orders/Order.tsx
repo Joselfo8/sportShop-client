@@ -264,37 +264,3 @@ export default function Order() {
     </div>
   );
 }
-
-
-{/* <div className={style.textInRow}>
-      <p>{`06/Oct/2021 00:54:46`}</p>
-      <b>{`We have received your order`}</b>
-    </div>
-
-    <div className={style.textInRow}>
-      <p>{`06/Oct/2021 00:54:46`}</p>
-      <b>The payment of the order has been received correctly</b>
-    </div>
-    
-    <div className={style.textInRow}>
-      <p>06/Oct/2021 00:54:46</p>
-      <b>We are preparing your order</b>  // preparing order
-    </div>
-    
-    <div className={style.textInRow}>
-      <p>06/Oct/2021 00:54:46</p>
-      <b>The order is ready</b>           // order ready
-    </div>
-
-    <div className={style.textInRow}>
-      <p>07/Oct/2021 01:01:11</p>
-      <b>Your order is on its way</b>     // order is on its way
-    </div>
-
-    <div className={style.textInRow}>
-      <p>07/Oct/2021 09:21:36</p>
-      <b>Your order is about to arrive at the destination</b>
-    </div> */}
-
-
-                                          // order delivered

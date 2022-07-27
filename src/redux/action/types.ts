@@ -1,4 +1,5 @@
 // admin_progress
+export const GET_ORDERS = "GET_ORDERS";
 export const PUT_STATE_TO_ORDER = "PUT_STATE_TO_ORDER";
 
 // Products

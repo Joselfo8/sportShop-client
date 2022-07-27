@@ -1,4 +1,5 @@
 import {
+    GET_ORDERS,
     PUT_STATE_TO_ORDER,
 } from '../action/types'
 
@@ -37,7 +38,7 @@ function admin(state = initialState, action : any){
                 ...state,
                 searchUser: filterUser,
             };
-        case "GET_ORDERS":
+        case GET_ORDERS:
             return {
                 ...state,
                 orders : action.payload,

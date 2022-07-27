@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../../../redux/action/admin"
 import { Link } from "react-router-dom";
 
-import styles from "./OrderList.module.scss"
+import style from "./OrderList.module.scss"
 
 export default function OrderList(){
     const dispatch = useDispatch();
-    const orders = useSelector((state:any) => state.admin.orders);
+    const orders = useSelector((state:any) => state.admin.orders.buys);
+    console.log(orders)
 
     useEffect(() => {
-        dispatch(getOrders());
+        dispatch(getOrders("?page=1&limit=30"));
     },[]);
 
     function filterByState(event: any) {
@@ -20,19 +21,25 @@ export default function OrderList(){
     }
 
     const render = (
-        orders.length === 0
+        !orders
                     ?   <div>
                             <h2>No orders</h2>
                         </div>
                     :   (
                         orders.map((order: any) => {
                             return (
-                                <div className={styles.order} key={order.id}>
-                                    <b>{`Order No. ${order.id}`}</b>
-                                    <p>{`Creation date: ${order.status_history[order.status_history.length-1].date}`}</p>
-                                    <p>{`State: `} <b>{`${order.status_history[order.status_history.length-1].status}`}</b> </p>
-                                    <Link to={`/admin/order-progress/${order.id}`} style={{textDecoration:"none"}}>
-                                        <button className={styles.button}>Work in</button>
+                                <div className={style.order} key={order.buy_id}>
+                                    <div className={style.orderNumber}>
+                                        <b>{`Order No. ${order.buy_id}`}</b>
+                                    </div>
+                                    <div className={style.orderDate}>
+                                        <p>{`Creation date: ${order.status_actual.date}`}</p>
+                                    </div>
+                                    <div className={style.orderStatus}>
+                                        <p>{`State: `} <b>{`${order.status_actual.status}`}</b> </p>
+                                    </div>
+                                    <Link to={`/admin/order-progress/${order.buy_id}`} style={{textDecoration:"none"}}>
+                                        <button className={style.button}>Work in</button>
                                     </Link>
                                 </div>
                                 )
@@ -42,11 +49,11 @@ export default function OrderList(){
     )
         
     return(
-        <div className={styles.container}>
+        <div className={style.container}>
 
             <div>
                 {
-                <div className={styles.selectState}>
+                <div className={style.selectState}>
                     <label htmlFor="">Filter by state</label>
                     <select name="orderType" id="orderType" onChange={(e) => {filterByState(e)}}>
                       <option> </option>

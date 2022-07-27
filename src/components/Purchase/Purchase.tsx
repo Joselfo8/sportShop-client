@@ -19,8 +19,8 @@ const stripePromise = loadStripe("pk_test_51LKaEAATR7GdGLkc7mu5mssziGvjyttaMQtfX
 export default function Purchase() {
     const dispatch = useDispatch();
     const state = useSelector((state: any) => state.rootReducer);
-    const user = useSelector((state: any) => state);
-    console.log("state completo", user)
+    const user = useSelector((state: any) => state.rootReducer.userInformation);
+    console.log(user)
  
     useEffect(() => {
         dispatch(getUserInformation());
@@ -128,17 +128,25 @@ export default function Purchase() {
 
                 <div className={style.shoppingBox}>
                     <h4 className={style.subtitle}>Payment method & purchase confirmation</h4>
-
-                    <Elements stripe={stripePromise} >
-                        <div className='formContainer'>
-                            <CheckoutForm 
-                                total={total.toFixed(2)}
-                                name={state.userInformation.name}
-                                email={state.userInformation.email}
-                                soldProducts={soldProducts}
-                            />
-                        </div>
-                    </Elements>
+                    {
+                        state.userInformation && !state.userInformation.name 
+                            ?   <></>
+                            :
+                            <Elements stripe={stripePromise} >
+                                <div className='formContainer'>
+                                    <CheckoutForm 
+                                        total={total.toFixed(2)}
+                                        name={user.name}
+                                        email={user.email}
+                                        soldProducts={soldProducts}
+                                        direction={state.userInformation.shippingAddresses[0].firstAddress}
+                                        city={state.userInformation.shippingAddresses[0].city}
+                                        state={user.shippingAddresses[0].state}
+                                        country={state.userInformation.shippingAddresses[0].country}
+                                    />
+                                </div>
+                            </Elements>
+                    }
                 </div>
 
                 <div className={style.customerInformation}>
@@ -152,10 +160,10 @@ export default function Purchase() {
                         state.userInformation && !state.userInformation.name 
                             ?   <></>
                             :   <div>
-                                    <p>{`Direction: ${state.userInformation.direction}`}</p>
-                                    <p>{`City: ${state.userInformation.city}, ${state.userInformation.state}`}</p>
-                                    <p>{`Country: ${state.userInformation.country}`}</p>
-                                    <p>{`Phone number: +${state.userInformation.numberPhone}`}</p>
+                                    <p>{`Direction: ${state.userInformation.shippingAddresses[0].firstAddress}`}</p>
+                                    <p>{`City: ${state.userInformation.shippingAddresses[0].city}, ${user.shippingAddresses[0].state}`}</p>
+                                    <p>{`Country: ${state.userInformation.shippingAddresses[0].country}`}</p>
+                                    <p>{`Phone number: ${state.userInformation.shippingAddresses[0].phoneNumber}`}</p>
                                 </div>
                         }
                         </div>
