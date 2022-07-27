@@ -254,6 +254,7 @@ const getProductById = async (req, res, next) => {
         product_care: product.product_care,
         image: product.image,
         stock: product.stock,
+        buys: product.buys,
       },
     });
   } catch (error) {
