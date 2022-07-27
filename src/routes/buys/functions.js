@@ -6,7 +6,6 @@ const e = require("express");
 async function getBuys(req, res) {
   const { name, status, pag = 1, limit = 4 } = req.query;
   try {
-
     let buys = await Buy.findAll({
       include: [User],
       order: [["id", "ASC"]],
@@ -37,7 +36,6 @@ async function getBuys(req, res) {
       ...buys,
       products: undefined,
       buys: buys.products,
-
     });
   } catch (error) {
     //console.log("error=>", error);
@@ -60,7 +58,6 @@ async function getBuyById(req, res) {
     }
 
     res.send(buyObj);
-
   } catch (error) {
     //console.log("error ==> ", error);
     res.status(500).json({ msg: "failed to get buys", error });
@@ -104,10 +101,6 @@ async function postBuy(req, res) {
       return res.send({ msg: "id_user is not a number" });
     id_user = Number(id_user);
 
-    //validation authorization
-    if (req.user.role === "user" && req.user.id !== id_user)
-      return res.send({ msg: "you can´t buy for other users" });
-
     const user = await User.findOne({ where: { id: id_user } });
     if (!user) return res.send({ msg: "user not found" });
 
@@ -115,7 +108,9 @@ async function postBuy(req, res) {
     console.log("LISTA: ",list)
     let products = Object.keys(list);
     products = await Product.findAll({ where: { id: products } });
+
     if (products.length === 0) return res.send({ msg: "list is empty" });
+<<<<<<< HEAD
   
     products = products.map(async(x) => {
       const newStock = list[x.id]
@@ -133,19 +128,35 @@ async function postBuy(req, res) {
       console.log("cosas :" ,x.stock)
 
       //console.log("newStock :", newStock);
+=======
+
+    for (const producto of products) {
+      producto.buys += 1;
+      await producto.save();
+    }
+
+    products = products.map((x) => {
+      let quantity = Object.values(list[x.id]);
+      quantity = quantity.reduce((a, b) => a + parseInt(b), 0);
+
+>>>>>>> 158f7d71857f0e30949f3f1628fe601e41ed93a9
       return {
         id: x.id,
         title: x.title,
         price: x.price,
         image: x.image,
         sizesAmount: list[x.id],
+        quantity: quantity,
       };
     });
 
-    const suma = products.reduce((acc, cur) => acc + cur.price, 0);
+    const suma = products.reduce(
+      (acc, cur) => acc + cur.price * cur.quantity,
+      0
+    );
 
     let buy = await Buy.create({
-      status_history: [{ status: "create order", date: new Date() }],
+      status_history: [{ status: "created order", date: new Date() }],
       products: [...products],
       sub_total: suma,
       taxes: suma * 0.026,
