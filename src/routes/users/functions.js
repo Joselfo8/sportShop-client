@@ -123,6 +123,7 @@ async function getUserData(req, res) {
 
 // update user image
 async function updateAvatar(req, res) {
+  console.log("error");
   const { id } = req.user;
   if (!id) return res.status(400).json({ msg: "ID is required" });
   const { avatar } = req.body;
@@ -260,7 +261,7 @@ async function putUser(req, res) {
     req.params.id && req.user.role === "admin" ? req.params.id : req.user.id;
   if (!id) return res.status(400).json({ msg: "id is required" });
 
-  const { password, role } = req.body;
+  const { password, role, avatar } = req.body;
 
   try {
     // get user by id
@@ -274,6 +275,11 @@ async function putUser(req, res) {
     if (req.user.role !== "admin" && id !== user.id) {
       return res.status(403).json({ msg: "You can´t update other users" });
     }
+
+    if (avatar)
+      return res
+        .status(400)
+        .json({ msg: "Avatar can't be update by this endpoint" });
 
     // por que no puede cambiar su contraseña????
     if (password) {
@@ -297,7 +303,7 @@ async function putUser(req, res) {
       data: response,
     });
   } catch (error) {
-    res.status(500).json({ msg: "Update failed", error });
+    res.status(500).json({ msg: error.message });
   }
 }
 
