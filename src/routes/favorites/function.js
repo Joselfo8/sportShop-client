@@ -26,35 +26,41 @@ const addToFavorites = async (req, res) => {
   try {
     const { product } = req.body;
     let user = req.user.id;
+
     if (req.user.id !== user && req.user.role === "user")
-      return res.send({ msg: "you are not authorized" });
+      return res.status(401).send({ msg: "you are not authorized" });
     //validar user
-    if (!user) return res.send({ msg: "user is required" });
-    if (Number.isNaN(user)) return res.send({ msg: "user must be a number" });
+    if (!user) return res.status(400).send({ msg: "user is required" });
+    if (Number.isNaN(user))
+      return res.status(400).send({ msg: "user must be a number" });
     user = parseInt(user);
 
     //validar product
-    if (!product) return res.send({ msg: "product is required" });
+    if (!product) return res.status(400).send({ msg: "product is required" });
     if (Number.isNaN(product))
-      return res.send({ msg: "product must be a number" });
+      return res.status(400).send({ msg: "product must be a number" });
 
     //existencia del usuario
     const userObj = await User.findOne({ where: { id: user } });
-    if (!userObj) return res.send({ msg: "user not exist" });
+    if (!userObj) return res.status(404).send({ msg: "user not exist" });
 
     //existencia del producto
     const productObj = await Product.findOne({ where: { id: product } });
-    if (!productObj) return res.send({ msg: "product not exists" });
+    if (!productObj) return res.status(404).send({ msg: "product not exists" });
 
     //agregar producto a favoritos
     const list = await userObj.getFavorite();
     await list.addProduct(productObj);
     const products = await list.getProducts();
 
-    return res.send({ msg: "product added to favorites", list: products });
+    return res
+      .status(201)
+      .send({ msg: "product added to favorites", list: products });
   } catch (error) {
     console.log("error", error);
-    return res.send({ msg: "failed to add to favorites", error: error });
+    return res
+      .status(500)
+      .send({ msg: "failed to add to favorites", error: error });
   }
 };
 

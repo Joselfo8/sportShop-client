@@ -20,10 +20,10 @@ const checkRole = async (req, res, next) => {
       console.log("TokenRole => " + tokenInfo.role);
       return next();
     } else {
-      res.status(409).send({ msg: "Token invalid" });
+      res.status(401).send({ msg: "Token invalid" });
     }
   } catch (e) {
-    res.status(409).json({ msg: "error to check token" }); //por aqui no pasa
+    res.status(401).json({ msg: "error to check token" }); //por aqui no pasa
   }
 };
 
