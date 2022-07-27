@@ -20,7 +20,10 @@ router.post("/pay", async (req, res) => {
     });
     console.log(payment);
     // Send publishable key and PaymentIntent details to client
-    res.send("Succesfull payment", payment.client_secret || payment.id);
+    res.send({
+      msg: "Succesfull payment",
+      data: payment.client_secret || payment.id,
+    });
   } catch (error) {
     res.json({ error });
     console.log(error);
