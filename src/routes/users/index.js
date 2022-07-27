@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const {
   getCheckAdmin,
-  getUser,
   getUserData,
   postUser,
   deleteUser,
@@ -10,7 +9,6 @@ const {
   deleteAvatar,
   loginUser,
   getAllUser,
-  logOut,
   addShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,
@@ -32,22 +30,28 @@ router.get(
 router.get("/all", checkRole, checkRules(["admin"]), getAllUser);
 
 // get user data with id from token
-router.get("", checkRole, checkRules(["user", "admin"]), getUserData);
+router.get("/", checkRole, checkRules(["user", "admin"]), getUserData);
+
 // get user data with param id if role is admin
 router.get("/:id", checkRole, checkRules(["admin"]), getUserData);
-// update self-user data
-router.put("", checkRole, checkRules(["user", "admin"]), putUser);
-// update user data with param id if role is admin
-router.put("/:id", checkRole, checkRules(["admin"]), putUser);
+
 // update user image (avatar)
 router.put("/avatar", checkRole, checkRules(["user", "admin"]), updateAvatar);
+
 // delete user image (avatar)
 router.delete("/avatar", checkRole, checkRules(["user", "admin"]), deleteAvatar);
+
+// update self-user data
+router.put("/", checkRole, checkRules(["user", "admin"]), putUser);
+
+// update user data with param id if role is admin
+router.put("/:id", checkRole, checkRules(["admin"]), putUser);
+
 // delete user
 router.delete("/:id", checkRole, checkRules(["admin"]), deleteUser);
 
 // create a new user
-router.post("", postUser);
+router.post("/", postUser);
 // create, update, and delete a shipping address
 router.post(
   "/address",
