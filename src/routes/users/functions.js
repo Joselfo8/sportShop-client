@@ -1,4 +1,5 @@
 const { User, ShippingAddress } = require("../../db");
+const cloudinary = require("cloudinary").v2;
 const { Op } = require("sequelize");
 const { compare, encrypt } = require("../../helpers/handleBcrypt");
 const { tokenSign, verifyToken } = require("../../helpers/Token");
@@ -104,14 +105,89 @@ async function getUserData(req, res) {
         "genre",
         "dateOfBirth",
         "trolly",
+        "avatar",
       ],
       include: "shippingAddresses",
     });
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    return res.status(200).json({ msg: "User found", data: user });
+    return res.status(200).json({
+      msg: "User found",
+      data: { ...user.get(), avatar: user.avatar.url },
+    });
   } catch (error) {
-    return res.send(error);
+    return res.status(500).json({ msg: error.message });
+  }
+}
+
+// update user image
+async function updateAvatar(req, res) {
+  const { id } = req.user;
+  if (!id) return res.status(400).json({ msg: "ID is required" });
+  const { avatar } = req.body;
+
+  try {
+    const user = await User.findOne({
+      where: { id },
+      attributes: ["id", "avatar"],
+    });
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    // if user have a avatar already uploaded, delete and replace
+    if (user.avatar.publicId)
+      await cloudinary.uploader.destroy(user.avatar.publicId);
+
+    // save avatar
+    const response = await cloudinary.uploader.upload(avatar);
+    user.set({
+      avatar: {
+        publicId: response["public_id"],
+        url: response["secure_url"],
+      },
+    });
+    await user.save();
+
+    return res
+      .status(200)
+      .json({ msg: "User avatar saved", data: user.avatar.url });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: error.message });
+  }
+}
+
+// delete user image
+async function deleteAvatar(req, res) {
+  const { id } = req.user;
+  if (!id) return res.status(400).json({ msg: "ID is required" });
+
+  try {
+    const user = await User.findOne({
+      where: { id },
+      attributes: ["id", "avatar"],
+    });
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    if (!user.avatar.publicId)
+      return res.status(400).json({ msg: "User don't have an avatar" });
+
+    // delete user from cloudinary
+    await cloudinary.uploader.destroy(user.avatar.publicId);
+
+    // delete url from db
+    user.set({
+      avatar: {
+        publicId: null,
+        url: null,
+      },
+    });
+    await user.save();
+
+    return res.status(200).json({ msg: "User avatar deleted" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ msg: "Delete avatar failed", err: error.message });
   }
 }
 
@@ -230,6 +306,7 @@ async function putUser(req, res) {
 
     // save all changes
     user.set(req.body);
+    await user.save();
 
     // send all values, less password
     const { password: _1, ...response } = user.dataValues;
@@ -407,6 +484,8 @@ module.exports = {
   postUser,
   deleteUser,
   putUser,
+  updateAvatar,
+  deleteAvatar,
   loginUser,
   getAllUser,
   logOut,

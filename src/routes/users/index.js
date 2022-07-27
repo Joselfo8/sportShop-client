@@ -6,6 +6,8 @@ const {
   postUser,
   deleteUser,
   putUser,
+  updateAvatar,
+  deleteAvatar,
   loginUser,
   getAllUser,
   logOut,
@@ -26,6 +28,10 @@ router.get(
 );
 // update user
 router.put("", checkRole, checkRules(["user", "admin"]), putUser);
+// update user image (avatar)
+router.put("/avatar", checkRole, checkRules(["user", "admin"]), updateAvatar);
+// delete user image (avatar)
+router.delete("/avatar", checkRole, checkRules(["user", "admin"]), deleteAvatar);
 // create a new user
 router.post("", postUser);
 // create, update, and delete a shipping address
