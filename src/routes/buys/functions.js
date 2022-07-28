@@ -29,8 +29,10 @@ async function getBuys(req, res) {
       include: [User],
       order: [["id", "DESC"]],
     });
-
     buys = buys.map((x) => {
+      if (!x.user) {
+        x.user = {};
+      }
       return {
         buy_id: x.id,
         status_actual: x.status_history[x.status_history.length - 1],
