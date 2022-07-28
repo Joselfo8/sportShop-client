@@ -3,7 +3,7 @@ import axios from "axios";
 import { InfoProps } from "components/ProfileCard/UserInfo";
 import { AddressProps } from "components/ProfileCard/UserInfo";
 // Env
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://vlixes-server.herokuapp.com";
 
 async function getUser() {
   return await axios.get(`${API_URL}/users`);

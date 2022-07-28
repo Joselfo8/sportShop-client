@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://vlixes-server.herokuapp.com";
 
 function register(
   name: string,
