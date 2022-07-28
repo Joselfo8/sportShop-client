@@ -7,7 +7,7 @@ import {
   GET_SHOPPINGLIST_BY_USER_ID,
   DELETE_SHOPPING_LIST,
 } from "./types";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://vlixes-server.herokuapp.com";
 
 export function getProducts(page?: number) {
   try {
