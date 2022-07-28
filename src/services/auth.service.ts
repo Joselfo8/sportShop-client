@@ -32,10 +32,17 @@ function logout() {
   localStorage.removeItem("auth");
 }
 
+function passwordRecovery(email: string) {
+  return axios.post(API_URL + "/mailer/password-recovery", {
+    email,
+  });
+}
+
 const auth = {
   register,
   login,
   logout,
+  passwordRecovery,
 };
 
 export default auth;
