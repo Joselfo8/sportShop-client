@@ -211,19 +211,19 @@ export default function Order() {
                                   
                                 </div>
 
-                                {/* <div className={style.invoice}>
+                                <div className={style.invoice}>
 
                                   <div className={style.subSubTitle}>
                                     <b>RECEIPTS:</b>
                                   </div>
 
                                   <div className={style.textSymple}>
-                                    <p>{`Invoice No.: ${"AGREGAR No. FACTURA"}`}</p>
-                                    <button className={style.button}>Download</button> 
+                                    <p>{`Invoice No.: ${"613145"}`}</p>
+                                    {/* <button className={style.button}>Download</button>  */}
                                   </div>
                                   
 
-                                </div> */}
+                                </div>
 
                               </div>
 
