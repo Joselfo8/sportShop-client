@@ -218,8 +218,8 @@ export default function Order() {
                                   </div>
 
                                   <div className={style.textSymple}>
-                                    <p>{`Invoice No.: ${"AGREGAR No. FACTURA"}`}</p>
-                                    <button className={style.button}>Download</button> 
+                                    <p>{`Invoice No.: ${"613145"}`}</p>
+                                    {/* <button className={style.button}>Download</button>  */}
                                   </div>
                                   
 
