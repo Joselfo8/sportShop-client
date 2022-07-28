@@ -8,13 +8,15 @@ const nodemailer = require("nodemailer");
 async function DeliveryBuy(req, res) {
   try {
     const { deliveryNumb, shoppingId } = req.body;
-    if (!deliveryNumb || !shoppingId) return res.status(400).send({ msg: "deliveryNumb and shoppingId are required" });
+    if (!deliveryNumb || !shoppingId)
+      return res
+        .status(400)
+        .send({ msg: "deliveryNumb and shoppingId are required" });
     const buy = await Buy.findOne({ where: { id: shoppingId } });
     console.log(buy);
     await buy.update({ delivery_number: deliveryNumb });
     res.status(200).json({ msg: "buy updated", buy: buy });
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "failed to update buy", error });
   }
@@ -55,7 +57,7 @@ async function getBuys(req, res) {
       buys: buys.products,
     });
   } catch (error) {
-    //console.log("error=>", error);
+    console.log("error=>", error);
     res.send({ msg: "failed to get buys", error });
   }
 }
@@ -205,59 +207,63 @@ async function postBuy(req, res) {
     });
     await user.addBuy(buy);
     buy = await Buy.findOne({ where: { id: buy.id }, include: [User] });
-///////////////////////////////////////////////
+    ///////////////////////////////////////////////
 
-const email = user.email;
-//let items = ["product1", "product2", "product3"];
-let items = buy.products.map(e=>{ return {title: e.title}});
-items = items.map(e=>{ return e.title});
-const long = items.length;
-let i = 0;
-let text = "";
-while(i<long){
-  text += items[i];
-  i++;
-  if(i<long){
-    text += ", ";
-  }
-}
-console.log(text);
-const total = buy.sub_total;
-let transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com", 
-  port: 465, //puerto de gmail safe
-  secure: true,
-  auth: {
-    user: EMAILERMIO, 
-    pass: EKEYMIO2///"pqogrcrnkcoamnfc", //contraseña de gmail
-  },
-});
-let mailOptions = {
-  from: `"VLIXES Your sport Shop 🏆" `,
-  to: email,
-  subject: "THANK YOU FOR YOUR PURCHASE",
-  text: `thank you!`,
-  html: `<h2><b> your purchases were ${items}</b> </br>
+    const email = user.email;
+    //let items = ["product1", "product2", "product3"];
+    let items = buy.products.map((e) => {
+      return { title: e.title };
+    });
+    items = items.map((e) => {
+      return e.title;
+    });
+    const long = items.length;
+    let i = 0;
+    let text = "";
+    while (i < long) {
+      text += items[i];
+      i++;
+      if (i < long) {
+        text += ", ";
+      }
+    }
+    console.log(text);
+    const total = buy.sub_total;
+    let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465, //puerto de gmail safe
+      secure: true,
+      auth: {
+        user: EMAILERMIO,
+        pass: EKEYMIO2, ///"pqogrcrnkcoamnfc", //contraseña de gmail
+      },
+    });
+    let mailOptions = {
+      from: `"VLIXES Your sport Shop 🏆" `,
+      to: email,
+      subject: "THANK YOU FOR YOUR PURCHASE",
+      text: `thank you!`,
+      html: `<h2><b> your purchases were ${items}</b> </br>
    <p>and will be delivered to ${buy.direction}, ${city}, ${state}, ${country}  between 1 or 7 days</p></br>
    <p>for a price of ${total} whitout tax and shipping</p></h2>`,
-};
+    };
 
-transporter.sendMail(mailOptions, (err, data) => {
-  if (err) {
-    res.status(500).send({ msg: "error sending email", err });
-  } else {
-    console.log("Email sent");
-    res.status(200).json({ msg: "Email sent", success: true, data });
-  }
-});
-transporter.verify(function (error, success) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Server is ready to take our messages");
-  }
-});
-///////////////////////////////////////////////
+    transporter.sendMail(mailOptions, (err, data) => {
+      if (err) {
+        res.status(500).send({ msg: "error sending email", err });
+      } else {
+        console.log("Email sent");
+        res.status(200).json({ msg: "Email sent", success: true, data });
+      }
+    });
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Server is ready to take our messages");
+      }
+    });
+    ///////////////////////////////////////////////
     res.send({ msg: "buy created", buy });
   } catch (error) {
     console.log("error=>", error);
