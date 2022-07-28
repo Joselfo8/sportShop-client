@@ -123,7 +123,6 @@ async function getUserData(req, res) {
 
 // update user image
 async function updateAvatar(req, res) {
-  console.log("error");
   const { id } = req.user;
   if (!id) return res.status(400).json({ msg: "ID is required" });
   const { avatar } = req.body;
@@ -136,7 +135,7 @@ async function updateAvatar(req, res) {
     if (!user) return res.status(404).json({ msg: "User not found" });
 
     // if user have a avatar already uploaded, delete and replace
-    if (user.avatar.publicId)
+    if (user.avatar?.publicId)
       await cloudinary.uploader.destroy(user.avatar.publicId);
 
     // save avatar
@@ -398,7 +397,7 @@ async function deleteShippingAddress(req, res) {
   if (!userId) return res.status(400).json({ msg: "User id is required" });
   if (isNaN(parseInt(userId)))
     return res.status(400).json({ msg: "id is a number" });
-  userId = parseInt(userId);
+
   if (!addressId)
     return res.status(400).json({ msg: "Address id is required" });
 
