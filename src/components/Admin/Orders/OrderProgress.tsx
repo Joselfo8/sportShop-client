@@ -100,9 +100,9 @@ export default function OrderProgress() {
 
   const handleOnSubmit: any = (event: any) => {
     event.preventDefault()
-    if(input.selectState === "") {
-      return alert('Choose a valid state!')
-    }
+    // if(input.selectState === "") {
+    //   return alert('Choose a valid state!')
+    // }
 
     if(input.selectState === "Order ready" && unduplicatedStates.includes("Preparing order")) {
       return alert('First you should assign state "Preparing order"')
@@ -134,6 +134,7 @@ export default function OrderProgress() {
           selectState: ""
         }
       })
+      event.target.reset()
     }
     
   }

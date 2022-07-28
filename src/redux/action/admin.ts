@@ -1,9 +1,10 @@
 import axios from "axios";
 import {
     GET_ORDERS,
-    GET_ORDERS_BY_ID,
     GET_ORDERS_BY_STATE,
+    GET_ORDERS_BY_ID,
     PUT_STATE_TO_ORDER,
+    GET_ORDER_BY_ID,
 } from './types'
 
 export const getAllProducts = (page? : number, limit? : string) => async (dispatch: any) => {
@@ -85,12 +86,26 @@ export function getOrders(pagination: string) {
     }
 }
 
-export function getOrderById(id: any) {
+export function getOrdersById(id: any) {
     try {
       return async function order(dispatch: any) {
         let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys/${id}`);
         return dispatch({
           type: GET_ORDERS_BY_ID,
+          payload: json.data,
+        });
+      };
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+export function getOrderById(id: any) {
+    try {
+      return async function order(dispatch: any) {
+        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys/${id}`);
+        return dispatch({
+          type: GET_ORDER_BY_ID,
           payload: json.data,
         });
       };
@@ -113,6 +128,7 @@ export function getOrdersByState(state: any) {
       console.log(error);
     }
 }
+
 
 export function putStateToOrder(object: any) {
     console.log("postStateToOrder", object)
