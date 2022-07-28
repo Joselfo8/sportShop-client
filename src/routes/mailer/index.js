@@ -1,17 +1,13 @@
 const router = require("express").Router();
 
-
-
 const { EMAILER1, EKEY1, EKEY2, EMAILERMIO, EKEYMIO } = process.env;
 
 const { checkRole } = require("../../helpers/auth"); //garantiza una secion iniciada
 
-
-
 const { User } = require("../../db");
 const { encrypt } = require("../../helpers/handleBcrypt");
 const nodemailer = require("nodemailer");
-const {nanoid} = require ('nanoid');
+const { nanoid } = require("nanoid");
 
 router.post("/password-recovery", checkRole, async (req, res) => {
   //validations
@@ -21,20 +17,19 @@ router.post("/password-recovery", checkRole, async (req, res) => {
   let user = await User.findOne({ where: { email } });
   if (!user) return res.status(404).json({ msg: "user not found" });
 
-  
-  const newPassword = nanoid();
-  console.log("Nuevo_password:",newPassword);
+  const newPassword = nanoid(10);
+  console.log("Nuevo_password:", newPassword);
   user.password = await encrypt(newPassword);
- // console.log("usuario sena Hashada:",user.password)
+  // console.log("usuario sena Hashada:",user.password)
   await user.save();
 
   let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com", 
+    host: "smtp.gmail.com",
     port: 465, //puerto de gmail safe
     secure: true,
     auth: {
-      user: EMAILERMIO, 
-      pass: EKEYMIO, 
+      user: EMAILERMIO,
+      pass: EKEYMIO,
     },
   });
 
@@ -63,7 +58,6 @@ router.post("/password-recovery", checkRole, async (req, res) => {
     }
   });
 });
-
 
 router.post("/send-email", (req, res) => {
   //console.log("<h1>Sended Email  </h1>")
@@ -104,6 +98,5 @@ router.post("/send-email", (req, res) => {
   });
 });
 //
-
 
 module.exports = { mailer: router };
