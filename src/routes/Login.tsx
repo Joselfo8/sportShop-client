@@ -295,9 +295,6 @@ function SignIn() {
             },
           }}
         />
-        <Link to="/login/recovery-password" className={styles["subtitle"]}>
-          Forgot your password?
-        </Link>
       </div>
       <div className={styles["button-cont"]}>
         <SubmitButton text="Sign in" />
