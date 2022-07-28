@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders, getOrdersByState } from "../../../redux/action/admin"
+import { getOrders, getOrdersById, getOrdersByState } from "../../../redux/action/admin"
 import { Link } from "react-router-dom";
 
 import style from "./OrderList.module.scss"
-import { error } from "console";
 
 function validate(input: any) {
     let errors = {};
@@ -20,11 +19,16 @@ function validate(input: any) {
 export default function OrderList(){
     const dispatch = useDispatch();
     const orders = useSelector((state:any) => state.admin.orders.buys);
+    const state = useSelector((state:any) => state.admin);
+    
+    const [input, setInput] = useState({
+        orderNumber: ''
+    })
+    const [errors, setErrors] = useState({
+        orderNumber: ''
+    })
+    
 
-    
-    const [input, setInput] = useState({})
-    const [errors, setErrors] = useState("")
-    
     useEffect(() => {
         dispatch(getOrders("?page=1&limit=30"));
     },[]);
@@ -51,11 +55,11 @@ export default function OrderList(){
     }
 
 
-    const findOrderById = () => {
-        console.log("findOrderById")
+    const findOrderById = (event: any) => {
+        event.preventDefault();
+        dispatch(getOrdersById(input.orderNumber));
+        event.target.reset()
     }
-
-      console.log("input", input , "errors", errors)
     
 
     const render = (
@@ -92,13 +96,16 @@ export default function OrderList(){
             <div className={style.filterContainer} >
                 
                 <div className={style.findOrderById}>
-                    <input
-                        name="orderNumber"
-                        placeholder='Enter order number...'
-                        onChange={(e) => handleImputsChange(e)}
-                    />
-                    {/* {errors.duration && ( <label className={style.errors}>{errors.duration}</label> )} */}
-                    <button onClick={() => {findOrderById()}}>Search</button>
+                    <form action="" id="orderNumber" onSubmit={(e) => findOrderById(e)}>
+                        <input
+                            name="orderNumber"
+                            placeholder='Enter order number...'
+                            onChange={(e) => handleImputsChange(e)}
+                        />
+                        {errors.orderNumber && ( <label className={style.errors}>{errors.orderNumber}</label> )}
+                        {/* <button onClick={() => {findOrderById()}}>Search</button> */}
+                        <button>Search</button>
+                    </form>
                 </div>
 
                 {

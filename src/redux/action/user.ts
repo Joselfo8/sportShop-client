@@ -104,15 +104,19 @@ export function addShippingAddress(data: AddressProps["data"]) {
   return async (dispatch: any) => {
     try {
       const response = await UserService.addShippingAddress(data);
-      const message = response.data?.msg || "Add successfully";
+      if (!response.data.errors) {
+        const message = response.data?.msg || "Add successfully";
 
-      dispatch({
-        type: ADD_SHIPPING_ADDRESS,
-        payload: response.data.data,
-      });
-      toast(message);
+        dispatch({
+          type: ADD_SHIPPING_ADDRESS,
+          payload: response.data.data,
+        });
+        toast(message);
 
-      return Promise.resolve(message);
+        return Promise.resolve(message);
+      } else {
+        toast("Add fail");
+      }
     } catch (err: any) {
       const message = err.response.data?.msg || "Update fail";
       toast(message);

@@ -44,61 +44,63 @@ function App() {
   setAuthToken();
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />}>
-          <Route path=":register" element={<Login />} />
-        </Route>
-        <Route path="/user/profile" element={<UserProfile />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/purchase" element={<Purchase />} />
-        <Route path="/:category" element={<Subcategory />} />
-        <Route path="/products/:id" element={<Details/>}/>
-        <Route path="/about" element={<About />} />
+    <div translate="no">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />}>
+            <Route path=":register" element={<Login />} />
+          </Route>
+          <Route path="/user/profile" element={<UserProfile />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/purchase" element={<Purchase />} />
+          <Route path="/:category" element={<Subcategory />} />
+          <Route path="/products/:id" element={<Details/>}/>
+          <Route path="/about" element={<About />} />
 
-        {/* FILTRADO DE PRODUCTOS */}
-        <Route path="/:category/:subCaegory" element={<ProductFilter />} />
-        <Route path="/search" element={<ProductFilter />} />
+          {/* FILTRADO DE PRODUCTOS */}
+          <Route path="/:category/:subCaegory" element={<ProductFilter />} />
+          <Route path="/search" element={<ProductFilter />} />
 
-        {/* ADMIN */}
-        <Route path="/admin" element={<HomeAdmin />} />
-        <Route path="/admin/list" element={<List />} />
-        <Route path="/admin/addProduct" element={<AddProduct />} />
-        <Route path="/admin/order-detail/:id" element={<Order />} />
-        <Route path="/admin/order-progress/:orderId" element={<OrderProgress />} />
-        <Route path="/stock/:id" element={<Stock/>} />
-        <Route path="admin/editProduct/:id" element={<EditProduct />} />
-      </Routes>
+          {/* ADMIN */}
+          <Route path="/admin" element={<HomeAdmin />} />
+          <Route path="/admin/list" element={<List />} />
+          <Route path="/admin/addProduct" element={<AddProduct />} />
+          <Route path="/admin/order-detail/:id" element={<Order />} />
+          <Route path="/admin/order-progress/:orderId" element={<OrderProgress />} />
+          <Route path="/stock/:id" element={<Stock/>} />
+          <Route path="admin/editProduct/:id" element={<EditProduct />} />
+        </Routes>
 
-      {/* Notification component */}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+        {/* Notification component */}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
 
-      {/* ChatBot */}
-    <div className={styles.chatbot1}>
-      { chatBot ?
-      <Chatbot
-        config={config}
-        messageParser={MessageParser}
-        actionProvider={ActionProvider}
-        /> :
-        <></>
-      }
-        <FaRobot className={styles.show} onClick={handleShow}>BOT</FaRobot>
+        {/* ChatBot */}
+      <div className={styles.chatbot1}>
+        { chatBot ?
+        <Chatbot
+          config={config}
+          messageParser={MessageParser}
+          actionProvider={ActionProvider}
+          /> :
+          <></>
+        }
+          <FaRobot className={styles.show} onClick={handleShow}>BOT</FaRobot>
+      </div>
+
+      </BrowserRouter>
     </div>
-
-    </BrowserRouter>
   );
 };
 
