@@ -97,7 +97,7 @@ export default function UserOrderList(){
 
             <div className={style.container}>
                 <div className={style.titleOrders}>
-                    <h3>Your orders</h3>
+                    <h3>My orders</h3>
                 </div>
 
                 <div>
