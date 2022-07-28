@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addProductToCart, deleteFavorite, getFavorites } from '../../redux/action'
 import Footer from '../Footer/Footer'
 import { FiShoppingCart } from "react-icons/fi";
+import { Modal, ModalBody, ModalHeader } from 'reactstrap'
 
 
 export default function Favorites(){
@@ -13,7 +14,7 @@ export default function Favorites(){
     const navigate = useNavigate()
     
     const favorites = useSelector((state:any) => state.rootReducer.favorites)
-   
+    console.log(favorites)
     const [errors, setErrors]:any = useState({
       size: '',
       quantity:''
@@ -21,10 +22,12 @@ export default function Favorites(){
 
     const [size, setSize]:any = useState('')
 
-    const userID = useSelector((state:any) => state.auth.auth?.user.id)
-    const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
-    const auth: any =useSelector((state:any) => state.auth.auth)
-    const [quantity, setQuantity]: any = useState('')
+    const [quantity, setQuantity]: any = useState(1)
+
+    const [open, setOpen] = useState(false)
+
+
+  
     
     
     const handleDelete = (e:any,payload:any) => {
@@ -37,9 +40,10 @@ export default function Favorites(){
 
       if(size === '') {
         return setErrors({size:'Select your size first'})
-      } else if(quantity === ''){
-        return setErrors({quantity: 'Enter quantity'})
+      } else if (false){
+        return setErrors({quantity: 'There are not enough products'})
       } else {
+          setOpen(!open)
           dispatch(addProductToCart(info))
           setSize('')
           setErrors('')
@@ -58,9 +62,11 @@ export default function Favorites(){
         dispatch(getFavorites())
     },[])
     
+
   return (
-    <div >
+    <div  >
         <NavBar/>
+        <div className={styles.containerG}>
         <div className={styles.title}>
           <h1>MY WISH LIST</h1>
         </div>
@@ -124,11 +130,34 @@ export default function Favorites(){
                                 </Link>                                
                             </div>   
                     </div>
+                    <Modal isOpen={open}>
+              
+            <button className={styles.buttonModal} style={{marginLeft:"auto", width:"50px",   backgroundColor:"black",color:"white"}} onClick={()=>setOpen(!open)}>X</button>
+              
+            <ModalHeader className={styles.modalHeader}>
+              <header>Product added to cart</header>
+            </ModalHeader> 
+
+            <ModalBody className={styles.modalBody}>
+              <div>
+                  <Link to='/'>
+                    <button className={styles.buttonModal}>Continue Shopping</button>
+                  </Link>
+              </div>
+              <br></br>
+              <div>
+                <Link to='/cart'>
+                  <button  className={styles.buttonModal}>Show car</button>
+                </Link>
+              </div>
+            </ModalBody>
+          </Modal>
 
                 </div>
                 )
             })
         }
+        </div>
         </div>
         
       

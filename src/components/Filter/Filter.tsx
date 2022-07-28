@@ -10,7 +10,7 @@ export default function Filter(){
     };
   return (
     <div className={styles.container}>
-      <p>Order by:</p>
+      {/* <p>Order by:</p> */}
       <div  >
         <select
           className={styles.select}
