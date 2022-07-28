@@ -211,7 +211,7 @@ export default function Order() {
                                   
                                 </div>
 
-                                <div className={style.invoice}>
+                                {/* <div className={style.invoice}>
 
                                   <div className={style.subSubTitle}>
                                     <b>RECEIPTS:</b>
@@ -223,7 +223,7 @@ export default function Order() {
                                   </div>
                                   
 
-                                </div>
+                                </div> */}
 
                               </div>
 
