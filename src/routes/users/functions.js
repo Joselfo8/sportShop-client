@@ -319,6 +319,7 @@ async function addShippingAddress(req, res) {
       .status(400)
       .json({ msg: "You can´t add shipping address on other users" });
   }
+  const { id: _1, ...data } = req.body;
   try {
     // get user by id
     const user = await User.findOne({
@@ -328,7 +329,7 @@ async function addShippingAddress(req, res) {
     if (!user) return res.status(404).json({ msg: "User not found" });
 
     // create one address, associate with user and save
-    const newAddr = await ShippingAddress.create(req.body);
+    const newAddr = await ShippingAddress.create(data);
     await user.addShippingAddress(newAddr);
 
     // find new address
@@ -341,7 +342,8 @@ async function addShippingAddress(req, res) {
       data: findedAddr,
     });
   } catch (error) {
-    res.send(error);
+    console.log(error);
+    res.status(500).send(error);
   }
 }
 
