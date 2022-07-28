@@ -9,7 +9,7 @@ import {
     PUT_TRACKING_NUMBER,
 } from './types'
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://vlixes-server.herokuapp.com";
 
 export const getAllProducts =
   (page?: number, limit?: string) => async (dispatch: any) => {
