@@ -51,7 +51,7 @@ export default function Details(){
 
     // ESTADOS: 
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
-
+    console.log(productDetail)
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
     const auth: any =useSelector((state:any) => state.auth)
@@ -210,12 +210,12 @@ export default function Details(){
           </div>
 
           <h3 className={styles.price}>${productDetail.price}</h3>
-
+       
           <h2>SELECT SIZE</h2>
           
           <form onSubmit={addToCart}>
             
-            { productDetail.stock &&
+            { productDetail.stock && !(Object.entries(productDetail.stock).length === 0 )?
               Object.keys(productDetail.stock).map((s:any,index) => 
               <div key= {index} className={styles.containerSize}>
                 <ul  className= {styles.ksCboxtags}>
@@ -229,7 +229,7 @@ export default function Details(){
                       <label htmlFor={s}>{isNaN(s) ? (s.toUpperCase()): `US ${s}`}</label>
                   </li>
                 </ul>    
-              </div>) 
+              </div>) : <div className={styles.soldOut}>¡ Sold out !</div> 
             }
             
             <div className={styles.contErrors}>
