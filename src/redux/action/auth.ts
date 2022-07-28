@@ -25,7 +25,7 @@ export async function register(
     );
 
     if (!response.data.user) {
-      const message = response.data?.msg || "Login fail";
+      const message = response.data?.msg || "Register fail";
 
       dispatch({
         type: REGISTER_FAIL,
@@ -35,7 +35,7 @@ export async function register(
 
       return Promise.reject(message);
     }
-    const message = response.data?.msg || "Login successful";
+    const message = response.data?.msg || "Register successfully";
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -52,7 +52,7 @@ export async function login(email: string, password: string) {
   return async (dispatch: any) => {
     try {
       const response = await AuthService.login(email, password);
-      const message = response.data?.msg || "Login successful";
+      const message = response.data?.msg || "Login successfully";
 
       // add JWT token to all request
       setAuthToken();
@@ -83,4 +83,6 @@ export const logout = () => (dispatch: any) => {
   dispatch({
     type: LOGOUT,
   });
+
+  toast("Logout successfully");
 };
