@@ -10,6 +10,14 @@ $weightParagraph: 100;
     align-items: center;
     font-family: $font;
 
+    .titleOrders {
+        width: 95%;
+        margin: 20px;
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: solid 1px rgb(205, 205, 205);
+    }
+
     .order {
         width: 770px;
         height: 55px;

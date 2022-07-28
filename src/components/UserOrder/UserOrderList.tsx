@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders, getOrdersById, getOrdersByState } from "../../redux/action/admin"
+import { getUserOrders } from '../../redux/action/user'
 import { Link } from "react-router-dom";
+import NavBar from "components/Navbar/Navbar";
+import Footer from "components/Footer/Footer";
 
 import style from "./UserOrderList.module.scss"
 
@@ -18,8 +21,7 @@ function validate(input: any) {
 
 export default function UserOrderList(){
     const dispatch = useDispatch();
-    const orders = useSelector((state:any) => state.admin.orders.buys);
-    const state = useSelector((state:any) => state.admin);
+    const orders = useSelector((state:any) => state.user.orders);
     
     const [input, setInput] = useState({
         orderNumber: ''
@@ -28,9 +30,8 @@ export default function UserOrderList(){
         orderNumber: ''
     })
     
-
     useEffect(() => {
-        dispatch(getOrders("?page=1&limit=30"));
+        dispatch(getUserOrders())
     },[]);
 
     function filterByState(event: any) {
@@ -80,8 +81,8 @@ export default function UserOrderList(){
                                     <div className={style.orderStatus}>
                                         <p>{`State: `} <b>{`${order.status_actual.status}`}</b> </p>
                                     </div>
-                                    <Link to={`/admin/order-progress/${order.buy_id}`} style={{textDecoration:"none"}}>
-                                        <button className={style.button}>Work in</button>
+                                    <Link to={`/user/order-detail/${order.buy_id}`} style={{textDecoration:"none"}}>
+                                        <button className={style.button}>Detail</button>
                                     </Link>
                                 </div>
                                 )
@@ -91,43 +92,21 @@ export default function UserOrderList(){
     )
         
     return(
-        <div className={style.container}>
+        <div>
+            <NavBar/>
 
-            <div className={style.filterContainer} >
-                
-                <div className={style.findOrderById}>
-                    <form action="" id="orderNumber" onSubmit={(e) => findOrderById(e)}>
-                        <input
-                            name="orderNumber"
-                            placeholder='Enter order number...'
-                            onChange={(e) => handleImputsChange(e)}
-                        />
-                        {errors.orderNumber && ( <label className={style.errors}>{errors.orderNumber}</label> )}
-                        <button>Search</button>
-                    </form>
+            <div className={style.container}>
+                <div className={style.titleOrders}>
+                    <h3>Your orders</h3>
                 </div>
 
-                {
-                <div className={style.selectState}>
-                    <p>Filter by state: </p>
-                    <select name="orderType" id="orderType" onChange={(e) => {filterByState(e)}}>
-                      <option> </option>
-                      <option value="Created order">Created order</option>
-                      <option value="Preparing order">Preparing order</option>
-                      <option value="Order ready">Order ready</option>
-                      <option value="Order is on its way">Order is on its way</option>
-                      <option value="Order delivered">Order delivered</option>
-                    </select>
+                <div>
+                    { render }
                 </div>
-                }
-                
 
             </div>
 
-            <div>
-                { render }
-            </div>
-
+            <Footer/>
         </div>
     );
 };

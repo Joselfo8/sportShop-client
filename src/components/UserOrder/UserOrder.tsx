@@ -211,7 +211,7 @@ export default function UserOrder() {
                                   
                                 </div>
 
-                                <div className={style.invoice}>
+                                {/* <div className={style.invoice}>
 
                                   <div className={style.subSubTitle}>
                                     <b>RECEIPTS:</b>
@@ -223,7 +223,7 @@ export default function UserOrder() {
                                   </div>
                                   
 
-                                </div>
+                                </div> */}
 
                               </div>
 
@@ -249,8 +249,8 @@ export default function UserOrder() {
 
       <div className={style.linkContainer}>
         <div className={style.textArea}>
-          <Link to="/admin/" className={style.link}>
-            <p>{`> Back to admin menu`}</p>
+          <Link to="/user/order-list" className={style.link}>
+            <p>{`> Back to orders menu`}</p>
           </Link>
         </div>
       </div>
