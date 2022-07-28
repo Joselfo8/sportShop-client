@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders, getOrdersById, getOrdersByState } from "../../../redux/action/admin"
+import { getOrders, getOrdersById, getOrdersByState } from "../../redux/action/admin"
 import { Link } from "react-router-dom";
 
-import style from "./OrderList.module.scss"
+import style from "./UserOrderList.module.scss"
 
 function validate(input: any) {
     let errors = {};
@@ -16,7 +16,7 @@ function validate(input: any) {
     return errors;
 };
 
-export default function OrderList(){
+export default function UserOrderList(){
     const dispatch = useDispatch();
     const orders = useSelector((state:any) => state.admin.orders.buys);
     const state = useSelector((state:any) => state.admin);
