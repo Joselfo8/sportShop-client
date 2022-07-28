@@ -59,7 +59,6 @@ function admin(state = initialState, action : any){
                 order : action.payload,
             };
         case GET_ORDERS_BY_STATE:
-            console.log("desde reducers GET_ORDERS_BY_STATE", action.payload)
             return {
                 ...state,
                 orders : action.payload,

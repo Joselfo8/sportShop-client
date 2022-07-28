@@ -103,6 +103,7 @@ export default function OrderList(){
                             onChange={(e) => handleImputsChange(e)}
                         />
                         {errors.orderNumber && ( <label className={style.errors}>{errors.orderNumber}</label> )}
+                        {/* <button onClick={() => {findOrderById()}}>Search</button> */}
                         <button>Search</button>
                     </form>
                 </div>
@@ -112,7 +113,7 @@ export default function OrderList(){
                     <p>Filter by state: </p>
                     <select name="orderType" id="orderType" onChange={(e) => {filterByState(e)}}>
                       <option> </option>
-                      <option value="Created order">Created order</option>
+                      <option value="created order">Created order</option>
                       <option value="Preparing order">Preparing order</option>
                       <option value="Order ready">Order ready</option>
                       <option value="Order is on its way">Order is on its way</option>

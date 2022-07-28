@@ -6,6 +6,7 @@ import {
     GET_ORDERS_BY_STATE,
     PUT_STATE_TO_ORDER,
     GET_ORDER_BY_ID,
+    PUT_TRACKING_NUMBER,
 } from './types'
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -135,11 +136,22 @@ export function getOrdersByState(state: any) {
 
 
 export function putStateToOrder(object: any) {
-  console.log("postStateToOrder", object);
   try {
     return async function state(dispatch: any) {
       let json: any = await axios.put(`${API_URL}/buys`, object);
       dispatch(getOrderById(object.id));
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// PUT_DELIVERY_NUMBER
+export function putTrackingNumber(object: any) {
+  try {
+    return async function state(dispatch: any) {
+      let json: any = await axios.put(`${API_URL}/buys/delivery`, object);
+      dispatch(getOrderById(object.shoppingId));
     };
   } catch (error) {
     console.log(error);

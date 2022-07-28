@@ -5,6 +5,7 @@ import {
   POST_PURCHASE,
   GET_USER_INFORMATION,
   GET_SHOPPINGLIST_BY_USER_ID,
+  DELETE_SHOPPING_LIST,
 } from "./types";
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -109,7 +110,6 @@ export const addProduct = (payload: any) => async (dispatch: any) => {
   try {
 
     const json: any = await axios.post(`${API_URL}/products`, payload);
-    console.log(json.data);
     return dispatch({ type: "POST_PRODUCT", payload: json.data });
   } catch (error) {
     console.log(error);
@@ -139,6 +139,17 @@ export function getShoppingListByUserId() {
         type: GET_SHOPPINGLIST_BY_USER_ID,
         payload: json.data,
       });
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function deleteShoppingList(userId: any) {
+  try {
+    return async function state(dispatch: any) {
+      let json: any = await axios.delete(`${API_URL}/shopping_list/all?user=${userId}`);
+      dispatch(getShoppingListByUserId());
     };
   } catch (error) {
     console.log(error);
@@ -183,7 +194,6 @@ export const getFavorites = () => async (dispatch: any) => {
 
 export const deleteFavorite = (payload: any) => async (dispatch: any) => {
   try {
-    console.log(payload);
     const json = await axios.delete(
       `${API_URL}/favorites?product=${payload.product}`
     );
@@ -234,7 +244,6 @@ export function postPurchase(object: any) {
 export const addStock = (payload: any) => async (dispatch: any) => {
   try {
     const json = await axios.post(`${API_URL}/stock`, payload);
-    console.log(json);
     dispatch(getDetails(payload.product));
   } catch (error) {
     console.log(error);
