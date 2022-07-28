@@ -93,16 +93,11 @@ export default function OrderProgress() {
     setErrors(errorsResult)
   }
 
-  // console.log("input", input, "checked", checked)
-
   // ------------------------------ Submit ------------------------------ //
 
 
   const handleOnSubmit: any = (event: any) => {
     event.preventDefault()
-    // if(input.selectState === "") {
-    //   return alert('Choose a valid state!')
-    // }
 
     if(input.selectState === "Order ready" && unduplicatedStates.includes("Preparing order")) {
       return alert('First you should assign state "Preparing order"')

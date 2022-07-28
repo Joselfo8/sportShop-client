@@ -62,7 +62,6 @@ export default function CheckoutForm({total, name, email, soldProducts, directio
             footer: 'Remember that your order will be delivered within one to five days',
           })
 
-          
           navigate('/')
 
         } else {
