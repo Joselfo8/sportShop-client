@@ -1,10 +1,13 @@
 import axios from "axios";
 import {
-  GET_ORDERS,
-  GET_ORDERS_BY_ID,
-  GET_ORDERS_BY_STATE,
-  PUT_STATE_TO_ORDER,
-} from "./types";
+
+    GET_ORDERS,
+    GET_ORDERS_BY_ID,
+    GET_ORDERS_BY_STATE,
+    PUT_STATE_TO_ORDER,
+    GET_ORDER_BY_ID,
+} from './types'
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 export const getAllProducts =
@@ -87,20 +90,33 @@ export function getOrders(pagination: string) {
   }
 }
 
-export function getOrderById(id: any) {
-  try {
-    return async function order(dispatch: any) {
-      let json: any = await axios.get(`${API_URL}/buys/${id}`);
-      return dispatch({
-        type: GET_ORDERS_BY_ID,
-        payload: json.data,
-      });
-    };
-  } catch (error) {
-    console.log(error);
-  }
+export function getOrdersById(id: any) {
+    try {
+      return async function order(dispatch: any) {
+        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys/${id}`);
+        return dispatch({
+          type: GET_ORDERS_BY_ID,
+          payload: json.data,
+        });
+      };
+    } catch (error) {
+      console.log(error);
+    }
 }
 
+export function getOrderById(id: any) {
+    try {
+      return async function order(dispatch: any) {
+        let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys/${id}`);
+        return dispatch({
+          type: GET_ORDER_BY_ID,
+          payload: json.data,
+        });
+      };
+    } catch (error) {
+      console.log(error);
+    }
+}
 
 export function getOrdersByState(state: any) {
   try {
@@ -116,6 +132,7 @@ export function getOrdersByState(state: any) {
     console.log(error);
   }
 }
+
 
 export function putStateToOrder(object: any) {
   console.log("postStateToOrder", object);

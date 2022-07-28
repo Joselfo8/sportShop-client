@@ -18,7 +18,7 @@ export default function Order() {
   const state = useSelector((state:any) => state);
   // console.log("state", state)
 
-  // console.log("ORDER", order)
+  console.log("ORDER", order)
   // console.log("PRUEBA", (Number(Object.values(order.products[2].sizesAmount))))
 
   let {id} = useParams();

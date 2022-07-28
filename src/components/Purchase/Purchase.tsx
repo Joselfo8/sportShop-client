@@ -20,7 +20,7 @@ export default function Purchase() {
     const dispatch = useDispatch();
     const state = useSelector((state: any) => state.rootReducer);
     const user = useSelector((state: any) => state.rootReducer.userInformation);
-    console.log(user)
+    console.log("STATE______________",state)
  
     useEffect(() => {
         dispatch(getUserInformation());
