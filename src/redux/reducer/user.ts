@@ -14,11 +14,13 @@ const initialState = {
   name: null,
   lastname: null,
   shippingAddresses: [],
-  orders: [],
+  // orders: [],
   email: null,
   genre: null,
   dateOfBirth: null,
   avatar: null,
+  orders: [],
+  order: {},
 };
 
 function user(state = initialState, action: any) {
@@ -73,9 +75,17 @@ function user(state = initialState, action: any) {
         shippingAddresses: addresses,
       };
     case GET_USER_ORDERS:
+      // console.log("GET_USER_ORDERS", action.payload)
+      const orders = action.payload.map((order:any) => {
+        return {
+            buy_id: order.id,
+            status_actual: order.status_history[order.status_history.length -1]
+        }
+      })
+      // let orders = {buys: data}
       return {
         ...state,
-        orders: [...payload],
+        orders: orders,
       };
     default:
       return state;
