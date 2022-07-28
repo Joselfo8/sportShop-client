@@ -18,7 +18,7 @@ export default function NavBar() {
   const location = useLocation();
   const state = useSelector((store: any) => {
     return {
-        products: store.rootReducer.categories.categories,
+        products: store.rootReducer.categories ? store.rootReducer.categories.categories : [],
         userInfo: store.rootReducer.userInformation,
         userLoged: store.auth.isLoggedIn,
         token: store.auth.isLoggedIn ? store.auth.token : [],
@@ -57,9 +57,9 @@ function handleChange(event: any) {
 
   const togleModal = () => setModal(!modal);
 
-  let data = state.products?.map((e:any) => e.category).filter((e : any, index : any) => {
+  let data = state.products && state.products.length ? state.products.map((e:any) => e.category).filter((e : any, index : any) => {
     return state.products.map((e:any) => e.category).indexOf(e) === index;
-  });
+  }) : [];
   return (
     <div className={styles.navBar}>
       <Link to="/">
