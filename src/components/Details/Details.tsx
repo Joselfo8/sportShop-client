@@ -191,16 +191,17 @@ export default function Details(){
 
         <div className={styles.col2}>
 
-          {/* <div className={styles.containerStars}>
-            {[...Array(5)].map((star,i) => {
+          <div className={styles.containerBuys}>
+            {/* {[...Array(5)].map((star,i) => {
               const raitingValue:number = i + 1
               return (
                 <FaStar key={i} color={raitingValue <= rate ? '#000':'#e4e5e9'} />
               )})
             }
-            <span >({productDetail['rating_count']})</span>
-          </div> */}
-          <span>Bought {productDetail.buys} times</span>
+            <span >({productDetail['rating_count']})</span> */}
+             <span>Bought ({productDetail.buys}) times</span>
+          </div>
+         
           <hr></hr>
 
           <div className={styles.containerTittle}>

@@ -3,14 +3,17 @@ import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 // Components
 import Input from "../components/Input";
 // Actions
 import { login, register, logout } from "../redux/action/auth";
+// Services
+import authService from "services/auth.service";
 // Icons
-import { ReactComponent as FacebookIcon } from "../icons/facebook-icon.svg";
-import { ReactComponent as GoogleIcon } from "../icons/google-icon.svg";
-import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
+// import { ReactComponent as FacebookIcon } from "../icons/facebook-icon.svg";
+// import { ReactComponent as GoogleIcon } from "../icons/google-icon.svg";
+// import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
 // Styles
 import styles from "./Login.module.css";
 import { useEffect } from "react";
@@ -42,6 +45,48 @@ function SubmitButton({
     <button onClick={cb} className={`${styles["submit-button"]} primary`}>
       {text}
     </button>
+  );
+}
+
+function PasswordRecovery() {
+  const { handleSubmit, control } = useForm<any>({
+    defaultValues: {
+      email: "",
+    },
+    mode: "onChange",
+  });
+
+  // send data to api
+  const onSubmit = async (data: SignInInput) => {
+    try {
+      await authService.passwordRecovery(data.email);
+      toast("New password sent to your email");
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <span className={styles["title"]}>Password recovery</span>
+      <div className={styles["input-wrapper"]}>
+        <Input
+          control={control}
+          name="email"
+          label="Email"
+          rules={{
+            required: true,
+            pattern: {
+              value: validate.email,
+              message: "Introduce a valid email address",
+            },
+          }}
+        />
+      </div>
+      <div className={styles["button-cont"]}>
+        <SubmitButton text="Submit" />
+      </div>
+    </form>
   );
 }
 
@@ -334,6 +379,7 @@ function Login() {
   return (
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
+
         {getForgot ? (
           <ForgotPassword />
         ) : register === "r" ? (
@@ -347,6 +393,7 @@ function Login() {
         <span className={styles["subtitle"]} onClick={handleForgot}>
           {getForgot ? "Back to login" : "Forgot password?"}
         </span>
+
       </div>
     </div>
   );
