@@ -46,9 +46,13 @@ export default function CardList({title, id, category, image, name, role, type}:
                 }
                 <FaTrash size={18} onClick={() => {handleDelete(id)}} className={styles.buttonX}/>
 
+                { type === "PRODUCT" ?
                 <Link to={`/stock/${id}`}  style={{color:"black"}}>
-                    <IoMdAddCircleOutline size={18} className={styles.buttonStock}/>
-                </Link>
+                <IoMdAddCircleOutline size={18} className={styles.buttonStock}/>
+            </Link>
+                    : <></>
+                }
+
 
             </div>
 
