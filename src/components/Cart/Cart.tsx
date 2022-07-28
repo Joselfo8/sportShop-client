@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteProductShop, getShoppingListByUserId } from "../../redux/action";
 import styled from 'styled-components'
+import { toast } from "react-toastify";
 export default function Cart(){
     const dispatch = useDispatch();
     const state = useSelector((store:any) => {
         return {
             products: store.rootReducer.shoppinglist.list,
+            userInfo: store.rootReducer.userInformation.shippingAddresses
         };
     });
     useEffect(() => {
@@ -23,6 +25,10 @@ export default function Cart(){
     const deleteProduct = (pId : number) =>{
         dispatch(deleteProductShop(pId));
     };
+    const handleAdress = () => {
+        let cant = "You need create address";
+        if(!state.userInfo.length) return toast(cant)
+    }
     return (
         <div className={styles.bodyCart}>
             <NavBar />
@@ -53,10 +59,10 @@ export default function Cart(){
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    {Object.keys(e.sizesAmount).map((key: any) => <Div>{key}</Div>)}
+                                                    {Object.keys(e.sizesAmount).map((key: any,index:any) => <Div key={index}>{key}</Div>)}
                                                 </td>
                                                 <td>
-                                                    {Object.values(e.sizesAmount).map((key: any) => <Div>{key}</Div>)}
+                                                    {Object.values(e.sizesAmount).map((key: any,index) => <Div key={index}>{key}</Div>)}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -79,8 +85,8 @@ export default function Cart(){
                     <Link to="/" style={{width:"100%"}}>
                         <button className={styles.buttonCart}>CONTINUE SHOPPING</button>
                     </Link>
-                    <Link to="/purchase" style={{width:"100%"}}>
-                        <button className={styles.buttonBuy}>BUY</button>
+                    <Link to={state.userInfo.length ? "/purchase" : "/user/profile"} style={{width:"100%"}}>
+                        <button className={styles.buttonBuy} onClick={handleAdress}>BUY</button>
                     </Link>
                 </div>
             </div>

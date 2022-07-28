@@ -1,6 +1,8 @@
 import {
   GET_USER,
   UPDATE_USER,
+  UPDATE_AVATAR,
+  DELETE_AVATAR,
   ADD_SHIPPING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
   DELETE_SHIPPING_ADDRESS,
@@ -12,7 +14,13 @@ const initialState = {
   name: null,
   lastname: null,
   shippingAddresses: [],
+  // orders: [],
+  email: null,
+  genre: null,
+  dateOfBirth: null,
+  avatar: null,
   orders: [],
+  order: {},
 };
 
 function user(state = initialState, action: any) {
@@ -28,6 +36,16 @@ function user(state = initialState, action: any) {
       return {
         ...state,
         ...payload,
+      };
+    case UPDATE_AVATAR:
+      return {
+        ...state,
+        avatar: payload,
+      };
+    case DELETE_AVATAR:
+      return {
+        ...state,
+        avatar: null,
       };
     case ADD_SHIPPING_ADDRESS:
       return {
@@ -57,9 +75,17 @@ function user(state = initialState, action: any) {
         shippingAddresses: addresses,
       };
     case GET_USER_ORDERS:
+      // console.log("GET_USER_ORDERS", action.payload)
+      const orders = action.payload.map((order:any) => {
+        return {
+            buy_id: order.id,
+            status_actual: order.status_history[order.status_history.length -1]
+        }
+      })
+      // let orders = {buys: data}
       return {
         ...state,
-        orders: payload,
+        orders: orders,
       };
     default:
       return state;

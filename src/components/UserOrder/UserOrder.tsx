@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { getOrderById } from "../../../redux/action/admin"
+import { getOrderById } from "../../redux/action/admin"
 
 // Components
-import NavBar from "../../Navbar/Navbar";
-import Footer from "../../Footer/Footer";
+import NavBar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 // Style
-import style from "./Order.module.scss";
+import style from "./UserOrder.module.scss";
 
-export default function Order() {
+export default function UserOrder() {
   const dispatch = useDispatch();
   const order = useSelector((state:any) => state.admin.order);
 
@@ -211,7 +211,7 @@ export default function Order() {
                                   
                                 </div>
 
-                                <div className={style.invoice}>
+                                {/* <div className={style.invoice}>
 
                                   <div className={style.subSubTitle}>
                                     <b>RECEIPTS:</b>
@@ -223,7 +223,7 @@ export default function Order() {
                                   </div>
                                   
 
-                                </div>
+                                </div> */}
 
                               </div>
 
@@ -249,8 +249,8 @@ export default function Order() {
 
       <div className={style.linkContainer}>
         <div className={style.textArea}>
-          <Link to="/admin/" className={style.link}>
-            <p>{`> Back to admin menu`}</p>
+          <Link to="/user/order-list" className={style.link}>
+            <p>{`> Back to orders menu`}</p>
           </Link>
         </div>
       </div>

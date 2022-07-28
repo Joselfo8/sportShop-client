@@ -1,5 +1,8 @@
 import {
     GET_ORDERS,
+    GET_ORDERS_BY_ID,
+    GET_ORDERS_BY_STATE,
+    GET_ORDER_BY_ID,
     PUT_STATE_TO_ORDER,
 } from '../action/types'
 
@@ -43,11 +46,22 @@ function admin(state = initialState, action : any){
                 ...state,
                 orders : action.payload,
             };
-        case "GET_ORDERS_BY_ID":
-            // console.log("desde reducers getOrderById")
+
+        case GET_ORDERS_BY_ID:
+            let object = {buys: [{buy_id: action.payload.id, status_actual: action.payload.status_history[action.payload.status_history.length -1]}]}
+            return {
+                ...state,
+                orders : object,
+            };
+        case GET_ORDER_BY_ID:
             return {
                 ...state,
                 order : action.payload,
+            };
+        case GET_ORDERS_BY_STATE:
+            return {
+                ...state,
+                orders : action.payload,
             };
         case "IS_ADMIN":
             return{

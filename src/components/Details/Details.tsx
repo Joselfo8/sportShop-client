@@ -40,20 +40,21 @@ export default function Details(){
     const dispatch = useDispatch()
 
     
+    
    
     // HOOKS: 
     const navigate = useNavigate()
     const params = useParams()
 
+
     
 
     // ESTADOS: 
     const productDetail: any = useSelector((state:any) => state.rootReducer.details)
-    
-    
+    console.log(productDetail)
     const isLoggedIn: any =useSelector((state:any) => state.auth.isLoggedIn)
 
-    const auth: any =useSelector((state:any) => state.auth.auth)
+    const auth: any =useSelector((state:any) => state.auth)
 
     const [color, setColor] = useState<String>()
 
@@ -68,11 +69,17 @@ export default function Details(){
 
     const [size, setSize]:any = useState('')
 
-    const [quantity, setQuantity]: any = useState('')
+    const [quantity, setQuantity]: any = useState(1)
 
     const [open, setOpen] = useState(false)
 
-   
+    
+    const StoreKeys: any =  productDetail && productDetail.stock? Object.keys(productDetail.stock)  : [0]
+  
+    const filterSize = StoreKeys.filter((f:any) => f === size)
+    
+    
+ 
     // RENDERIZADO DEL COMPONENTE: 
     useEffect(()=>{
         dispatch(getDetails(params.id))
@@ -107,8 +114,8 @@ export default function Details(){
         return(alert('Login first'),navigate('/login'))
       } else if(size === '') {
         return setErrors({size:'Select your size first'})
-      } else if(quantity === ''){
-        return setErrors({quantity: 'Enter quantity'})
+      }else if (quantity > productDetail.stock[filterSize]){
+        return setErrors({quantity: 'There are not enough products'})
       } else {
         if(auth){
           const product:number = productDetail.id
@@ -139,6 +146,8 @@ export default function Details(){
       setSuccessful('')
     }
 
+
+    
 
 
   return (
@@ -182,15 +191,17 @@ export default function Details(){
 
         <div className={styles.col2}>
 
-          <div className={styles.containerStars}>
-            {[...Array(5)].map((star,i) => {
+          <div className={styles.containerBuys}>
+            {/* {[...Array(5)].map((star,i) => {
               const raitingValue:number = i + 1
               return (
                 <FaStar key={i} color={raitingValue <= rate ? '#000':'#e4e5e9'} />
               )})
             }
-            <span >({productDetail['rating_count']})</span>
+            <span >({productDetail['rating_count']})</span> */}
+             <span>Bought ({productDetail.buys}) times</span>
           </div>
+         
           <hr></hr>
 
           <div className={styles.containerTittle}>
@@ -199,11 +210,12 @@ export default function Details(){
           </div>
 
           <h3 className={styles.price}>${productDetail.price}</h3>
-
+       
           <h2>SELECT SIZE</h2>
           
           <form onSubmit={addToCart}>
-            { productDetail.stock &&
+            
+            { productDetail.stock && !(Object.entries(productDetail.stock).length === 0 )?
               Object.keys(productDetail.stock).map((s:any,index) => 
               <div key= {index} className={styles.containerSize}>
                 <ul  className= {styles.ksCboxtags}>
@@ -217,8 +229,9 @@ export default function Details(){
                       <label htmlFor={s}>{isNaN(s) ? (s.toUpperCase()): `US ${s}`}</label>
                   </li>
                 </ul>    
-              </div>) 
+              </div>) : <div className={styles.soldOut}>¡ Sold out !</div> 
             }
+            
             <div className={styles.contErrors}>
             {
               errors.size && <span className={styles.errors}>{errors.size}</span>
@@ -226,7 +239,7 @@ export default function Details(){
             </div>
             <br></br>
 
-            <div className={styles.containerButtons}>
+            <div className={styles.containerButtons}> 
               <input defaultValue={'1'} onChange={(e) => onChangeQuantity(e)}></input>
               <button type='submit' className={styles.buttonCart}>
                   <FiShoppingCart/>               
@@ -258,7 +271,7 @@ export default function Details(){
             <button className={styles.buttonModal} style={{marginLeft:"auto", width:"50px",   backgroundColor:"black",color:"white"}} onClick={()=>setOpen(!open)}>X</button>
               
             <ModalHeader className={styles.modalHeader}>
-              <h1>Product added to cart</h1>
+              <header>Product added to cart</header>
             </ModalHeader> 
 
             <ModalBody className={styles.modalBody}>
@@ -277,7 +290,7 @@ export default function Details(){
           </Modal>
             
           <div className={styles.containerDescription}>
-            <h2 className={styles.description}>DESCRIPTION</h2>
+            <h3 className={styles.description}>DESCRIPTION</h3>
             <p>{productDetail.description?.length < 50 ? ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat dicta quae eos quaerat optio, asperiores similique tempora voluptatum reiciendis debitis expedita quam impedit id exercitationem ea accusamus nostrum nemo possimus.'): productDetail.description} </p>
           </div>
         </div >

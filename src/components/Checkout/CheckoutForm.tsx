@@ -4,15 +4,14 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import Swal from 'sweetalert2';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import { postPurchase } from "../../redux/action/index";
+import { postPurchase, deleteShoppingList } from "../../redux/action/index";
 
 
 // Style
 import style from './CheckoutForm.module.scss';
 
-export default function CheckoutForm({total, name, email, soldProducts, direction, city, state, country}: any) {
+export default function CheckoutForm({total, name, email, soldProducts, direction, city, state, country, userId}: any) {
   const navigate = useNavigate()
-  console.log("total", total, "name", name, "email", email, "soldProducts",soldProducts, "direction",direction, "city",city, "state",state, "country",country)
 
   const stripe: any = useStripe();
   const elements: any = useElements();
@@ -51,6 +50,9 @@ export default function CheckoutForm({total, name, email, soldProducts, directio
             country,
             })
           )
+
+          dispatch(deleteShoppingList(userId))
+          
           
           Swal.fire({
             title: `Order placed, thank you!`,
@@ -62,7 +64,6 @@ export default function CheckoutForm({total, name, email, soldProducts, directio
             footer: 'Remember that your order will be delivered within one to five days',
           })
 
-          
           navigate('/')
 
         } else {

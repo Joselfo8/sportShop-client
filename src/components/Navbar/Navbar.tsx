@@ -18,14 +18,16 @@ export default function NavBar() {
   const location = useLocation();
   const state = useSelector((store: any) => {
     return {
-        products: store.rootReducer.categories.categories,
-        userInfo: store.rootReducer.userInformation,
-        userLoged: store.auth.isLoggedIn,
+        products: store.rootReducer.categories ? store.rootReducer.categories.categories : [],
+        userInfo: store.rootReducer.userInformation ? store.rootReducer.userInformation : [],
+        userLoged: store.auth.isLoggedIn ? store.auth.isLoggedIn : false,
         token: store.auth.isLoggedIn ? store.auth.token : [],
         isAdmin: store.admin.isAdmin
     };
 });
-console.log(state.userInfo);
+
+
+
 const [value, setValue] = useState('');
 const dispatch = useDispatch();
 const navigate = useNavigate();
@@ -55,9 +57,9 @@ function handleChange(event: any) {
 
   const togleModal = () => setModal(!modal);
 
-  let data = state.products?.map((e:any) => e.category).filter((e : any, index : any) => {
+  let data = state.products && state.products.length ? state.products.map((e:any) => e.category).filter((e : any, index : any) => {
     return state.products.map((e:any) => e.category).indexOf(e) === index;
-  });
+  }) : [];
   return (
     <div className={styles.navBar}>
       <Link to="/">
@@ -70,18 +72,18 @@ function handleChange(event: any) {
 
       <ul className={styles.navItems}>
         {
-          data?.map((e: any) => {
+          data?.map((e: any, index : any) => {
           return (
             <li
+              key={index}
               className={styles.cName}
               onMouseEnter={() => setDropDown({ [e]: true })}
               onMouseLeave={() => setDropDown({ [e]: false })}
-              key={e}
             >
-              <Link to={`/${e}`}>
-                <button className={styles.buttonNav}>{e}</button>
+              <Link key={e} to={`/${e}`} >
+                <button className={styles.buttonNav} key={index}>{e}</button>
               </Link>
-              {dropDown[e] && <DropDown  categoryClick={e} />}
+              {dropDown[e] && <DropDown key={index} categoryClick={e} />}
             </li>
           );
         })}

@@ -1,6 +1,6 @@
 import  { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { isAdmin } from "redux/action/admin";
 import { editProduct, getDetails} from "../../../redux/action";
 import NavBar from "../../Navbar/Navbar";
@@ -99,9 +99,7 @@ export default function EditProduct(){
                     price: misProductos.price,
                     description:misProductos.description,
                     product_care:misProductos.product_care,
-                    // image:input.image
                 }
-                console.log(edit)
                 dispatch(editProduct(edit))
                 e.target.reset()
                 navigate('/admin')
@@ -117,11 +115,11 @@ export default function EditProduct(){
         return(
             <div >
                 <NavBar/>
-                <h1>EDIT PRODUCT</h1>
+                
                 
                     {misProductos ?
                             <form onSubmit={handleSubmit}  className={styles.containerForm}>
-    
+                                <h1>EDIT PRODUCT</h1>
                                 <label>TITLE</label>
                                 <input
                                     className={styles.inputGeneral}
@@ -201,7 +199,13 @@ export default function EditProduct(){
             </div>
         )
     } else{
-       return (<div></div>)
+       return (
+       <div className={styles.notAdmin}>
+        <h1>You are not admin</h1>
+        <Link to='/'>
+            <button>« Back home</button>
+        </Link>
+       </div>)
     }
 
     

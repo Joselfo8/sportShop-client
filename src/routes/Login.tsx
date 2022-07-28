@@ -7,27 +7,31 @@ import { Navigate } from "react-router-dom";
 import Input from "../components/Input";
 // Actions
 import { login, register, logout } from "../redux/action/auth";
+// Services
+import authService from "services/auth.service";
 // Icons
-import { ReactComponent as FacebookIcon } from "../icons/facebook-icon.svg";
-import { ReactComponent as GoogleIcon } from "../icons/google-icon.svg";
-import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
+// import { ReactComponent as FacebookIcon } from "../icons/facebook-icon.svg";
+// import { ReactComponent as GoogleIcon } from "../icons/google-icon.svg";
+// import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
 // Styles
 import styles from "./Login.module.css";
 import { useEffect } from "react";
 import { clearMessage } from "../redux/action/message";
 // Validations
 import validate from "../helpers/validations";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-function AuthLogin() {
-  return (
-    <div className={styles["social-media"]}>
-      <span className={styles["or-subtitle"]}>Or login with</span>
-      <FacebookIcon className={styles["social-media-icon"]} />
-      <GoogleIcon className={styles["social-media-icon"]} />
-      <LinkedinIcon className={styles["social-media-icon"]} />
-    </div>
-  );
-}
+// function AuthLogin() {
+//   return (
+//     <div className={styles["social-media"]}>
+//       <span className={styles["or-subtitle"]}>Or login with</span>
+//       <FacebookIcon className={styles["social-media-icon"]} />
+//       <GoogleIcon className={styles["social-media-icon"]} />
+//       <LinkedinIcon className={styles["social-media-icon"]} />
+//     </div>
+//   );
+// }
 
 function SubmitButton({
   text,
@@ -40,6 +44,48 @@ function SubmitButton({
     <button onClick={cb} className={`${styles["submit-button"]} primary`}>
       {text}
     </button>
+  );
+}
+
+function PasswordRecovery() {
+  const { handleSubmit, control } = useForm<any>({
+    defaultValues: {
+      email: "",
+    },
+    mode: "onChange",
+  });
+
+  // send data to api
+  const onSubmit = async (data: SignInInput) => {
+    try {
+      await authService.passwordRecovery(data.email);
+      toast("New password sent to your email");
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <span className={styles["title"]}>Password recovery</span>
+      <div className={styles["input-wrapper"]}>
+        <Input
+          control={control}
+          name="email"
+          label="Email"
+          rules={{
+            required: true,
+            pattern: {
+              value: validate.email,
+              message: "Introduce a valid email address",
+            },
+          }}
+        />
+      </div>
+      <div className={styles["button-cont"]}>
+        <SubmitButton text="Submit" />
+      </div>
+    </form>
   );
 }
 
@@ -249,7 +295,6 @@ function SignIn() {
             },
           }}
         />
-        <span className={styles["subtitle"]}>Forgot your password?</span>
       </div>
       <div className={styles["button-cont"]}>
         <SubmitButton text="Sign in" />
@@ -261,25 +306,91 @@ function SignIn() {
   );
 }
 
+function ForgotPassword() {
+  function handleForgot(e: any): void {
+    const { REACT_APP_API_URL } = process.env;
+    axios
+      .post(`${REACT_APP_API_URL}/mailer/password-recovery`, {
+        email: e.email,
+      })
+      .then((e) => {
+        toast("new password sent to your email");
+      })
+      .catch((e) => {
+        toast("failed to send new password");
+      });
+  }
+
+  const { handleSubmit, control } = useForm<any>({
+    defaultValues: {
+      email: "",
+    },
+    mode: "onChange",
+  });
+
+  return (
+    <form onSubmit={handleSubmit(handleForgot)}>
+      <span className={styles["title"]}>Forgot password</span>
+      <div className={styles["input-wrapper"]}>
+        <Input
+          control={control}
+          name="email"
+          label="Email"
+          rules={{
+            required: true,
+            pattern: {
+              value: validate.email,
+              message: "Introduce a valid email address",
+            },
+          }}
+        />
+      </div>
+      <div className={styles["button-cont"]}>
+        <SubmitButton text="Send" />
+        <Link to="/login" className={styles["subtitle"]}>
+          You already have an account?
+        </Link>
+      </div>
+    </form>
+  );
+}
 function Login() {
+  //estado que controla el forgot password
+  const [getForgot, setForgot] = useState(false);
+
+  //funcion de cambio de estado
+  function handleForgot(e: any): void {
+    setForgot(!getForgot);
+  }
   const { register } = useParams();
   // store
   const { isLoggedIn } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (register === "logout") {
+    if (register === "logout" && isLoggedIn) {
       dispatch(logout());
     }
-  }, [register, dispatch]);
+  }, [register, isLoggedIn, dispatch]);
 
   if (isLoggedIn) return <Navigate to="/" />;
 
   return (
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
-        {register === "r" ? <SignUp /> : <SignIn />}
-        <AuthLogin />
+        {getForgot ? (
+          <ForgotPassword />
+        ) : register === "r" ? (
+          <SignUp />
+        ) : (
+          <SignIn />
+        )}
+        <br />
+        <br />
+        <br />
+        <span className={styles["subtitle"]} onClick={handleForgot}>
+          {getForgot ? "Back to login" : "Forgot password?"}
+        </span>
       </div>
     </div>
   );

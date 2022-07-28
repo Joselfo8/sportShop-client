@@ -83,15 +83,14 @@ $weightParagraph: 300;
 
 .col2 {
     
-    .containerStars{  
+    .containerBuys{  
         display: flex;
         flex-direction: row;
         padding-top: 30px;
             span {
-            font-size: 12px;
+            font-size: 15px;
             font-family: $font;
             font-weight: $weightTitle;
-            margin-left: 10px;
             color: #000;  
         }
     }
@@ -140,15 +139,16 @@ $weightParagraph: 300;
         color: #000;
     }
 
+    
+
     .containerButtons{
         display: flex;
         flex-direction: row;
-        
         height: fit-content;
 
         input {
-            width: 25px;
-            height: 100%;
+            width: 40px;
+            height: 40px;
             border-radius: 2px;
             border: 1px solid;
             text-align: center;
@@ -183,6 +183,8 @@ $weightParagraph: 300;
             cursor: pointer;
             display: flex;
             justify-content: center;
+            padding-top: 8px;
+            
             
             .heart {
                 color: #777777;
@@ -192,7 +194,7 @@ $weightParagraph: 300;
     
             .heart:hover {
                 width: 80%;
-                color: #000;
+                color: #a70f0f;
             }
         }
     }
@@ -210,7 +212,7 @@ $weightParagraph: 300;
             text-align: justify;
             
         }
-        h2 {
+        h3 {
             font-family: $font;
             font-weight: $weightTitle;
             color: #000;
@@ -297,7 +299,7 @@ $weightParagraph: 300;
 .modalHeader{
     display: flex;
     margin: 0 auto;
-    h1 {
+    header {
         color: #000;
         font-family: $font;
         font-weight: $weightTitle;
@@ -320,7 +322,10 @@ $weightParagraph: 300;
     display: inline-flex;
     margin-right: 10px;
     height: auto;
+    margin-top: 5px;
 }
+
+
 ul{
     justify-content: flex-start;
     padding-inline-start: 1px;
@@ -345,16 +350,24 @@ ul.ksCboxtags li label{
     transition: all .2s;
 }
 ul.ksCboxtags li label {
-    width: 40px;
+    width: 50px;
     text-align: center;
-    padding: 9px 11px;
-   
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
     cursor: pointer;
     font: $font;
     font-weight: $weightTitle;
     border: 1px solid;
     color: #000;
     transition: 0.2s;
+}
+
+ul.ksCboxtags li label:hover {
+    background-color: #000;
+    color: #fff;
 }
 
 ul.ksCboxtags li label::before {
@@ -388,4 +401,10 @@ ul.ksCboxtags li input[type="radio"] {
     opacity: 0;
 }
 
+.soldOut{
+    font-family: $font;
+    font-weight: $weightParagraph;
+    font-size: 35px;
+    color: #a70f0f;
+}
 

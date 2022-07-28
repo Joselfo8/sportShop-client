@@ -1,24 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { isAdmin } from 'redux/action/admin'
 import { addProduct, getProducts } from '../../../redux/action'
 import NavBar from '../../Navbar/Navbar'
 
 import styles from './FormProduct.module.scss'
 import validateProducts from './validateForms'
-
-// //INTERFACES
-// interface Errors{
-//     title: string,
-//     category:string,
-//     subCategory:string,
-//     price: string,
-//     description:string,
-//     product_care:string,
-//     sizes:string,
-//     // image:string
-// }
 
 
 const FormProducts = () => {
@@ -119,7 +107,6 @@ const FormProducts = () => {
                 product_care:input.product_care,
                 image: btoa(preview)
             }
-            console.log(newProduct)
             dispatch(addProduct(newProduct))
             e.target.reset()
             navigate('/admin/addProduct')
@@ -153,12 +140,11 @@ const FormProducts = () => {
   if(admin){
     return (
       <div >
-        <NavBar/>
-          <h1>ADD PRODUCT</h1>
-          
+        <NavBar/>  
           <div >
+          
               <form onSubmit={handleSubmit} className={styles.containerForm}>
-  
+                  <h1>ADD PRODUCT</h1>
                   <label>TITLE</label>
                   <input
                       className={styles.inputGeneral}
@@ -237,27 +223,19 @@ const FormProducts = () => {
                   >
                  </input>
                  {errors.image && (<span>{errors.image}</span>)}
-  
-  
-                  {/* Stock? */}
-                  {/* <label>SIZES</label>
-                  <input
-                      onChange={(e)=>handleChange(e)}
-                      value={input.sizes}
-                      type= 'text'
-                      name= 'sizes'
-                  >
-                  </input> */}
-                
                  <button type='submit'>ADD PRODUCT</button>
               </form>         
           </div>    
       </div>
     )
   } else {
-    return (<div>
+    return (
+    <div className={styles.notAdmin}>
       <h1>You are not admin</h1>
-    </div>)
+      <Link to='/'>
+          <button>« Back home</button>
+      </Link>
+     </div>)
   }
   
 }

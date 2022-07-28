@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { getOrderById, putStateToOrder } from "../../../redux/action/admin"
+import { getOrderById, putStateToOrder, putTrackingNumber } from "../../../redux/action/admin"
 
 // Components
 import NavBar from "../../Navbar/Navbar";
@@ -15,6 +15,8 @@ import style from "./OrderProgress.module.scss";
 export default function OrderProgress() {
   const dispatch = useDispatch();
   const order = useSelector((state:any) => state.admin.order);
+
+  console.log("order", order)
 
   let {orderId} = useParams();
 
@@ -93,16 +95,11 @@ export default function OrderProgress() {
     setErrors(errorsResult)
   }
 
-  // console.log("input", input, "checked", checked)
-
   // ------------------------------ Submit ------------------------------ //
 
 
   const handleOnSubmit: any = (event: any) => {
     event.preventDefault()
-    if(input.selectState === "") {
-      return alert('Choose a valid state!')
-    }
 
     if(input.selectState === "Order ready" && unduplicatedStates.includes("Preparing order")) {
       return alert('First you should assign state "Preparing order"')
@@ -114,7 +111,7 @@ export default function OrderProgress() {
     if(input.selectState === "Order is on its way" && unduplicatedStates.includes("Order ready")) {
       return alert("First you should check and pack products!")
     }
-    if(input.selectState === "Order is on its way" && errors.trackingNumber) {
+    if(input.selectState === "Order is on its way" && !order.delivery_number) {
       return alert("Carrier tracking number is required!")
     }
 
@@ -134,10 +131,19 @@ export default function OrderProgress() {
           selectState: ""
         }
       })
+      event.target.reset()
     }
     
   }
 
+  const addTrackingNumber = (event: any) => {
+    event.preventDefault();
+    dispatch(putTrackingNumber({
+      shoppingId: order.id,
+      deliveryNumb: input.trackingNumber,
+    }));
+    event.target.reset()
+}
   
   // ------------------------------ Render Select ------------------------------ //
 
@@ -335,17 +341,17 @@ export default function OrderProgress() {
                                 </div>
 
                                 <div className={style.textSymple}>
-                                  <p>{`Carrier tracking number: ${input.trackingNumber}`}</p>
+                                  <p>{`Carrier tracking number: ${order.delivery_number}`}</p>
                                   <div className={style.flexForm}>
-                                    <form action="">
+                                  <form action="" id="orderNumber" onSubmit={(e) => addTrackingNumber(e)}>
                                       <input 
                                         name="trackingNumber"
                                         placeholder='Enter tracking number...'
-                                        // disabled={ unduplicatedStates.includes("Order ready") ? false : true}
+                                        disabled={ !order.delivery_number ? false : true}
                                         onChange={(e) => handleImputsChange(e)} 
                                       />
-                                    </form>
                                     <button>Add</button>
+                                    </form>
                                   </div>
                                 </div>
 

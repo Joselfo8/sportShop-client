@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import setAuthToken from "helpers/setAuthToken";
 // Components
 import Home from "./components/Home/Home";
 import Login from "./routes/Login";
@@ -21,6 +20,10 @@ import Order from "./components/Admin/Orders/Order";
 import ProductFilter from "components/productFilter/ProductFilter";
 import OrderProgress from "components/Admin/Orders/OrderProgress";
 import Stock from "components/Admin/Stock/Stock";
+import UserOrder from "components/UserOrder/UserOrder";
+import UserOrderList from "components/UserOrder/UserOrderList";
+// Helpers
+import setAuthToken from "helpers/setAuthToken";
 
 //BOT
 import Chatbot from 'react-chatbot-kit';
@@ -38,65 +41,71 @@ function App() {
       !chatBot
     );
   };
-  // add JWT token to all request
+  
+  // set JWT token in all request
   setAuthToken();
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />}>
-          <Route path=":register" element={<Login />} />
-        </Route>
-        <Route path="/user/profile" element={<UserProfile />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/purchase" element={<Purchase />} />
-        <Route path="/:category" element={<Subcategory />} />
-        <Route path="/products/:id" element={<Details/>}/>
-        <Route path="/about" element={<About />} />
+    <div translate="no">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />}>
+            <Route path=":register" element={<Login />} />
+          </Route>
+          {/* USER */}
+          <Route path="/user/order-detail/:id" element={<UserOrder />} />
+          <Route path="/user/order-list" element={<UserOrderList />} />
+          <Route path="/user/profile" element={<UserProfile />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/purchase" element={<Purchase />} />
+          <Route path="/:category" element={<Subcategory />} />
+          <Route path="/products/:id" element={<Details/>}/>
+          <Route path="/about" element={<About />} />
 
-        {/* FILTRADO DE PRODUCTOS */}
-        <Route path="/:category/:subCaegory" element={<ProductFilter />} />
-        <Route path="/search" element={<ProductFilter />} />
+          {/* FILTRADO DE PRODUCTOS */}
+          <Route path="/:category/:subCaegory" element={<ProductFilter />} />
+          <Route path="/search" element={<ProductFilter />} />
 
-        {/* ADMIN */}
-        <Route path="/admin" element={<HomeAdmin />} />
-        <Route path="/admin/list" element={<List />} />
-        <Route path="/admin/addProduct" element={<AddProduct />} />
-        <Route path="/admin/order-detail/:id" element={<Order />} />
-        <Route path="/admin/order-progress/:orderId" element={<OrderProgress />} />
-        <Route path="/stock/:id" element={<Stock/>} />
-        <Route path="/editProduct/:id" element={<EditProduct />} />
-      </Routes>
+          {/* ADMIN */}
+          <Route path="/admin" element={<HomeAdmin />} />
+          <Route path="/admin/list" element={<List />} />
+          <Route path="/admin/addProduct" element={<AddProduct />} />
+          <Route path="/admin/order-detail/:id" element={<Order />} />
+          <Route path="/admin/order-progress/:orderId" element={<OrderProgress />} />
+          <Route path="/stock/:id" element={<Stock/>} />
+          <Route path="admin/editProduct/:id" element={<EditProduct />} />
+        </Routes>
 
-      {/* Notification component */}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+        {/* Notification component */}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
 
-      {/* ChatBot */}
-    <div className={styles.chatbot1}>
-      { chatBot ?
-      <Chatbot
-        config={config}
-        messageParser={MessageParser}
-        actionProvider={ActionProvider}
-        /> :
-        <></>
-      }
-        <FaRobot className={styles.show} onClick={handleShow}>BOT</FaRobot>
+        {/* ChatBot */}
+      <div className={styles.chatbot1}>
+        { chatBot ?
+        <Chatbot
+          config={config}
+          messageParser={MessageParser}
+          actionProvider={ActionProvider}
+          /> :
+          <></>
+        }
+          <FaRobot className={styles.show} onClick={handleShow}>BOT</FaRobot>
+      </div>
+
+      </BrowserRouter>
     </div>
-
-    </BrowserRouter>
   );
 };
 
