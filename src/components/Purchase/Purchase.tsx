@@ -20,7 +20,6 @@ export default function Purchase() {
     const dispatch = useDispatch();
     const state = useSelector((state: any) => state.rootReducer);
     const user = useSelector((state: any) => state.rootReducer.userInformation);
-    console.log("STATE______________",state)
  
     useEffect(() => {
         dispatch(getUserInformation());
@@ -143,6 +142,7 @@ export default function Purchase() {
                                         city={state.userInformation.shippingAddresses[0].city}
                                         state={user.shippingAddresses[0].state}
                                         country={state.userInformation.shippingAddresses[0].country}
+                                        userId={state.userInformation.id}
                                     />
                                 </div>
                             </Elements>
