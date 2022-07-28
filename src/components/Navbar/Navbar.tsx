@@ -20,7 +20,7 @@ export default function NavBar() {
     return {
         products: store.rootReducer.categories ? store.rootReducer.categories.categories : [],
         userInfo: store.rootReducer.userInformation ? store.rootReducer.userInformation : [],
-        userLoged: store.auth.isLoggedIn ? store.auth.isLoggedIn : [],
+        userLoged: store.auth.isLoggedIn ? store.auth.isLoggedIn : false,
         token: store.auth.isLoggedIn ? store.auth.token : [],
         isAdmin: store.admin.isAdmin
     };
