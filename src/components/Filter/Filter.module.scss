@@ -1,35 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;600&family=Lato:wght@100&family=Montserrat:wght@200&display=swap');
 
 $font: 'Kanit', sans-serif;
 $weightTitle:600;
-$weightParagraph: 100;
+$weightParagraph: 300;
 
 .container {
     display:inline-flex;
-    margin-top: 20px;
-    margin-left: 90px;
-    margin-bottom: 10px;
-   
+    margin-top: 30px;
+    margin-left: 70px;
+    align-items: center;
+
 
    p {
+    margin-top: 15px;
     font-family: $font;
     font-weight: 600;
     font-size: 14px;
    }
 
    .select { 
-    color: #111111;
+    color: #ffffff;
+    width: 150px;
     font-size: 12px;
     font-family: $font;
-    font-weight: 200;
-    background-color: #ffffff;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-left: 20px;
+    font-weight: $weightTitle;
+    background-color: #000000;
+    border-radius: 3px;
     cursor: pointer;
     transition: 0.5s;
-    width: 100px;
-    height: 30px;
+    height: 20px;
+    text-align: center;
     }
 
    

@@ -83,15 +83,14 @@ $weightParagraph: 300;
 
 .col2 {
     
-    .containerStars{  
+    .containerBuys{  
         display: flex;
         flex-direction: row;
         padding-top: 30px;
             span {
-            font-size: 12px;
+            font-size: 15px;
             font-family: $font;
             font-weight: $weightTitle;
-            margin-left: 10px;
             color: #000;  
         }
     }
@@ -195,7 +194,7 @@ $weightParagraph: 300;
     
             .heart:hover {
                 width: 80%;
-                color: #000;
+                color: #a70f0f;
             }
         }
     }
