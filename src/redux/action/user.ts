@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import axios from "axios";
 import {
   GET_USER,
   UPDATE_USER,
@@ -171,24 +172,41 @@ export function deleteShippingAddress(id: number) {
   };
 }
 
+// export function getUserOrders() {
+//   return async (dispatch: any) => {
+//     try {
+//       const response = await UserService.getUserOrders();
+//       const message = response.data?.msg || "Get user data successfully";
+
+//       dispatch({
+//         type: GET_USER_ORDERS,
+//         payload: response.data.data,
+//       });
+
+//       return Promise.resolve(message);
+//     } catch (err: any) {
+//       console.log(err);
+//       const message = err.response.data?.msg || "Get user data fail";
+//       toast(message);
+
+//       return Promise.reject(message);
+//     }
+//   };
+// }
+
+
+//Orders 
+
 export function getUserOrders() {
-  return async (dispatch: any) => {
-    try {
-      const response = await UserService.getUserOrders();
-      const message = response.data?.msg || "Get user data successfully";
-
-      dispatch({
+  try {
+    return async function orders(dispatch: any) {
+      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/buys/user`);
+      return dispatch({
         type: GET_USER_ORDERS,
-        payload: response.data.data,
+        payload: json.data,
       });
-
-      return Promise.resolve(message);
-    } catch (err: any) {
-      console.log(err);
-      const message = err.response.data?.msg || "Get user data fail";
-      toast(message);
-
-      return Promise.reject(message);
-    }
-  };
+    };
+  } catch (error) {
+    console.log(error);
+  }
 }

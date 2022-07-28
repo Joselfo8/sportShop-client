@@ -23,7 +23,8 @@ async function deleteAvatar() {
 }
 
 async function addShippingAddress(data: AddressProps["data"]) {
-  return await axios.post(`${API_URL}/users/address`, data);
+  const { id: _, ...req } = data;
+  return await axios.post(`${API_URL}/users/address`, req);
 }
 
 async function updateShippingAddress(data: AddressProps["data"]) {

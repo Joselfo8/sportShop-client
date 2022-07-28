@@ -4,9 +4,13 @@ $font: 'Kanit', sans-serif;
 $weightTitle:600;
 $weightParagraph: 300;
 
+.containerG{ 
+    min-height: 100vh;
+}
+
 .title{ 
     width: fit-content;
-    margin-left: 60px;
+    margin-left: 100px;
     margin-top: 50px;
      h1 {
     font-family: $font;
@@ -19,7 +23,6 @@ $weightParagraph: 300;
 .container {
     display: grid;
     grid-template-columns: auto auto auto auto;
-    
     margin-bottom: 50px;
     margin-top: 15px;
 }
@@ -165,4 +168,73 @@ $weightParagraph: 300;
 
 
     }
+}
+
+
+.buttonModal {
+    width: 9rem;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    font-weight: 500;
+
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+.buttonModal {
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+.buttonModal:hover {
+    background: transparent;
+    color: #000;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+.buttonModal:before,
+.buttonModal:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #000;
+    transition:400ms ease all;
+}
+.buttonModal:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+.buttonModal:hover:before,
+.buttonModal:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}
+
+.modalHeader{
+    display: flex;
+    margin: 0 auto;
+    header {
+        color: #000;
+        font-family: $font;
+        font-weight: $weightTitle;
+        font-size: 25px;
+        margin: 0 auto;
+    }
+}
+  
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
 }

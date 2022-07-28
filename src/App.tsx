@@ -20,6 +20,8 @@ import Order from "./components/Admin/Orders/Order";
 import ProductFilter from "components/productFilter/ProductFilter";
 import OrderProgress from "components/Admin/Orders/OrderProgress";
 import Stock from "components/Admin/Stock/Stock";
+import UserOrder from "components/UserOrder/UserOrder";
+import UserOrderList from "components/UserOrder/UserOrderList";
 // Helpers
 import setAuthToken from "helpers/setAuthToken";
 
@@ -51,6 +53,9 @@ function App() {
           <Route path="/login" element={<Login />}>
             <Route path=":register" element={<Login />} />
           </Route>
+          {/* USER */}
+          <Route path="/user/order-detail/:id" element={<UserOrder />} />
+          <Route path="/user/order-list" element={<UserOrderList />} />
           <Route path="/user/profile" element={<UserProfile />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/favorites" element={<Favorites />} />

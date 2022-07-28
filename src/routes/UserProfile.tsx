@@ -19,8 +19,8 @@ function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
       <UserImage />
       <div className={styles["sidebar-body"]}>
         <Tabs
-          tabs={["User information", "My orders"]}
-          links={[{ label: "My favorites", to: "/favorites" }]}
+          tabs={["User information"]}
+          links={[{ label: "My favorites", to: "/favorites" }, { label: "My orders", to: "/user/order-list" }]}
           getSelected={getSelected}
         />
       </div>
