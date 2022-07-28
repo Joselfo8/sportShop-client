@@ -17,6 +17,8 @@ import { useEffect } from "react";
 import { clearMessage } from "../redux/action/message";
 // Validations
 import validate from "../helpers/validations";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 // function AuthLogin() {
 //   return (
@@ -249,7 +251,6 @@ function SignIn() {
             },
           }}
         />
-        <span className={styles["subtitle"]}>Forgot your password?</span>
       </div>
       <div className={styles["button-cont"]}>
         <SubmitButton text="Sign in" />
@@ -261,7 +262,62 @@ function SignIn() {
   );
 }
 
+function ForgotPassword() {
+  function handleForgot(e: any): void {
+    const { REACT_APP_API_URL } = process.env;
+    axios
+      .post(`${REACT_APP_API_URL}/mailer/password-recovery`, {
+        email: e.email,
+      })
+      .then((e) => {
+        toast("new password sent to your email");
+      })
+      .catch((e) => {
+        toast("failed to send new password");
+      });
+  }
+
+  const { handleSubmit, control } = useForm<any>({
+    defaultValues: {
+      email: "",
+    },
+    mode: "onChange",
+  });
+
+  return (
+    <form onSubmit={handleSubmit(handleForgot)}>
+      <span className={styles["title"]}>Forgot password</span>
+      <div className={styles["input-wrapper"]}>
+        <Input
+          control={control}
+          name="email"
+          label="Email"
+          rules={{
+            required: true,
+            pattern: {
+              value: validate.email,
+              message: "Introduce a valid email address",
+            },
+          }}
+        />
+      </div>
+      <div className={styles["button-cont"]}>
+        <SubmitButton text="Send" />
+        <Link to="/login" className={styles["subtitle"]}>
+          You already have an account?
+        </Link>
+      </div>
+    </form>
+  );
+}
 function Login() {
+  //estado que controla el forgot password
+  const [getForgot, setForgot] = useState(false);
+
+  //funcion de cambio de estado
+  function handleForgot(e: any): void {
+    setForgot(!getForgot);
+  }
   const { register } = useParams();
   // store
   const { isLoggedIn } = useSelector((state: any) => state.auth);
@@ -278,7 +334,19 @@ function Login() {
   return (
     <div className={`${styles["body"]} secondary`}>
       <div className={styles["container"]}>
-        {register === "r" ? <SignUp /> : <SignIn />}
+        {getForgot ? (
+          <ForgotPassword />
+        ) : register === "r" ? (
+          <SignUp />
+        ) : (
+          <SignIn />
+        )}
+        <br />
+        <br />
+        <br />
+        <span className={styles["subtitle"]} onClick={handleForgot}>
+          {getForgot ? "Back to login" : "Forgot password?"}
+        </span>
       </div>
     </div>
   );
