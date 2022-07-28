@@ -25,6 +25,9 @@ export default function NavBar() {
         isAdmin: store.admin.isAdmin
     };
 });
+
+
+
 const [value, setValue] = useState('');
 const dispatch = useDispatch();
 const navigate = useNavigate();

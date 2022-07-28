@@ -46,6 +46,7 @@ function admin(state = initialState, action : any){
                 ...state,
                 orders : action.payload,
             };
+
         case GET_ORDERS_BY_ID:
             let object = {buys: [{buy_id: action.payload.id, status_actual: action.payload.status_history[action.payload.status_history.length -1]}]}
             return {

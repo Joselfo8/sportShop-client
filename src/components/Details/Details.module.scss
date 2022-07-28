@@ -213,7 +213,7 @@ $weightParagraph: 300;
             text-align: justify;
             
         }
-        h2 {
+        h3 {
             font-family: $font;
             font-weight: $weightTitle;
             color: #000;
@@ -300,7 +300,7 @@ $weightParagraph: 300;
 .modalHeader{
     display: flex;
     margin: 0 auto;
-    h1 {
+    header {
         color: #000;
         font-family: $font;
         font-weight: $weightTitle;

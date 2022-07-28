@@ -27,7 +27,7 @@ export function getProducts(page?: number) {
 
 export const getDetails = (id: any) => async (dispatch: any) => {
   try {
-    const json: any = await axios.get(`https://vlixes-server.herokuapp.com/products/${id}`);
+    const json: any = await axios.get(`${API_URL}/products/${id}`);
     return dispatch({
       type: "GET_DETAILS",
       payload: json.data,
@@ -45,25 +45,24 @@ export function filterByCategory(payload: any) {
   };
 }
 
-export const getProductsByName = (name: string) => async(dispatch: any) =>  {
-  try{
-    console.log(name)
-    const response = await axios.get("https://vlixes-server.herokuapp.com/products?title=" + name);
+
+
+export const getProductsByName = (name: string) => async (dispatch: any) => {
+  try {
+    const response = await axios.get(`${API_URL}/products?title=${name}`);
     return dispatch({
       type: GET_PRODUCTSBYNAME,
       payload: response.data,
     });
-  }catch(error){
+  } catch (error) {
     console.log(error);
-  };
+  }
 };
 
 export function getProductsByCategory(event: any) {
   try {
     return async function name(dispatch: any) {
-      let json: any = await axios.get(
-        `https://vlixes-server.herokuapp.com/products?category=${event}`
-      );
+      let json: any = await axios.get(`${API_URL}/products?category=${event}`);
       return dispatch({
         type: "GET_BY_CATEGORY",
         payload: json.data,
@@ -75,7 +74,6 @@ export function getProductsByCategory(event: any) {
 }
 
 export function getProductsByCategoryAndSubcategory(object: any) {
-  console.log(object)
   try {
     return async function name(dispatch: any) {
       let json: any = await axios.get(
@@ -98,20 +96,20 @@ export function cleanStore(payload: any) {
   };
 }
 
-export const orderByPrice = (order: any) => async(dispatch: any) => {
+export const orderByPrice = (order: any) => async (dispatch: any) => {
   try {
-    const json = await axios.get(`http://vlixes-server.herokuapp.com/products?order=${order}`)
+    const json = await axios.get(`${API_URL}/products?order=${order}`);
     return dispatch({ type: "ORDER_BY_PRICE", payload: json.data.products });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
- 
 };
 
-export const addProduct = (payload:any) => async (dispatch: any) => {
+export const addProduct = (payload: any) => async (dispatch: any) => {
   try {
-    const json: any = await axios.post("https://vlixes-server.herokuapp.com/products",payload);
-    console.log(json.data)
+
+    const json: any = await axios.post(`${API_URL}/products`, payload);
+    console.log(json.data);
     return dispatch({ type: "POST_PRODUCT", payload: json.data });
   } catch (error) {
     console.log(error);
@@ -121,8 +119,8 @@ export const addProduct = (payload:any) => async (dispatch: any) => {
 export function getUserInformation() {
   try {
     return async function user(dispatch: any) {
-      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/users/`);
-      console.log("getUserInformation",json.data.data)
+
+      let json: any = await axios.get(`${API_URL}/users`);
       return dispatch({
         type: GET_USER_INFORMATION,
         payload: json.data.data,
@@ -134,10 +132,9 @@ export function getUserInformation() {
 }
 
 export function getShoppingListByUserId() {
-  // console.log(object)
   try {
     return async function shoppinglist(dispatch: any) {
-      let json: any = await axios.get(`https://vlixes-server.herokuapp.com/shopping_list/`);
+      let json: any = await axios.get(`${API_URL}/shopping_list/`);
       return dispatch({
         type: GET_SHOPPINGLIST_BY_USER_ID,
         payload: json.data,
@@ -148,82 +145,82 @@ export function getShoppingListByUserId() {
   }
 }
 
-export const editProduct = ( payload: any) => async (dispatch: any) => {
+
+export const editProduct = (payload: any) => async (dispatch: any) => {
+  try {
+    const json: any = await axios.put(`${API_URL}/products`, payload);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addProductToCart = (payload: any) => async (dispatch: any) => {
+  try {
+    const json: any = await axios.post(`${API_URL}/shopping_list`, payload);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addProductToFavorites =
+  (payload: any) => async (dispatch: any) => {
     try {
-      const json: any = await axios.put(`https://vlixes-server.herokuapp.com/products/`, payload);
-      console.log(json)
-      // dispatch(getProducts());
+      const json: any = await axios.post(`${API_URL}/favorites`, payload);
+      dispatch({ type: "ADD_TO_FAVORITES", payload: json.data });
     } catch (error) {
       console.log(error);
     }
-};
-
-export const addProductToCart = (payload:any) => async (dispatch:any) => {
-  try {
-    console.log(payload)
-    const json:any = await axios.post('https://vlixes-server.herokuapp.com/shopping_list', payload)
-    
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export const addProductToFavorites = (payload:any) => async(dispatch:any) => {
-  try {
-    const json:any = await axios.post('https://vlixes-server.herokuapp.com/favorites', payload)
-    dispatch({type: "ADD_TO_FAVORITES", payload:json.data})
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export const getFavorites = () => async(dispatch:any,) => {
-  try {
-    const json: any = await axios.get(`https://vlixes-server.herokuapp.com/favorites`)
-    dispatch({type: "GET_FAVORITES", payload: json.data.list})
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export const deleteFavorite = (payload:any) => async (dispatch: any) => {
-  try {
-    console.log(payload)
-    const json = await axios.delete(`https://vlixes-server.herokuapp.com/favorites?product=${payload.product}`);
-    dispatch(getFavorites())
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const deleteProductShop = (pId : number) => async (dispatch: any) => {
-  try{
-    const response: any = await axios.delete(`https://vlixes-server.herokuapp.com/shopping_list/?product=` + pId);
-    dispatch(getShoppingListByUserId())
-  }catch(error){
-    console.log(error);
   };
+
+export const getFavorites = () => async (dispatch: any) => {
+  try {
+    const json: any = await axios.get(`${API_URL}/favorites`);
+    dispatch({ type: "GET_FAVORITES", payload: json.data.list });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteFavorite = (payload: any) => async (dispatch: any) => {
+  try {
+    console.log(payload);
+    const json = await axios.delete(
+      `${API_URL}/favorites?product=${payload.product}`
+    );
+    dispatch(getFavorites());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteProductShop = (pId: number) => async (dispatch: any) => {
+  try {
+    const response: any = await axios.delete(
+      `${API_URL}/shopping_list/?product=${pId}`
+    );
+    dispatch(getShoppingListByUserId());
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const allCategories = () => async (dispatch: any) => {
-  try{
-    const response = await axios.get("https://vlixes-server.herokuapp.com/products/category");
+  try {
+    const response = await axios.get(`${API_URL}/products/category`);
     return dispatch({
       type: "ALL_CATEGORIES",
       payload: response.data,
-    })
-  }catch(error){
+    });
+  } catch (error) {
     console.log(error);
-  };
+  }
 };
 
 // Compra
 export function postPurchase(object: any) {
-  // console.log("postPurchase", object)
   try {
     return async function purchase(dispatch: any) {
-      let json: any = await axios.post(`https://vlixes-server.herokuapp.com/buys`, object);
-      console.log("json", json)
+      let json: any = await axios.post(`${API_URL}/buys`, object);
       return dispatch({
         type: POST_PURCHASE,
         payload: json.data,
@@ -234,13 +231,13 @@ export function postPurchase(object: any) {
   }
 }
 
-
-export const addStock = (payload:any) => async (dispatch:any) => {
+export const addStock = (payload: any) => async (dispatch: any) => {
   try {
-    const json = await axios.post('https://vlixes-server.herokuapp.com/stock',payload)
-    console.log(json)
-    dispatch(getDetails(payload.product))
-  } catch(error) {
-    console.log(error)
+    const json = await axios.post(`${API_URL}/stock`, payload);
+    console.log(json);
+    dispatch(getDetails(payload.product));
+  } catch (error) {
+    console.log(error);
+
   }
-}
+};

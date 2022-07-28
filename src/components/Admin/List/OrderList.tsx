@@ -20,7 +20,6 @@ export default function OrderList(){
     const dispatch = useDispatch();
     const orders = useSelector((state:any) => state.admin.orders.buys);
     const state = useSelector((state:any) => state.admin);
-    console.log("state", state)
     
     const [input, setInput] = useState({
         orderNumber: ''
@@ -35,6 +34,8 @@ export default function OrderList(){
     },[]);
 
     function filterByState(event: any) {
+
+
         dispatch(getOrdersByState(event.target.value))
     }
 

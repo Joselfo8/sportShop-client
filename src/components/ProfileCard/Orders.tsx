@@ -13,9 +13,9 @@ function Item() {
   const dispatch = useDispatch();
   const orders = useSelector((state: any) => state.user?.orders);
 
-  useEffect(() => {
-    if (orders.length === 0) dispatch(getUserOrders());
-  }, [orders, dispatch]);
+  // useEffect(() => {
+  //   if (orders.length === 0) dispatch(getUserOrders());
+  // }, [orders, dispatch]);
 
   return (
     <div className={styles["item"]}>

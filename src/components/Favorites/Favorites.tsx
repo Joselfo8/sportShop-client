@@ -13,7 +13,7 @@ export default function Favorites(){
     const navigate = useNavigate()
     
     const favorites = useSelector((state:any) => state.rootReducer.favorites)
-    console.log(favorites)
+   
     const [errors, setErrors]:any = useState({
       size: '',
       quantity:''
@@ -61,9 +61,11 @@ export default function Favorites(){
   return (
     <div >
         <NavBar/>
-        <h1>MY WISH LIST</h1>
+        <div className={styles.title}>
+          <h1>MY WISH LIST</h1>
+        </div>
         <div className={styles.container}>
-        { favorites?.map((f:any) => {
+        { favorites?.map((f:any,index:any) => {
             const payload = {
                 product: f.id,
             }
@@ -73,7 +75,7 @@ export default function Favorites(){
               quantity: quantity
             } 
             return(  
-                <div className={styles.favorites}>
+                <div key={f.id} className={styles.favorites}>
                 
                     <div className={styles.gridLayout}>
 
@@ -91,8 +93,8 @@ export default function Favorites(){
                                 >
                                   <option value='Select size' disabled>Select size</option>
                                   {
-                                    f.stock ? (Object.keys(f.stock).map((e:any) => (
-                                      <option value={e}>{e}</option>
+                                    f.stock ? (Object.keys(f.stock).map((e:any, index:any) => (
+                                      <option key={index} value={e}>{e}</option>
                                     ))) : (<option></option>)
                                   }
                                 </select>
