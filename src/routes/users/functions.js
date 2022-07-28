@@ -392,7 +392,7 @@ async function updateShippingAddress(req, res) {
 }
 
 async function deleteShippingAddress(req, res) {
-  const { id: userId } = req.user;
+  let { id: userId } = req.user;
   const addressId = req.params.id;
 
   if (!userId) return res.status(400).json({ msg: "User id is required" });
