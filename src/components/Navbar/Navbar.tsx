@@ -19,8 +19,8 @@ export default function NavBar() {
   const state = useSelector((store: any) => {
     return {
         products: store.rootReducer.categories ? store.rootReducer.categories.categories : [],
-        userInfo: store.rootReducer.userInformation,
-        userLoged: store.auth.isLoggedIn,
+        userInfo: store.rootReducer.userInformation ? store.rootReducer.userInformation : [],
+        userLoged: store.auth.isLoggedIn ? store.auth.isLoggedIn : [],
         token: store.auth.isLoggedIn ? store.auth.token : [],
         isAdmin: store.admin.isAdmin
     };
