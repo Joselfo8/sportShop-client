@@ -165,7 +165,7 @@ export default function Details(){
             </Link>
             <span>/</span>
 
-            <Link to={`/:${productDetail.category}`} className={styles.link}>
+            <Link to={`/${productDetail.category}`} className={styles.link}>
               <span className={styles.Navegacion}> {productDetail.category} </span>
             </Link>
             <span>/</span>
