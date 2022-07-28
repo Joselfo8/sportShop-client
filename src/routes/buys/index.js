@@ -9,8 +9,11 @@ const {
   putBuy,
   getBuysByIdUser,
   getBuyById,
+  DeliveryBuy,
 } = require("./functions");
 router.get("", checkRole, checkRules(["admin"]), getBuys);
+
+router.put("/delivery",DeliveryBuy);
 
 router.get("/user", checkRole, checkRules(["user", "admin"]), getBuysByIdUser);
 

@@ -4,6 +4,10 @@ module.exports = (sequelize) => {
   sequelize.define(
     "buy",
     {
+      delivery_number:{
+        type: DataTypes.STRING,
+        defaultValue: "",
+      },
       date: {
         type: DataTypes.DATE,
         defaultValue: new Date().toISOString(),
