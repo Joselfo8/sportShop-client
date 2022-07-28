@@ -208,7 +208,21 @@ async function postBuy(req, res) {
 ///////////////////////////////////////////////
 
 const email = user.email;
-const items = buy.products.map(e=>{ return {title: e.title}});
+//let items = ["product1", "product2", "product3"];
+let items = buy.products.map(e=>{ return {title: e.title}});
+items = items.map(e=>{ return e.title});
+const long = items.length;
+let i = 0;
+let text = "";
+while(i<long){
+  text += items[i];
+  i++;
+  if(i<long){
+    text += ", ";
+  }
+}
+console.log(text);
+const total = buy.sub_total;
 let transporter = nodemailer.createTransport({
   host: "smtp.gmail.com", 
   port: 465, //puerto de gmail safe
@@ -220,11 +234,12 @@ let transporter = nodemailer.createTransport({
 });
 let mailOptions = {
   from: `"VLIXES Your sport Shop 🏆" `,
-  to: email,//"curiosity.cdrr@gmail.com"
+  to: email,
   subject: "THANK YOU FOR YOUR PURCHASE",
   text: `thank you!`,
   html: `<h2><b> your purchases were ${items}</b> </br>
-   and will be delivered to ${buy.direction}, ${city}, ${state}, ${country}  between 1 or 7 days</h2>`,
+   <p>and will be delivered to ${buy.direction}, ${city}, ${state}, ${country}  between 1 or 7 days</p></br>
+   <p>for a price of ${total} whitout tax and shipping</p></h2>`,
 };
 
 transporter.sendMail(mailOptions, (err, data) => {
