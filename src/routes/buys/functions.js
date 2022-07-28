@@ -3,6 +3,21 @@ const pagination = require("../../helpers/pagination");
 const { Op } = require("sequelize");
 const e = require("express");
 
+async function DeliveryBuy(req, res) {
+  try{
+    const { deliveryNumb, shoppingId } = req.body;
+    if(!deliveryNumb || !shoppingId) return res.status(400).send({msg:"deliveryNumb and shoppingId are required"});
+    const buy = await Buy.findOne({ where: { id: shoppingId } });
+    console.log(buy);
+    await buy.update({ delivery_number: deliveryNumb });
+    res.status(200).json({ msg: "buy updated", buy:buy });
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({msg:"failed to update buy", error});
+  }
+}
+
 async function getBuys(req, res) {
   const { name, status, pag = 1, limit = 4 } = req.query;
   try {
@@ -225,4 +240,5 @@ module.exports = {
   putBuy,
   getBuysByIdUser,
   getBuyById,
+  DeliveryBuy,
 };
