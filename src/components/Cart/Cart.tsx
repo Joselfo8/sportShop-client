@@ -15,6 +15,9 @@ export default function Cart(){
             userInfo: store.rootReducer.userInformation.shippingAddresses
         };
     });
+
+    // console.log(state.products?.length || 0 !== 0 ? "dif" : "cero")
+
     useEffect(() => {
         dispatch(getShoppingListByUserId());
     },[]);
@@ -85,9 +88,21 @@ export default function Cart(){
                     <Link to="/" style={{width:"100%"}}>
                         <button className={styles.buttonCart}>CONTINUE SHOPPING</button>
                     </Link>
-                    <Link to={state.userInfo.length ? "/purchase" : "/user/profile"} style={{width:"100%"}}>
-                        <button className={styles.buttonBuy} onClick={handleAdress}>BUY</button>
+
+                    <Link 
+                        to={
+                            state.products?.length || 0 !== 0 
+                            ? state.userInfo.length ? "/purchase" : "/user/profile"
+                            : ""
+                        } 
+                        style={{width:"100%"}}
+                    >
+                        <button
+                            className={styles.buttonBuy} 
+                            onClick={handleAdress}
+                        >BUY</button>
                     </Link>
+                    
                 </div>
             </div>
 
