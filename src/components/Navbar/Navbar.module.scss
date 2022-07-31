@@ -52,20 +52,22 @@ $weightParagraph: 100;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
+  li {
+    position: relative;
+  }
 }
 
 .menu-item {
   background-color: transparent;
   color: var(--text);
   min-width: 8rem;
-  height: 2.5rem;
   text-decoration: none;
   padding: 0.5rem 2rem;
   border: none;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
   display: inline-block;
 }
 

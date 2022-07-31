@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.css";
 // Actions
 import { allCategories, getUserInformation } from "../../redux/action";
 import { isAdmin } from "redux/action/admin";
-// import { getUser, updateUser } from "redux/action/user";
 // Components
 import DropDown from "./DropDown";
 // Icons
@@ -17,15 +16,26 @@ import user from "../../assets/user.png";
 import lens from "../../assets/lupa.png";
 import heart from "../../assets/corazonVacio.png";
 import logo from "../../assets/logo.png";
+// Styles
 import styles from "./Navbar.module.scss";
 
+function MenuItem({ label, to }: { label: string; to: string }) {
+  const [dropDown, setDropDown] = useState(false);
+
+  return (
+    <li
+      onMouseEnter={() => setDropDown(true)}
+      onMouseLeave={() => setDropDown(false)}
+    >
+      <Link className={`${styles["menu-item"]} secondary`} to={to}>
+        {label}
+      </Link>
+      {dropDown && <DropDown category={label} />}
+    </li>
+  );
+}
+
 function Menu({ products }: { products: Array<any> }) {
-  const [dropDown, setDropDown]: any = useState({
-    FEMALE: false,
-    MALE: false,
-    KIDS: false,
-    SPORT: false,
-  });
   const data =
     products && products.length
       ? products
@@ -37,22 +47,13 @@ function Menu({ products }: { products: Array<any> }) {
 
   return (
     <ul className={styles.menu}>
-      {data?.map((e: any, index: any) => {
+      {data?.map((category: any) => {
         return (
-          <li
-            key={index}
-            onMouseEnter={() => setDropDown({ [e]: true })}
-            onMouseLeave={() => setDropDown({ [e]: false })}
-          >
-            <Link
-              className={`${styles["menu-item"]} secondary`}
-              key={e}
-              to={`/${e}`}
-            >
-              {e}
-            </Link>
-            {dropDown[e] && <DropDown key={index} categoryClick={e} />}
-          </li>
+          <MenuItem
+            key={`${category}-unique-key`}
+            label={category}
+            to={`/${category}`}
+          />
         );
       })}
     </ul>
@@ -96,7 +97,7 @@ function SearchInput() {
           onChange={(e) => handleChange(e.target.value)}
         />
         <button onClick={handleOpen} className={styles["search-submit"]}>
-          <img className={styles.icon} src={lens} />
+          <img className={styles.icon} src={lens} alt="search-icon" />
         </button>
       </form>
     </div>
@@ -130,17 +131,18 @@ function Icons({
               src={user}
               className={styles.icon}
               style={{ cursor: "pointer" }}
+              alt="user-icon"
             />
           </div>
 
           <div>
             <Link to="/favorites">
-              <img src={heart} className={styles.icon} />
+              <img src={heart} className={styles.icon} alt="favorites-icon" />
             </Link>
           </div>
           <div>
             <Link to="/cart">
-              <img src={cart} className={styles.icon} />
+              <img src={cart} className={styles.icon} alt="cart-icon" />
             </Link>
           </div>
         </>
@@ -151,7 +153,13 @@ function Icons({
 
 export default function Navbar() {
   const location = useLocation();
-  const state = useSelector((store: any) => {
+  const {
+    token,
+    products,
+    userLogged,
+    userInfo,
+    isAdmin: isAdminValue,
+  } = useSelector((store: any) => {
     return {
       products: store.rootReducer.categories
         ? store.rootReducer.categories.categories
@@ -164,15 +172,14 @@ export default function Navbar() {
       isAdmin: store.admin.isAdmin,
     };
   });
-
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
     dispatch(allCategories());
-    dispatch(isAdmin(state.token));
+    dispatch(isAdmin(token));
     dispatch(getUserInformation());
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   const toggleModal = () => setModal((prev: boolean) => !prev);
 
@@ -180,19 +187,19 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       {/* Page logo */}
       <Link to="/">
-        <img src={logo} className={styles.logo} />
+        <img src={logo} className={styles.logo} alt="vlixes-logo" />
       </Link>
       {location.pathname === "/admin" ? (
         <Link to="/admin/addProduct">
-          <button className={styles.buttonNav}>Create Product</button>
+          <button className={styles["menu-item"]}>Create Product</button>
         </Link>
       ) : (
         <></>
       )}
 
       <div className={styles["wrapper"]}>
-        <Menu products={state.products} />
-        <Icons {...{ toggleModal, userLogged: state.userLogged }} />
+        <Menu products={products} />
+        <Icons {...{ toggleModal, userLogged: userLogged }} />
       </div>
 
       <Modal
@@ -211,14 +218,14 @@ export default function Navbar() {
             style={{ cursor: "pointer", paddingLeft: "1.5rem" }}
             className={styles.modalPop}
           >
-            Hi {state.userInfo.name}!
+            Hi {userInfo.name}!
           </span>
         </ModalHeader>
         <ModalBody style={{ display: "flex", justifyContent: "center" }}>
           <Link to="/user/profile">
             <button className={styles["menu-item"]}>Go to settings</button>
           </Link>
-          {state.isAdmin ? (
+          {isAdminValue ? (
             <Link
               to="/admin"
               onClick={toggleModal}

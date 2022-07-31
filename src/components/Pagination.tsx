@@ -108,6 +108,7 @@ function Pagination({
 
   // get document resolution
   useEffect(() => {
+    // get current resolution when component is mounted
     if (resolution === 0) setResolution(document.body.clientWidth);
 
     const getResolution = () => {
