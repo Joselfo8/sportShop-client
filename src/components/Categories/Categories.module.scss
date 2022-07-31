@@ -64,3 +64,47 @@ $weightParagraph: 100;
     z-index: -1;
   }
 }
+
+@media only screen and (min-width: 640px) {
+  .categories {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .container {
+    &:nth-child(1) {
+      margin-right: 1rem;
+    }
+
+    &:nth-child(2) {
+      margin-left: 1rem;
+    }
+
+    &:nth-child(3) {
+      width: 34rem;
+      height: 20rem;
+    }
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .container {
+    width: 24rem;
+    height: 38rem;
+
+    &:nth-child(1) {
+      margin-right: 1rem;
+    }
+
+    &:nth-child(2) {
+      margin-left: 1rem;
+    }
+
+    &:nth-child(3) {
+      width: 48rem;
+      height: 28rem;
+    }
+  }
+}
