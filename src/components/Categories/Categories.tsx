@@ -1,74 +1,47 @@
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-
+// Images
+import manImage from "assets/Gender/Man_1.jpeg";
+import womanImage from "assets/Gender/Woman_2.jpg";
+import kidImage from "assets/Gender/Kids_1.jpg";
 // Style
-import style from './Categories.module.scss';
+import style from "./Categories.module.scss";
 
-export default function Categories(){
-    const state = useSelector((state: any) => state);
-    
+function Category({
+  title,
+  link = { to: "", label: "See more" },
+  image = { src: "", alt: "Category image" },
+}: {
+  title: string;
+  link: { to: string; label?: string };
+  image: { src: string; alt?: string };
+}) {
+  return (
+    <div className={style.container}>
+      <span>{title}</span>
+      <Link to={link.to}>{link.label}</Link>
+      <img src={image.src} alt={image.alt} />
+    </div>
+  );
+}
 
-    return(
-        <div className={style.categories}>
-
-
-            <div className={style.manContainer}>
-                
-                <div className={style.components}>
-                
-                    <div className={style.textContainer}>
-                        <h1>MAN</h1>
-                    </div>
-
-                    <div className={style.button}>
-                        <Link to='/MAN' style={{textDecoration:"none", color:"white"}}>
-                                <h3>See more</h3>
-                        </Link>
-                    </div>
-                    
-                </div>
-                
-            </div>
-
-            <div className={style.womanContainer}>
-
-                <div className={style.components}>
-                
-                    <div className={style.textContainer}>
-                        <h1>WOMAN</h1>
-                    </div>
-                    
-                    <div className={style.button}>
-                        <Link to='/WOMAN' style={{textDecoration:"none", color:"white"}}>
-                                <h3>See more</h3>
-                        </Link>
-                    </div>
-
-                </div>
-                
-            </div>
-
-
-            <div className={style.kidsContainer}>
-
-                <div className={style.components}>
-                
-                    <div className={style.textContainer}>
-                        <h1>KID</h1>
-                    </div>
-                    
-                    <div className={style.button}>
-                        <Link to='/KID' style={{textDecoration:"none", color:"white"}}>
-                            <h3>See more</h3>
-                        </Link>
-                    </div>
-
-                </div>
-                
-            </div>
-
-
-        </div>
-            
-    );
-};
+export default function Categories() {
+  return (
+    <div className={style.categories}>
+      <Category
+        title="MAN"
+        link={{ to: "/MAN", label: "See more" }}
+        image={{ src: manImage, alt: "Go to man products" }}
+      />
+      <Category
+        title="WOMAN"
+        link={{ to: "/WOMAN", label: "See more" }}
+        image={{ src: womanImage, alt: "Go to woman products" }}
+      />
+      <Category
+        title="KID"
+        link={{ to: "/KID", label: "See more" }}
+        image={{ src: kidImage, alt: "Go to kid products" }}
+      />
+    </div>
+  );
+}

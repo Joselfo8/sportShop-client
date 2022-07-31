@@ -1,35 +1,62 @@
-import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { cleanStore, getProductsByCategory, getProductsByCategoryAndSubcategory } from "../../redux/action";
+import { getProductsByCategoryAndSubcategory } from "../../redux/action";
 import styles from "./DropDown.module.scss";
 
-export default function DropDown(categoryClick:any){
-    const dispatch = useDispatch();
-    const productSubCategory = useSelector((state:any) => state.rootReducer.categories.categories);
+function MenuItem({
+  label,
+  to,
+  onClick,
+}: {
+  label: string;
+  to: string;
+  onClick: () => void;
+}) {
+  return (
+    <li>
+      <Link className={styles["menu-item"]} to={to} onClick={onClick}>
+        {label}
+      </Link>
+    </li>
+  );
+}
 
-    function productCategory(e:any, d:any){
-        dispatch(getProductsByCategoryAndSubcategory({
-            "category": e,
-            "argument": d,
-        }));
-    };
-    return(
-        <>
-        <ul key={categoryClick} className={styles.servicesSubmenu}>
-        {
-            productSubCategory.map((e:any) => {
-                return( categoryClick.categoryClick === e.category ?
-                    <li key={e.sub_category}>
-                        <Link key={e.sub_category} to={`/${e.category}/${e.sub_category}`}>
-                            <button key={e.sub_category} className={styles.buttonNav} onClick={() => productCategory(categoryClick.categoryClick, e.sub_category)}>{e.sub_category}</button>
-                        </Link>
-                    </li>
-                    : <></>
-                )
-            })
-        }
-        </ul>
-        </>
+function DropDown({ category }: { category: string }) {
+  const dispatch = useDispatch();
+  const categories = useSelector(
+    (state: any) => state.rootReducer.categories.categories
+  );
+
+  const productCategory = (e: any, d: any) => {
+    dispatch(
+      getProductsByCategoryAndSubcategory({
+        category: e,
+        argument: d,
+      })
     );
-};
+  };
+
+  const handleClick = (category: string, subCategory: string) => {
+    productCategory(category, subCategory);
+  };
+
+  return (
+    <ul className={styles["sub-menu"]}>
+      {/* Map subcategories only */}
+      {categories.map((el: any) => {
+        return (
+          category === el.category && (
+            <MenuItem
+              key={`${el.sub_category}-unique-key`}
+              onClick={() => handleClick(category, el.sub_category)}
+              label={el.sub_category}
+              to={`/${el.category}/${el.sub_category}`}
+            />
+          )
+        );
+      })}
+    </ul>
+  );
+}
+
+export default DropDown;

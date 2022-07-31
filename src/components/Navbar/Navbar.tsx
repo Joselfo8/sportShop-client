@@ -1,152 +1,246 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
-import {allCategories, getUserInformation} from "../../redux/action";
-import styles from "./NavBar.module.scss";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.css";
+// Actions
+import { allCategories, getUserInformation } from "../../redux/action";
+import { isAdmin } from "redux/action/admin";
+// Components
+import DropDown from "./DropDown";
+// Icons
+import { ReactComponent as CloseIcon } from "icons/error-icon.svg";
+// Images
 import cart from "../../assets/cart.png";
 import user from "../../assets/user.png";
 import lens from "../../assets/lupa.png";
 import heart from "../../assets/corazonVacio.png";
-import DropDown from "./DropDown";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import 'bootstrap/dist/css/bootstrap.css';
-import { isAdmin } from "redux/action/admin";
-import { getUser, updateUser } from "redux/action/user";
+import logo from "../../assets/logo.png";
+// Styles
+import styles from "./Navbar.module.scss";
 
-export default function NavBar() {
-  const location = useLocation();
-  const state = useSelector((store: any) => {
-    return {
-        products: store.rootReducer.categories ? store.rootReducer.categories.categories : [],
-        userInfo: store.rootReducer.userInformation ? store.rootReducer.userInformation : [],
-        userLoged: store.auth.isLoggedIn ? store.auth.isLoggedIn : false,
-        token: store.auth.isLoggedIn ? store.auth.token : [],
-        isAdmin: store.admin.isAdmin
-    };
-});
+function MenuItem({ label, to }: { label: string; to: string }) {
+  const [dropDown, setDropDown] = useState(false);
 
+  return (
+    <li
+      onMouseEnter={() => setDropDown(true)}
+      onMouseLeave={() => setDropDown(false)}
+    >
+      <Link className={`${styles["menu-item"]} secondary`} to={to}>
+        {label}
+      </Link>
+      {dropDown && <DropDown category={label} />}
+    </li>
+  );
+}
 
+function Menu({ products }: { products: Array<any> }) {
+  const data =
+    products && products.length
+      ? products
+          .map((e: any) => e.category)
+          .filter((e: any, index: any) => {
+            return products.map((e: any) => e.category).indexOf(e) === index;
+          })
+      : [];
 
-const [value, setValue] = useState('');
-const dispatch = useDispatch();
-const navigate = useNavigate();
-const [dropDown, setDropDown]: any = useState({
-  FEMALE: false,
-  MALE: false,
-  KIDS: false,
-  SPORT: false,
-});
-const [modal, setModal] = useState(false);
+  return (
+    <ul className={styles.menu}>
+      {data?.map((category: any) => {
+        return (
+          <MenuItem
+            key={`${category}-unique-key`}
+            label={category}
+            to={`/${category}`}
+          />
+        );
+      })}
+    </ul>
+  );
+}
 
-useEffect(() => {
-  dispatch(allCategories());
-  dispatch(isAdmin(state.token));
-  dispatch(getUserInformation());
-}, [dispatch]);
+function SearchInput() {
+  const [value, setValue] = useState("");
+  const [show, setShow] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
+  const handleOpen = (e: any) => {
+    const input = inputRef.current;
+    if (input && input.value.length > 0) return;
 
-function handleChange(event: any) {
+    // only toggle input if values is empty
+    e.preventDefault();
+    setShow((prev) => !prev);
+  };
+
+  const handleChange = (event: any) => {
     setValue(event);
   };
 
-  function handleSubmit(event: any) {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     navigate(`/search/${value}`);
   };
 
-  const togleModal = () => setModal(!modal);
-
-  let data = state.products && state.products.length ? state.products.map((e:any) => e.category).filter((e : any, index : any) => {
-    return state.products.map((e:any) => e.category).indexOf(e) === index;
-  }) : [];
   return (
-    <div className={styles.navBar}>
-      <Link to="/">
-        <img src={logo} className={styles.logo} />
-      </Link>
-        { location.pathname === "/admin" ?
-          <Link to="/admin/addProduct"><button className={styles.buttonNav}>Create Product</button></Link>
-          : <></>
-        }
+    <div className={styles["search-cont"]}>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <input
+          ref={inputRef}
+          className={`${styles.search} ${show ? styles["search-open"] : ""}`}
+          name="search"
+          type="text"
+          placeholder="Search"
+          id="searchProducts"
+          onChange={(e) => handleChange(e.target.value)}
+        />
+        <button onClick={handleOpen} className={styles["search-submit"]}>
+          <img className={styles.icon} src={lens} alt="search-icon" />
+        </button>
+      </form>
+    </div>
+  );
+}
 
-      <ul className={styles.navItems}>
-        {
-          data?.map((e: any, index : any) => {
-          return (
-            <li
-              key={index}
-              className={styles.cName}
-              onMouseEnter={() => setDropDown({ [e]: true })}
-              onMouseLeave={() => setDropDown({ [e]: false })}
-            >
-              <Link key={e} to={`/${e}`} >
-                <button className={styles.buttonNav} key={index}>{e}</button>
-              </Link>
-              {dropDown[e] && <DropDown key={index} categoryClick={e} />}
-            </li>
-          );
-        })}
-      </ul>
-
-      <div className={styles.orderIcons}>
-
-        <div className={styles.bodySearch}>
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <input
-              className={styles.search}
-              name="search"
-              type="text"
-              placeholder="Search"
-              id="searchProducts"
-              onChange={(e) => handleChange(e.target.value)}
+function Icons({
+  toggleModal,
+  userLogged,
+}: {
+  toggleModal: () => void;
+  userLogged: boolean;
+}) {
+  return (
+    <div className={`${styles.icons} secondary`}>
+      <SearchInput />
+      {/* if user is not logged */}
+      {!userLogged ? (
+        <>
+          <Link to="/login" className={styles["menu-item"]}>
+            Sign In
+          </Link>
+          <Link to="/login/r" className={styles["menu-item"]}>
+            Sign up
+          </Link>
+        </>
+      ) : (
+        <>
+          <div onClick={() => toggleModal()}>
+            <img
+              src={user}
+              className={styles.icon}
+              style={{ cursor: "pointer" }}
+              alt="user-icon"
             />
-          </form>
-          <img src={lens} className={styles.search_submit} />
-        </div>
+          </div>
 
-        <div onClick={() => {state.userLoged && togleModal()}}>
-          { state.userLoged ?
-            <img src={user} className={styles.cart} style={{cursor:"pointer"}} /> :
-            <Link to="/login">
-              <img src={user} className={styles.cart} />
+          <div>
+            <Link to="/favorites">
+              <img src={heart} className={styles.icon} alt="favorites-icon" />
             </Link>
-          }
-        </div>
+          </div>
+          <div>
+            <Link to="/cart">
+              <img src={cart} className={styles.icon} alt="cart-icon" />
+            </Link>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
+export default function Navbar() {
+  const location = useLocation();
+  const {
+    token,
+    products,
+    userLogged,
+    userInfo,
+    isAdmin: isAdminValue,
+  } = useSelector((store: any) => {
+    return {
+      products: store.rootReducer.categories
+        ? store.rootReducer.categories.categories
+        : [],
+      userInfo: store.rootReducer.userInformation
+        ? store.rootReducer.userInformation
+        : [],
+      userLogged: store.auth.isLoggedIn ? store.auth.isLoggedIn : false,
+      token: store.auth.isLoggedIn ? store.auth.token : [],
+      isAdmin: store.admin.isAdmin,
+    };
+  });
+  const dispatch = useDispatch();
+  const [modal, setModal] = useState(false);
 
-        <div>
-        <Link to={state.userLoged ? "/favorites" : "/login"}>
-          <img src={heart} className={styles.heart} />
+  useEffect(() => {
+    dispatch(allCategories());
+    dispatch(isAdmin(token));
+    dispatch(getUserInformation());
+  }, [dispatch, token]);
+
+  const toggleModal = () => setModal((prev: boolean) => !prev);
+
+  return (
+    <nav className={styles.navbar}>
+      {/* Page logo */}
+      <Link to="/">
+        <img src={logo} className={styles.logo} alt="vlixes-logo" />
+      </Link>
+      {location.pathname === "/admin" ? (
+        <Link to="/admin/addProduct">
+          <button className={styles["menu-item"]}>Create Product</button>
         </Link>
-        </div>
-        <div>
-        <Link to={state.userLoged ? "/cart" : "/login"}>
-          <img src={cart} className={styles.cart} />
-        </Link>
+      ) : (
+        <></>
+      )}
 
-        </div>
-
-      <Modal
-      fade={false}
-      isOpen={modal}
-      toggle={togleModal}
-      >
-        <button onClick={togleModal} className={styles.buttonNav} style={{marginLeft:"auto", width:"3rem", backgroundColor:"black",color:"white"}}>X</button>
-        <ModalHeader>
-          <span style={{cursor:"pointer",paddingLeft:"1.5rem"}} className={styles.modalPop}>Hi {state.userInfo.name}!</span>
-        </ModalHeader>
-        <ModalBody style={{display:"flex", justifyContent:"center"}}>
-          <Link to="/user/profile"><button className={styles.buttonNav}>Go to settings</button></Link>
-          { state.isAdmin ?
-            <Link to="/admin" onClick={togleModal} className={styles.buttonNav}><button className={styles.buttonNav}>Admin</button></Link>
-            : <></>
-          }
-          <Link to="/login/logout"><button className={styles.buttonNav}>Logout</button></Link>
-        </ModalBody>
-      </Modal>
+      <div className={styles["wrapper"]}>
+        <Menu products={products} />
+        <Icons {...{ toggleModal, userLogged: userLogged }} />
       </div>
 
-    </div>
+      <Modal
+        className="secondary"
+        fade={false}
+        isOpen={modal}
+        toggle={toggleModal}
+      >
+        <div className={`${styles["close-button-cont"]} primary`}>
+          <button onClick={toggleModal} className={styles["close-button"]}>
+            <CloseIcon />
+          </button>
+        </div>
+        <ModalHeader>
+          <span
+            style={{ cursor: "pointer", paddingLeft: "1.5rem" }}
+            className={styles.modalPop}
+          >
+            Hi {userInfo.name}!
+          </span>
+        </ModalHeader>
+        <ModalBody style={{ display: "flex", justifyContent: "center" }}>
+          <Link to="/user/profile">
+            <button className={styles["menu-item"]}>Go to settings</button>
+          </Link>
+          {isAdminValue ? (
+            <Link
+              to="/admin"
+              onClick={toggleModal}
+              className={styles["menu-item"]}
+            >
+              <button className={styles["menu-item"]}>Admin</button>
+            </Link>
+          ) : (
+            <></>
+          )}
+          <Link to="/login/logout">
+            <button className={styles["menu-item"]}>Logout</button>
+          </Link>
+        </ModalBody>
+      </Modal>
+    </nav>
   );
 }
