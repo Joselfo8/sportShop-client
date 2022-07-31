@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
@@ -9,6 +9,8 @@ import { isAdmin } from "redux/action/admin";
 // import { getUser, updateUser } from "redux/action/user";
 // Components
 import DropDown from "./DropDown";
+// Icons
+import { ReactComponent as CloseIcon } from "icons/error-icon.svg";
 // Images
 import cart from "../../assets/cart.png";
 import user from "../../assets/user.png";
@@ -60,7 +62,17 @@ function Menu({ products }: { products: Array<any> }) {
 function SearchInput() {
   const [value, setValue] = useState("");
   const [show, setShow] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  const handleOpen = (e: any) => {
+    const input = inputRef.current;
+    if (input && input.value.length > 0) return;
+
+    // only toggle input if values is empty
+    e.preventDefault();
+    setShow((prev) => !prev);
+  };
 
   const handleChange = (event: any) => {
     setValue(event);
@@ -75,6 +87,7 @@ function SearchInput() {
     <div className={styles["search-cont"]}>
       <form onSubmit={(e) => handleSubmit(e)}>
         <input
+          ref={inputRef}
           className={`${styles.search} ${show ? styles["search-open"] : ""}`}
           name="search"
           type="text"
@@ -82,12 +95,8 @@ function SearchInput() {
           id="searchProducts"
           onChange={(e) => handleChange(e.target.value)}
         />
-        <button className={styles["search-submit"]}>
-          <img
-            className={styles.icon}
-            onClick={() => setShow((prev) => !prev)}
-            src={lens}
-          />
+        <button onClick={handleOpen} className={styles["search-submit"]}>
+          <img className={styles.icon} src={lens} />
         </button>
       </form>
     </div>
@@ -116,31 +125,21 @@ function Icons({
         </>
       ) : (
         <>
-          <div
-            onClick={() => {
-              userLogged && toggleModal();
-            }}
-          >
-            {userLogged ? (
-              <img
-                src={user}
-                className={styles.icon}
-                style={{ cursor: "pointer" }}
-              />
-            ) : (
-              <Link to="/login">
-                <img src={user} className={styles.icon} />
-              </Link>
-            )}
+          <div onClick={() => toggleModal()}>
+            <img
+              src={user}
+              className={styles.icon}
+              style={{ cursor: "pointer" }}
+            />
           </div>
 
           <div>
-            <Link to={userLogged ? "/favorites" : "/login"}>
+            <Link to="/favorites">
               <img src={heart} className={styles.icon} />
             </Link>
           </div>
           <div>
-            <Link to={userLogged ? "/cart" : "/login"}>
+            <Link to="/cart">
               <img src={cart} className={styles.icon} />
             </Link>
           </div>
@@ -178,7 +177,7 @@ export default function Navbar() {
   const toggleModal = () => setModal((prev: boolean) => !prev);
 
   return (
-    <div className={styles.navbar}>
+    <nav className={styles.navbar}>
       {/* Page logo */}
       <Link to="/">
         <img src={logo} className={styles.logo} />
@@ -191,22 +190,22 @@ export default function Navbar() {
         <></>
       )}
 
-      <Menu products={state.products} />
-      <Icons {...{ toggleModal, userLogged: state.userLogged }} />
+      <div className={styles["wrapper"]}>
+        <Menu products={state.products} />
+        <Icons {...{ toggleModal, userLogged: state.userLogged }} />
+      </div>
 
-      <Modal fade={false} isOpen={modal} toggle={toggleModal}>
-        <button
-          onClick={toggleModal}
-          className={styles["menu-item"]}
-          style={{
-            marginLeft: "auto",
-            width: "3rem",
-            backgroundColor: "black",
-            color: "white",
-          }}
-        >
-          X
-        </button>
+      <Modal
+        className="secondary"
+        fade={false}
+        isOpen={modal}
+        toggle={toggleModal}
+      >
+        <div className={`${styles["close-button-cont"]} primary`}>
+          <button onClick={toggleModal} className={styles["close-button"]}>
+            <CloseIcon />
+          </button>
+        </div>
         <ModalHeader>
           <span
             style={{ cursor: "pointer", paddingLeft: "1.5rem" }}
@@ -235,6 +234,6 @@ export default function Navbar() {
           </Link>
         </ModalBody>
       </Modal>
-    </div>
+    </nav>
   );
 }
