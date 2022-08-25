@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap');
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+.Subcategories {
+    // background-color: black;
+    height: 74%; 
+    width: 80%;
+    overflow: hidden;
+    font-family: $font;
+    display: grid;
+    grid-template-columns: 1fr 500px 500px 1fr;
+    grid-template-rows: 500px 500px;
+    padding: 30px;
+    margin: 0 auto;
+    gap: 30px;
+}
+
+.accessoriesContainer {
+    background-image: url('../../assets/Accessories/Accessories_1.webp');
+    background-size: 100%;
+    display: grid;
+    grid-area: 1 / 2 / 1 / 4;
+    justify-content:center;
+}
+
+.footwearContainer {
+    background-image: url('../../assets/Footwear/Footwear_2.jpg');
+    // ARREGLAR
+    background-size: 100%;
+    display: grid;
+    grid-area: 2 / 2 / 3 / 3;
+    justify-content:center;
+}
+
+.clothesContainer {
+    background-image: url('../../assets/Clothes/Clothes_11.jpg');
+    background-size: 150%;
+    display: grid;
+    grid-area: 2 / 3 / 3 / 4;
+    justify-content:center;
+}
+
+.components {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    margin-bottom: 50px;
+    height: 100%;
+    width: 300px;
+}
+
+h1 {
+    margin: 0 auto;
+    margin-top: 30px;
+    color: rgb(55, 55, 55);
+    font-weight: $weightTitle;
+}
+h3{
+    font-weight: $weightTitle;
+}
+.button {
+    background-color: rgb(55, 55, 55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 50px;
+    width: 150px;
+    color: white;
+    margin: 0 auto;
+    margin-bottom: 30px;
+
+}

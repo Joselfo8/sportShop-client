@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+.bodyCart{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 40rem;
+    form{
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+.centralice{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+    font-family: $font;
+    font-weight: 600;
+}
+
+
+
+
+.half1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 40rem;
+    margin-top: 1rem;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+.buttonDelete{
+    height: 15px;
+    width: 15px;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+.buttonDelete:hover{
+    opacity: 0.4;
+}
+.info2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 0.2rem;
+    margin-top: 0.2rem;
+    width: 20%;
+}
+
+.half2{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 20rem;
+    height: 15rem;
+    border: 1px solid black;
+    margin-top: 1rem;
+}
+/* bUTTON BUY */
+.buttonBuy {
+    width: 100%;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    color: white;
+    background-color: #000;
+}
+.buttonBuy {
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+.buttonBuy:hover {
+    background: transparent;
+    color: white;
+    background-color: black;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+.buttonBuy:before,
+.buttonBuy:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: white;
+    transition:400ms ease all;
+}
+.buttonBuy:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+.buttonBuy:hover:before,
+.buttonBuy:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}
+
+/* Button continue */
+
+.buttonCart {
+    width: 100%;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+.buttonCart {
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+.buttonCart:hover {
+    background: transparent;
+    color: #000;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+.buttonCart:before,
+.buttonCart:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #000;
+    transition:400ms ease all;
+}
+.buttonCart:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+.buttonCart:hover:before,
+.buttonCart:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}

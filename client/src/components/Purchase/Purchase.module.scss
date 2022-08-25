@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+.purchaseContainer {
+    // background-color: burlywood;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 2fr 1fr;
+    padding: 25px;
+    padding-left: 10%;
+    padding-right: 10%;
+    column-gap: 10px;
+    font-family: $font;
+}
+
+// ------------------------------ Products ------------------------------ //
+
+.productsToBuy {
+    // background-color: cadetblue;
+    border: solid 1px rgb(87, 87, 87);
+    grid-area: 1/1/2/2;
+
+    .header {
+        display: grid;
+        grid-template-columns: auto 1fr 1fr;
+        align-items: center;
+        border-bottom: solid 1px rgb(199, 199, 199);
+
+        .fristHeader {
+            margin: 10px;
+            margin-left: 30px;
+            width: 215px;
+        }
+        .secondHeader{
+            grid-area: 1/3/2/4;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-right: 20px;
+        }
+    }
+}
+
+.productsToBuy .product {
+    background-color: rgb(251, 251, 251);
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.image {
+    margin: 10px;
+    margin-left: 30px;
+    
+    img {
+        height: 180px;       
+        box-shadow: rgba(50, 50, 50, 0.2) 2px 5px 6px 6px;
+    }
+}
+
+.detail {
+    grid-area: 1/2/2/3;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: left;
+    margin-left: 20px;
+}
+
+.price {
+    grid-area: 1/3/2/4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 20px;
+
+    .unitPrice{
+        width: 80px;
+        text-align: center;
+    }
+    .subtotalPrice{
+        width: 60px;
+        text-align: center;
+    }
+
+}
+
+// ------------------------------ Total amount owed ------------------------------ //
+
+.paymentMethod {
+    // background-color: grey;
+    border: solid 1px rgb(87, 87, 87);
+    grid-area: 2/1/3/2;
+}
+
+.paymentMethod .textContainer {
+    // background-color: brown;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+// ------------------------------ Payment method & purchase confirmation ------------------------------ //
+
+.shoppingBox {
+    border: solid 1px rgb(87, 87, 87);
+    grid-area: 3/1/4/2;
+}
+
+// ------------------------------ Customer information & Shipping ------------------------------ //
+
+.customerInformation {
+    // background-color: darkgoldenrod;
+    grid-area: 1/2/4/3;
+    
+}
+
+.customerContainer {
+    border: solid 1px rgb(87, 87, 87);
+}
+
+.customerInformation .textContainer {
+    padding-left: 20px;
+}
+
+// ------------------------------ Warning ------------------------------ //
+
+.warningContainer {
+    color: rgb(207, 62, 62);
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.withoutProducts {
+    font-weight: bold;
+}
+
+.warning {
+    font-size: 40px;
+    margin-right: 10px;
+}
+
+// ---------------------------- All ------------------------------ //
+
+.title {
+    // background-color:grey;
+    background-color:rgb(115, 30, 30);
+    border-bottom: solid 1px rgb(87, 87, 87);
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    color: white;
+}
+
+.subtitle {
+    // background-color:rgb(181, 181, 181);
+    background-color:rgb(187, 52, 52);
+    border-bottom: solid 1px rgb(87, 87, 87);
+    margin: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 20px;
+    color: white;
+}

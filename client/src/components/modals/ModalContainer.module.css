@@ -1,0 +1,59 @@
+.container {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  padding: 4rem 0;
+  transition-duration: 300ms;
+  inset: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: var(--bg);
+  border-radius: 0.2rem;
+  box-shadow: var(--shadow-md);
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* CloseButton */
+
+.close-button-cont {
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-button {
+  background-color: var(--bg);
+  color: var(--text);
+  border: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  display: flex;
+  place-content: center;
+}
+
+.close-button:hover {
+  opacity: 0.9;
+}
+
+.close-button:active {
+  opacity: 0.8;
+}
+
+.close-button svg {
+  width: 1.2rem;
+  height: 1.5rem;
+}
+
+@media only screen and (min-width: 500px) {
+  .modal-content {
+    width: fit-content;
+  }
+}

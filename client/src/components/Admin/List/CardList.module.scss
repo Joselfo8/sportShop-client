@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+
+.bodyCard{
+    display: flex;
+    font-family: $font;
+    font-weight: $weightTitle;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 1rem;
+    width: 40%;
+    padding-top: 0.35rem;
+    border-radius: 0.3rem;
+    min-height: 6rem;
+    border: 2px solid #f8a;
+}
+
+.containerImgInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 1rem;
+}
+
+.containerInfo{
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+}
+
+.containerButtons{
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+}
+
+.buttonX{
+    cursor: pointer;
+    margin-top: 5px; 
+
+}
+
+.buttonStock{
+    cursor: pointer;
+    size: 25;
+    margin-top: 5px;
+}

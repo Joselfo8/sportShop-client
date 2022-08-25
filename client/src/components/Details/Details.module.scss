@@ -1,0 +1,410 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;600&family=Lato:wght@100&family=Montserrat:wght@200&display=swap');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 300;
+
+
+
+.gridLayout {
+    width: 80%;
+    display: grid;
+    grid-template-columns: 70% auto;
+    margin: 0 auto;   
+}
+
+.col1 {
+    display: flex;
+    flex-direction: column;
+
+    .containerNavegacion {
+        display: flex;
+        flex-direction: row;
+        font-family: $font;
+        font-weight: $weightTitle;
+        font-size: 16px;
+        margin-left: 0;
+        padding-left: 20px;
+        padding-top: 20px;
+        span {
+            margin-right: 10px;
+        }
+
+        .Navegacion{
+            margin-right: 10px;
+            color: #000;  
+        }
+        .Navegacion:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .containerImage {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        width: 100%;
+        
+       
+        img {
+            width: 50%;
+            height: auto;
+            transition: 0.7s;
+            box-shadow: 15px 15px 10px #888888;
+        }
+
+        img:hover {
+            transform: scale(1.1);
+            cursor: zoom-in;
+        }
+
+    }
+
+    .containerCuidados {
+        padding-top: 40px;
+        margin-top: 20px;
+        padding-right: 50px;
+
+        p { 
+            font-family: $font;
+            font-weight: $weightParagraph;
+            color: #000;
+            margin-top: 0;
+            text-align: justify;
+            
+        }
+        h2 {
+            font-family: $font;
+            font-weight: $weightTitle;
+            color: #000;
+        }
+    }
+}
+
+.col2 {
+    
+    .containerBuys{  
+        display: flex;
+        flex-direction: row;
+        padding-top: 30px;
+            span {
+            font-size: 15px;
+            font-family: $font;
+            font-weight: $weightTitle;
+            color: #000;  
+        }
+    }
+
+    hr {
+        margin-top: 0;
+        width: 80%;
+    }
+
+    .containerTittle {
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            font-size: 40px;
+            margin-left: 0;
+            margin-top: 3px;
+            font-family: $font;
+            font-weight:$weightTitle;
+            color: #000;
+            margin-bottom: 0;
+        }
+
+        span {
+            font-size: 12px;
+            margin-left: 0;
+            font-family: $font;
+            font-weight: $weightParagraph;
+        }
+    }
+    
+    .price {
+        margin-top: 15px;
+        font-size: 20px;
+        font-family: $font;
+        font-weight: $weightTitle;
+    }
+
+    
+    h2 {
+        font-size: 25px;
+        margin-left: 0;
+        margin-top: 40px;
+        font-family: $font;
+        font-weight: $weightTitle;
+        color: #000;
+    }
+
+    
+
+    .containerButtons{
+        display: flex;
+        flex-direction: row;
+        height: fit-content;
+
+        input {
+            width: 40px;
+            height: 40px;
+            border-radius: 2px;
+            border: 1px solid;
+            text-align: center;
+        }
+
+        .buttonCart {
+            display: inline-flex;
+            width: 200px;
+            font-family: $font;
+            font-size: 15px;
+            font-weight: $weightTitle;
+            border-radius: 3px;
+            border: 0;
+            background-color: #a70f0f;
+            color: #fff;   
+            margin-right: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            justify-content: space-around;
+            align-items:center;
+            transition: 0.3s;
+        }
+    
+        .buttonCart:hover {
+            background-color: #a82c2c; 
+            color: #fff ;
+        }
+
+        .buttonFavorite {
+            background-color: #fff;
+            border: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            padding-top: 8px;
+            
+            
+            .heart {
+                color: #777777;
+                border: 0;
+                transition: 0.3s;
+            }
+    
+            .heart:hover {
+                width: 80%;
+                color: #a70f0f;
+            }
+        }
+    }
+   
+
+    .containerDescription{
+        padding-top: 40px;
+        padding-right: 50px;
+       
+        p { 
+            font-family: $font;
+            font-weight: $weightParagraph;
+            color: #000;
+            margin-top: 0;
+            text-align: justify;
+            
+        }
+        h3 {
+            font-family: $font;
+            font-weight: $weightTitle;
+            color: #000;
+            margin-top: 0;
+        }
+    }
+
+
+    .contSucess {
+        margin-top: 5px;
+        .sucessful {
+            color: #000000;
+            font-weight: $weightTitle;
+            margin-left: 0;
+            font-family: $font;
+        }
+    }
+    .contErrors{
+        margin-top: 5px;
+        .errors {
+            color: #ff0000;
+            font-family: $font;
+            font-weight: $weightTitle;
+        } 
+    }
+
+}
+
+.link {
+    text-decoration: none;
+}
+
+// ----------------Modal--------------
+.buttonModal {
+    width: 9rem;
+    height: 40px;
+    padding: 10px 25px;
+    border: 2px solid #000;
+    font-weight: 500;
+
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+.buttonModal {
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+.buttonModal:hover {
+    background: transparent;
+    color: #000;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+.buttonModal:before,
+.buttonModal:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #000;
+    transition:400ms ease all;
+}
+.buttonModal:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+}
+.buttonModal:hover:before,
+.buttonModal:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}
+
+.modalHeader{
+    display: flex;
+    margin: 0 auto;
+    header {
+        color: #000;
+        font-family: $font;
+        font-weight: $weightTitle;
+        font-size: 25px;
+        margin: 0 auto;
+    }
+}
+  
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+  
+
+// ----------------Tallas-------------
+.containerSize {
+    font-family: $font;
+    font-size: 13px;
+    display: inline-flex;
+    margin-right: 10px;
+    height: auto;
+    margin-top: 5px;
+}
+
+
+ul{
+    justify-content: flex-start;
+    padding-inline-start: 1px;
+    padding: 0;
+    margin-bottom: 0;
+   
+}
+ul.ksCboxtags li{
+    display: inline-flex;
+}
+ul.ksCboxtags li label{
+    background-color: #fff;
+    border: 2px solid rgba(139, 139, 139, .3);
+    color: #adadad;
+    white-space: nowrap;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
+ul.ksCboxtags li label {
+    width: 50px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    cursor: pointer;
+    font: $font;
+    font-weight: $weightTitle;
+    border: 1px solid;
+    color: #000;
+    transition: 0.2s;
+}
+
+ul.ksCboxtags li label:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+ul.ksCboxtags li label::before {
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 6px 2px 2px;
+    transition: transform .3s ease-in-out;
+}
+ul.ksCboxtags li input[type="radio"]:checked + label::before {
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+
+
+ul.ksCboxtags li input[type="radio"]:checked + label {
+    border: 2px solid #000000;
+    background-color: #000000;
+    color: #fff;
+    transition: all .2s;
+}
+ul.ksCboxtags li input[type="radio"] {
+    padding: -10;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+ul.ksCboxtags li input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.soldOut{
+    font-family: $font;
+    font-weight: $weightParagraph;
+    font-size: 35px;
+    color: #a70f0f;
+}
+

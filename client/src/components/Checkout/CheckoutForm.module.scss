@@ -1,0 +1,38 @@
+.formContainer {
+    // background-color: brown;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.form {
+    // background-color:rgb(181, 181, 181);
+    border: solid 1px rgb(224, 224, 224);
+    margin: 30px;
+    margin-right: 30%;
+    padding: 15px;
+}
+
+.CardElement {
+    border: solid 1px rgb(179, 177, 177);
+    background-color: aliceblue;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    background-color: rgb(187, 52, 52);
+    border: solid 1px rgb(93, 10, 10);
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    // padding-left: 20px;
+    // padding-right: 20px;
+    color: white;
+}
+
+.example-class {
+    background-color: red;
+}

@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap');
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+.footerMain{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    border-top: 0.4rem solid rgb(0, 0, 0);
+    font-family: $font;
+    font-weight: 600;
+    height: 5rem;
+    .networks{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .iconsOrder{
+        display: grid;
+        grid-template-columns: 30px 30px 30px;
+    }
+
+    .icons{
+        width: 15px;
+        height: 15px;
+    }
+
+    h1{
+        cursor: pointer;
+    }
+    h5{
+        font-weight: 600;
+    }
+}
+
+.infoSpan:hover{
+    border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+
+.orderMail{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+
+}
+.orderPhone{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+}

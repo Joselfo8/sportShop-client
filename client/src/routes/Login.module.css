@@ -1,0 +1,91 @@
+.body {
+  height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background-color: var(--bg);
+  color: var(--text);
+  width: 24rem;
+  height: fit-content;
+  border: 1px solid var(--text);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.button-cont {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.subtitle {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  cursor: pointer;
+  display: block;
+}
+
+.submit-button {
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.8rem 2rem;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  opacity: 0.9;
+}
+
+.submit-button:active {
+  opacity: 0.8;
+}
+
+/* SignIn */
+
+.input-wrapper {
+  margin-bottom: 1rem;
+}
+
+.subtitle:hover {
+  text-decoration: underline;
+}
+
+/* AuthLogin */
+
+.social-media {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.or-subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.social-media-icon {
+  width: 2rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
