@@ -6,10 +6,11 @@ import { allCategories, getUserInformation } from "redux/action";
 import { isAdmin } from "redux/action/admin";
 // Components
 import DropDown from "./DropDown";
+// Icons
+import { AiOutlineSearch } from "react-icons/ai";
 // Images
 import cart from "assets/cart.png";
 import user from "assets/user.png";
-import lens from "assets/lupa.png";
 import heart from "assets/corazonVacio.png";
 import logo from "assets/logo.png";
 // Styles
@@ -81,22 +82,20 @@ function SearchInput() {
   };
 
   return (
-    <div className={styles["search-cont"]}>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input
-          ref={inputRef}
-          className={`${styles.search} ${show ? styles["search-open"] : ""}`}
-          name="search"
-          type="text"
-          placeholder="Search"
-          id="searchProducts"
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <button onClick={handleOpen} className={styles["search-submit"]}>
-          <img className={styles.icon} src={lens} alt="search-icon" />
-        </button>
-      </form>
-    </div>
+    <form className={styles["search-cont"]} onSubmit={(e) => handleSubmit(e)}>
+      <input
+        ref={inputRef}
+        className={`${styles.search} ${show ? styles["search-open"] : ""}`}
+        name="search"
+        type="text"
+        placeholder="Search"
+        id="searchProducts"
+        onChange={(e) => handleChange(e.target.value)}
+      />
+      <button onClick={handleOpen} className={styles["search-submit"]}>
+        <AiOutlineSearch />
+      </button>
+    </form>
   );
 }
 
