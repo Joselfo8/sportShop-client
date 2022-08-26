@@ -293,7 +293,7 @@ function SignIn() {
           }}
         />
         <Link to="/login/password-recovery" className={styles["subtitle"]}>
-          You don't have an account?
+          Forgot password?
         </Link>
       </div>
       <div className={styles["button-cont"]}>
