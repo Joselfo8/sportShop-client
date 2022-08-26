@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;600&display=swap%27');
+
+$font: 'Kanit', sans-serif;
+$weightTitle:600;
+$weightParagraph: 100;
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: $font;
+
+    .order {
+        background-color:rgb(115, 30, 30);
+        width: 770px;
+        height: 55px;
+        display: flex;
+        flex-direction: row;
+        // align-items: center;
+        justify-content: space-between;
+
+        border: solid 1px red;
+        padding: 10px;
+        margin: 20px;
+        color: whitesmoke;
+        
+        .button {
+            background-color:rgb(200, 52, 52);
+            border: solid 3px rgb(100, 29, 29);
+            border-radius: 7px;
+            color: whitesmoke;
+
+            .button:hover {
+                background-color: rgb(250, 52, 52);
+            }
+        }
+    }
+    
+}

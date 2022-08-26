@@ -1,0 +1,35 @@
+.container {
+  /* color: var(--text); */
+  display: flex;
+  flex-direction: column;
+}
+
+.tab {
+  color: var(--text);
+  padding: 0.6rem 1rem;
+  border-left: 0.25rem solid rgba(0, 0, 0, 0);
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.tab:hover {
+  color: var(--text);
+  border-left: 0.25rem solid rgba(var(--text-rgb), 0.8);
+}
+
+.tab-active {
+  border-left: 0.25rem solid var(--text);
+  position: relative;
+  background: linear-gradient(
+    to right,
+    rgba(var(--text-rgb), 0.25),
+    rgba(var(--text-rgb), 0.2),
+    rgba(var(--text-rgb), 0.15),
+    rgba(var(--text-rgb), 0.1)
+  );
+}
+
+.tab-active:hover {
+  border-left: 0.25rem solid var(--text);
+}

@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+  height: fit-content;
+  min-height: 100vh;
+  color: var(--text);
+}
+
+.wrapper {
+  width: 100%;
+}
+
+/* Sidebar */
+
+.sidebar {
+  background-color: var(--bg);
+  color: var(--text);
+  width: 18rem;
+  height: 100%;
+  border-right: 1px solid var(--text);
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-body {
+  width: 100%;
+}
+
+@media only screen and (min-width: 1024px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 18rem auto;
+  }
+}

@@ -1,0 +1,17 @@
+.container {
+  background-color: var(--bg);
+  width: 100%;
+  min-height: 100vh;
+  padding: 1.5rem 1rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 50rem;
+}
+
+/* @media only screen and (min-width: 1024px) { */
+/*   .container { */
+/*     /1* width: calc(100% - 18rem); *1/ */
+/*   } */
+/* } */

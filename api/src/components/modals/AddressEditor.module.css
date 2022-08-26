@@ -1,0 +1,77 @@
+.container {
+  width: 100%;
+  padding: 2rem 1rem;
+}
+
+.wrapper {
+  margin-bottom: 1rem;
+}
+
+.label-title {
+  font-weight: 600;
+  text-align: start;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.07rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.button-cont {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.submit-button {
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.8rem 2rem;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  opacity: 0.9;
+}
+
+.submit-button:active {
+  opacity: 0.8;
+}
+
+.cancel-button {
+  color: var(--bg);
+  border-radius: 0.2rem;
+  border-bottom: 0.08rem solid rgba(0, 0, 0, 0);
+  margin-left: 1.5rem;
+  cursor: pointer;
+  display: block;
+}
+
+.cancel-button:hover {
+  opacity: 0.9;
+  border-bottom: 0.08rem solid var(--bg);
+}
+
+.cancel-button:active {
+  opacity: 0.8;
+}
+
+@media only screen and (min-width: 500px) {
+  .container {
+    width: 24rem;
+    padding: 1.5rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    width: 28rem;
+    padding: 1.5rem;
+  }
+}

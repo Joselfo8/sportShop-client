@@ -1,0 +1,165 @@
+.title-cont {
+  border-bottom: 0.08rem solid rgba(18, 18, 18, 0.3);
+  padding-bottom: 0.3rem;
+}
+
+.title {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.buttons label {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.info-wrapper {
+  margin-top: 1rem;
+  padding: 1rem 0;
+}
+
+/* Item */
+
+.item {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.08rem solid rgba(0, 0, 0, 0.1);
+}
+
+.item:last-child {
+  margin: 0;
+}
+
+.item-descrip {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item-wrapper {
+  width: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.item-wrapper dt {
+  color: rgba(var(--text-rgb), 0.75);
+  font-size: 0.8rem;
+}
+
+.item-wrapper dd {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.item-info {
+  display: flex;
+  flex-grow: 1;
+}
+
+.image-cont {
+  width: 8rem;
+  height: 8rem;
+  padding: 1rem;
+  border: 0.03rem solid rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-cont img {
+  width: 100%;
+  height: auto;
+}
+
+.item-info-wrapper {
+  margin-left: 1.5rem;
+}
+
+.item-title {
+  display: block;
+  font-size: 1.2rem;
+}
+
+.item-price {
+  font-weight: 600;
+}
+
+.item-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-button {
+  background-color: var(--bg);
+  color: var(--text);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.2rem;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  display: block;
+}
+
+.item-button:hover {
+  opacity: 0.9;
+}
+
+.item-button:active {
+  opacity: 0.8;
+}
+
+.item-button:nth-child(2) {
+  background-color: rgba(0, 0, 0, 0.04);
+  font-weight: inherit;
+  color: var(--bg);
+  border: 0.08rem solid var(--bg);
+}
+
+.item-span {
+  display: block;
+  color: var(--bg);
+  border-bottom: 0.08rem solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.item-span:hover {
+  opacity: 0.9;
+  border-bottom: 0.08rem solid var(--bg);
+}
+
+@media only screen and (min-width: 640px) {
+  .title-cont {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttons {
+    display: flex;
+  }
+
+  .buttons label:nth-child(2) {
+    margin-left: 1rem;
+  }
+
+  /* Item */
+
+  .item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .item-wrapper {
+    width: auto;
+    margin-right: 2rem;
+  }
+}
