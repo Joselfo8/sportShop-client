@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 // Images
-import manImage from "assets/Gender/Man_1.jpeg";
-import womanImage from "assets/Gender/Woman_2.jpg";
-import kidImage from "assets/Gender/Kids_1.jpg";
+import manImage from "assets/Gender/Man_1.webp";
+import womanImage from "assets/Gender/Woman_1.webp";
+import kidImage from "assets/Gender/Kids_1.webp";
 // Styles
 import style from "./Home.module.css";
 

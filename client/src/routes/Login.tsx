@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 // Components
-import Input from "../components/Input";
+import Input from "components/Input";
 // Actions
-import { login, register, logout } from "../redux/action/auth";
+import { login, register, logout } from "redux/action/auth";
 // Services
 import authService from "services/auth.service";
 // Icons
@@ -15,12 +15,8 @@ import authService from "services/auth.service";
 // import { ReactComponent as LinkedinIcon } from "../icons/linkedin-icon.svg";
 // Styles
 import styles from "./Login.module.css";
-import { useEffect } from "react";
-import { clearMessage } from "../redux/action/message";
 // Validations
-import validate from "../helpers/validations";
-import axios from "axios";
-import { toast } from "react-toastify";
+import validate from "helpers/validations";
 
 // function AuthLogin() {
 //   return (
@@ -41,7 +37,7 @@ function SubmitButton({
   cb?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
   return (
-    <button onClick={cb} className={`${styles["submit-button"]} primary`}>
+    <button onClick={cb} className={`${styles["submit-button"]} secondary`}>
       {text}
     </button>
   );
@@ -136,8 +132,9 @@ function SignUp() {
   }, [message]);
 
   if (isLoggedIn) return <Navigate to="/" />;
+
   if (redirect) {
-    dispatch(clearMessage());
+    // dispatch(clearMessage());
     return <Navigate to="/login" />;
   }
 
@@ -295,6 +292,9 @@ function SignIn() {
             },
           }}
         />
+        <Link to="/login/password-recovery" className={styles["subtitle"]}>
+          You don't have an account?
+        </Link>
       </div>
       <div className={styles["button-cont"]}>
         <SubmitButton text="Sign in" />
@@ -306,62 +306,7 @@ function SignIn() {
   );
 }
 
-function ForgotPassword() {
-  function handleForgot(e: any): void {
-    const { REACT_APP_API_URL } = process.env;
-    axios
-      .post(`${REACT_APP_API_URL}/mailer/password-recovery`, {
-        email: e.email,
-      })
-      .then((e) => {
-        toast("new password sent to your email");
-      })
-      .catch((e) => {
-        toast("failed to send new password");
-      });
-  }
-
-  const { handleSubmit, control } = useForm<any>({
-    defaultValues: {
-      email: "",
-    },
-    mode: "onChange",
-  });
-
-  return (
-    <form onSubmit={handleSubmit(handleForgot)}>
-      <span className={styles["title"]}>Forgot password</span>
-      <div className={styles["input-wrapper"]}>
-        <Input
-          control={control}
-          name="email"
-          label="Email"
-          rules={{
-            required: true,
-            pattern: {
-              value: validate.email,
-              message: "Introduce a valid email address",
-            },
-          }}
-        />
-      </div>
-      <div className={styles["button-cont"]}>
-        <SubmitButton text="Send" />
-        <Link to="/login" className={styles["subtitle"]}>
-          You already have an account?
-        </Link>
-      </div>
-    </form>
-  );
-}
 function Login() {
-  //estado que controla el forgot password
-  const [getForgot, setForgot] = useState(false);
-
-  //funcion de cambio de estado
-  function handleForgot(e: any): void {
-    setForgot(!getForgot);
-  }
   const { register } = useParams();
   // store
   const { isLoggedIn } = useSelector((state: any) => state.auth);
@@ -376,21 +321,15 @@ function Login() {
   if (isLoggedIn) return <Navigate to="/" />;
 
   return (
-    <div className={`${styles["body"]} secondary`}>
+    <div className={styles["body"]}>
       <div className={styles["container"]}>
-        {getForgot ? (
-          <ForgotPassword />
+        {register === "password-recovery" ? (
+          <PasswordRecovery />
         ) : register === "r" ? (
           <SignUp />
         ) : (
           <SignIn />
         )}
-        <br />
-        <br />
-        <br />
-        <span className={styles["subtitle"]} onClick={handleForgot}>
-          {getForgot ? "Back to login" : "Forgot password?"}
-        </span>
       </div>
     </div>
   );

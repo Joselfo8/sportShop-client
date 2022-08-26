@@ -181,7 +181,7 @@ function Navbar() {
   return (
     <nav className={`${styles["navbar"]}`}>
       {/* Page logo */}
-      <Link to="/">
+      <Link to="/vlixes">
         <img src={logo} className={styles.logo} alt="vlixes-logo" />
       </Link>
       {location.pathname === "/admin" ? (
