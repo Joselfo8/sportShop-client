@@ -1,15 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import "bootstrap/dist/css/bootstrap.css";
 // Actions
 import { allCategories, getUserInformation } from "redux/action";
 import { isAdmin } from "redux/action/admin";
 // Components
 import DropDown from "./DropDown";
-// Icons
-import { ReactComponent as CloseIcon } from "icons/error-icon.svg";
 // Images
 import cart from "assets/cart.png";
 import user from "assets/user.png";
@@ -27,7 +23,7 @@ function MenuItem({ label, to }: { label: string; to: string }) {
       onMouseEnter={() => setDropDown(true)}
       onMouseLeave={() => setDropDown(false)}
     >
-      <Link className={`${styles["menu-item"]} secondary`} to={to}>
+      <Link className={`${styles["menu-item"]}`} to={to}>
         {label}
       </Link>
       {dropDown && <DropDown category={label} />}
@@ -112,7 +108,7 @@ function Icons({
   userLogged: boolean;
 }) {
   return (
-    <div className={`${styles.icons} secondary`}>
+    <div className={`${styles.icons}`}>
       <SearchInput />
       {/* if user is not logged */}
       {!userLogged ? (
@@ -184,7 +180,7 @@ function Navbar() {
   const toggleModal = () => setModal((prev: boolean) => !prev);
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={`${styles["navbar"]}`}>
       {/* Page logo */}
       <Link to="/">
         <img src={logo} className={styles.logo} alt="vlixes-logo" />
@@ -201,46 +197,6 @@ function Navbar() {
         <Menu products={products} />
         <Icons {...{ toggleModal, userLogged: userLogged }} />
       </div>
-
-      <Modal
-        className="secondary"
-        fade={false}
-        isOpen={modal}
-        toggle={toggleModal}
-      >
-        <div className={`${styles["close-button-cont"]} primary`}>
-          <button onClick={toggleModal} className={styles["close-button"]}>
-            <CloseIcon />
-          </button>
-        </div>
-        <ModalHeader>
-          <span
-            style={{ cursor: "pointer", paddingLeft: "1.5rem" }}
-            className={styles.modalPop}
-          >
-            Hi {userInfo.name}!
-          </span>
-        </ModalHeader>
-        <ModalBody style={{ display: "flex", justifyContent: "center" }}>
-          <Link to="/user/profile">
-            <button className={styles["menu-item"]}>Go to settings</button>
-          </Link>
-          {isAdminValue ? (
-            <Link
-              to="/admin"
-              onClick={toggleModal}
-              className={styles["menu-item"]}
-            >
-              <button className={styles["menu-item"]}>Admin</button>
-            </Link>
-          ) : (
-            <></>
-          )}
-          <Link to="/login/logout">
-            <button className={styles["menu-item"]}>Logout</button>
-          </Link>
-        </ModalBody>
-      </Modal>
     </nav>
   );
 }

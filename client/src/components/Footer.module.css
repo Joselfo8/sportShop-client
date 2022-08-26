@@ -1,51 +1,29 @@
-.footerMain {
+.footer {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: flex-start;
-  border-top: 0.4rem solid rgb(0, 0, 0);
+  justify-content: space-between;
+  border-top: 0.08rem solid var(--text);
+  padding: 1rem 0.5rem;
   height: 5rem;
 }
-.networks {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+
+.link {
+  color: var(--text);
 }
 
-.iconsOrder {
-  display: grid;
-  grid-template-columns: 30px 30px 30px;
+.link:hover {
+  color: rgba(var(--text-rgb), 0.9);
 }
 
-.icons {
-  width: 15px;
-  height: 15px;
+.footer-icon {
+  color: var(--text);
+  margin-right: 0.5rem;
 }
 
-.footerMain h1 {
-  cursor: pointer;
+.footer-icon:hover {
+  color: rgba(var(--text-rgb), 0.9);
 }
 
-.footerMain h5 {
-  font-weight: 600;
-}
-
-.infoSpan:hover {
-  border-bottom: 1px solid rgb(0, 0, 0);
-}
-
-.orderMail {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 150px;
-}
-
-.orderPhone {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 150px;
+.footer-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }

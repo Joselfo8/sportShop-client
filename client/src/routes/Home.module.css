@@ -42,11 +42,11 @@
 }
 
 .container a:hover {
-  opacity: 0.95;
+  background-color: rgba(var(--bg-rgb), 0.9);
 }
 
 .container a:active {
-  opacity: 0.9;
+  background-color: rgba(var(--bg-rgb), 0.8);
 }
 
 .container img {

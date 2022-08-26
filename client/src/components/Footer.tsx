@@ -1,60 +1,53 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-// Images
-import facebook from "assets/facebook.png";
-import instagram from "assets/instagram.png";
-import twitter from "assets/twitter.png";
-import phone from "assets/phone.png";
-import email from "assets/email.png";
+import { Link } from "react-router-dom";
+// Icons
+import {
+  AiFillFacebook,
+  AiFillInstagram,
+  AiFillTwitterSquare,
+} from "react-icons/ai";
 // Styles
 import styles from "./Footer.module.css";
 
 function Footer() {
-  const location = useLocation();
-
   return (
-    <div className={styles.footerMain}>
-      <div className={styles.info}>
-        <h5>COMPANY INFO</h5>
-        <Link
-          to="/about"
-          style={{ textDecoration: "none", color: "black", fontSize: "12px" }}
-        >
-          <span className={styles.infoSpan}>About Us</span>
+    <footer className={styles["footer"]}>
+      <div className={styles["info"]}>
+        <h5>Company Info</h5>
+        <Link to="/about" className={styles["link"]}>
+          About Us
         </Link>
       </div>
 
-      {location.pathname === "/about" ? (
-        <div className={styles.contact}>
-          <h5>CONTACT US</h5>
-          <div className={styles.orderMail}>
-            <img src={email} style={{ height: "15px", width: "15px" }} />
-            <span>vlixes.international@gmail.com</span>
-          </div>
-          <div className={styles.orderPhone}>
-            <img src={phone} style={{ height: "15px", width: "15px" }} />
-            <span>0800-XXX-XXX</span>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
-
-      <div className={styles.networks}>
-        <h5>FOLLOW US</h5>
-        <div className={styles.iconsOrder}>
-          <a href="https://www.facebook.com/Vlixes-101555312632369">
-            <img src={facebook} className={styles.icons} />
+      <div className={styles["social-networks"]}>
+        <h5>Follow Us</h5>
+        <div>
+          <a
+            href="https://www.facebook.com/Vlixes-101555312632369"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles["footer-icon"]}
+          >
+            <AiFillFacebook />
           </a>
-          <a href="https://www.instagram.com/vlixes_ok">
-            <img src={instagram} className={styles.icons} />
+          <a
+            href="https://www.instagram.com/vlixes_ok"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles["footer-icon"]}
+          >
+            <AiFillInstagram />
           </a>
-          <a href="https://twitter.com/vlixes_ok">
-            <img src={twitter} className={styles.icons} />
+          <a
+            href="https://twitter.com/vlixes_ok"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles["footer-icon"]}
+          >
+            <AiFillTwitterSquare />
           </a>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 

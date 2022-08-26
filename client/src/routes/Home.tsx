@@ -18,7 +18,7 @@ function Category({
   return (
     <div className={style.container}>
       <span>{title}</span>
-      <Link to={link.to}>{link.label}</Link>
+      <Link to={link.to} className="secondary">{link.label}</Link>
       <img src={image.src} alt={image.alt} />
     </div>
   );
