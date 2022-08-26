@@ -5,10 +5,8 @@ import Swal from 'sweetalert2';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { postPurchase, deleteShoppingList } from "../../redux/action/index";
-
-
-// Style
-import style from './CheckoutForm.module.scss';
+// Styles
+import style from './CheckoutForm.module.css';
 
 export default function CheckoutForm({total, name, email, soldProducts, direction, city, state, country, userId}: any) {
   const navigate = useNavigate()

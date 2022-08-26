@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // Components
-import ModalContainer from "../modals/ModalContainer";
-import AddressEditor from "../modals/AddressEditor";
-import InfoEditor from "../modals/InfoEditor";
+import ModalContainer from "modals/ModalContainer";
+import AddressEditor from "modals/AddressEditor";
+import InfoEditor from "modals/InfoEditor";
 // Actions
 import {
   updateUser,
   addShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,
-} from "../../redux/action/user";
+} from "redux/action/user";
 // Icons
-import { ReactComponent as ErrorIcon } from "../../icons/error-icon.svg";
-import { ReactComponent as EditIcon } from "../../icons/edit-pen-icon.svg";
+import { ReactComponent as ErrorIcon } from "icons/error-icon.svg";
+import { ReactComponent as EditIcon } from "icons/edit-pen-icon.svg";
 // Styles
 import styles from "./UserInfo.module.css";
 

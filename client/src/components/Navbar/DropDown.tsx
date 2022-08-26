@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProductsByCategoryAndSubcategory } from "../../redux/action";
-import styles from "./DropDown.module.scss";
+// Store
+import { getProductsByCategoryAndSubcategory } from "redux/action";
+// Styles
+import styles from "./DropDown.module.css";
 
 function MenuItem({
   label,

@@ -3,7 +3,7 @@ import Avatar from "react-avatar-edit";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 // Components
-import ModalContainer from "./modals/ModalContainer";
+import ModalContainer from "modals/ModalContainer";
 // Actions
 import { updateAvatar, deleteAvatar } from "redux/action/user";
 // Icons

@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 // Components
-import Tabs from "../components/Tabs";
-import ProfileCard from "../components/ProfileCard/ProfileCard";
-import SidebarContainer from "../components/modals/SidebarContainer";
+import Tabs from "components/Tabs";
+import ProfileCard from "components/ProfileCard";
+import SidebarContainer from "modals/SidebarContainer";
 import UserImage from "components/UserImage";
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
 // Actions
 import { getUser } from "redux/action/user";
 // Styles
@@ -20,7 +18,10 @@ function Sidebar({ getSelected }: { getSelected: (prev: string) => void }) {
       <div className={styles["sidebar-body"]}>
         <Tabs
           tabs={["User information"]}
-          links={[{ label: "My favorites", to: "/favorites" }, { label: "My orders", to: "/user/order-list" }]}
+          links={[
+            { label: "My favorites", to: "/favorites" },
+            { label: "My orders", to: "/user/order-list" },
+          ]}
           getSelected={getSelected}
         />
       </div>
@@ -46,14 +47,12 @@ function UserProfile() {
 
   return (
     <div className={`${styles["container"]} secondary`}>
-      <Navbar />
       <div className={styles["wrapper"]}>
         <SidebarContainer>
           <Sidebar getSelected={setSelectedTab} />
         </SidebarContainer>
         <ProfileCard selected={selectedTab} />
       </div>
-      <Footer />
     </div>
   );
 }

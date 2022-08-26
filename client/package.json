@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "vlixes-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -65,9 +65,9 @@
     ]
   },
   "devDependencies": {
-    "@types/node-sass": "^4.11.3",
     "@types/react-datepicker": "^4.4.2",
     "@types/styled-components": "^5.1.25",
-    "sass": "^1.53.0"
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^7.8.0"
   }
 }
