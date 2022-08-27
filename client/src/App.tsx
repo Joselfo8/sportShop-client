@@ -35,7 +35,7 @@ function App() {
 
   return (
     <div translate="no">
-      <BrowserRouter>
+      <BrowserRouter basename="vlixes">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
