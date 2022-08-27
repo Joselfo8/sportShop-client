@@ -39,7 +39,6 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/vlixes" element={<Home />} />
           <Route path="/login" element={<Login />}>
             <Route path=":register" element={<Login />} />
           </Route>
